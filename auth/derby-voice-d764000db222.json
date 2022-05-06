@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "derby-voice",
+  "private_key_id": "d764000db222f32ab12e8b63685cfaa068c41ad1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCu8yWetR/RxYag\nUZj1fzII7aiwINLOaFTdmdyPWjAbIFLN0JvokHoZdLZ5IrE+lqly6rUMyy4LE/J1\nlaSJCXSESRpZISJ34CjmOuIG9ALOlmg/A/R9cPmnvtUQE+8jeNGO5lMyzSvA1Aed\noz+5VET4v/AFInBNoCGZ/LQ7DrENPuWHjC67y3u2eNAVsMKeolj5u2DJaTlbCII3\nyeEOy3yask/D8HPe/+so/flPVElJz9ncsXlMCJW6QAIrIKpx911adYl9vMYCFpIZ\nEbb5V48rLbxUR5wuqjT6dgApX6ZMUQuNgOoTnskVS7rOAvU8vx6p4dDE8BPhgOxI\nQqcrdTfLAgMBAAECggEAFCNb8LqzqMoTwZoy67YSVIca1E9Vmg8rZFNvg+F4nnQS\n5ABqeejrjR5Ar41H7sbunBJFTe2IusYMh5l2lj724Q/9zvBVTzbdLlyXzlTB3/WI\nlrxbT8yJ3akbTchQTiUm+3aAHDMUIWmms3AVB+hvL1z/VsVMkmWSM0SsmwxeuAHq\nYahn0ODF8lrgC/f84ipUlERr4DcmzcvYuDEiaX/e7jBgfup0yy0EgDdiMKWCkfk+\n21ZUDZoFsh4pMxntF+4A5gXhgGUWCH/9Bol2E6xFF9jzJKadWATU5zPt+JA5WhGp\nIa6EUwDZEM2AXzXAhkoEdY1tnYMVTplzk74bBP0i2QKBgQDl2jFSXoI9snaQIHMf\nAgXyvPd/ClmredJzJP/g5+7ZtV7yQSNCyowIMfFDNs4crYsqPC91Y63rnPQX+LV2\nQLdGXxxB+jNxVRRLynzpAM5ajJdK+gGi3/ud9/PIWt2cFK0ZgwWdYp7EMg99vk8e\nIcdK7KYji60ms24Sqe5xl1QmeQKBgQDC2hJPA/dVsqwxqlKK3L8Z1cW83Ci6SRNQ\nhuzdgsyU72e8qoNEvaF3c3WUTRmAWeuZ4hYt4FTlkzsvd2Mr8JQIqQ1zZMtE15ue\n0eSpPMAhsl1aZdkFIoPp4jD13CHE6YEwcQLepSmH044YWnxCESu2AQzlsBnJU70F\nwADT56NPYwKBgBcnldRgZOpmMf9u5Wn4QDUlyCDqIAJgMU0cKxKzCqKv3LK20SCH\nWvfwYAePW9ATw3MrwPQoaHrVwtkvWshg2JWkOyqCU/BUy8iey1qFlEQW6Z7J9KQ9\nwBE3yz0hujVg99ccFdK2/ptxF5JpO3sjl/n6QPpPtc+yP6Jtr/GNdxKxAoGAQfcn\n2Z5DHr0ldI7v8Nj4zVtE3UI/e4l/w3RaPkeo0QcXvJSRajU0s8bf2HwdlQlcLLWQ\nwqk+tJYapGArr9V7mE77IcTO2BiSM7tlSTIq7X2AAzmVthpQRF7yKloDCLHwraCk\n0xFhNP2XDoGbrZY4kR5b6mqq4DC8PnUZEqRJ8ncCgYEAliPHIpqP4++5Pdw7RA2d\nrlbvGKB/rLsAQ+65T+XXacHlOko2a/HqxiGqbffx3hyx7wrmeNG1VE5vapOvJvgz\nnwxGdDeqi+88QUlHB40Z9GTJppoEv97qSgIIVEWB8FXpmVR+bIKj+P9iox9ItX+l\nuHyIRwtW//8byqJDuPGcPFE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "derby-service@derby-voice.iam.gserviceaccount.com",
+  "client_id": "112123755257985131802",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/derby-service%40derby-voice.iam.gserviceaccount.com"
+}
