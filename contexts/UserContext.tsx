@@ -1,3 +1,4 @@
+import { useLinkTo } from "@react-navigation/native";
 import { runInAction, toJS } from "mobx";
 import { observer, useLocalObservable } from "mobx-react";
 import React, { useContext, useEffect } from "react";
@@ -6,25 +7,27 @@ import User from "../types/User";
 
 type UserStore = {
   user?: User;
-  login: () => void;
+  login: (user: User) => void;
 };
 
 const UserContext = React.createContext({} as UserStore);
 export const UserProvider = observer(({ children }: any) => {
+  const linkTo = useLinkTo();
   const store = useLocalObservable<UserStore>(() => ({
     user: undefined,
-    login() {
-      runInAction(() => (this.user = TEST_USER));
+    login(user?: User) {
+      runInAction(() => (this.user = user));
     },
   }));
 
-  const jsUser = toJS(store).user;
-
   useEffect(() => {
-    if (!jsUser) {
-      store.login();
+    const jsUser = toJS(store).user;
+    if (jsUser) {
+      linkTo("/demos/new");
+    } else {
+      linkTo("/home");
     }
-  }, [jsUser]);
+  }, [store.user]);
 
   return <UserContext.Provider value={store}>{children}</UserContext.Provider>;
 });

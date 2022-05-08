@@ -14,6 +14,7 @@ import * as React from "react";
 import { ColorSchemeName } from "react-native";
 import DemoDetail from "../components/DemoDetail";
 import Demos from "../components/Demos";
+import WelcomePage from "../components/WelcomePage";
 import useUser from "../contexts/UserContext";
 import DemoBuilder from "../screens/DemoBuilder";
 import ModalScreen from "../screens/ModalScreen";
@@ -46,6 +47,11 @@ export const RootNavigator = observer(() => {
   const { user } = useUser();
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomePage}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}

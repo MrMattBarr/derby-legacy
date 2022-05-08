@@ -18,6 +18,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Projects: "projects",
       Demos: "demos",
       Modal: "modal",
+      Welcome: "home",
       NotFound: "*",
     },
   },

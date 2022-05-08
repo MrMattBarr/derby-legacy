@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
+import LogoutButton from "./LogoutButton";
 import PhoneBottomSpacer from "./PhoneBottomSpacer";
 import UploadSpotButton from "./UploadSpotButton";
 
@@ -10,15 +11,18 @@ export default function NewSpotBar() {
   const styles = StyleSheet.create({
     container: {
       display: "flex",
-      justifyContent: "flex-end",
+      justifyContent: "space-between",
       flexDirection: "row",
-      paddingVertical: 20,
+      padding: 20,
     },
   });
   return (
-    <View style={styles.container}>
-      <UploadSpotButton />
+    <>
+      <View style={styles.container}>
+        <LogoutButton />
+        <UploadSpotButton />
+      </View>
       <PhoneBottomSpacer />
-    </View>
+    </>
   );
 }

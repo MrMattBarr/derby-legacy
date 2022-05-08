@@ -22,6 +22,7 @@ export type RootStackParamList = {
   DemoBuilder: undefined;
   DemoDetail: undefined;
   NotFound: undefined;
+  Welcome: undefined;
   Projects: undefined;
   Demos: undefined;
 };

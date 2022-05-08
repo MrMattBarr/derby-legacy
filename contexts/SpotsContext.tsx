@@ -34,6 +34,10 @@ export const SpotsProvider = observer(({ children }: any) => {
   useEffect(() => {
     if (userId) {
       subscribeToUserSpots(userId, processSpotIds);
+    } else {
+      runInAction(() => {
+        store.spotIds = [];
+      });
     }
   }, [userId]);
 
