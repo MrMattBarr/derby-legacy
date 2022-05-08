@@ -1,5 +1,5 @@
 type User = {
-  name: string;
+  display: string;
   id: string;
   avatar: string;
 };

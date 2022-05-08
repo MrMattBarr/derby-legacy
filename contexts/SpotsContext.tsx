@@ -1,7 +1,9 @@
-import { useLocalObservable } from "mobx-react";
+import { runInAction, toJS } from "mobx";
+import { observer, useLocalObservable } from "mobx-react";
 import React, { useContext, useEffect } from "react";
-import { loadSpotAudio, subscribeToUserSpots } from "../api";
+import { fetchSpot, loadSpotAudio, subscribeToUserSpots } from "../api";
 import Spot from "../types/Spot";
+import useUser from "./UserContext";
 type SpotMap = {
   [key: string]: Spot;
 };
@@ -11,39 +13,34 @@ type SpotsContract = {
 };
 
 const SpotsContext = React.createContext({} as SpotsContract);
-export const SpotsProvider = ({ children }: any) => {
+export const SpotsProvider = observer(({ children }: any) => {
   const store = useLocalObservable<SpotsContract>(() => ({
     spotIds: [],
     spots: {},
   }));
 
-  const user = "MrMattBarr";
+  const { user } = useUser();
+  const userId = toJS(user)?.id;
 
-  const updateSpots = async (spots: SpotMap) => {
-    if (!spots) {
-      return;
-    }
-    const keys = Object.keys(spots);
-    const newKeys = keys.filter((key) => !store.spots[key]);
-    keys.forEach(async (key) => {
-      const spot: Spot = spots[key];
-      spot.id = key;
-      spot.audio = await loadSpotAudio(key);
-      store.spots[key] = spots[key];
-    });
-    newKeys.forEach((key) => {
-      store.spotIds.push(key);
-    });
+  const loadInSpot = async (spot: Spot) => {
+    runInAction(() => (store.spots[spot.id] = spot));
+    runInAction(() => store.spotIds.push(spot.id));
+  };
+  const processSpotIds = async (spotIds: string[]) => {
+    const newSpots = spotIds.filter((x) => !toJS(store.spotIds).includes(x));
+    newSpots.forEach((id) => fetchSpot(id, loadInSpot));
   };
 
   useEffect(() => {
-    subscribeToUserSpots(user, updateSpots);
-  }, []);
+    if (userId) {
+      subscribeToUserSpots(userId, processSpotIds);
+    }
+  }, [userId]);
 
   return (
     <SpotsContext.Provider value={store}>{children}</SpotsContext.Provider>
   );
-};
+});
 
 const useSpots = () => {
   const context = useContext(SpotsContext);

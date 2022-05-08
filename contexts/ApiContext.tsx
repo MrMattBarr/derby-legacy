@@ -1,8 +1,10 @@
 import { DocumentResult } from "expo-document-picker";
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { useLocalObservable } from "mobx-react";
+import { toJS } from "mobx";
+import { observer, useLocalObservable } from "mobx-react";
 import React, { useContext, useEffect } from "react";
 import { subscribeToUserDemos, uploadFile, UploadFileArgs } from "../api";
+import useUser from "./UserContext";
 
 type ApiStore = {
   uploadFile: (args: Partial<UploadFileArgs>) => void;
@@ -10,7 +12,9 @@ type ApiStore = {
 
 const ApiContext = React.createContext({} as ApiStore);
 
-export const ApiProvider = ({ children }: any) => {
+export const ApiProvider = observer(({ children }: any) => {
+  const { user } = useUser();
+  const jsUser = toJS(user);
   const firebaseConfig: FirebaseOptions = {
     apiKey: "AIzaSyBrcM1Eusy8F6hjrLYVn2OUxWPcb4YU1QU",
     authDomain: "derby-voice.firebaseapp.com",
@@ -22,17 +26,15 @@ export const ApiProvider = ({ children }: any) => {
     measurementId: "G-388F9FBEGB",
   };
 
-  const user = "MrMattBarr";
-
   initializeApp(firebaseConfig);
 
   const store = useLocalObservable(() => ({
     uploadFile: (args: Partial<UploadFileArgs>) =>
-      uploadFile({ user, file: args.file!, ...args }),
+      uploadFile({ author: args.author!, file: args.file!, ...args }),
   }));
 
   return <ApiContext.Provider value={store}>{children}</ApiContext.Provider>;
-};
+});
 
 const useApi = () => {
   const context = useContext(ApiContext);

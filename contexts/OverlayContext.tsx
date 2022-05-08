@@ -35,6 +35,7 @@ export const OverlayProvider = ({ children }: any) => {
         const alreadyPlayingSpot = toJS(spots)[this.playing?.id ?? 0];
         const newSpot = toJS(spots)[idType.id];
         const status = await alreadyPlayingSpot?.audio?.getStatusAsync();
+        console.log({ newSpot, status });
         if (!alreadyPlayingSpot) {
           newSpot.audio?.playAsync();
         }

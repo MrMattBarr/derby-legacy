@@ -1,10 +1,11 @@
 import { useLinkTo } from "@react-navigation/native";
-import { observable } from "mobx";
-import { useLocalObservable } from "mobx-react";
+import { observable, toJS } from "mobx";
+import { observer, useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
 import { uploadDemo } from "../api";
 import Demo from "../types/Demo";
 import { randomId } from "../utils";
+import useUser from "./UserContext";
 
 type DemoStore = {
   spotIds: string[];
@@ -14,7 +15,9 @@ type DemoStore = {
 };
 
 const DemoContext = React.createContext({} as DemoStore);
-export const DemoProvider = ({ children }: any) => {
+export const DemoProvider = observer(({ children }: any) => {
+  const { user } = useUser();
+  const { name } = toJS(user) ?? {};
   const linkTo = useLinkTo();
   const store = useLocalObservable(() => ({
     spotIds: observable<string>([]),
@@ -27,13 +30,14 @@ export const DemoProvider = ({ children }: any) => {
       return true;
     },
     saveDemo() {
+      if (!name) return;
       const demoNum = Math.floor(Math.random() * 100) + 1;
       const demoName = `Demo #${demoNum}`;
       const demo: Demo = {
         id: randomId(),
         title: demoName,
         uploadDate: new Date(),
-        userId: "MrMattBarr",
+        userId: name,
         spots: this.spotIds,
       };
       uploadDemo(demo);
@@ -42,7 +46,7 @@ export const DemoProvider = ({ children }: any) => {
   }));
 
   return <DemoContext.Provider value={store}>{children}</DemoContext.Provider>;
-};
+});
 
 const useDemo = () => {
   const context = useContext(DemoContext);

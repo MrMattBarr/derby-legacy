@@ -1,8 +1,10 @@
-import { runInAction } from "mobx";
+import { runInAction, toJS } from "mobx";
 import { useLocalObservable } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { deleteDemo, subscribeToUserDemos } from "../api";
 import Demo from "../types/Demo";
+import useUser from "./UserContext";
 type DemoMap = {
   [key: string]: Demo;
 };
@@ -13,7 +15,9 @@ type DemosContract = {
 };
 
 const DemosContext = React.createContext({} as DemosContract);
-export const DemosProvider = ({ children }: any) => {
+export const DemosProvider = observer(({ children }: any) => {
+  const { user } = useUser();
+  const { name } = toJS(user) ?? {};
   const store = useLocalObservable<DemosContract>(() => ({
     demoIds: [],
     demos: {},
@@ -27,8 +31,6 @@ export const DemosProvider = ({ children }: any) => {
       deleteDemo(id);
     },
   }));
-
-  const user = "MrMattBarr";
 
   const updateDemos = (demos: DemoMap) => {
     if (!demos) {
@@ -45,13 +47,15 @@ export const DemosProvider = ({ children }: any) => {
   };
 
   useEffect(() => {
-    subscribeToUserDemos(user, updateDemos);
-  }, []);
+    if (name) {
+      subscribeToUserDemos(name, updateDemos);
+    }
+  }, [name]);
 
   return (
     <DemosContext.Provider value={store}>{children}</DemosContext.Provider>
   );
-};
+});
 
 const useDemos = () => {
   const context = useContext(DemosContext);

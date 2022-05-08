@@ -11,6 +11,7 @@ export type Spot = {
   tags: string[];
   length?: number;
   audio?: Audio.Sound;
+  author: string;
   id: string;
   url: string;
 };
@@ -24,6 +25,7 @@ export const spotFromFile = (
     const spot: Spot = {
       title: file.name,
       tags: partialSpot.tags ?? [],
+      author: partialSpot.author || "",
       recordDate: partialSpot.recordDate ?? new Date(),
       uploadDate: partialSpot.uploadDate ?? new Date(),
       id: partialSpot.id ?? randomId(),

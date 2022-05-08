@@ -18,6 +18,7 @@ import {
 } from "firebase/storage";
 import Demo from "./types/Demo";
 import Spot from "./types/Spot";
+import User from "./types/User";
 import { randomId } from "./utils";
 
 //TODO: separate quick and full
@@ -30,15 +31,35 @@ const loadSpotAudio = async (spotId: string) => {
 };
 
 type UploadFileArgs = {
-  user: string;
   file: DocumentResult;
+  author: string;
   onUpdate?: (snapshot: UploadTaskSnapshot) => void;
   onComplete?: (downloadURL: string, id: string) => void;
   onError?: (error: string | StorageError) => void;
 };
 
+const registerUser = (user: User) => {
+  const db = getDatabase();
+  const uploadName = `users/${user.id}`;
+  set(dbRef(db, uploadName), {
+    demos: {},
+    spots: {},
+    display: user.display,
+    avatar: "",
+  });
+  console.log(`New user registered: ${user.id}`);
+};
+
+const registerSpot = (spot: Partial<Spot>) => {
+  const db = getDatabase();
+  const reference = `users/${spot.author}/spots/${spot.id}`;
+  console.log({ reference });
+  set(dbRef(db, reference), true);
+};
+
 const uploadFile = async ({
   file,
+  author,
   onUpdate,
   onComplete,
   onError,
@@ -53,6 +74,7 @@ const uploadFile = async ({
     }
   }
   const id = randomId();
+  console.log({ author });
   const uploadName = `/spots/${id}`;
   const storageRef = ref(storage, uploadName);
   const fetchResponse = await fetch(file!.uri);
@@ -76,21 +98,34 @@ const uploadFile = async ({
         const uploadName = `spots/${id}`;
         const spot: Partial<Spot> = {
           title: "peekaboo",
+          author,
           tags: [],
           length: 123,
           url,
         };
         set(dbRef(db, uploadName), spot);
+        registerSpot({ ...spot, id });
       });
     }
   );
 };
 const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
   const db = getDatabase();
-  const spotsRef = dbRef(db, "spots/");
+  const spotsRef = dbRef(db, `users/${user}/spots`);
   onValue(spotsRef, (snapshot) => {
     const data = snapshot.val();
-    callback(data);
+    const spotIds = Object.keys(data ?? {});
+    callback(spotIds);
+  });
+};
+const fetchSpot = (id: string, callback: (spots: any) => void) => {
+  const db = getDatabase();
+  const spotsRef = dbRef(db, `spots/${id}`);
+  onValue(spotsRef, async (snapshot) => {
+    const spot: Spot = snapshot.val();
+    spot.id = id;
+    spot.audio = await loadSpotAudio(id);
+    callback(spot);
   });
 };
 
@@ -119,7 +154,9 @@ export {
   uploadFile,
   uploadDemo,
   subscribeToUserSpots,
+  fetchSpot,
   subscribeToUserDemos,
   deleteDemo,
+  registerUser,
 };
 export type { UploadFileArgs };

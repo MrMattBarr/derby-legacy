@@ -9,10 +9,12 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { observer } from "mobx-react";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
 import DemoDetail from "../components/DemoDetail";
 import Demos from "../components/Demos";
+import useUser from "../contexts/UserContext";
 import DemoBuilder from "../screens/DemoBuilder";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -40,19 +42,29 @@ export default function Navigation({
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const RootNavigator = () => {
+export const RootNavigator = observer(() => {
+  const { user } = useUser();
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
       <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}
         options={{ headerShown: false }}
       />
+      {user && (
+        <Stack.Screen
+          name="NotFound"
+          component={NotFoundScreen}
+          options={{ headerShown: false }}
+        />
+      )}
+      {!user && (
+        <Stack.Screen
+          name="NotFound"
+          component={NotFoundScreen}
+          options={{ headerShown: false }}
+        />
+      )}
       <Stack.Screen
         name="DemoDetail"
         component={DemoDetail}
@@ -68,4 +80,4 @@ export const RootNavigator = () => {
       </Stack.Group>
     </Stack.Navigator>
   );
-};
+});
