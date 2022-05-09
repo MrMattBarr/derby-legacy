@@ -14,6 +14,7 @@ const deleteRed = "#f32052";
 const darkModeBorderColor = hatRed;
 const icyWhite = "#fff";
 const midGray = "#666";
+const stoneGrey = "#374549";
 const barelyGray = "#001f2d";
 const subtleMint = "#e2f6f7";
 
@@ -22,11 +23,13 @@ export default {
     text: black,
     background: icyWhite,
     brandBackground: midGray,
+    inputBG: slate,
     tint: tintColorLight,
     tabIconDefault: midGray,
     hardBorder: black,
     progressBarFill: "#7fd37c",
     tag: icyWhite,
+    action: stoneGrey,
     contrastBand: barelyGray,
     selectedItemText: icyBlue,
     deleteText: hatRed,
@@ -40,9 +43,11 @@ export default {
   dark: {
     text: "#eee",
     background: "#000",
+    inputBG: "#0009",
     brandBackground: charcoal,
     selectedItemText: ivyGreen,
     deleteText: deleteRed,
+    action: stoneGrey,
     selectedItemBg: icyBlue,
     contrastBand: barelyGray,
     tint: tintColorDark,

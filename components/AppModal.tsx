@@ -9,6 +9,7 @@ import useOverlay from "../contexts/OverlayContext";
 import useSpots from "../contexts/SpotsContext";
 import useColorScheme from "../hooks/useColorScheme";
 import PlaybackModal from "./PlaybackModal";
+import RenameControl from "./RenameControl";
 
 const AppModal = observer(() => {
   const { focused, focus } = useOverlay();
@@ -74,10 +75,14 @@ const AppModal = observer(() => {
     body: {
       flexGrow: 1,
       padding: 20,
-      justifyContent: "flex-end",
+      alignItems: "stretch",
       backgroundColor: "transparent",
     },
   });
+
+  const rename = (thing: string) => {
+    console.log({ thing });
+  };
 
   return (
     <Modal
@@ -102,7 +107,9 @@ const AppModal = observer(() => {
             </Pressable>
           </View>
 
-          <View style={styles.body}></View>
+          <View style={styles.body}>
+            <RenameControl onSave={rename} />
+          </View>
         </Pressable>
       </Pressable>
     </Modal>
