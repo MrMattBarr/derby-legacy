@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet, useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 import useSpots from "../contexts/SpotsContext";
@@ -8,6 +8,9 @@ import Spot from "./Spot";
 const SpotList = observer(() => {
   const colorScheme = useColorScheme();
   const { spotIds } = useSpots();
+  useEffect(() => {
+    console.log({ spotIds });
+  }, [spotIds]);
   const styles = StyleSheet.create({
     container: {
       flex: 1,

@@ -6,6 +6,7 @@ import {
   ref as dbRef,
   remove,
   set,
+  update,
 } from "firebase/database";
 import {
   getDownloadURL,
@@ -138,16 +139,22 @@ const subscribeToUserDemos = (user: string, callback: (demos: any) => void) => {
   });
 };
 
-const deleteDemo = async (id: string) => {
+const deleteDemo = (id: string) => {
   const db = getDatabase();
   const demoRef = dbRef(db, `demos/${id}`);
   remove(demoRef);
 };
 
-const uploadDemo = async (demo: Demo) => {
+const uploadDemo = (demo: Demo) => {
   const db = getDatabase();
   const uploadName = `demos/${demo.id}`;
   set(dbRef(db, uploadName), demo);
+};
+
+const updateSpot = (spot: Partial<Spot>) => {
+  const db = getDatabase();
+  const spotLocation = `spots/${spot.id}`;
+  update(dbRef(db, spotLocation), spot);
 };
 export {
   loadSpotAudio,
@@ -158,5 +165,6 @@ export {
   subscribeToUserDemos,
   deleteDemo,
   registerUser,
+  updateSpot,
 };
 export type { UploadFileArgs };

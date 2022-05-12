@@ -10,6 +10,8 @@ type SpotMap = {
 type SpotsContract = {
   spotIds: string[];
   spots: SpotMap;
+  addSpot: (spot: Spot) => void;
+  processSpotIds: (spotIds: string[]) => void;
 };
 
 const SpotsContext = React.createContext({} as SpotsContract);
@@ -17,23 +19,28 @@ export const SpotsProvider = observer(({ children }: any) => {
   const store = useLocalObservable<SpotsContract>(() => ({
     spotIds: [],
     spots: {},
+    processSpotIds(spotIds: string[]) {
+      console.log({ spotIds });
+      spotIds.forEach((id) => fetchSpot(id, this.addSpot));
+    },
+    addSpot(spot: Spot) {
+      console.log({ spot });
+      runInAction(() => (this.spots[spot.id] = spot));
+      runInAction(() => {
+        const spotAlreadyThere = this.spotIds.includes(spot.id);
+        if (!spotAlreadyThere) {
+          this.spotIds.push(spot.id);
+        }
+      });
+    },
   }));
 
   const { user } = useUser();
   const userId = toJS(user)?.id;
 
-  const loadInSpot = async (spot: Spot) => {
-    runInAction(() => (store.spots[spot.id] = spot));
-    runInAction(() => store.spotIds.push(spot.id));
-  };
-  const processSpotIds = async (spotIds: string[]) => {
-    const newSpots = spotIds.filter((x) => !toJS(store.spotIds).includes(x));
-    newSpots.forEach((id) => fetchSpot(id, loadInSpot));
-  };
-
   useEffect(() => {
     if (userId) {
-      subscribeToUserSpots(userId, processSpotIds);
+      subscribeToUserSpots(userId, store.processSpotIds);
     } else {
       runInAction(() => {
         store.spotIds = [];

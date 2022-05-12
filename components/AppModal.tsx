@@ -3,6 +3,7 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Alert, Modal, Pressable, StyleSheet } from "react-native";
+import { updateSpot } from "../api";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useOverlay from "../contexts/OverlayContext";
@@ -80,8 +81,8 @@ const AppModal = observer(() => {
     },
   });
 
-  const rename = (thing: string) => {
-    console.log({ thing });
+  const rename = (title: string) => {
+    updateSpot({ title, id: spot?.id });
   };
 
   return (
