@@ -7,7 +7,7 @@ import User from "../types/User";
 
 type UserStore = {
   user?: User;
-  login: (user: User) => void;
+  login: (user: User | undefined) => void;
 };
 
 const UserContext = React.createContext({} as UserStore);
@@ -15,7 +15,7 @@ export const UserProvider = observer(({ children }: any) => {
   const linkTo = useLinkTo();
   const store = useLocalObservable<UserStore>(() => ({
     user: undefined,
-    login(user?: User) {
+    login(user?: User | undefined) {
       runInAction(() => (this.user = user));
     },
   }));

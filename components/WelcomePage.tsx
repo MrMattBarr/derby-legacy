@@ -20,6 +20,7 @@ const WelcomePage = observer(() => {
       padding: 30,
       borderWidth: 1,
       margin: 30,
+      backgroundColor: colors.accentBG,
       borderColor: colors.hardBorder,
     },
     page: {

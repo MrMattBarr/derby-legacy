@@ -96,6 +96,12 @@ export const listStyle = (colors: any) =>
       marginBottom: 5,
       flexWrap: "wrap",
     },
+    buttonText: {
+      flexShrink: 1,
+      marginBottom: 5,
+      color: colors.buttonFG,
+      flexWrap: "wrap",
+    },
     spacer: {
       flexGrow: 1,
       backgroundColor: "transparent",

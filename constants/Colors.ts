@@ -9,13 +9,14 @@ const icyBlue = "#0050a4";
 const ivyGreen = "#08640f";
 const deepTeal = "#0e5c65";
 const slate = "#435d6d";
-const deeperTeal = "#242448";
+const navyBlue = "#242448";
 const deleteRed = "#f32052";
 const darkModeBorderColor = hatRed;
 const icyWhite = "#fff";
-const midGray = "#666";
+const midGray = "#444";
+const emptyGray = "#949494";
 const stoneGrey = "#374549";
-const barelyGray = "#001f2d";
+const barelyGray = "#ffffca";
 const subtleMint = "#e2f6f7";
 
 export default {
@@ -32,9 +33,12 @@ export default {
     action: stoneGrey,
     contrastBand: barelyGray,
     selectedItemText: icyBlue,
+    buttonBG: navyBlue,
+    buttonFG: barelyGray,
     deleteText: hatRed,
     selectedItemBg: subtleMint,
     borderColor: midGray,
+    emptyContainer: emptyGray,
     accentBG: deepTeal,
     contrastBG: slate,
     listItemBackground: icyWhite,
@@ -49,16 +53,19 @@ export default {
     deleteText: deleteRed,
     action: stoneGrey,
     selectedItemBg: icyBlue,
+    buttonBG: barelyGray,
+    buttonFG: black,
     contrastBand: barelyGray,
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tag: deepTeal,
     contrastBG: slate,
-    accentBG: deeperTeal,
+    emptyContainer: emptyGray,
+    accentBG: navyBlue,
     hardBorder: icyWhite,
     progressBarFill: icyBlue,
-    borderColor: darkModeBorderColor,
-    listItemBackground: black,
+    borderColor: black,
+    listItemBackground: midGray,
     tabIconSelected: tintColorDark,
   },
 };

@@ -10,15 +10,15 @@ import Colors from "../constants/Colors";
 import useApi from "../contexts/ApiContext";
 import useSpots from "../contexts/SpotsContext";
 import useUser from "../contexts/UserContext";
-import useColorScheme from "../hooks/useColorScheme";
+import useColorScheme, { useColors } from "../hooks/useColorScheme";
 import { spotFromFile } from "../types/Spot";
 
 const UploadSpotButton = observer(() => {
-  const colorScheme = useColorScheme();
+  const colors = useColors();
   const { uploadFile } = useApi();
   const { spotIds, spots } = useSpots();
   const { user } = useUser();
-  const buttonColor = Colors[colorScheme].text;
+  const buttonColor = colors.buttonFG;
   const beginUpload = async () => {
     const file = await DocumentPicker.getDocumentAsync({ type: "audio/*" });
     const onComplete = (url: string, id: string) => {
@@ -40,7 +40,7 @@ const UploadSpotButton = observer(() => {
       borderColor: buttonColor,
       borderRadius: 100,
       padding: 10,
-      backgroundColor: Colors[colorScheme].contrastBand,
+      backgroundColor: colors.buttonBG,
     },
   });
   return (

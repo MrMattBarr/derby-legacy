@@ -1,19 +1,19 @@
+import { toJS } from "mobx";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { Text } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
-import useColorScheme from "../hooks/useColorScheme";
-import { toJS } from "mobx";
+import { useColors } from "../hooks/useColorScheme";
 
 export default function SaveButton() {
-  const colorScheme = useColorScheme();
+  const colors = useColors();
   const { spotIds } = useDemo();
   const { saveDemo } = useDemo();
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,
-      borderColor: Colors[colorScheme].text,
+      borderColor: colors.text,
       borderRadius: 4,
       alignItems: "center",
       display: "flex",
@@ -21,12 +21,12 @@ export default function SaveButton() {
       alignSelf: "flex-end",
       marginTop: 10,
       padding: 10,
-      backgroundColor: Colors[colorScheme].contrastBand,
+      backgroundColor: colors.buttonBG,
     },
     text: {
       fontWeight: "bold",
       fontSize: 18,
-      color: Colors[colorScheme].text,
+      color: colors.buttonFG,
     },
   });
   if (toJS(spotIds).length === 0) {

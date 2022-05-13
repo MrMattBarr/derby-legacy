@@ -10,30 +10,29 @@ import Colors from "../constants/Colors";
 import useApi from "../contexts/ApiContext";
 import useSpots from "../contexts/SpotsContext";
 import useUser from "../contexts/UserContext";
-import useColorScheme from "../hooks/useColorScheme";
+import useColorScheme, { useColors } from "../hooks/useColorScheme";
 import { spotFromFile } from "../types/Spot";
 
 const LogoutButton = observer(() => {
-  const colorScheme = useColorScheme();
+  const colors = useColors();
   const { login } = useUser();
-  const buttonColor = Colors[colorScheme].text;
   const logout = () => {
     login(undefined);
   };
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,
-      borderColor: buttonColor,
+      borderColor: colors.buttonFG,
       borderRadius: 100,
       marginRight: 20,
       padding: 10,
-      backgroundColor: Colors[colorScheme].contrastBand,
+      backgroundColor: colors.contrastBand,
     },
   });
   return (
     <View style={styles.container}>
       <Pressable onPress={logout}>
-        <AntDesign name="logout" size={30} color={buttonColor} />
+        <AntDesign name="logout" size={30} color={colors.buttonFG} />
       </Pressable>
     </View>
   );

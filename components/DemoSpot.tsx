@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Colors, { spotColorFromIndex } from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
 import useSpots from "../contexts/SpotsContext";
-import useColorScheme from "../hooks/useColorScheme";
+import useColorScheme, { useColors } from "../hooks/useColorScheme";
 
 export const BLANK_ID = "BLANK_ID";
 interface IDemoSpot {
@@ -15,6 +15,7 @@ const DemoSpot = observer(({ id }: IDemoSpot) => {
   const { spots } = useSpots();
   const spot = spots[id];
   const colorScheme = useColorScheme();
+  const colors = useColors();
   const demoSlot = spotIds.indexOf(id);
   const styles = StyleSheet.create({
     spot: {
@@ -27,7 +28,7 @@ const DemoSpot = observer(({ id }: IDemoSpot) => {
     },
     blankSpot: {
       padding: 20,
-      backgroundColor: "#666",
+      backgroundColor: colors.emptyContainer,
       flexGrow: spot?.length || 1,
       marginRight: -1,
       borderRightWidth: 1,

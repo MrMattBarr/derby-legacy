@@ -5,12 +5,12 @@ import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
-import useColorScheme from "../hooks/useColorScheme";
+import { useColors } from "../hooks/useColorScheme";
 import DemoSpot, { BLANK_ID } from "./DemoSpot";
 import SaveButton from "./SaveButton";
 
 const DemoBuilderPreview = observer(() => {
-  const colorScheme = useColorScheme() || "dark";
+  const colors = useColors();
   const { spotIds } = useDemo();
   const jsSpots = toJS(spotIds);
   const styles = StyleSheet.create({
@@ -21,20 +21,20 @@ const DemoBuilderPreview = observer(() => {
       backgroundColor: "transparent",
       paddingHorizontal: 20,
       paddingVertical: 10,
-      borderBottomColor: Colors[colorScheme].hardBorder,
+      borderBottomColor: colors.borderColor,
       borderBottomWidth: 2,
     },
     demoVisualizer: {
       borderWidth: 1,
       borderRadius: 5,
-      borderColor: Colors[colorScheme].hardBorder,
-      backgroundColor: Colors[colorScheme].background,
+      borderColor: colors.borderColor,
+      backgroundColor: colors.background,
       overflow: "hidden",
       display: "flex",
       flexDirection: "row",
     },
     demoTitle: {
-      color: Colors[colorScheme].text,
+      color: colors.text,
       fontWeight: "bold",
       fontSize: 20,
     },

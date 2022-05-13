@@ -20,6 +20,7 @@ export default function ToggleButton({
   const styles = StyleSheet.create({
     button: {
       borderWidth: 1,
+      borderColor: "black",
       borderRadius: 50,
       marginRight: 10,
       display: "flex",
@@ -27,7 +28,7 @@ export default function ToggleButton({
       alignItems: "center",
       width: 50,
       height: 50,
-      backgroundColor: Colors[colorScheme!].brandBackground,
+      backgroundColor: Colors[colorScheme!].buttonBG,
       color: Colors[colorScheme!].text,
     },
   });
