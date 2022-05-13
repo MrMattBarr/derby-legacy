@@ -57,6 +57,11 @@ const registerSpot = (spot: Partial<Spot>) => {
   console.log({ reference });
   set(dbRef(db, reference), true);
 };
+const registerDemo = (demo: Partial<Demo>) => {
+  const db = getDatabase();
+  const reference = `users/${demo.userId}/demos/${demo.id}`;
+  set(dbRef(db, reference), true);
+};
 
 const uploadFile = async ({
   file,
@@ -129,13 +134,23 @@ const fetchSpot = (id: string, callback: (spots: any) => void) => {
     callback(spot);
   });
 };
+const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
+  const db = getDatabase();
+  const spotsRef = dbRef(db, `demos/${id}`);
+  onValue(spotsRef, (snapshot) => {
+    const demo: Demo = snapshot.val();
+    demo.id = id;
+    callback(demo);
+  });
+};
 
 const subscribeToUserDemos = (user: string, callback: (demos: any) => void) => {
   const db = getDatabase();
-  const demosRef = dbRef(db, "demos/");
-  onValue(demosRef, (snapshot) => {
+  const spotsRef = dbRef(db, `users/${user}/demos`);
+  onValue(spotsRef, (snapshot) => {
     const data = snapshot.val();
-    callback(data);
+    const demoIds = Object.keys(data ?? {});
+    callback(demoIds);
   });
 };
 
@@ -149,6 +164,7 @@ const uploadDemo = (demo: Demo) => {
   const db = getDatabase();
   const uploadName = `demos/${demo.id}`;
   set(dbRef(db, uploadName), demo);
+  registerDemo(demo);
 };
 
 const updateSpot = (spot: Partial<Spot>) => {
@@ -162,9 +178,11 @@ export {
   uploadDemo,
   subscribeToUserSpots,
   fetchSpot,
+  fetchDemo,
   subscribeToUserDemos,
   deleteDemo,
   registerUser,
   updateSpot,
+  registerDemo,
 };
 export type { UploadFileArgs };

@@ -15,10 +15,7 @@ import { spotFromFile } from "../types/Spot";
 
 const LogoutButton = observer(() => {
   const colors = useColors();
-  const { login } = useUser();
-  const logout = () => {
-    login(undefined);
-  };
+  const { logout } = useUser();
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,

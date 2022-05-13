@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
+import useUser from "../contexts/UserContext";
 import { useColors } from "../hooks/useColorScheme";
 import DemoSpot, { BLANK_ID } from "./DemoSpot";
 import SaveButton from "./SaveButton";

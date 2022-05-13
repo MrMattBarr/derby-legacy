@@ -24,7 +24,6 @@ export const SpotsProvider = observer(({ children }: any) => {
       spotIds.forEach((id) => fetchSpot(id, this.addSpot));
     },
     addSpot(spot: Spot) {
-      console.log({ spot });
       runInAction(() => (this.spots[spot.id] = spot));
       runInAction(() => {
         const spotAlreadyThere = this.spotIds.includes(spot.id);

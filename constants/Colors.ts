@@ -16,7 +16,7 @@ const icyWhite = "#fff";
 const midGray = "#444";
 const emptyGray = "#949494";
 const stoneGrey = "#374549";
-const barelyGray = "#ffffca";
+const barelyGray = "#80806D";
 const subtleMint = "#e2f6f7";
 
 export default {
@@ -53,7 +53,7 @@ export default {
     deleteText: deleteRed,
     action: stoneGrey,
     selectedItemBg: icyBlue,
-    buttonBG: barelyGray,
+    buttonBG: emptyGray,
     buttonFG: black,
     contrastBand: barelyGray,
     tint: tintColorDark,

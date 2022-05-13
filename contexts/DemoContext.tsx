@@ -4,6 +4,7 @@ import { observer, useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
 import { uploadDemo } from "../api";
 import Demo from "../types/Demo";
+import User from "../types/User";
 import { randomId } from "../utils";
 import useUser from "./UserContext";
 
@@ -11,13 +12,11 @@ type DemoStore = {
   spotIds: string[];
   removeSpot: (spotId: string) => boolean;
   addSpot: (spotId: string) => boolean;
-  saveDemo: () => void;
+  saveDemo: (user: User) => void;
 };
 
 const DemoContext = React.createContext({} as DemoStore);
 export const DemoProvider = observer(({ children }: any) => {
-  const { user } = useUser();
-  const { name } = toJS(user) ?? {};
   const linkTo = useLinkTo();
   const store = useLocalObservable(() => ({
     spotIds: observable<string>([]),
@@ -29,15 +28,15 @@ export const DemoProvider = observer(({ children }: any) => {
       this.spotIds.push(id);
       return true;
     },
-    saveDemo() {
-      if (!name) return;
+    saveDemo(user: User) {
+      if (!user?.id) return;
       const demoNum = Math.floor(Math.random() * 100) + 1;
       const demoName = `Demo #${demoNum}`;
       const demo: Demo = {
         id: randomId(),
         title: demoName,
         uploadDate: new Date(),
-        userId: name,
+        userId: user!.id,
         spots: this.spotIds,
       };
       uploadDemo(demo);

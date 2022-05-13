@@ -1,15 +1,17 @@
 import { toJS } from "mobx";
+import { observer } from "mobx-react";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { Text } from "../components/Themed";
-import Colors from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
+import useUser from "../contexts/UserContext";
 import { useColors } from "../hooks/useColorScheme";
 
-export default function SaveButton() {
+const SaveButton = observer(() => {
   const colors = useColors();
   const { spotIds } = useDemo();
   const { saveDemo } = useDemo();
+  const { user } = useUser();
   const styles = StyleSheet.create({
     container: {
       borderWidth: 1,
@@ -33,8 +35,10 @@ export default function SaveButton() {
     return <></>;
   }
   return (
-    <Pressable onPress={saveDemo} style={styles.container}>
+    <Pressable onPress={() => saveDemo(toJS(user))} style={styles.container}>
       <Text style={styles.text}>Save Demo</Text>
     </Pressable>
   );
-}
+});
+
+export default SaveButton;
