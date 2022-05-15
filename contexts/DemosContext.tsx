@@ -11,6 +11,7 @@ type DemoMap = {
 type DemosContract = {
   demoIds: string[];
   deleteDemo: (id: string) => void;
+  loadDemo: (demoId: string) => void;
   demos: DemoMap;
   addDemo: (demo: Demo) => void;
   processDemoIds: (demoIds: string[]) => void;
@@ -34,6 +35,9 @@ export const DemosProvider = observer(({ children }: any) => {
     processDemoIds(demoIds: string[]) {
       console.log({ demoIds });
       demoIds.forEach((id) => fetchDemo(id, this.addDemo));
+    },
+    loadDemo(demoId: string) {
+      console.log("loading");
     },
     addDemo(demo: Demo) {
       runInAction(() => (this.demos[demo.id] = demo));

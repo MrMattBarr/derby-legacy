@@ -41,7 +41,7 @@ const AppModal = observer(() => {
       display: "flex",
     },
     modalView: {
-      margin: 20,
+      marginTop: 20,
       backgroundColor: colors.contrastBG,
       borderRadius: 20,
       display: "flex",

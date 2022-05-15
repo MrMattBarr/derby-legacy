@@ -1,13 +1,14 @@
 import { useLinkTo } from "@react-navigation/native";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import useDemos from "../contexts/DemosContext";
 import useColorScheme from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
 import DemoDetailSpot from "./DemoDetailSpot";
+import DemoLoadingView from "./DemoLoadingView";
 import PhoneBottomSpacer from "./PhoneBottomSpacer";
 import PhoneTopSpacer from "./PhoneTopSpacer";
 import PlayButton from "./PlayButton";
@@ -26,7 +27,8 @@ const DemoDetail = observer(
       params: { id },
     },
   }: IDemoDetail) => {
-    const { demos, deleteDemo } = useDemos();
+    console.log("hello");
+    const { demos, deleteDemo, loadDemo } = useDemos();
     const linkTo = useLinkTo();
     const colorScheme = useColorScheme();
     const colors = Colors[colorScheme];
@@ -50,8 +52,14 @@ const DemoDetail = observer(
         maxHeight: 200,
       },
     });
+
+    useEffect(() => {
+      if (!demo) {
+        loadDemo(id);
+      }
+    }, [demo]);
     if (!demo) {
-      return <View />;
+      return <DemoLoadingView />;
     }
     return (
       <View style={{ flexGrow: 1 }}>

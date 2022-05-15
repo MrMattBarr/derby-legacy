@@ -2,6 +2,7 @@
   "name": "derby",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "homepage": "/demos",
   "scripts": {
     "start": "expo start --tunnel",
     "android": "expo start --android",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
     "@google-cloud/storage": "^5.19.3",
+    "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-firebase/app": "^14.8.0",
     "@react-native-firebase/storage": "^14.8.0",
     "@react-navigation/bottom-tabs": "^6.0.5",
@@ -30,7 +32,7 @@
     "expo-linking": "~3.0.0",
     "expo-splash-screen": "~0.14.0",
     "expo-status-bar": "~1.2.0",
-    "expo-updates": "~0.11.6",
+    "expo-updates": "~0.11.7",
     "expo-web-browser": "~10.1.0",
     "filepond": "^4.30.3",
     "firebase": "^9.6.11",
