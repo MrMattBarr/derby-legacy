@@ -16,7 +16,6 @@ const PlaybackModal = observer(() => {
   const { spots } = useSpots();
   const { demos } = useDemos();
   const jsPlaying = toJS(playing);
-  console.log({ jsPlaying });
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme];
   const styles = StyleSheet.create({

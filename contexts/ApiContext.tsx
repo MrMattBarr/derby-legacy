@@ -13,8 +13,6 @@ type ApiStore = {
 const ApiContext = React.createContext({} as ApiStore);
 
 export const ApiProvider = observer(({ children }: any) => {
-  const { user } = useUser();
-  const jsUser = toJS(user);
   const firebaseConfig: FirebaseOptions = {
     apiKey: "AIzaSyBrcM1Eusy8F6hjrLYVn2OUxWPcb4YU1QU",
     authDomain: "derby-voice.firebaseapp.com",

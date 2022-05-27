@@ -1,57 +1,28 @@
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { Pressable, StyleSheet, useColorScheme } from "react-native";
-import { Text, View } from "../components/Themed";
-import Colors from "../constants/Colors";
-import useUser from "../contexts/UserContext";
+import { Platform, View } from "react-native";
+import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
-import { OTHER_TEST_USER, TEST_USER } from "../testData/users";
+import Tape from "./Demo/Tape";
+import TrackList from "./Demo/TrackList";
 import PhoneTopSpacer from "./PhoneTopSpacer";
+import WebWelcomePage from "./WebWelcomePage";
 
-const WelcomePage = observer(() => {
-  const colorScheme = useColorScheme() || "dark";
-  const colors = Colors[colorScheme];
-  console.log({ colors });
-  const users = [TEST_USER, OTHER_TEST_USER];
-  const { login } = useUser();
+const LoginPage = observer(() => {
+  const colors = useColors();
   const styles = mainStyles(colors);
-  const localStyles = StyleSheet.create({
-    user: {
-      padding: 30,
-      borderWidth: 1,
-      margin: 30,
-      backgroundColor: colors.accentBG,
-      borderColor: colors.hardBorder,
-    },
-    page: {
-      display: "flex",
-      flexDirection: "column",
-      flexGrow: 1,
-      padding: 30,
-      justifyContent: "center",
-    },
-  });
-
   return (
     <View style={styles.page}>
-      <PhoneTopSpacer></PhoneTopSpacer>
-      <View style={localStyles.page}>
-        {users.map((user) => {
-          return (
-            <Pressable
-              key={user.id}
-              style={localStyles.user}
-              onPress={() => {
-                login(user);
-              }}
-            >
-              <Text style={styles.headerText}>{user.display}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
+      <PhoneTopSpacer />
+      <Tape id={"123"} />
+      <TrackList id={""} />
     </View>
   );
 });
 
-export default WelcomePage;
+const PickyWelcomePage = Platform.select({
+  native: () => LoginPage,
+  default: () => LoginPage,
+})();
+
+export default PickyWelcomePage;

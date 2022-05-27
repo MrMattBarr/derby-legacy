@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { Text, View } from "../components/Themed";
+import { Text, View } from "./Themed";
 import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
 import PhoneTopSpacer from "./PhoneTopSpacer";

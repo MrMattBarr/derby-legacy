@@ -1,6 +1,11 @@
 import { Audio } from "expo-av";
 import { DocumentResult } from "expo-document-picker";
 import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import {
   getDatabase,
   onValue,
   ref as dbRef,
@@ -11,7 +16,6 @@ import {
 import {
   getDownloadURL,
   getStorage,
-  listAll,
   ref,
   StorageError,
   uploadBytesResumable,
@@ -172,6 +176,44 @@ const updateSpot = (spot: Partial<Spot>) => {
   const spotLocation = `spots/${spot.id}`;
   update(dbRef(db, spotLocation), spot);
 };
+
+interface FirebaseUserCredentials {
+  email: string;
+  password: string;
+}
+const createAccount = ({ email, password }: FirebaseUserCredentials) => {
+  const auth = getAuth();
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log({ user });
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+};
+
+const signIn = ({ email, password }: FirebaseUserCredentials) => {
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      console.log({ user });
+      // ...
+    })
+    .catch((error) => {
+      console.error(error);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
+};
+
 export {
   loadSpotAudio,
   uploadFile,
@@ -183,6 +225,8 @@ export {
   deleteDemo,
   registerUser,
   updateSpot,
+  createAccount,
+  signIn,
   registerDemo,
 };
 export type { UploadFileArgs };

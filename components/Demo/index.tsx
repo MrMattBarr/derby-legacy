@@ -2,17 +2,19 @@ import { useLinkTo } from "@react-navigation/native";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
-import Colors from "../constants/Colors";
-import useDemos from "../contexts/DemosContext";
-import useColorScheme from "../hooks/useColorScheme";
-import { mainStyles } from "../listStyles";
-import DemoDetailSpot from "./DemoDetailSpot";
-import DemoLoadingView from "./DemoLoadingView";
-import PhoneBottomSpacer from "./PhoneBottomSpacer";
-import PhoneTopSpacer from "./PhoneTopSpacer";
-import PlayButton from "./PlayButton";
-import { View } from "./Themed";
+import { Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
+import Colors from "../../constants/Colors";
+import useDemos from "../../contexts/DemosContext";
+import useColorScheme from "../../hooks/useColorScheme";
+import { mainStyles } from "../../listStyles";
+import DemoDetailSpot from "../DemoDetailSpot";
+import DemoLoadingView from "../DemoLoadingView";
+import PhoneBottomSpacer from "../PhoneBottomSpacer";
+import PhoneTopSpacer from "../PhoneTopSpacer";
+import { View } from "../Themed";
+import PickyWelcomePage from "../WelcomePage";
+
+import WebView from "./web";
 
 interface IDemoDetail {
   route: {
@@ -21,7 +23,7 @@ interface IDemoDetail {
     };
   };
 }
-const DemoDetail = observer(
+const NativeView = observer(
   ({
     route: {
       params: { id },
@@ -86,4 +88,9 @@ const DemoDetail = observer(
   }
 );
 
-export default DemoDetail;
+const PlatformPage = Platform.select({
+  native: () => NativeView,
+  default: () => PickyWelcomePage,
+})();
+
+export default PlatformPage;

@@ -14,6 +14,7 @@ const deleteRed = "#f32052";
 const darkModeBorderColor = hatRed;
 const icyWhite = "#fff";
 const midGray = "#444";
+const tintedGray = "#445";
 const emptyGray = "#949494";
 const stoneGrey = "#374549";
 const barelyGray = "#80806D";
@@ -24,6 +25,7 @@ export default {
     text: black,
     background: icyWhite,
     brandBackground: midGray,
+    tintedBrandBackground: tintedGray,
     inputBG: slate,
     tint: tintColorLight,
     tabIconDefault: midGray,
@@ -49,6 +51,7 @@ export default {
     background: "#000",
     inputBG: "#0009",
     brandBackground: charcoal,
+    tintedBrandBackground: tintedGray,
     selectedItemText: ivyGreen,
     deleteText: deleteRed,
     action: stoneGrey,

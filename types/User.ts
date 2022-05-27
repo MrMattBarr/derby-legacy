@@ -1,7 +1,8 @@
 type User = {
-  display: string;
+  display?: string;
   id: string;
-  avatar: string;
+  avatar?: string;
+  isAnonymous: boolean;
 };
 
 export default User;

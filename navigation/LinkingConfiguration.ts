@@ -19,6 +19,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       Demos: "demos",
       Modal: "modal",
       Welcome: "home",
+      Authenticated: "authenticated",
       NotFound: "*",
     },
   },
