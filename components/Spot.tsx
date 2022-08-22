@@ -6,7 +6,7 @@ import { TouchableOpacity, useColorScheme } from "react-native";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useDemo from "../contexts/DemoContext";
-import useOverlay from "../contexts/OverlayContext";
+import usePlayback from "../contexts/PlaybackContext";
 import useSpots from "../contexts/SpotsContext";
 import { listStyle } from "../listStyles";
 import AddSubtractButton from "./AddSubtractButton";
@@ -16,7 +16,7 @@ import TagList from "./TagList";
 const Spot = observer(({ spotId }: { spotId: string }) => {
   const { spotIds, addSpot, removeSpot } = useDemo();
   const { spots } = useSpots();
-  const { focus, play } = useOverlay();
+  const { focus, play } = usePlayback();
   const spot = toJS(spots[spotId]);
 
   const demoSlot = (spotIds || []).indexOf(spotId);

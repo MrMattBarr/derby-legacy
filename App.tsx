@@ -8,7 +8,7 @@ import Demos from "./components/Demos";
 import PlaybackModal from "./components/PlaybackModal";
 import { ApiProvider } from "./contexts/ApiContext";
 import { DemosProvider } from "./contexts/DemosContext";
-import { OverlayProvider } from "./contexts/OverlayContext";
+import { PlaybackProvider } from "./contexts/PlaybackContext";
 import { ReactiveProvider } from "./contexts/ReactiveContext";
 import { SpotsProvider } from "./contexts/SpotsContext";
 import { UserProvider } from "./contexts/UserContext";
@@ -31,14 +31,14 @@ export default function App() {
             <ApiProvider>
               <SpotsProvider>
                 <DemosProvider>
-                  <OverlayProvider>
+                  <PlaybackProvider>
                     <ReactiveProvider>
                       <RootNavigator />
                       <AppModal />
                       <PlaybackModal />
                       <StatusBar />
                     </ReactiveProvider>
-                  </OverlayProvider>
+                  </PlaybackProvider>
                 </DemosProvider>
               </SpotsProvider>
             </ApiProvider>

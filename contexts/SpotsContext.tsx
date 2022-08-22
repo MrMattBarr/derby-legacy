@@ -1,56 +1,49 @@
-import { runInAction, toJS } from "mobx";
-import { observer, useLocalObservable } from "mobx-react";
-import React, { useContext, useEffect } from "react";
-import { fetchSpot, loadSpotAudio, subscribeToUserSpots } from "../api";
+import { makeAutoObservable } from "mobx";
+import React, { createContext, useContext } from "react";
+import { fetchSpot } from "../api";
 import Spot from "../types/Spot";
-import useUser from "./UserContext";
 type SpotMap = {
   [key: string]: Spot;
 };
-type SpotsContract = {
-  spotIds: string[];
-  spots: SpotMap;
-  addSpot: (spot: Spot) => void;
-  processSpotIds: (spotIds: string[]) => void;
-};
 
-const SpotsContext = React.createContext({} as SpotsContract);
-export const SpotsProvider = observer(({ children }: any) => {
-  const store = useLocalObservable<SpotsContract>(() => ({
-    spotIds: [],
-    spots: {},
-    processSpotIds(spotIds: string[]) {
-      console.log({ spotIds });
-      spotIds.forEach((id) => fetchSpot(id, this.addSpot));
-    },
-    addSpot(spot: Spot) {
-      runInAction(() => (this.spots[spot.id] = spot));
-      runInAction(() => {
-        const spotAlreadyThere = this.spotIds.includes(spot.id);
-        if (!spotAlreadyThere) {
-          this.spotIds.push(spot.id);
-        }
-      });
-    },
-  }));
+class SpotsStore {
+  spotIds: string[] = [];
+  spots: SpotMap = {};
 
-  const { user } = useUser();
-  const userId = toJS(user)?.id;
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-  useEffect(() => {
-    if (userId) {
-      subscribeToUserSpots(userId, store.processSpotIds);
-    } else {
-      runInAction(() => {
-        store.spotIds = [];
-      });
+  addSpot(spot: Spot) {
+    this.spots[spot.id] = spot;
+
+    const spotAlreadyThere = this.spotIds.includes(spot.id);
+    if (!spotAlreadyThere) {
+      this.spotIds.push(spot.id);
     }
-  }, [userId]);
+  }
 
+  processSpotIds(spotIds: string[]) {
+    spotIds.forEach((id) => fetchSpot(id, this.addSpot.bind(this)));
+  }
+
+  loadSpot(spotId: string) {
+    if (!this.spots[spotId]) {
+      this.processSpotIds([spotId]);
+    }
+  }
+}
+
+//@ts-ignore
+export const SpotsContext = createContext<SpotsStore>();
+
+export const SpotsProvider = ({ children }: any) => {
   return (
-    <SpotsContext.Provider value={store}>{children}</SpotsContext.Provider>
+    <SpotsContext.Provider value={new SpotsStore()}>
+      {children}
+    </SpotsContext.Provider>
   );
-});
+};
 
 const useSpots = () => {
   const context = useContext(SpotsContext);

@@ -6,14 +6,14 @@ import { Alert, Modal, Pressable, StyleSheet } from "react-native";
 import { updateSpot } from "../api";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
-import useOverlay from "../contexts/OverlayContext";
+import usePlayback from "../contexts/PlaybackContext";
 import useSpots from "../contexts/SpotsContext";
 import useColorScheme from "../hooks/useColorScheme";
 import PlaybackModal from "./PlaybackModal";
 import RenameControl from "./RenameControl";
 
 const AppModal = observer(() => {
-  const { focused, focus } = useOverlay();
+  const { focused, focus } = usePlayback();
   const { spots } = useSpots();
   const spot = focused?.id ? toJS(spots)[focused.id] : undefined;
   const colorScheme = useColorScheme();

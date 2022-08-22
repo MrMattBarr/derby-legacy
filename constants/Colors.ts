@@ -66,7 +66,7 @@ export default {
     emptyContainer: emptyGray,
     accentBG: navyBlue,
     hardBorder: icyWhite,
-    progressBarFill: icyBlue,
+    progressBarFill: ivyGreen,
     borderColor: black,
     listItemBackground: midGray,
     tabIconSelected: tintColorDark,

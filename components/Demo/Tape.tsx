@@ -1,32 +1,93 @@
-import { observer } from "mobx-react";
-import React from "react";
-import { ImageBackground, StyleSheet } from "react-native";
-import { Text, View } from "../Themed";
+import { useFonts } from "@expo-google-fonts/kalam";
 import AppLoading from "expo-app-loading";
-
 import { LinearGradient } from "expo-linear-gradient";
-import { useFonts, Kalam_400Regular } from "@expo-google-fonts/kalam";
-import PlayButton from "../PlayButton";
+import { runInAction, toJS } from "mobx";
+import { observer } from "mobx-react";
+import React, { useContext, useEffect, useState } from "react";
+import { Animated, Easing, ImageBackground, StyleSheet } from "react-native";
+import useDemos, { DemosTestContext } from "../../contexts/DemosContext";
+import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
+import PlayButton from "../PlayButton";
+import { Text, View } from "../Themed";
 
 interface ITape {
   id: string;
 }
 const Tape = observer(({ id }: ITape) => {
+  const { active } = usePlayback();
+  const jsActive = toJS(active);
+
+  let progress = 0;
+  if (jsActive.playbackStatus?.isLoaded) {
+    progress =
+      jsActive?.playbackStatus?.positionMillis /
+      jsActive.playbackStatus.durationMillis!;
+  }
+
+  let remainingProgress = 1 - progress;
+
+  const totalReelSize = 200;
+  const minDialSize = 50;
+  const playableReelSize = totalReelSize - 2 * minDialSize;
+
   const SCREW_SIZE = 20;
-  const totalReelSize = 175;
   const gearPadding = 10;
   const innerGearSize = 30;
-  const leftReelSize = 100;
-  let leftReelOffset = (leftReelSize - innerGearSize) / 2 - gearPadding;
-  const rightReelSize = totalReelSize - leftReelSize;
-  let rightReelOffset = (rightReelSize - innerGearSize) / 2 - gearPadding;
+  const lReelSize = minDialSize + remainingProgress * playableReelSize;
+  let lReelOffset = (lReelSize - innerGearSize) / 2 - gearPadding;
+  const rReelSize = totalReelSize - lReelSize;
+  const rReelOffset = (rReelSize - innerGearSize) / 2 - gearPadding;
+  const lMotionBlurSize = lReelSize - 35;
+  const rMotionBlurSize = rReelSize - 10;
+  const [spin, setSpin] = useState<Animated.AnimatedInterpolation | undefined>(
+    undefined
+  );
+
+  let spinValue = new Animated.Value(0);
+
+  const calculateSpin = () => {
+    Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.linear, // Easing is an additional import from react-native
+        useNativeDriver: false, // To make use of native driver for performance
+      })
+    ).start(() => {});
+
+    // Next, interpolate beginning and end values (in this case 0 and 1)
+    return spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["0deg", "-360deg"],
+    });
+  };
+
+  const demos = useDemos();
+  useEffect(() => {
+    demos.loadDemo(id);
+  }, [demos]);
+
+  const playDemo = () => {
+    const nextStatus =
+      active.status === PlayState.PLAYING
+        ? PlayState.PAUSED
+        : PlayState.PLAYING;
+    runInAction(() => {
+      active.demo = id;
+      active.status = nextStatus;
+    });
+    setSpin(calculateSpin());
+  };
+
+  const demo = demos.demos[id];
 
   const colors = useColors();
 
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
+
   const s = StyleSheet.create({
     tape: {
       borderWidth: 2,
@@ -100,27 +161,51 @@ const Tape = observer(({ id }: ITape) => {
       display: "flex",
       justifyContent: "space-between",
     },
-    leftReel: {
+    reel: {
       position: "absolute",
-      width: leftReelSize,
-      height: leftReelSize,
-      borderRadius: leftReelSize,
       borderWidth: 1,
       borderColor: "black",
-      left: -leftReelOffset,
-      top: -leftReelOffset,
       backgroundColor: colors.accentBG,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      transform: [{ rotate: spin }],
     },
-    rightReel: {
-      position: "absolute",
-      width: rightReelSize,
-      height: rightReelSize,
-      borderRadius: rightReelSize,
-      borderWidth: 1,
-      borderColor: "black",
-      right: -rightReelOffset,
-      top: -rightReelOffset,
-      backgroundColor: colors.accentBG,
+    lReel: {
+      width: lReelSize,
+      height: lReelSize,
+      left: -lReelOffset,
+      top: -lReelOffset,
+      borderRadius: lReelSize,
+    },
+    lMotionBlur: {
+      backgroundColor: "transparent",
+      borderColor: "#837b6f55",
+      borderRightWidth: 3,
+      borderLeftWidth: 1,
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      borderRadius: lMotionBlurSize,
+      width: lMotionBlurSize,
+      height: lMotionBlurSize,
+    },
+    rMotionBlur: {
+      backgroundColor: "transparent",
+      borderColor: "#837b6f55",
+      borderRightWidth: 3,
+      borderLeftWidth: 1,
+      borderTopWidth: 0,
+      borderBottomWidth: 0,
+      width: rMotionBlurSize,
+      borderRadius: rMotionBlurSize,
+      height: rMotionBlurSize,
+    },
+    rReel: {
+      width: rReelSize,
+      height: rReelSize,
+      borderRadius: rReelSize,
+      right: -rReelOffset,
+      top: -rReelOffset,
     },
     gear: {
       borderColor: "black",
@@ -156,6 +241,13 @@ const Tape = observer(({ id }: ITape) => {
       right: 0,
       flexGrow: 1,
     },
+    controls: {
+      display: "flex",
+      padding: 10,
+      justifyContent: "center",
+      flexDirection: "row",
+      backgroundColor: "transparent",
+    },
   });
 
   if (!fontsLoaded) {
@@ -183,15 +275,25 @@ const Tape = observer(({ id }: ITape) => {
       </View>
       <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>
         <View style={s.demoNameLabel}>
-          <Text style={s.demoNameText}>Announcer Demo</Text>
+          <Text style={s.demoNameText}>{demo?.title}</Text>
         </View>
         <View style={s.gears}>
-          <View style={s.leftReel} />
-          <View style={s.rightReel} />
+          <Animated.View style={[s.lReel, s.reel]}>
+            <View style={[s.lMotionBlur]} />
+          </Animated.View>
+          <Animated.View style={[s.rReel, s.reel]}>
+            <View style={[s.rMotionBlur]} />
+          </Animated.View>
           <View style={s.gear}></View>
           <View style={s.gear}></View>
         </View>
       </LinearGradient>
+      <View style={s.controls}>
+        <PlayButton
+          onToggle={playDemo}
+          playing={active.status == PlayState.PLAYING}
+        />
+      </View>
     </View>
   );
 });

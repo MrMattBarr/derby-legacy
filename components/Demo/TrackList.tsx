@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Text, View } from "../Themed";
 import AppLoading from "expo-app-loading";
@@ -8,12 +8,22 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useFonts, Kalam_400Regular } from "@expo-google-fonts/kalam";
 import PlayButton from "../PlayButton";
 import { useColors } from "../../hooks/useColorScheme";
+import useDemos from "../../contexts/DemosContext";
+import { toJS } from "mobx";
+import Track from "./Track";
 
 interface ITrackList {
   id: string;
 }
 const TrackList = observer(({ id }: ITrackList) => {
   const colors = useColors();
+
+  const demosStore = useDemos();
+  useEffect(() => {
+    demosStore.loadDemo(id);
+  }, []);
+  const demo = demosStore.demos[id];
+  const jsDemo = toJS(demo);
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
@@ -21,7 +31,7 @@ const TrackList = observer(({ id }: ITrackList) => {
     trackList: {
       borderColor: "#bcac8b",
       backgroundColor: "transparent",
-      padding: 20,
+      maxWidth: 500,
     },
     listHolder: {
       backgroundColor: colors.accentBG,
@@ -33,34 +43,26 @@ const TrackList = observer(({ id }: ITrackList) => {
       backgroundColor: "transparent",
       borderBottomWidth: 1,
       borderBottomColor: "#bcac8b99",
-      margin: 10,
     },
-    lastTrack: {},
+    lastTrack: {
+      borderBottomWidth: 0,
+    },
     trackText: {
       fontFamily: "Kalam",
       color: "#bcac8b",
     },
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || !jsDemo?.spots) {
     return <AppLoading />;
   }
 
   return (
     <View style={s.trackList}>
       <View style={s.listHolder}>
-        <View style={s.track}>
-          <Text style={s.trackText}>1. Fishies (7.14)</Text>
-        </View>
-        <View style={s.track}>
-          <Text style={s.trackText}>2. Jerk Boss (3.4)</Text>
-        </View>
-        <View style={[s.track, s.lastTrack]}>
-          <Text style={s.trackText}>3. Fancy Pants (12.2)</Text>
-        </View>
-        <View style={[s.track, s.lastTrack]}>
-          <Text style={s.trackText}>4. Radio Show (21.2)</Text>
-        </View>
+        {(jsDemo?.spots ?? []).map((id, index) => {
+          return <Track id={id} key={id} index={index + 1} />;
+        })}
       </View>
     </View>
   );

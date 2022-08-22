@@ -12,11 +12,9 @@ import DemoLoadingView from "../DemoLoadingView";
 import PhoneBottomSpacer from "../PhoneBottomSpacer";
 import PhoneTopSpacer from "../PhoneTopSpacer";
 import { View } from "../Themed";
-import PickyWelcomePage from "../WelcomePage";
-
 import WebView from "./web";
 
-interface IDemoDetail {
+export interface IDemoDetail {
   route: {
     params: {
       id: string;
@@ -90,7 +88,7 @@ const NativeView = observer(
 
 const PlatformPage = Platform.select({
   native: () => NativeView,
-  default: () => PickyWelcomePage,
+  default: () => WebView,
 })();
 
 export default PlatformPage;

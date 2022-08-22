@@ -8,7 +8,7 @@ import TagList from "./TagList";
 import { listStyle } from "../listStyles";
 import { Text, View } from "./Themed";
 import { Pressable } from "react-native";
-import useOverlay from "../contexts/OverlayContext";
+import usePlayback from "../contexts/PlaybackContext";
 
 interface IDemoSpot {
   id: string;
@@ -16,7 +16,7 @@ interface IDemoSpot {
 }
 const DemoDetailSpot = observer(({ id, first }: IDemoSpot) => {
   const { spots } = useSpots();
-  const { focus } = useOverlay();
+  const { focus } = usePlayback();
   const spot = toJS(spots)[id];
   const colorScheme = useColorScheme();
   const styles = listStyle(Colors[colorScheme]);

@@ -1,21 +1,21 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useDemos from "../contexts/DemosContext";
-import useOverlay from "../contexts/OverlayContext";
+import usePlayback from "../contexts/PlaybackContext";
 import useSpots from "../contexts/SpotsContext";
 import useColorScheme from "../hooks/useColorScheme";
 import PlayButton from "./PlayButton";
 
 const PlaybackModal = observer(() => {
-  const { playing, play } = useOverlay();
+  const { play } = usePlayback();
   const { spots } = useSpots();
   const { demos } = useDemos();
-  const jsPlaying = toJS(playing);
+  const jsPlaying = true;
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme];
   const styles = StyleSheet.create({

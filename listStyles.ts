@@ -35,6 +35,23 @@ export const mainStyles = (colors: any) => {
       backgroundColor: colors.brandBackground,
       flexGrow: 1,
     },
+    pageContent: {
+      ...Platform.select({
+        web: {
+          padding: 20,
+        },
+      }),
+    },
+    webHeader: {
+      borderBottomWidth: 1,
+      backgroundColor: colors.tintedBrandBackground,
+      userSelect: "none",
+      color: colors.text,
+      fontFamily: "Arial",
+      fontSize: "1.4rem",
+      padding: 5,
+      borderColor: colors.hardBorder,
+    },
     headerText: {
       color: colors.text,
       fontSize: 20,

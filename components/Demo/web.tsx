@@ -1,26 +1,35 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
-import Colors from "../../constants/Colors";
-import useDemos from "../../contexts/DemosContext";
-import useColorScheme from "../../hooks/useColorScheme";
-import DemoLine from "../DemoLine";
+import { View } from "react-native";
+import { IDemoDetail } from ".";
+import { useColors } from "../../hooks/useColorScheme";
 import { mainStyles } from "../../listStyles";
-
 import PhoneTopSpacer from "../PhoneTopSpacer";
-import { FontAwesome } from "@expo/vector-icons";
-import { Link } from "@react-navigation/native";
+import PickyWebHeader from "../WebHeader";
 import Tape from "./Tape";
+import TrackList from "./TrackList";
 
-const Demos = observer(() => {
-  const { demoIds } = useDemos();
+const WebView = observer(
+  ({
+    route: {
+      params: { id },
+    },
+  }: IDemoDetail) => {
+    console.log({ id });
 
-  const colorScheme = useColorScheme();
-  return (
-    <div>
-      <Tape id="123" />
-    </div>
-  );
-});
+    const colors = useColors();
+    const styles = mainStyles(colors);
+    return (
+      <View style={styles.page}>
+        <PickyWebHeader />
+        <PhoneTopSpacer />
+        <View style={styles.pageContent}>
+          <Tape id={id} />
+          <TrackList id={id} />
+        </View>
+      </View>
+    );
+  }
+);
 
-export default Demos;
+export default WebView;

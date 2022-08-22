@@ -6,7 +6,6 @@ import { mainStyles } from "../listStyles";
 import Tape from "./Demo/Tape";
 import TrackList from "./Demo/TrackList";
 import PhoneTopSpacer from "./PhoneTopSpacer";
-import WebWelcomePage from "./WebWelcomePage";
 
 const LoginPage = observer(() => {
   const colors = useColors();
@@ -14,8 +13,8 @@ const LoginPage = observer(() => {
   return (
     <View style={styles.page}>
       <PhoneTopSpacer />
-      <Tape id={"123"} />
-      <TrackList id={""} />
+      <Tape id="E19GHG" />
+      <TrackList id="E19GHG" />
     </View>
   );
 });

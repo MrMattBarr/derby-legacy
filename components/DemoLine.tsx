@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import useDemos from "../contexts/DemosContext";
-import useOverlay from "../contexts/OverlayContext";
+import usePlayback from "../contexts/PlaybackContext";
 import useSpots from "../contexts/SpotsContext";
 import useColorScheme from "../hooks/useColorScheme";
 import { listStyle } from "../listStyles";
@@ -20,7 +20,7 @@ interface IDemoLine {
 const DemoLine = observer(({ demoId }: IDemoLine) => {
   const colorScheme = useColorScheme();
   const linkTo = useLinkTo();
-  const { play } = useOverlay();
+  const { play } = usePlayback();
   const [activeSpot, setActiveSpot] = useState(-1);
   const styles = listStyle(Colors[colorScheme]);
   const { demos } = useDemos();
