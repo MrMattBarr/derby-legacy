@@ -10,7 +10,7 @@ export default function PhoneTopSpacer({ children }: any) {
     spacer: {
       ...Platform.select({
         native: {
-          paddingTop: 40,
+          paddingTop: 50,
         },
       }),
       backgroundColor: Colors[colorScheme].accentBG,
