@@ -10,7 +10,6 @@ import { mainStyles } from "../../listStyles";
 import DemoDetailSpot from "../DemoDetailSpot";
 import DemoLoadingView from "../DemoLoadingView";
 import PhoneBottomSpacer from "../PhoneBottomSpacer";
-import PhoneTopSpacer from "../PhoneTopSpacer";
 import { View } from "../Themed";
 import WebView from "./web";
 
@@ -63,11 +62,6 @@ const NativeView = observer(
     }
     return (
       <View style={{ flexGrow: 1 }}>
-        <PhoneTopSpacer>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>{demo?.title}</Text>
-          </View>
-        </PhoneTopSpacer>
         <View style={styles.flexView}>
           <View style={customStyles.spotsHolder}>
             <View style={customStyles.spots}>

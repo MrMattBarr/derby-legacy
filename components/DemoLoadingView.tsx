@@ -10,9 +10,7 @@ const DemoLoadingView = observer(() => {
   const styles = mainStyles(colors);
   return (
     <View style={styles.page}>
-      <PhoneTopSpacer>
-        <Text>Loading Demo...</Text>
-      </PhoneTopSpacer>
+      <Text>Loading Demo...</Text>
     </View>
   );
 });

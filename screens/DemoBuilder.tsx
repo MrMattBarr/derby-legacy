@@ -1,23 +1,15 @@
-import { StyleSheet } from "react-native";
-import SpotList from "../components/SpotList";
-import { SpotsProvider } from "../contexts/SpotsContext";
-import { RootStackScreenProps } from "../types";
-import DemoBuilderPreview from "../components/DemoBuilderPreview";
-import { DemoProvider } from "../contexts/DemoContext";
-import NewSpotBar from "../components/NewSpotBar";
 import React from "react";
-import SaveButton from "../components/SaveButton";
-import PhoneBottomSpacer from "../components/PhoneBottomSpacer";
-import PhoneTopSpacer from "../components/PhoneTopSpacer";
+import { StyleSheet } from "react-native";
+import NewSpotBar from "../components/NewSpotBar";
+import SpotList from "../components/SpotList";
+import { DemoProvider } from "../contexts/DemoContext";
+import { RootStackScreenProps } from "../types";
 
 export default function DemoBuilder({
   navigation,
 }: RootStackScreenProps<"NotFound">) {
   return (
     <DemoProvider navigation={navigation}>
-      <PhoneTopSpacer>
-        <DemoBuilderPreview />
-      </PhoneTopSpacer>
       <SpotList />
       <NewSpotBar />
     </DemoProvider>

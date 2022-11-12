@@ -13,9 +13,6 @@ const LoginPage = observer(() => {
   const styles = mainStyles(colors);
   return (
     <View style={styles.page}>
-      <WebHeader />
-      <PhoneTopSpacer />
-
       <View style={styles.pageContent}>
         <Tape id="E19GHG" />
         <TrackList id="E19GHG" />
