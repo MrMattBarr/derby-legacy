@@ -49,8 +49,26 @@ export const mainStyles = (colors: any) => {
       color: colors.text,
       fontFamily: "Arial",
       fontSize: "1.4rem",
+      flexDirection: "row",
+      display: "flex",
       padding: 5,
+      alignItems: "center",
       borderColor: colors.hardBorder,
+    },
+    headerHomeLink: {
+      backgroundColor: "transparent",
+      paddingRight: 20,
+      borderRightWidth: 1,
+      borderRightColor: colors.text,
+      color: colors.text,
+      fontSize: 20,
+    },
+    headerLink: {
+      color: colors.hardBorder,
+      paddingHorizontal: 20,
+    },
+    spacer: {
+      flexGrow: 1,
     },
     headerText: {
       color: colors.text,
