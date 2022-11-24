@@ -26,8 +26,7 @@ const NativeView = observer(
       params: { id },
     },
   }: IDemoDetail) => {
-    console.log("hello");
-    const { demos, deleteDemo, loadDemo } = useDemos();
+    const { demos, deleteDemo } = useDemos();
     const linkTo = useLinkTo();
     const colorScheme = useColorScheme();
     const colors = Colors[colorScheme];
@@ -51,12 +50,6 @@ const NativeView = observer(
         maxHeight: 200,
       },
     });
-
-    useEffect(() => {
-      if (!demo) {
-        loadDemo(id);
-      }
-    }, [demo]);
     if (!demo) {
       return <DemoLoadingView />;
     }

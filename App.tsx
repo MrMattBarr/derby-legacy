@@ -16,6 +16,8 @@ import { UserProvider } from "./contexts/UserContext";
 import useCachedResources from "./hooks/useCachedResources";
 import { RootNavigator } from "./navigation";
 import linking from "./navigation/LinkingConfiguration";
+import { AuthStoreProvider } from "./stores/AuthStore";
+import { ModalStoreProvider } from "./stores/ModalStore";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -26,25 +28,27 @@ export default function App() {
     return (
       <SafeAreaProvider>
         <NavigationContainer linking={linking}>
-          <UserProvider>
-            <ApiProvider>
-              <SpotsProvider>
-                <DemosProvider>
-                  <PlaybackProvider>
-                    <ReactiveProvider>
-                      <PhoneTopSpacer />
-                      <WebHeader />
-                      <RootNavigator />
-                      <PhoneBottomSpacer />
-                      <AppModal />
-                      <PlaybackModal />
-                      <StatusBar />
-                    </ReactiveProvider>
-                  </PlaybackProvider>
-                </DemosProvider>
-              </SpotsProvider>
-            </ApiProvider>
-          </UserProvider>
+          <ModalStoreProvider>
+            <AuthStoreProvider>
+              <ApiProvider>
+                <SpotsProvider>
+                  <DemosProvider>
+                    <PlaybackProvider>
+                      <ReactiveProvider>
+                        <PhoneTopSpacer />
+                        <WebHeader />
+                        <RootNavigator />
+                        <PhoneBottomSpacer />
+                        <AppModal />
+                        <PlaybackModal />
+                        <StatusBar />
+                      </ReactiveProvider>
+                    </PlaybackProvider>
+                  </DemosProvider>
+                </SpotsProvider>
+              </ApiProvider>
+            </AuthStoreProvider>
+          </ModalStoreProvider>
         </NavigationContainer>
       </SafeAreaProvider>
     );

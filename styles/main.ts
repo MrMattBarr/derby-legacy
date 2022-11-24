@@ -1,6 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 
-export const mainStyles = (colors: any) => {
+const mainStyles = (colors: any) => {
   return StyleSheet.create({
     header: {
       display: "flex",
@@ -43,6 +43,9 @@ export const mainStyles = (colors: any) => {
         },
       }),
     },
+    container: {
+      backgroundColor: "transparent",
+    },
     webHeader: {
       borderBottomWidth: 1,
       backgroundColor: colors.tintedBrandBackground,
@@ -80,6 +83,45 @@ export const mainStyles = (colors: any) => {
       color: colors.deleteText,
       padding: 20,
     },
+    modalBody: {
+      flexGrow: 1,
+      padding: 20,
+      alignItems: "stretch",
+      backgroundColor: "transparent",
+    },
+    modalBG: {
+      flexGrow: 1,
+      paddingHorizontal: 20,
+      paddingVertical: 30,
+
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#3339",
+      display: "flex",
+    },
+    modalHeader: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      backgroundColor: colors.brandBackground,
+    },
+    modalBox: {
+      backgroundColor: colors.contrastBG,
+      display: "flex",
+      overflow: "hidden",
+      ...Platform.select({
+        web: {
+          borderRadius: 5,
+          borderWidth: 1,
+          borderColor: colors.text,
+        },
+        native: {
+          borderRadius: 20,
+        },
+      }),
+    },
     flexView: {
       flexGrow: 1,
       display: "flex",
@@ -89,67 +131,4 @@ export const mainStyles = (colors: any) => {
   });
 };
 
-export const listStyle = (colors: any) =>
-  StyleSheet.create({
-    listItem: {
-      color: colors.text,
-      backgroundColor: colors.listItemBackground,
-      marginBottom: 2,
-    },
-    foreground: {
-      padding: 10,
-      zIndex: 1,
-      flex: 1,
-      display: "flex",
-      backgroundColor: "transparent",
-      flexDirection: "row",
-    },
-    project: {
-      flex: 1,
-      paddingHorizontal: 20,
-      paddingVertical: 5,
-      backgroundColor: "#fffb",
-    },
-    title: {
-      color: colors.text,
-      fontWeight: "bold",
-      fontSize: 20,
-    },
-    textHolder: {
-      opacity: 0.8,
-      color: "#EEEEEE",
-      marginVertical: 5,
-      backgroundColor: colors.listItemBackground,
-      borderRadius: 2,
-      paddingHorizontal: 5,
-      display: "flex",
-      overflow: "hidden",
-      flexShrink: 1,
-      flexWrap: "wrap",
-    },
-    text: {
-      flexShrink: 1,
-      marginBottom: 5,
-      flexWrap: "wrap",
-    },
-    buttonText: {
-      flexShrink: 1,
-      marginBottom: 5,
-      color: colors.buttonFG,
-      flexWrap: "wrap",
-    },
-    spacer: {
-      flexGrow: 1,
-      backgroundColor: "transparent",
-    },
-    mainContent: {
-      backgroundColor: "transparent",
-      flexGrow: 1,
-    },
-    header: {
-      flex: 1,
-      flexDirection: "row",
-      backgroundColor: "transparent",
-      justifyContent: "space-between",
-    },
-  });
+export default mainStyles;

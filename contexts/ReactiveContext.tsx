@@ -3,6 +3,7 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 import { runInAction, toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
+import { useAuth } from "../stores/AuthStore";
 import Demo from "../types/Demo";
 import useDemos from "./DemosContext";
 import usePlayback, { PlayState } from "./PlaybackContext";
@@ -12,7 +13,7 @@ import useUser from "./UserContext";
 const ReactiveContext = React.createContext({});
 export const ReactiveProvider = observer(({ children }: any) => {
   const auth = getAuth();
-  const { login } = useUser();
+  const { login } = useAuth();
   const { demos } = useDemos();
   const { spots } = useSpots();
   const { active } = usePlayback();
@@ -20,10 +21,7 @@ export const ReactiveProvider = observer(({ children }: any) => {
   const generateAnonymousAuth = () => {
     signInAnonymously(auth)
       .then(({ user }) => {
-        login({
-          isAnonymous: true,
-          id: user.uid,
-        });
+        login(user);
       })
       .catch((error) => {
         console.log({ error });
@@ -48,7 +46,6 @@ export const ReactiveProvider = observer(({ children }: any) => {
       if (currentSpotIndex > -1) {
         nextSpot = demo.spots[currentSpotIndex + 1];
       }
-      console.log({ nextSpot });
       if (nextSpot) {
         runInAction(() => (active.spot = nextSpot));
       } else {
@@ -62,7 +59,11 @@ export const ReactiveProvider = observer(({ children }: any) => {
   };
 
   const playDemo = (id: string) => {
-    const { spots: spotIds } = toJS(demos[id]);
+    const jsDemo = toJS(demos[id]);
+    if (!jsDemo) {
+      return;
+    }
+    const { spots: spotIds } = jsDemo;
     runInAction(() => {
       active.spot = spotIds[0];
     });
@@ -74,6 +75,9 @@ export const ReactiveProvider = observer(({ children }: any) => {
     }
     if (spot) {
       const { audio } = toJS(spots[spot]);
+      if (!audio) {
+        return;
+      }
       if (status === PlayState.PLAYING) {
         audio?.setOnPlaybackStatusUpdate((playbackStatus: AVPlaybackStatus) =>
           updatePlayable({ demo: toJS(demos[demo ?? ""]), playbackStatus })

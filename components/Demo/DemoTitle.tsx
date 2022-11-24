@@ -1,21 +1,13 @@
 import { useFonts } from "@expo-google-fonts/kalam";
 import AppLoading from "expo-app-loading";
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import useDemos from "../../contexts/DemosContext";
+import useDemo from "../../contexts/DemoContext";
 import { Text, View } from "../Themed";
 
-interface ITape {
-  id: string;
-}
-const DemoTitle = observer(({ id }: ITape) => {
-  const demos = useDemos();
-  useEffect(() => {
-    demos.loadDemo(id);
-  }, [demos]);
-
-  const demo = demos.demos[id];
+const DemoTitle = observer(() => {
+  const { demo } = useDemo();
 
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),

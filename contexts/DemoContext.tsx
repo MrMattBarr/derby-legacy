@@ -1,50 +1,37 @@
 import { useLinkTo } from "@react-navigation/native";
-import { observable, toJS } from "mobx";
+import { observable } from "mobx";
 import { observer, useLocalObservable } from "mobx-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { uploadDemo } from "../api";
+import { useAuth } from "../stores/AuthStore";
 import Demo from "../types/Demo";
-import User from "../types/User";
 import { randomId } from "../utils";
-import useUser from "./UserContext";
+import useDemos from "./DemosContext";
 
 type DemoStore = {
-  spotIds: string[];
-  removeSpot: (spotId: string) => boolean;
-  addSpot: (spotId: string) => boolean;
-  saveDemo: (user: User) => void;
+  demo?: Demo;
+  isOwner: boolean;
 };
 
 const DemoContext = React.createContext({} as DemoStore);
-export const DemoProvider = observer(({ children }: any) => {
-  const linkTo = useLinkTo();
-  const store = useLocalObservable(() => ({
-    spotIds: observable<string>([]),
-    removeSpot(id: string) {
-      this.spotIds.replace(this.spotIds.filter((x) => x !== id));
-      return true;
-    },
-    addSpot(id: string) {
-      this.spotIds.push(id);
-      return true;
-    },
-    saveDemo(user: User) {
-      if (!user?.id) return;
-      const demoNum = Math.floor(Math.random() * 100) + 1;
-      const demoName = `Demo #${demoNum}`;
-      const demo: Demo = {
-        id: randomId(),
-        title: demoName,
-        uploadDate: new Date(),
-        userId: user!.id,
-        spots: this.spotIds,
-      };
-      uploadDemo(demo);
-      linkTo(`/demos`);
-    },
-  }));
+export const DemoProvider = observer(({ children, id }: any) => {
+  const demos = useDemos();
+  useEffect(() => {
+    console.log({ id });
+    demos.loadDemo(id);
+  }, [demos]);
 
-  return <DemoContext.Provider value={store}>{children}</DemoContext.Provider>;
+  const demo = demos.demos[id];
+
+  const authStore = useAuth();
+  const { user } = authStore;
+  const isOwner = demo?.userId === user?.uid && !!demo?.userId;
+
+  return (
+    <DemoContext.Provider value={{ demo, isOwner }}>
+      {children}
+    </DemoContext.Provider>
+  );
 });
 
 const useDemo = () => {

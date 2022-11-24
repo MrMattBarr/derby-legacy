@@ -138,7 +138,12 @@ const fetchSpot = (id: string, callback: (spots: any) => void) => {
     callback(spot);
   });
 };
+
 const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
+  if (!id) {
+    throw new Error("Unable to fetch demo with no ID");
+  }
+  console.log({ id });
   const db = getDatabase();
   const spotsRef = dbRef(db, `demos/${id}`);
   onValue(spotsRef, (snapshot) => {
@@ -177,7 +182,7 @@ const updateSpot = (spot: Partial<Spot>) => {
   update(dbRef(db, spotLocation), spot);
 };
 
-interface FirebaseUserCredentials {
+export interface FirebaseUserCredentials {
   email: string;
   password: string;
 }
@@ -197,21 +202,21 @@ const createAccount = ({ email, password }: FirebaseUserCredentials) => {
     });
 };
 
-const signIn = ({ email, password }: FirebaseUserCredentials) => {
+const signIn = async ({ email, password }: FirebaseUserCredentials) => {
   const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log({ user });
-      // ...
-    })
-    .catch((error) => {
-      console.error(error);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  } catch (error: any) {
+    console.error(error);
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  }
 };
 
 export {

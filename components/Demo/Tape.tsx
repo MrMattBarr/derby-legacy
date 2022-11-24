@@ -2,23 +2,20 @@ import { useFonts } from "@expo-google-fonts/kalam";
 import AppLoading from "expo-app-loading";
 import { runInAction } from "mobx";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Animated, Easing, ImageBackground, StyleSheet } from "react-native";
-import useDemos from "../../contexts/DemosContext";
+import useDemo from "../../contexts/DemoContext";
 import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
 import { View } from "../Themed";
 import Controls from "./Controls";
 import Screws from "./Screws";
 import TapeLabel from "./TapeLabel";
 
-interface ITape {
-  id: string;
-}
-const Tape = observer(({ id }: ITape) => {
+const Tape = observer(() => {
   const { active } = usePlayback();
-  const [spin, setSpin] = useState<Animated.AnimatedInterpolation | undefined>(
-    undefined
-  );
+  const [spin, setSpin] = useState<
+    Animated.AnimatedInterpolation<number> | undefined
+  >(undefined);
 
   let spinValue = new Animated.Value(0);
 
@@ -39,10 +36,7 @@ const Tape = observer(({ id }: ITape) => {
     });
   };
 
-  const demos = useDemos();
-  useEffect(() => {
-    demos.loadDemo(id);
-  }, [demos]);
+  const { demo } = useDemo();
 
   const playDemo = () => {
     const nextStatus =
@@ -50,7 +44,7 @@ const Tape = observer(({ id }: ITape) => {
         ? PlayState.PAUSED
         : PlayState.PLAYING;
     runInAction(() => {
-      active.demo = id;
+      active.demo = demo?.id;
       active.status = nextStatus;
     });
     setSpin(calculateSpin());
@@ -98,7 +92,7 @@ const Tape = observer(({ id }: ITape) => {
     <View style={s.tape}>
       <ImageBackground source={image} resizeMode="repeat" style={s.bgTexture} />
       <Screws />
-      <TapeLabel id={id} />
+      <TapeLabel />
       <Controls playDemo={playDemo} status={active.status} />
     </View>
   );

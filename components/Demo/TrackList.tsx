@@ -11,18 +11,15 @@ import { useColors } from "../../hooks/useColorScheme";
 import useDemos from "../../contexts/DemosContext";
 import { toJS } from "mobx";
 import Track from "./Track";
+import useDemo from "../../contexts/DemoContext";
 
 interface ITrackList {
   id: string;
 }
-const TrackList = observer(({ id }: ITrackList) => {
+const TrackList = observer(() => {
   const colors = useColors();
 
-  const demosStore = useDemos();
-  useEffect(() => {
-    demosStore.loadDemo(id);
-  }, []);
-  const demo = demosStore.demos[id];
+  const { demo } = useDemo();
   const jsDemo = toJS(demo);
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),

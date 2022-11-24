@@ -1,21 +1,17 @@
 import { useFonts } from "@expo-google-fonts/kalam";
 import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
-import { runInAction, toJS } from "mobx";
+import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
-import useDemos from "../../contexts/DemosContext";
-import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
+import usePlayback from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
-import { Text, View } from "../Themed";
+import { View } from "../Themed";
 import DemoTitle from "./DemoTitle";
 import UserSummary from "./UserSummary";
 
-interface ITape {
-  id: string;
-}
-const TapeLabel = observer(({ id }: ITape) => {
+const TapeLabel = observer(() => {
   const { active } = usePlayback();
   const jsActive = toJS(active);
 
@@ -41,9 +37,9 @@ const TapeLabel = observer(({ id }: ITape) => {
   const rReelOffset = (rReelSize - innerGearSize) / 2 - gearPadding;
   const lMotionBlurSize = lReelSize - 35;
   const rMotionBlurSize = rReelSize - 10;
-  const [spin, setSpin] = useState<Animated.AnimatedInterpolation | undefined>(
-    undefined
-  );
+  const [spin, setSpin] = useState<
+    Animated.AnimatedInterpolation<number> | undefined
+  >("0deg");
 
   let spinValue = new Animated.Value(0);
 
@@ -63,25 +59,6 @@ const TapeLabel = observer(({ id }: ITape) => {
       outputRange: ["0deg", "-360deg"],
     });
   };
-
-  const demos = useDemos();
-  useEffect(() => {
-    demos.loadDemo(id);
-  }, [demos]);
-
-  const playDemo = () => {
-    const nextStatus =
-      active.status === PlayState.PLAYING
-        ? PlayState.PAUSED
-        : PlayState.PLAYING;
-    runInAction(() => {
-      active.demo = id;
-      active.status = nextStatus;
-    });
-    setSpin(calculateSpin());
-  };
-
-  const demo = demos.demos[id];
 
   const colors = useColors();
 
@@ -180,7 +157,7 @@ const TapeLabel = observer(({ id }: ITape) => {
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>
-      <DemoTitle id={id} />
+      <DemoTitle />
       <View style={s.gears}>
         <Animated.View style={[s.lReel, s.reel]}>
           <View style={[s.lMotionBlur]} />

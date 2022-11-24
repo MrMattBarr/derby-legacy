@@ -1,12 +1,11 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Platform, View } from "react-native";
+import { DemoProvider } from "../contexts/DemoContext";
 import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
 import Tape from "./Demo/Tape";
 import TrackList from "./Demo/TrackList";
-import PhoneTopSpacer from "./PhoneTopSpacer";
-import WebHeader from "./WebHeader";
 
 const LoginPage = observer(() => {
   const colors = useColors();
@@ -14,8 +13,10 @@ const LoginPage = observer(() => {
   return (
     <View style={styles.page}>
       <View style={styles.pageContent}>
-        <Tape id="E19GHG" />
-        <TrackList id="E19GHG" />
+        <DemoProvider id="E19GHG">
+          <Tape />
+          <TrackList />
+        </DemoProvider>
       </View>
     </View>
   );

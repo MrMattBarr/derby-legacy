@@ -1,10 +1,7 @@
-import { makeAutoObservable, runInAction, toJS } from "mobx";
-import { useLocalObservable } from "mobx-react";
-import { observer, useLocalStore } from "mobx-react-lite";
-import React, { createContext, useContext, useEffect } from "react";
-import { deleteDemo, fetchDemo, subscribeToUserDemos } from "../api";
+import { makeAutoObservable } from "mobx";
+import React, { createContext, useContext } from "react";
+import { fetchDemo } from "../api";
 import Demo from "../types/Demo";
-import useUser from "./UserContext";
 type DemoMap = {
   [key: string]: Demo;
 };
@@ -27,10 +24,14 @@ class DemosStore {
   }
 
   processDemoIds(demoIds: string[]) {
+    console.log({ demoIds });
     demoIds.forEach((id) => fetchDemo(id, this.addDemo.bind(this)));
   }
 
   loadDemo(demoId: string) {
+    if (!demoId) {
+      throw new Error("Unable to load demo with no ID");
+    }
     if (!this.demos[demoId]) {
       this.processDemoIds([demoId]);
     }
@@ -58,73 +59,3 @@ const useDemos = () => {
 };
 
 export default useDemos;
-
-// const DemosContext = React.createContext({} as DemosContract);
-// export const DemosProvider = observer(({ children }: any) => {
-//   const bStore = useLocalStore(() => new DemosStore()),
-//     { length, demoIds } = bStore;
-//   const { user } = useUser();
-//   const store = useLocalObservable<DemosContract>(() => ({
-//     demoIds: [],
-//     demos: {},
-//     deleteDemo(id: string) {
-//       runInAction(() => {
-//         this.demoIds = this.demoIds.filter((x) => x !== id);
-//       });
-//       runInAction(() => {
-//         delete this.demos[id];
-//       });
-//       deleteDemo(id);
-//     },
-//     processDemoIds(demoIds: string[]) {
-//       demoIds.forEach((id) => fetchDemo(id, this.addDemo));
-//     },
-//     loadDemo(demoId: string) {
-//       if (!this.demos[demoId]) {
-//         this.processDemoIds([demoId]);
-//       }
-//     },
-//     length: 13,
-//     addDemo(demo: Demo) {
-//       runInAction(() => (this.demos[demo.id] = demo));
-//       runInAction(() => {
-//         const spotAlreadyThere = this.demoIds.includes(demo.id);
-//         if (!spotAlreadyThere) {
-//           this.demoIds.push(demo.id);
-//         }
-//       });
-//     },
-//   }));
-
-//   const updateDemos = (demos: DemoMap) => {
-//     if (!demos) {
-//       return;
-//     }
-//     const keys = Object.keys(demos);
-//     const newKeys = keys.filter((key) => !store.demos[key]);
-//     keys.forEach((key) => {
-//       store.demos[key] = demos[key];
-//     });
-//     newKeys.forEach((key) => {
-//       store.demoIds.push(key);
-//     });
-//   };
-
-//   const userId = toJS(user)?.id;
-
-//   useEffect(() => {
-//     if (userId) {
-//       subscribeToUserDemos(userId, store.processDemoIds);
-//     } else {
-//       runInAction(() => {
-//         store.demoIds = [];
-//       });
-//     }
-//   }, [userId]);
-
-//   return (
-//     <DemosContext.Provider value={new DemosStore()}>
-//       {children}
-//     </DemosContext.Provider>
-//   );
-// });
