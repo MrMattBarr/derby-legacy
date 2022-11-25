@@ -18,6 +18,7 @@ import { RootNavigator } from "./navigation";
 import linking from "./navigation/LinkingConfiguration";
 import { AuthStoreProvider } from "./stores/AuthStore";
 import { ModalStoreProvider } from "./stores/ModalStore";
+import { UsersStore, UsersStoreProvider } from "./stores/UsersStore";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -31,21 +32,23 @@ export default function App() {
           <ModalStoreProvider>
             <AuthStoreProvider>
               <ApiProvider>
-                <SpotsProvider>
-                  <DemosProvider>
-                    <PlaybackProvider>
-                      <ReactiveProvider>
-                        <PhoneTopSpacer />
-                        <WebHeader />
-                        <RootNavigator />
-                        <PhoneBottomSpacer />
-                        <AppModal />
-                        <PlaybackModal />
-                        <StatusBar />
-                      </ReactiveProvider>
-                    </PlaybackProvider>
-                  </DemosProvider>
-                </SpotsProvider>
+                <UsersStoreProvider>
+                  <SpotsProvider>
+                    <DemosProvider>
+                      <PlaybackProvider>
+                        <ReactiveProvider>
+                          <PhoneTopSpacer />
+                          <WebHeader />
+                          <RootNavigator />
+                          <PhoneBottomSpacer />
+                          <AppModal />
+                          <PlaybackModal />
+                          <StatusBar />
+                        </ReactiveProvider>
+                      </PlaybackProvider>
+                    </DemosProvider>
+                  </SpotsProvider>
+                </UsersStoreProvider>
               </ApiProvider>
             </AuthStoreProvider>
           </ModalStoreProvider>

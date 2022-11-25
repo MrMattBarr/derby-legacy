@@ -28,7 +28,6 @@ export function AuthStore() {
         }
       },
       login(user?: User) {
-        console.log({ user, signIn: true });
         runInAction(() => (this.user = user));
       },
       logout() {

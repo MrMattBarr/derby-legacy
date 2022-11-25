@@ -24,7 +24,6 @@ class DemosStore {
   }
 
   processDemoIds(demoIds: string[]) {
-    console.log({ demoIds });
     demoIds.forEach((id) => fetchDemo(id, this.addDemo.bind(this)));
   }
 

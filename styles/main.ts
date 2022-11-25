@@ -93,7 +93,7 @@ const mainStyles = (colors: any) => {
       flexGrow: 1,
       paddingHorizontal: 20,
       paddingVertical: 30,
-
+      cursor: "default",
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: "#3339",
@@ -111,6 +111,7 @@ const mainStyles = (colors: any) => {
       backgroundColor: colors.contrastBG,
       display: "flex",
       overflow: "hidden",
+      cursor: "default",
       ...Platform.select({
         web: {
           borderRadius: 5,

@@ -5,14 +5,20 @@ import { observer } from "mobx-react";
 import React from "react";
 
 import { Image, StyleSheet } from "react-native";
-import useUser from "../../contexts/UserContext";
+import useDemo from "../../contexts/DemoContext";
+import { useUsers } from "../../stores/UsersStore";
 import { View } from "../Themed";
 
 const UserSummary = observer(() => {
-  const users = useUser();
+  const users = useUsers();
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
+
+  const demo = useDemo();
+  const userId = demo.demo?.userId;
+  const user = users.users[userId ?? -1];
+  const displayName = user?.profile?.displayName;
 
   const avatarSize = 35;
 
@@ -38,9 +44,13 @@ const UserSummary = observer(() => {
     avatar: {
       width: avatarSize,
       height: avatarSize,
+      marginRight: 10,
+    },
+    avatarPlaceHolder: {
+      width: avatarSize,
+      height: avatarSize,
       borderRadius: avatarSize,
-      borderColor: "black",
-      borderWidth: 1,
+      backgroundColor: "#333",
       marginRight: 10,
     },
   });
@@ -49,13 +59,14 @@ const UserSummary = observer(() => {
     return <AppLoading />;
   }
 
-  const src = { uri: "https://i.pravatar.cc/50" };
-
+  const src = { uri: user?.profile?.avatar };
+  const userProfileLink = `/users/${user?.id}`;
   return (
     <View style={s.userSummary}>
-      <Image source={src} style={s.avatar} />
-      <Link to="/users/TEST_USER" style={s.username}>
-        {users.user?.display || "Test User"}
+      {src && <Image source={src} style={s.avatar} />}
+      {!src && <View style={s.avatarPlaceHolder} />}
+      <Link to={userProfileLink} style={s.username}>
+        {displayName}
       </Link>
     </View>
   );

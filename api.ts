@@ -128,15 +128,37 @@ const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
     callback(spotIds);
   });
 };
-const fetchSpot = (id: string, callback: (spots: any) => void) => {
+
+interface FetchArgs<Type> {
+  id: string;
+  onFetch: (things: Type) => any;
+  dbKey: string;
+}
+
+const fetchThing = <Type>({ id, onFetch, dbKey }: FetchArgs<Type>) => {
   const db = getDatabase();
-  const spotsRef = dbRef(db, `spots/${id}`);
-  onValue(spotsRef, async (snapshot) => {
-    const spot: Spot = snapshot.val();
+  const thingRef = dbRef(db, `${dbKey}/${id}`);
+  onValue(thingRef, async (snapshot) => {
+    const thing: Type = snapshot.val();
+    onFetch(thing);
+  });
+};
+
+const fetchUser = (id: string, callback: (user: User) => void) => {
+  const onFetch = async (user: User) => {
+    user.id = id;
+    callback(user);
+  };
+  fetchThing({ id, onFetch, dbKey: "users" });
+};
+
+const fetchSpot = (id: string, callback: (spots: Spot) => void) => {
+  const onFetch = async (spot: Spot) => {
     spot.id = id;
     spot.audio = await loadSpotAudio(id);
     callback(spot);
-  });
+  };
+  fetchThing({ id, onFetch, dbKey: "spots" });
 };
 
 const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
@@ -225,6 +247,7 @@ export {
   uploadDemo,
   subscribeToUserSpots,
   fetchSpot,
+  fetchUser,
   fetchDemo,
   subscribeToUserDemos,
   deleteDemo,

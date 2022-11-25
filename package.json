@@ -37,9 +37,9 @@
     "expo-linear-gradient": "~12.0.1",
     "expo-linking": "~3.2.3",
     "expo-random": "~13.0.0",
-    "expo-splash-screen": "~0.17.4",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
-    "expo-updates": "~0.15.4",
+    "expo-updates": "~0.15.6",
     "expo-web-browser": "~12.0.0",
     "filepond": "^4.30.3",
     "firebase": "^9.14.0",
@@ -62,13 +62,12 @@
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@types/react": "~18.0.24",
-    "@types/react-dom": "^18.0.9",
-    "@types/react-native": "^0.70.6",
+    "@types/react-dom": "~18.0.8",
+    "@types/react-native": "~0.70.6",
     "@types/react-native-vector-icons": "^6.4.10",
     "babel-plugin-module-resolver": "^4.1.0",
     "jest": "^26.6.3",
     "jest-expo": "^47.0.0",
-    "react-test-renderer": "17.0.1",
     "typescript": "^4.6.3"
   },
   "private": true

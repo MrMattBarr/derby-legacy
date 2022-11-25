@@ -1,7 +1,13 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { observer } from "mobx-react";
 import React from "react";
-import { Alert, Modal, Pressable, StyleSheet } from "react-native";
+import {
+  Alert,
+  GestureResponderEvent,
+  Modal,
+  Pressable,
+  StyleSheet,
+} from "react-native";
 import { View } from "../components/Themed";
 import Colors from "../constants/Colors";
 import useColorScheme, { useColors } from "../hooks/useColorScheme";
@@ -15,6 +21,7 @@ const AppModal = observer(() => {
   const clearModal = () => {
     modalStore.setModal();
   };
+  const eatClick = (event: GestureResponderEvent) => {};
 
   const styles = mainStyles(colors);
 
@@ -23,12 +30,10 @@ const AppModal = observer(() => {
       animationType="slide"
       transparent={true}
       visible={!!modalStore.modal}
-      onRequestClose={() => {
-        Alert.alert("Modal has been closed.");
-      }}
+      onRequestClose={clearModal}
     >
-      <View style={styles.modalBG}>
-        <View style={styles.modalBox}>
+      <Pressable style={styles.modalBG} onPress={clearModal}>
+        <Pressable style={styles.modalBox} onPress={eatClick}>
           <View style={styles.modalHeader}>
             <View style={{ flexGrow: 1 }} />
             <Pressable onPress={clearModal}>
@@ -38,8 +43,8 @@ const AppModal = observer(() => {
           <View style={styles.modalBody}>
             <PickyLogin />
           </View>
-        </View>
-      </View>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 });

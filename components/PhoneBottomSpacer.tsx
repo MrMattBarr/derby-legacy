@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Platform,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-} from "react-native";
+import { Platform, StyleSheet, useColorScheme } from "react-native";
 import Colors from "../constants/Colors";
 import { useModal } from "../stores/ModalStore";
 import IconButton from "./IconButton";
