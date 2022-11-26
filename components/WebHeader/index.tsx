@@ -13,7 +13,7 @@ const WebHeader = () => {
   return (
     <View style={styles.webHeader}>
       <Link to="/home" style={styles.headerHomeLink}>
-        Derby Demo
+        Derby Demos
       </Link>
       <Link to="/account" style={styles.headerLink}>
         Account

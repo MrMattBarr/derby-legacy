@@ -1,5 +1,4 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import AppLoading from "expo-app-loading";
 import { LinearGradient } from "expo-linear-gradient";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
@@ -148,7 +147,7 @@ const TapeLabel = observer(() => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <></>;
   }
 
   const image = {

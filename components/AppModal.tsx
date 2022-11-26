@@ -1,16 +1,9 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { observer } from "mobx-react";
 import React from "react";
-import {
-  Alert,
-  GestureResponderEvent,
-  Modal,
-  Pressable,
-  StyleSheet,
-} from "react-native";
+import { GestureResponderEvent, Modal, Pressable } from "react-native";
 import { View } from "../components/Themed";
-import Colors from "../constants/Colors";
-import useColorScheme, { useColors } from "../hooks/useColorScheme";
+import { useColors } from "../hooks/useColorScheme";
 import { useModal } from "../stores/ModalStore";
 import mainStyles from "../styles/main";
 import PickyLogin from "./Login";

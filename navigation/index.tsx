@@ -12,11 +12,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import AuthenticatedPage from "../components/AuthenticatedPage";
 import DemoDetail from "../components/Demo";
 import Demos from "../components/Demos";
 import WelcomePage from "../components/WelcomePage";
-import useUser from "../contexts/UserContext";
 import DemoBuilder from "../screens/DemoBuilder";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -45,7 +43,6 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = observer(() => {
-  const { user } = useUser();
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -54,29 +51,15 @@ export const RootNavigator = observer(() => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Authenticated"
-        component={AuthenticatedPage}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}
         options={{ headerShown: false }}
       />
-      {user && (
-        <Stack.Screen
-          name="NotFound"
-          component={NotFoundScreen}
-          options={{ headerShown: false }}
-        />
-      )}
-      {!user && (
-        <Stack.Screen
-          name="NotFound"
-          component={NotFoundScreen}
-          options={{ headerShown: false }}
-        />
-      )}
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="DemoDetail"
         component={DemoDetail}

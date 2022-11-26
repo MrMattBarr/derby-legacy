@@ -4,32 +4,38 @@ import { runInAction, toJS } from "mobx";
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useAuth } from "../stores/AuthStore";
+import { useUsers } from "../stores/UsersStore";
 import Demo from "../types/Demo";
 import useDemos from "./DemosContext";
 import usePlayback, { PlayState } from "./PlaybackContext";
 import useSpots from "./SpotsContext";
-import useUser from "./UserContext";
 
 const ReactiveContext = React.createContext({});
 export const ReactiveProvider = observer(({ children }: any) => {
-  const auth = getAuth();
-  const { login } = useAuth();
+  const firebaseAuth = getAuth();
+  const authStore = useAuth();
+  const userStore = useUsers();
   const { demos } = useDemos();
   const { spots } = useSpots();
   const { active } = usePlayback();
   const { demo, spot, status } = toJS(active);
   const generateAnonymousAuth = () => {
-    signInAnonymously(auth)
+    signInAnonymously(firebaseAuth)
       .then(({ user }) => {
-        login(user);
+        authStore.login(user);
+        userStore.loadUser(user.uid);
       })
       .catch((error) => {
         console.log({ error });
       });
   };
-  const initializeApp = () => {
-    generateAnonymousAuth();
-  };
+  firebaseAuth.onAuthStateChanged((authUser) => {
+    if (authUser) {
+      authStore.login(authUser);
+    } else {
+      generateAnonymousAuth();
+    }
+  });
 
   interface IPlaybackStatus {
     playbackStatus: AVPlaybackStatus;
@@ -89,7 +95,6 @@ export const ReactiveProvider = observer(({ children }: any) => {
     }
   };
 
-  useEffect(initializeApp, []);
   useEffect(playActive, [demo, spot, status]);
   return (
     <ReactiveContext.Provider value={{}}>{children}</ReactiveContext.Provider>

@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from "mobx";
+import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
@@ -19,11 +19,14 @@ export function UsersStore() {
       users: {},
       userIds: [],
       processUserIds(userIds: string[]) {
-        userIds.forEach((id) => fetchUser(id, this.addUser.bind(this)));
+        const onFetch = (user: User) =>
+          runInAction(() => {
+            this.addUser(user);
+          });
+        userIds.forEach((id) => fetchUser(id, onFetch));
       },
 
       addUser(user: User) {
-        console.log({ user });
         this.users[user.id] = user;
 
         const spotAlreadyThere = this.userIds.includes(user.id);

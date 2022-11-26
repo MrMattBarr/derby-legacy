@@ -1,10 +1,7 @@
-import { DocumentResult } from "expo-document-picker";
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { toJS } from "mobx";
 import { observer, useLocalObservable } from "mobx-react";
-import React, { useContext, useEffect } from "react";
-import { subscribeToUserDemos, uploadFile, UploadFileArgs } from "../api";
-import useUser from "./UserContext";
+import React, { useContext } from "react";
+import { uploadFile, UploadFileArgs } from "../api";
 
 type ApiStore = {
   uploadFile: (args: Partial<UploadFileArgs>) => void;

@@ -41,7 +41,6 @@ class DemosStore {
 export const DemosContext = createContext<DemosStore>();
 
 export const DemosProvider = ({ children }: any) => {
-  console.log("rendering provider");
   return (
     <DemosContext.Provider value={new DemosStore()}>
       {children}

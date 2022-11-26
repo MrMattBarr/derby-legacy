@@ -1,6 +1,5 @@
 import { useFonts } from "@expo-google-fonts/kalam";
 import { Link } from "@react-navigation/native";
-import AppLoading from "expo-app-loading";
 import { observer } from "mobx-react";
 import React from "react";
 
@@ -56,7 +55,7 @@ const UserSummary = observer(() => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <></>;
   }
 
   const src = { uri: user?.profile?.avatar };

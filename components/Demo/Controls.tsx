@@ -10,7 +10,7 @@ import EditButton from "./EditButton";
 
 interface IControls {
   playDemo: () => void;
-  status: PlayState;
+  status?: PlayState;
 }
 const Tape = observer(({ playDemo, status }: IControls) => {
   const { isOwner } = useDemo();
@@ -21,6 +21,7 @@ const Tape = observer(({ playDemo, status }: IControls) => {
       justifyContent: "center",
       flexDirection: "row",
       flexGrow: 1,
+      borderColor: "#000",
       alignItems: "center",
       backgroundColor: "transparent",
     },

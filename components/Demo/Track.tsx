@@ -1,5 +1,4 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import AppLoading from "expo-app-loading";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
@@ -36,7 +35,6 @@ const Track = observer(({ id, index }: ITrack) => {
   const isActive = id === jsActive?.spot;
   let progress = alreadyPlayed ? 1 : 0;
   if (isActive && jsActive.playbackStatus?.isLoaded) {
-    console.log({ eff: jsActive.playbackStatus });
     progress =
       jsActive.playbackStatus.positionMillis /
       jsActive.playbackStatus.durationMillis!;
@@ -69,7 +67,7 @@ const Track = observer(({ id, index }: ITrack) => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <></>;
   }
 
   return (

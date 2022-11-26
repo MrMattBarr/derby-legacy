@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import LogoutButton from "./LogoutButton";
 import PhoneBottomSpacer from "./PhoneBottomSpacer";
 import UploadSpotButton from "./UploadSpotButton";
 
@@ -19,7 +18,6 @@ export default function NewSpotBar() {
   return (
     <>
       <View style={styles.container}>
-        <LogoutButton />
         <UploadSpotButton />
       </View>
       <PhoneBottomSpacer />

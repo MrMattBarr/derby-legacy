@@ -49,8 +49,7 @@ const registerUser = (user: User) => {
   set(dbRef(db, uploadName), {
     demos: {},
     spots: {},
-    display: user.display,
-    avatar: "",
+    profile: user.profile,
   });
   console.log(`New user registered: ${user.id}`);
 };
@@ -165,7 +164,6 @@ const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
   if (!id) {
     throw new Error("Unable to fetch demo with no ID");
   }
-  console.log({ id });
   const db = getDatabase();
   const spotsRef = dbRef(db, `demos/${id}`);
   onValue(spotsRef, (snapshot) => {

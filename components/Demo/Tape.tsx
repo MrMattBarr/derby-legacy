@@ -1,5 +1,4 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import AppLoading from "expo-app-loading";
 import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
@@ -81,7 +80,7 @@ const Tape = observer(() => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <></>;
   }
 
   const image = {
@@ -93,7 +92,6 @@ const Tape = observer(() => {
       <ImageBackground source={image} resizeMode="repeat" style={s.bgTexture} />
       <Screws />
       <TapeLabel />
-      <Controls playDemo={playDemo} status={active.status} />
     </View>
   );
 });

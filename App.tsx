@@ -12,13 +12,12 @@ import { DemosProvider } from "./contexts/DemosContext";
 import { PlaybackProvider } from "./contexts/PlaybackContext";
 import { ReactiveProvider } from "./contexts/ReactiveContext";
 import { SpotsProvider } from "./contexts/SpotsContext";
-import { UserProvider } from "./contexts/UserContext";
 import useCachedResources from "./hooks/useCachedResources";
 import { RootNavigator } from "./navigation";
 import linking from "./navigation/LinkingConfiguration";
 import { AuthStoreProvider } from "./stores/AuthStore";
 import { ModalStoreProvider } from "./stores/ModalStore";
-import { UsersStore, UsersStoreProvider } from "./stores/UsersStore";
+import { UsersStoreProvider } from "./stores/UsersStore";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

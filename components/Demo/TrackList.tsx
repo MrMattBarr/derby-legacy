@@ -1,17 +1,13 @@
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import { Text, View } from "../Themed";
-import AppLoading from "expo-app-loading";
+import { View } from "../Themed";
 
-import { LinearGradient } from "expo-linear-gradient";
-import { useFonts, Kalam_400Regular } from "@expo-google-fonts/kalam";
-import PlayButton from "../PlayButton";
-import { useColors } from "../../hooks/useColorScheme";
-import useDemos from "../../contexts/DemosContext";
+import { useFonts } from "@expo-google-fonts/kalam";
 import { toJS } from "mobx";
-import Track from "./Track";
 import useDemo from "../../contexts/DemoContext";
+import { useColors } from "../../hooks/useColorScheme";
+import Track from "./Track";
 
 interface ITrackList {
   id: string;
@@ -51,7 +47,7 @@ const TrackList = observer(() => {
   });
 
   if (!fontsLoaded || !jsDemo?.spots) {
-    return <AppLoading />;
+    return <></>;
   }
 
   return (

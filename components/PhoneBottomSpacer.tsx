@@ -13,12 +13,9 @@ const PhoneBottomSpacer = () => {
   const styles = StyleSheet.create({
     clear: {
       backgroundColor: "transparent",
-      borderColor: "#fff2",
-      borderWidth: 1,
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      borderRadius: 4,
     },
     spacer: {
       ...Platform.select({
@@ -43,7 +40,6 @@ const PhoneBottomSpacer = () => {
   return (
     <View style={styles.spacer}>
       <View style={styles.clear}>
-        <Text>Navigation</Text>
         <IconButton icon="user" onPress={openLogin} />
       </View>
     </View>

@@ -98,6 +98,15 @@ const mainStyles = (colors: any) => {
       justifyContent: "center",
       backgroundColor: "#3339",
       display: "flex",
+      ...Platform.select({
+        web: {
+          paddingHorizontal: 20,
+          paddingVertical: 30,
+        },
+        native: {
+          paddingVertical: 80,
+        },
+      }),
     },
     modalHeader: {
       paddingHorizontal: 20,

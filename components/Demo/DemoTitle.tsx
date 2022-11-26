@@ -1,5 +1,4 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import AppLoading from "expo-app-loading";
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet } from "react-native";
@@ -34,7 +33,7 @@ const DemoTitle = observer(() => {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <></>;
   }
 
   return (
