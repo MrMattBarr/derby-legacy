@@ -1,15 +1,5 @@
-import { Entypo, FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import {
-  Share,
-  View,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-} from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { useColors } from "../hooks/useColorScheme";
+import { Share } from "react-native";
 import IconButton from "./IconButton";
 
 interface IShareButton {
@@ -36,7 +26,7 @@ const ShareButton = ({ message }: IShareButton) => {
     }
   };
 
-  return <IconButton inverted size={40} onPress={onShare} icon="share" />;
+  return <IconButton size={40} label="SHARE" onPress={onShare} icon="share" />;
 };
 
 export default ShareButton;

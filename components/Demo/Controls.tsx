@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import useDemo from "../../contexts/DemoContext";
 import { PlayState } from "../../contexts/PlaybackContext";
+import { useColors } from "../../hooks/useColorScheme";
 import PlayButton from "../PlayButton";
 import ShareButton from "../ShareButton";
 import { View } from "../Themed";
@@ -13,25 +14,33 @@ interface IControls {
   status?: PlayState;
 }
 const Tape = observer(({ playDemo, status }: IControls) => {
-  const { isOwner } = useDemo();
+  const { isOwner, demo } = useDemo();
   const s = StyleSheet.create({
     controls: {
       display: "flex",
-      padding: 10,
-      justifyContent: "center",
+      marginVertical: 10,
+      borderRadius: 5,
+      borderTopRightRadius: 0,
+      borderTopLeftRadius: 0,
+      alignContent: "stretch",
       flexDirection: "row",
       flexGrow: 1,
-      borderColor: "#000",
+      borderColor: "#bcac8b",
       alignItems: "center",
       backgroundColor: "transparent",
+      borderBottomWidth: 1,
+      borderLeftWidth: 1,
+      borderRightWidth: 1,
     },
   });
+  const shareButtonLink = `derbydemos.app/demos/${demo?.id}`;
+  const shareMessage = `Check out this demo created on Derby.\n${demo?.title} - ${demo?.userId}\n\n ${shareButtonLink}`;
 
   return (
     <View style={s.controls}>
-      {isOwner && <EditButton />}
       <PlayButton onToggle={playDemo} playing={status == PlayState.PLAYING} />
-      <ShareButton message="what a cool fish" />
+      <ShareButton message={shareMessage} />
+      {isOwner && <EditButton />}
     </View>
   );
 });

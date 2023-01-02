@@ -12,6 +12,7 @@ import {
   remove,
   set,
   update,
+  push,
 } from "firebase/database";
 import {
   getDownloadURL,
@@ -21,6 +22,7 @@ import {
   uploadBytesResumable,
   UploadTaskSnapshot,
 } from "firebase/storage";
+import { toJS } from "mobx";
 import Demo from "./types/Demo";
 import Spot from "./types/Spot";
 import User from "./types/User";
@@ -54,15 +56,16 @@ const registerUser = (user: User) => {
   console.log(`New user registered: ${user.id}`);
 };
 
+const registerDemoToUser = (userId: string, demoId: string) => {
+  const db = getDatabase();
+  const reference = `users/${userId}/demos/${demoId}`;
+  set(dbRef(db, reference), true);
+};
+
 const registerSpot = (spot: Partial<Spot>) => {
   const db = getDatabase();
   const reference = `users/${spot.author}/spots/${spot.id}`;
   console.log({ reference });
-  set(dbRef(db, reference), true);
-};
-const registerDemo = (demo: Partial<Demo>) => {
-  const db = getDatabase();
-  const reference = `users/${demo.userId}/demos/${demo.id}`;
   set(dbRef(db, reference), true);
 };
 
@@ -189,17 +192,48 @@ const deleteDemo = (id: string) => {
   remove(demoRef);
 };
 
-const uploadDemo = (demo: Demo) => {
+const createDemo = async (demo: Partial<Demo>) => {
+  if (!!demo.id) {
+    throw new Error(
+      "Upload Demo isn't meant for demos that already have an ID"
+    );
+  }
+  if (!demo.userId) {
+    throw new Error("Can't createa demo without a userId");
+  }
   const db = getDatabase();
-  const uploadName = `demos/${demo.id}`;
-  set(dbRef(db, uploadName), demo);
-  registerDemo(demo);
+  const uploadPromise = new Promise<Demo>((resolve, reject) => {
+    console.log({ demo });
+    push(dbRef(db, "demos"), demo)
+      .then(({ key }) => {
+        if (!key) {
+          throw new Error("No key was returned for demo creation");
+        }
+        demo.id = key;
+        registerDemoToUser(demo.userId!, key);
+        resolve(demo as Demo);
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+  const newDemo = await uploadPromise;
+  return newDemo;
 };
 
 const updateSpot = (spot: Partial<Spot>) => {
   const db = getDatabase();
   const spotLocation = `spots/${spot.id}`;
   update(dbRef(db, spotLocation), spot);
+};
+
+const updateDemo = (demo: Partial<Demo>) => {
+  const copy = { ...toJS(demo) };
+  console.log(copy);
+  delete copy.id;
+  const db = getDatabase();
+  const demoLocation = `demos/${demo.id}`;
+  update(dbRef(db, demoLocation), copy);
 };
 
 export interface FirebaseUserCredentials {
@@ -212,7 +246,6 @@ const createAccount = ({ email, password }: FirebaseUserCredentials) => {
     .then((userCredential) => {
       // Signed in
       const user = userCredential.user;
-      console.log({ user });
       // ...
     })
     .catch((error) => {
@@ -242,7 +275,7 @@ const signIn = async ({ email, password }: FirebaseUserCredentials) => {
 export {
   loadSpotAudio,
   uploadFile,
-  uploadDemo,
+  createDemo,
   subscribeToUserSpots,
   fetchSpot,
   fetchUser,
@@ -251,8 +284,8 @@ export {
   deleteDemo,
   registerUser,
   updateSpot,
+  updateDemo,
   createAccount,
   signIn,
-  registerDemo,
 };
 export type { UploadFileArgs };

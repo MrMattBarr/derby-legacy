@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Text } from "../components/Themed";
-import Avatar from "../components/Avatar";
+import Avatar from "./Avatar";
 import { SpotsProvider } from "../contexts/SpotsContext";
 
 export default function User() {

@@ -1,36 +1,33 @@
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
-import { Platform, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useColors } from "../hooks/useColorScheme";
 
-interface IIconButton {
+interface IPlayerButton {
   size?: number;
   onPress: () => void;
   icon: string;
-  inverted?: boolean;
+  first?: boolean;
   label?: string;
 }
 
-const IconButton = ({ size, onPress, icon, inverted, label }: IIconButton) => {
+const PlayerButton = ({ size, onPress, icon, first, label }: IPlayerButton) => {
   const finalSize = size ?? 50;
-  const colors = useColors();
   const styles = StyleSheet.create({
     appButton: {
-      marginHorizontal: 5,
       fontSize: 12,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      width: finalSize,
-      height: finalSize,
-
-      ...Platform.select({
-        web: {
-          borderWidth: 1,
-          borderRadius: 50,
-          backgroundColor: inverted ? colors.text : colors.brandBackground,
-        },
-      }),
+      flexGrow: 1,
+      alignSelf: "stretch",
+      borderLeftWidth: first ? 0 : 1,
+      borderLeftColor: "#bcac8b",
+    },
+    buttonText: {
+      marginTop: 10,
+      color: "#bcac8b",
+      fontSize: 15,
     },
   });
 
@@ -40,14 +37,10 @@ const IconButton = ({ size, onPress, icon, inverted, label }: IIconButton) => {
       style={styles.appButton}
       onPress={onPress}
     >
-      {/*  ts-ignore */}
-      <Entypo
-        name={icon as any}
-        size={finalSize * 0.65}
-        color={inverted ? colors.brandBackground : colors.text}
-      />
+      <Entypo name={icon as any} size={finalSize * 0.65} color="#bcac8b" />
+      {label && <Text style={styles.buttonText}>{label}</Text>}
     </TouchableOpacity>
   );
 };
 
-export default IconButton;
+export default PlayerButton;

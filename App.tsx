@@ -5,18 +5,17 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import AppModal from "./components/AppModal";
 import PhoneBottomSpacer from "./components/PhoneBottomSpacer";
 import PhoneTopSpacer from "./components/PhoneTopSpacer";
-import PlaybackModal from "./components/PlaybackModal";
 import WebHeader from "./components/WebHeader";
 import { ApiProvider } from "./contexts/ApiContext";
-import { DemosProvider } from "./contexts/DemosContext";
 import { PlaybackProvider } from "./contexts/PlaybackContext";
 import { ReactiveProvider } from "./contexts/ReactiveContext";
-import { SpotsProvider } from "./contexts/SpotsContext";
 import useCachedResources from "./hooks/useCachedResources";
 import { RootNavigator } from "./navigation";
 import linking from "./navigation/LinkingConfiguration";
 import { AuthStoreProvider } from "./stores/AuthStore";
+import { DemosStoreProvider } from "./stores/DemosStore";
 import { ModalStoreProvider } from "./stores/ModalStore";
+import { SpotsStoreProvider } from "./stores/SpotsStore";
 import { UsersStoreProvider } from "./stores/UsersStore";
 
 export default function App() {
@@ -32,8 +31,8 @@ export default function App() {
             <AuthStoreProvider>
               <ApiProvider>
                 <UsersStoreProvider>
-                  <SpotsProvider>
-                    <DemosProvider>
+                  <SpotsStoreProvider>
+                    <DemosStoreProvider>
                       <PlaybackProvider>
                         <ReactiveProvider>
                           <PhoneTopSpacer />
@@ -41,12 +40,11 @@ export default function App() {
                           <RootNavigator />
                           <PhoneBottomSpacer />
                           <AppModal />
-                          <PlaybackModal />
                           <StatusBar />
                         </ReactiveProvider>
                       </PlaybackProvider>
-                    </DemosProvider>
-                  </SpotsProvider>
+                    </DemosStoreProvider>
+                  </SpotsStoreProvider>
                 </UsersStoreProvider>
               </ApiProvider>
             </AuthStoreProvider>

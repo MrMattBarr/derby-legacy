@@ -9,7 +9,6 @@ import { View } from "../Themed";
 const Login = () => {
   const authStore = useAuth();
   const modalStore = useModal();
-  const user = authStore.user;
   const colors = useColors();
   const styles = mainStyles(colors);
   const emailRef = useRef<TextInput>(null);
@@ -43,7 +42,6 @@ const Login = () => {
         onChangeText={setPassword}
         onSubmitEditing={authenticate}
       />
-      <Text>{user?.email}</Text>
     </View>
   );
 };

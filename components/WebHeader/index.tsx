@@ -2,14 +2,15 @@ import { Link } from "@react-navigation/native";
 import React from "react";
 import { Platform } from "react-native";
 import { useColors } from "../../hooks/useColorScheme";
-import { mainStyles } from "../../listStyles";
 import Nothing from "../Nothing";
 import { View } from "../Themed";
 import SignInButton from "./SignInButton";
+import { generateStyles } from "./styles";
 
 const WebHeader = () => {
   const colors = useColors();
-  const styles = mainStyles(colors);
+  const styles = generateStyles(colors);
+
   return (
     <View style={styles.webHeader}>
       <Link to="/home" style={styles.headerHomeLink}>

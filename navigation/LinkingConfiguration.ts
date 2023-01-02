@@ -13,7 +13,8 @@ const linking: LinkingOptions<RootStackParamList> = {
   prefixes: [Linking.makeUrl("/")],
   config: {
     screens: {
-      DemoBuilder: "demos/new",
+      DemoGenerationPage: "demos/new",
+      DemoBuilder: "demos/:id/edit",
       DemoDetail: "demos/:id",
       Projects: "projects",
       Demos: "demos",

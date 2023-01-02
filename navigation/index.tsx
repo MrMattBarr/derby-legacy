@@ -12,10 +12,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import DemoDetail from "../components/Demo";
-import Demos from "../components/Demos";
+import DemoPage from "../components/Demo";
+import DemoBuilder from "../components/DemoBuilder";
+import Demos from "../components/DemosPage/Demos";
 import WelcomePage from "../components/WelcomePage";
-import DemoBuilder from "../screens/DemoBuilder";
+import DemoGenerationPage from "../screens/DemoGenerationPage";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
@@ -48,12 +49,17 @@ export const RootNavigator = observer(() => {
       <Stack.Screen
         name="Welcome"
         component={WelcomePage}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, title: "Derby Demos" }}
+      />
+      <Stack.Screen
+        name="DemoGenerationPage"
+        component={DemoGenerationPage}
+        options={{ headerShown: false, title: "Derby Demos" }}
       />
       <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}
-        options={{ headerShown: false }}
+        options={{ headerShown: false, title: "Derby Demos" }}
       />
       <Stack.Screen
         name="NotFound"
@@ -62,7 +68,7 @@ export const RootNavigator = observer(() => {
       />
       <Stack.Screen
         name="DemoDetail"
-        component={DemoDetail}
+        component={DemoPage}
         options={{ headerShown: false }}
       />
       <Stack.Screen

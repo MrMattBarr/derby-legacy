@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
+import { Theme } from "../constants/Colors";
 
-const mainStyles = (colors: any) => {
+const mainStyles = (colors: Theme) => {
   return StyleSheet.create({
     header: {
       display: "flex",
@@ -33,7 +34,8 @@ const mainStyles = (colors: any) => {
       borderWidth: 2,
     },
     page: {
-      backgroundColor: colors.brandBackground,
+      backgroundColor: colors.Backgrounds.default,
+      color: colors.Text.default,
       flexGrow: 1,
     },
     pageContent: {
@@ -75,7 +77,7 @@ const mainStyles = (colors: any) => {
       flexGrow: 1,
     },
     headerText: {
-      color: colors.text,
+      color: colors.Text.default,
       fontSize: 20,
       fontWeight: "bold",
     },
@@ -107,6 +109,10 @@ const mainStyles = (colors: any) => {
           paddingVertical: 80,
         },
       }),
+    },
+    list: {
+      flex: 1,
+      backgroundColor: colors.Backgrounds.primary,
     },
     modalHeader: {
       paddingHorizontal: 20,

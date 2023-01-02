@@ -1,15 +1,14 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import Colors from "../constants/Colors";
-import useColorScheme, { useColors } from "../hooks/useColorScheme";
+import { useColors } from "../hooks/useColorScheme";
 import ToggleButton from "./ToggleButton";
 
-interface IPlayButton {
+interface IAddSubtractButton {
   isAdd?: boolean;
   onToggle?: () => void;
 }
 
-const PlayButton = ({ onToggle, isAdd }: IPlayButton) => {
+const AddSubtractButton = ({ onToggle, isAdd }: IAddSubtractButton) => {
   const colors = useColors();
   return (
     <ToggleButton
@@ -25,4 +24,4 @@ const PlayButton = ({ onToggle, isAdd }: IPlayButton) => {
   );
 };
 
-export default PlayButton;
+export default AddSubtractButton;

@@ -1,13 +1,15 @@
+import { useLinkTo } from "@react-navigation/native";
 import React from "react";
-import { Platform, StyleSheet, useColorScheme } from "react-native";
-import Colors from "../constants/Colors";
+import { Platform, StyleSheet } from "react-native";
+import { useColors } from "../hooks/useColorScheme";
 import { useModal } from "../stores/ModalStore";
-import IconButton from "./IconButton";
+import TextButton from "./Buttons/TextButton";
 import Nothing from "./Nothing";
-import { Text, View } from "./Themed";
+import { View } from "./Themed";
 
 const PhoneBottomSpacer = () => {
-  const colorScheme = useColorScheme() || "dark";
+  const linkTo = useLinkTo();
+  const colors = useColors();
   const modalStore = useModal();
 
   const styles = StyleSheet.create({
@@ -25,9 +27,9 @@ const PhoneBottomSpacer = () => {
           flexDirection: "row",
           justifyContent: "center",
           alignContent: "center",
-          borderColor: "#bcac8b",
+          borderColor: colors.Borders.default,
           borderTopWidth: 1,
-          backgroundColor: Colors[colorScheme].accentBG,
+          backgroundColor: colors.Backgrounds.secondary,
           width: "100%",
         },
       }),
@@ -40,7 +42,12 @@ const PhoneBottomSpacer = () => {
   return (
     <View style={styles.spacer}>
       <View style={styles.clear}>
-        <IconButton icon="user" onPress={openLogin} />
+        <TextButton
+          onPress={() => {
+            linkTo("/demos");
+          }}
+          label="Demos"
+        />
       </View>
     </View>
   );

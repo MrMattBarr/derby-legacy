@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
+import { Theme } from "./constants/Colors";
 
-export const mainStyles = (colors: any) => {
+export const mainStyles = (colors: Theme) => {
   return StyleSheet.create({
     header: {
       display: "flex",
@@ -32,22 +33,11 @@ export const mainStyles = (colors: any) => {
       borderColor: colors.hardBorder,
       borderWidth: 2,
     },
-    page: {
-      backgroundColor: colors.brandBackground,
-      flexGrow: 1,
-    },
-    pageContent: {
-      ...Platform.select({
-        web: {
-          padding: 20,
-        },
-      }),
-    },
     webHeader: {
       borderBottomWidth: 1,
       backgroundColor: colors.tintedBrandBackground,
       userSelect: "none",
-      color: colors.text,
+      color: colors.Text.default,
       fontFamily: "Arial",
       fontSize: "1.4rem",
       flexDirection: "row",
@@ -110,10 +100,9 @@ export const listStyle = (colors: any) =>
       paddingVertical: 5,
       backgroundColor: "#fffb",
     },
-    title: {
-      color: colors.text,
-      fontWeight: "bold",
-      fontSize: 20,
+    spacer: {
+      flexGrow: 1,
+      backgroundColor: "transparent",
     },
     textHolder: {
       opacity: 0.8,
@@ -137,19 +126,5 @@ export const listStyle = (colors: any) =>
       marginBottom: 5,
       color: colors.buttonFG,
       flexWrap: "wrap",
-    },
-    spacer: {
-      flexGrow: 1,
-      backgroundColor: "transparent",
-    },
-    mainContent: {
-      backgroundColor: "transparent",
-      flexGrow: 1,
-    },
-    header: {
-      flex: 1,
-      flexDirection: "row",
-      backgroundColor: "transparent",
-      justifyContent: "space-between",
     },
   });

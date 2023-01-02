@@ -2,15 +2,17 @@ import { useFonts } from "@expo-google-fonts/kalam";
 import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { Animated, Easing, ImageBackground, StyleSheet } from "react-native";
+import { Animated, Easing, ImageBackground } from "react-native";
 import useDemo from "../../contexts/DemoContext";
 import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
+import { useColors } from "../../hooks/useColorScheme";
 import { View } from "../Themed";
-import Controls from "./Controls";
 import Screws from "./Screws";
+import { generateStyles } from "./styles";
 import TapeLabel from "./TapeLabel";
 
 const Tape = observer(() => {
+  const colors = useColors();
   const { active } = usePlayback();
   const [spin, setSpin] = useState<
     Animated.AnimatedInterpolation<number> | undefined
@@ -53,31 +55,7 @@ const Tape = observer(() => {
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
 
-  const s = StyleSheet.create({
-    tape: {
-      borderWidth: 2,
-      borderColor: "black",
-      position: "relative",
-      backgroundColor: "#3f79b3",
-      maxWidth: 500,
-      aspectRatio: 1.6,
-      borderRadius: 10,
-      minWidth: 400,
-      minHeight: 250,
-      display: "flex",
-      flexDirection: "column",
-      padding: 20,
-      paddingBottom: 0,
-    },
-    bgTexture: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      flexGrow: 1,
-    },
-  });
+  const styles = generateStyles(colors);
 
   if (!fontsLoaded) {
     return <></>;
@@ -88,8 +66,12 @@ const Tape = observer(() => {
   };
 
   return (
-    <View style={s.tape}>
-      <ImageBackground source={image} resizeMode="repeat" style={s.bgTexture} />
+    <View style={styles.tape}>
+      <ImageBackground
+        source={image}
+        resizeMode="repeat"
+        style={styles.tapeBgTexture}
+      />
       <Screws />
       <TapeLabel />
     </View>

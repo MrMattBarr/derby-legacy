@@ -3,31 +3,34 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
-import Colors from "../constants/Colors";
-import useDemos from "../contexts/DemosContext";
-import usePlayback from "../contexts/PlaybackContext";
-import useSpots from "../contexts/SpotsContext";
-import useColorScheme from "../hooks/useColorScheme";
-import { listStyle } from "../listStyles";
-import BackgroundProgressBar from "./BackgroundProgressBar";
-import PlayButton from "./PlayButton";
-import { Text, View } from "./Themed";
+import Colors from "../../constants/Colors";
+import usePlayback from "../../contexts/PlaybackContext";
+import useColorScheme, { useColors } from "../../hooks/useColorScheme";
+import { listStyle } from "../../listStyles";
+import { useDemos } from "../../stores/DemosStore";
+import { useSpots } from "../../stores/SpotsStore";
+import { Visibility } from "../../types/Demo";
+import BackgroundProgressBar from "../BackgroundProgressBar";
+import PlayButton from "../Buttons/PlayButton";
+import { Text, View } from "../Themed";
+import { generateStyles } from "./styles";
 
 interface IDemoLine {
   demoId: string;
 }
 
 const DemoLine = observer(({ demoId }: IDemoLine) => {
-  const colorScheme = useColorScheme();
+  const colors = useColors();
   const linkTo = useLinkTo();
-  const { play } = usePlayback();
   const [activeSpot, setActiveSpot] = useState(-1);
-  const styles = listStyle(Colors[colorScheme]);
-  const { demos } = useDemos();
+  const { listItem, foreground, mainContent, header, title } =
+    generateStyles(colors);
+  const demoStore = useDemos();
   const { spots } = useSpots();
   const jsSpots = toJS(spots);
-  const demo = toJS(demos[demoId]);
-  const demoSpots = demo.spots.map((id) => (jsSpots || {})[id]);
+  const demo = demoStore.demos[demoId];
+
+  const demoSpots = demo?.spots?.map((id) => (jsSpots || {})[id]) ?? [];
   const progressPercent = 0;
 
   const goToDemo = () => {
@@ -52,22 +55,18 @@ const DemoLine = observer(({ demoId }: IDemoLine) => {
   }, [activeSpot]);
 
   const togglePlay = () => {
-    setActiveSpot(0);
-    play({ type: "DEMO", id: demoId });
+    console.log({ demo });
   };
 
+  console.log(toJS(demo));
+
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={goToDemo}
-      style={styles.listItem}
-    >
-      <View style={styles.foreground}>
-        <PlayButton onToggle={togglePlay} playing={false} />
-        <View style={styles.mainContent}>
-          <View style={styles.header}>
-            <Text style={styles.title}>{demo?.title}</Text>
-            <View style={styles.spacer} />
+    <TouchableOpacity activeOpacity={0.7} onPress={goToDemo} style={listItem}>
+      <View style={foreground}>
+        <PlayButton onToggle={togglePlay} />
+        <View style={mainContent}>
+          <View style={header}>
+            <Text style={title}>{demo?.title}</Text>
           </View>
         </View>
       </View>

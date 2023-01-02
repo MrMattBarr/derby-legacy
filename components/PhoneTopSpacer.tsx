@@ -2,19 +2,20 @@ import React from "react";
 import { Platform, StyleSheet, useColorScheme } from "react-native";
 import { View } from "../components/Themed";
 import Colors from "../constants/Colors";
+import { useColors } from "../hooks/useColorScheme";
 
 export default function PhoneTopSpacer({ children }: any) {
-  const colorScheme = useColorScheme() || "dark";
+  const colors = useColors();
 
   const styles = StyleSheet.create({
     spacer: {
       ...Platform.select({
         native: {
           paddingTop: 60,
-          borderBottomColor: Colors[colorScheme].hardBorder,
+          borderBottomColor: colors.Borders.default,
         },
       }),
-      backgroundColor: Colors[colorScheme].accentBG,
+      backgroundColor: colors.Backgrounds.secondary,
     },
   });
 

@@ -30,7 +30,7 @@ const AppModal = observer(() => {
           <View style={styles.modalHeader}>
             <View style={{ flexGrow: 1 }} />
             <Pressable onPress={clearModal}>
-              <FontAwesome name="close" size={25} color={colors.text} />
+              <FontAwesome name="close" size={25} color={colors.Text.default} />
             </Pressable>
           </View>
           <View style={styles.modalBody}>

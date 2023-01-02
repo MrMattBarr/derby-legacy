@@ -1,10 +1,17 @@
+export enum Visibility {
+  PRIVATE = "Private",
+  PUBLIC = "Public",
+  DRAFT = "Draft",
+}
+
 type Demo = {
   title: string;
   summary?: string;
-  spots: string[];
+  spots?: string[];
   id: string;
   userId: string;
-  uploadDate: Date;
+  visibility: Visibility;
+  created: number;
 };
 
 export default Demo;

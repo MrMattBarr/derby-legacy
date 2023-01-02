@@ -1,3 +1,4 @@
+import { Link } from "@react-navigation/native";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { Platform, View } from "react-native";
@@ -13,10 +14,9 @@ const LoginPage = observer(() => {
   return (
     <View style={styles.page}>
       <View style={styles.pageContent}>
-        <DemoProvider id="E19GHG">
-          <Tape />
-          <TrackList />
-        </DemoProvider>
+        <Link to="/demos" style={styles.headerLink}>
+          Demos
+        </Link>
       </View>
     </View>
   );

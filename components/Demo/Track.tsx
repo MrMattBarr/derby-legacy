@@ -3,10 +3,10 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import useDemos from "../../contexts/DemosContext";
 import usePlayback from "../../contexts/PlaybackContext";
-import useSpots from "../../contexts/SpotsContext";
 import { useColors } from "../../hooks/useColorScheme";
+import { useDemos } from "../../stores/DemosStore";
+import { useSpots } from "../../stores/SpotsStore";
 import BackgroundProgressBar from "../BackgroundProgressBar";
 import { Text, View } from "../Themed";
 
@@ -21,7 +21,8 @@ const Track = observer(({ id, index }: ITrack) => {
   const jsActive = toJS(active);
   const spotsStore = useSpots();
   const { spots } = spotsStore;
-  const { demos } = useDemos();
+  const demoStore = useDemos();
+  const { demos } = demoStore;
   useEffect(() => {
     spotsStore.loadSpot(id);
   }, []);

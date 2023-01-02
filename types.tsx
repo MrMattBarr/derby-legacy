@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
   Modal: undefined;
   DemoBuilder: undefined;
+  DemoGenerationPage: undefined;
   Authenticated: undefined;
   DemoDetail: undefined;
   NotFound: undefined;
@@ -36,6 +37,7 @@ export type RootTabParamList = {
   Demos: undefined;
   DemoDetail: undefined;
   DemoBuilder: undefined;
+  DemoGenerationPage: undefined;
   Account: undefined;
   Authenticated: undefined;
 };

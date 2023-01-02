@@ -6,6 +6,7 @@ type UserProfile = {
 type User = {
   profile?: UserProfile;
   id: string;
+  demos: string[];
   isAnonymous: boolean;
 };
 
