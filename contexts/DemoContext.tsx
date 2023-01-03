@@ -1,11 +1,12 @@
-import { runInAction, toJS } from "mobx";
+import { computed, runInAction, toJS } from "mobx";
 import { observer } from "mobx-react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { updateDemo } from "../api";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
 import { useAuth } from "../stores/AuthStore";
 import { useDemos } from "../stores/DemosStore";
+import { useSpots } from "../stores/SpotsStore";
 import { useUsers } from "../stores/UsersStore";
 import Demo, { Visibility } from "../types/Demo";
 
@@ -19,6 +20,7 @@ type DemoStore = {
   setVisibility: (visibility: Visibility) => void;
   update: (update: DemoUpdate) => void;
   toggleSpot: (spotId: string) => void;
+  duration?: number;
 };
 
 interface IDemoContext {
@@ -29,13 +31,34 @@ interface IDemoContext {
 const DemoContext = React.createContext({} as DemoStore);
 export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   const demoStore = useDemos();
+  const spotsStore = useSpots();
   const users = useUsers();
 
+  const [duration, setDuration] = useState<number | undefined>();
   useEffect(() => {
     demoStore.loadDemo(id);
   }, [demoStore]);
 
   const demo = demoStore.demos[id];
+
+  const recalculateDuration = () => {
+    const spots = demo?.spots ?? [];
+    const newDuration = spots.reduce<number | undefined>((total, spotId) => {
+      const spot = spotsStore.spots[spotId];
+      const duration = spot?.length;
+      console.log(spot?.length);
+      if (!duration || total === undefined) {
+        return undefined;
+      }
+      return total + duration;
+    }, 0);
+    setDuration(newDuration);
+  };
+
+  useEffect(recalculateDuration, [demo?.spots]);
+  useEffect(() => {
+    console.log({ duration });
+  }, [duration]);
 
   useEffect(() => {
     if (demo?.userId) {
@@ -55,6 +78,7 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
       updateDemo(demo);
     });
   };
+
   const toggleSpot = (spotId: string) => {
     runInAction(() => {
       const spots = demo.spots ?? [];
@@ -70,11 +94,10 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   const authStore = useAuth();
   const { user } = authStore;
   const isOwner = demo?.userId === user?.uid && !!demo?.userId;
-  const demos = toJS(demoStore.demos);
-  console.log({ fish: demoStore.demos, demo, id, demos });
+
   return (
     <DemoContext.Provider
-      value={{ demo, isOwner, update, toggleSpot, setVisibility }}
+      value={{ demo, isOwner, update, toggleSpot, setVisibility, duration }}
     >
       {demo && children}
       {!demo && (

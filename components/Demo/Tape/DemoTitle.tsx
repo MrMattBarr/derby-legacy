@@ -2,8 +2,8 @@ import { useFonts } from "@expo-google-fonts/kalam";
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet } from "react-native";
-import useDemo from "../../contexts/DemoContext";
-import { Text, View } from "../Themed";
+import useDemo from "../../../contexts/DemoContext";
+import { Text, View } from "../../Themed";
 
 const DemoTitle = observer(() => {
   const { demo } = useDemo();
@@ -18,11 +18,9 @@ const DemoTitle = observer(() => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
+      flexGrow: 1,
       alignItems: "center",
-      position: "absolute",
-      top: 10,
       borderRadius: 4,
-      width: "90%",
       color: "black",
     },
     demoNameText: {

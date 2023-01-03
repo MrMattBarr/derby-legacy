@@ -5,7 +5,7 @@ import { useColors } from "../../hooks/useColorScheme";
 import Page from "../Page";
 import Controls from "./Controls";
 import { generateStyles } from "./styles";
-import Tape from "./Tape";
+import Tape from "./Tape/Tape";
 import TrackList from "./TrackList";
 
 const Preview = observer(() => {

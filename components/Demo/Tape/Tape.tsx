@@ -3,12 +3,12 @@ import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Animated, Easing, ImageBackground } from "react-native";
-import useDemo from "../../contexts/DemoContext";
-import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
-import { useColors } from "../../hooks/useColorScheme";
-import { View } from "../Themed";
+import useDemo from "../../../contexts/DemoContext";
+import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
+import { useColors } from "../../../hooks/useColorScheme";
+import { View } from "../../Themed";
 import Screws from "./Screws";
-import { generateStyles } from "./styles";
+import { generateStyles } from "../styles";
 import TapeLabel from "./TapeLabel";
 
 const Tape = observer(() => {

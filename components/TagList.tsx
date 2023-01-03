@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, useColorScheme } from "react-native";
 import Tag from "./Tag";
 
 export default function TagList({ tags }: { tags: string[] }) {
-  console.log({ tags });
   const styles = StyleSheet.create({
     container: {
       flexDirection: "row",

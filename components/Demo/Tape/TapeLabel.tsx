@@ -4,11 +4,11 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
-import usePlayback from "../../contexts/PlaybackContext";
-import { useColors } from "../../hooks/useColorScheme";
-import { View } from "../Themed";
-import DemoTitle from "./DemoTitle";
-import UserSummary from "./UserSummary";
+import usePlayback from "../../../contexts/PlaybackContext";
+import { useColors } from "../../../hooks/useColorScheme";
+import { View } from "../../Themed";
+import UserSummary from "../UserSummary";
+import FrontTitle from "./FrontTitle";
 
 const TapeLabel = observer(() => {
   const { active } = usePlayback();
@@ -27,7 +27,6 @@ const TapeLabel = observer(() => {
   const minDialSize = 50;
   const playableReelSize = totalReelSize - 2 * minDialSize;
 
-  const SCREW_SIZE = 20;
   const gearPadding = 10;
   const innerGearSize = 30;
   const lReelSize = minDialSize + remainingProgress * playableReelSize;
@@ -156,7 +155,7 @@ const TapeLabel = observer(() => {
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>
-      <DemoTitle />
+      <FrontTitle />
       <View style={s.gears}>
         <Animated.View style={[s.lReel, s.reel]}>
           <View style={[s.lMotionBlur]} />

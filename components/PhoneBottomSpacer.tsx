@@ -3,6 +3,8 @@ import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import { useColors } from "../hooks/useColorScheme";
 import { useModal } from "../stores/ModalStore";
+import { Sizes } from "../styles/sizes";
+import textStyles from "../styles/text";
 import TextButton from "./Buttons/TextButton";
 import Nothing from "./Nothing";
 import { View } from "./Themed";
@@ -29,6 +31,8 @@ const PhoneBottomSpacer = () => {
           alignContent: "center",
           borderColor: colors.Borders.default,
           borderTopWidth: 1,
+          zIndex: 3,
+          height: Sizes.PHONE_BOTTOM_NAV,
           backgroundColor: colors.Backgrounds.secondary,
           width: "100%",
         },

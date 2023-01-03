@@ -65,7 +65,6 @@ const registerDemoToUser = (userId: string, demoId: string) => {
 const registerSpot = (spot: Partial<Spot>) => {
   const db = getDatabase();
   const reference = `users/${spot.author}/spots/${spot.id}`;
-  console.log({ reference });
   set(dbRef(db, reference), true);
 };
 
@@ -86,7 +85,6 @@ const uploadFile = async ({
     }
   }
   const id = randomId();
-  console.log({ author });
   const uploadName = `/spots/${id}`;
   const storageRef = ref(storage, uploadName);
   const fetchResponse = await fetch(file!.uri);
@@ -203,7 +201,6 @@ const createDemo = async (demo: Partial<Demo>) => {
   }
   const db = getDatabase();
   const uploadPromise = new Promise<Demo>((resolve, reject) => {
-    console.log({ demo });
     push(dbRef(db, "demos"), demo)
       .then(({ key }) => {
         if (!key) {

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Colors";
 
 export const generateStyles = (colors: Theme) => {
@@ -9,8 +9,16 @@ export const generateStyles = (colors: Theme) => {
       alignItems: "center",
       justifyContent: "space-between",
       borderBottomWidth: 2,
-      backgroundColor: colors.Backgrounds.secondary,
       padding: 10,
+
+      ...Platform.select({
+        native: {
+          backgroundColor: colors.Backgrounds.secondary,
+        },
+        web: {
+          backgroundColor: colors.Backgrounds.default,
+        },
+      }),
     },
     pageNameAndIcon: {
       display: "flex",

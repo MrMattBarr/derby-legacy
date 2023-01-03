@@ -1,13 +1,14 @@
 import { ColorSchemeName } from "react-native";
 import App from "../App";
 
-enum AppColor {
+export enum AppColor {
   TRANSPARENT = "#00000000",
   PURE_WHITE = "#FFFFFF",
   SNOW_WHITE = "#EEEEEE",
   FADED_WHITE = "#CCCCCC",
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
+  CLEAR_TEAL = "#0e5c65CC",
   NEARLY_BLACK = "#090909",
   CHARCOAL = "#222222",
   HAT_RED = "#7d011e",
@@ -48,6 +49,7 @@ export interface Theme {
     empty: AppColor;
     contrast: AppColor;
     inputs: AppColor;
+    playback: AppColor;
   };
   Buttons: {
     foreground: AppColor;
@@ -81,6 +83,7 @@ const AppDarkTheme: Theme = {
     secondary: AppColor.TINTED_GRAY,
     empty: AppColor.STONE_GRAY,
     contrast: AppColor.SAND_BROWN,
+    playback: AppColor.CLEAR_TEAL,
     inputs: AppColor.NEARLY_BLACK,
   },
   Buttons: {

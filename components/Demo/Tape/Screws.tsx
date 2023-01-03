@@ -1,8 +1,8 @@
 import { toJS } from "mobx";
 import React from "react";
 import { StyleSheet } from "react-native";
-import usePlayback from "../../contexts/PlaybackContext";
-import { Text, View } from "../Themed";
+import usePlayback from "../../../contexts/PlaybackContext";
+import { Text, View } from "../../Themed";
 
 const Screws = () => {
   const SCREW_SIZE = 20;

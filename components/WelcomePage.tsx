@@ -5,7 +5,7 @@ import { Platform, View } from "react-native";
 import { DemoProvider } from "../contexts/DemoContext";
 import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
-import Tape from "./Demo/Tape";
+import Tape from "./Demo/Tape/Tape";
 import TrackList from "./Demo/TrackList";
 
 const LoginPage = observer(() => {

@@ -5,6 +5,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import AppModal from "./components/AppModal";
 import PhoneBottomSpacer from "./components/PhoneBottomSpacer";
 import PhoneTopSpacer from "./components/PhoneTopSpacer";
+import PlaybackModal from "./components/Playback";
 import WebHeader from "./components/WebHeader";
 import { ApiProvider } from "./contexts/ApiContext";
 import { PlaybackProvider } from "./contexts/PlaybackContext";
@@ -40,6 +41,7 @@ export default function App() {
                           <RootNavigator />
                           <PhoneBottomSpacer />
                           <AppModal />
+                          <PlaybackModal />
                           <StatusBar />
                         </ReactiveProvider>
                       </PlaybackProvider>

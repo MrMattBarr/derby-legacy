@@ -23,7 +23,6 @@ const DemoGenerationPage = observer(({ route }: IDemoPage) => {
   const { text } = textStyles(colors);
 
   const createDemo = async () => {
-    console.log({ uid, demoId, user: authStore.user, authStore });
     if (!uid || authStore.user?.isAnonymous) {
       return;
     }
@@ -35,17 +34,12 @@ const DemoGenerationPage = observer(({ route }: IDemoPage) => {
       created: Date.now(),
     };
     const uploadedDemo = await demoStore.createDemo(newDemo);
-    console.log({ uploadedDemo });
     linkTo(`/demos/${uploadedDemo.id}`);
   };
 
   useEffect(() => {
     createDemo();
   }, [demoId, uid, authStore.user]);
-
-  useEffect(() => {
-    console.log({ demo });
-  }, [demo, demoId]);
 
   return (
     <View style={page}>

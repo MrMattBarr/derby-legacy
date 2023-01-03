@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { Image } from "react-native";
 import useUser from "../../contexts/UserContext";
@@ -9,7 +10,7 @@ interface IAvatar {
   size?: number;
 }
 
-export default function Avatar({ size }: IAvatar) {
+const Avatar = observer(({ size }: IAvatar) => {
   const { user } = useUser();
   const src = { uri: user?.profile?.avatar };
   const colors = useColors();
@@ -20,4 +21,6 @@ export default function Avatar({ size }: IAvatar) {
       {!src && <View style={styles.avatarPlaceHolder} />}
     </>
   );
-}
+});
+
+export default Avatar;

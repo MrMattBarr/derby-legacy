@@ -39,7 +39,6 @@ const Visibility = observer(() => {
   const selected = { ...entry, ...selectedVisibility };
   const selectedText = { ...veText, ...selectedVisibilityText };
 
-  console.log({ selectedText });
   return (
     <View style={visibilityHolder}>
       <Text style={h2}>Visibility ({demo.visibility})</Text>

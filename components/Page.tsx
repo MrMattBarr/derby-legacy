@@ -5,10 +5,11 @@ import { generatePageStyles } from "../styles/page";
 
 interface IPage {
   children: React.ReactNode;
+  padded?: boolean;
 }
-const Page = ({ children }: IPage) => {
+const Page = ({ children, padded }: IPage) => {
   const colors = useColors();
-  const pageStyles = generatePageStyles(colors);
+  const pageStyles = generatePageStyles(colors, { padded });
   return (
     <View style={pageStyles.page}>
       <View style={pageStyles.pageContent}>{children}</View>
