@@ -1,14 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
-import useDemo, { DemoProvider } from "../../contexts/DemoContext";
-import DemoBuilder from "../DemoBuilder";
-import Page from "../Page";
-import Loading from "./Loading";
+import { DemoProvider } from "../../contexts/DemoContext";
 import Preview from "./Preview";
-
-const ServedView = () => {
-  return <Preview />;
-};
 
 export interface IDemoPage {
   route: {
@@ -22,11 +15,10 @@ const DemoPage = observer(({ route }: IDemoPage) => {
   const { id } = route?.params;
   return (
     <DemoProvider id={id}>
-      <Page>
-        <ServedView />
-      </Page>
+      <Preview />
     </DemoProvider>
   );
+  i;
 });
 
 export default DemoPage;

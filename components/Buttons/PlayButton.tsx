@@ -15,10 +15,15 @@ const PlayButton = ({ onToggle, isAdd }: IPlayButton) => {
       isActive={isAdd}
       onToggle={onToggle}
       InactiveIcon={() => (
-        <FontAwesome name="play" size={25} color={colors.buttonFG} />
+        <FontAwesome
+          name="play"
+          size={25}
+          color={colors.Buttons.foreground}
+          style={{ marginLeft: 4 }}
+        />
       )}
       ActiveIcon={() => (
-        <FontAwesome name="pause" size={25} color={colors.buttonFG} />
+        <FontAwesome name="pause" size={25} color={colors.Buttons.foreground} />
       )}
     />
   );

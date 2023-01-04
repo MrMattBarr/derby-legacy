@@ -45,37 +45,33 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootNavigator = observer(() => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: { backgroundColor: "transparent" },
+        contentStyle: {
+          backgroundColor: "transparent",
+        },
+      }}
+    >
       <Stack.Screen
         name="Welcome"
         component={WelcomePage}
-        options={{ headerShown: false, title: "Derby Demos" }}
+        options={{ title: "Derby Demos" }}
       />
       <Stack.Screen
         name="DemoGenerationPage"
         component={DemoGenerationPage}
-        options={{ headerShown: false, title: "Derby Demos" }}
+        options={{ title: "Derby Demos" }}
       />
       <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}
-        options={{ headerShown: false, title: "Derby Demos" }}
+        options={{ title: "Derby Demos" }}
       />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="DemoDetail"
-        component={DemoPage}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Demos"
-        component={Demos}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="NotFound" component={NotFoundScreen} />
+      <Stack.Screen name="DemoDetail" component={DemoPage} />
+      <Stack.Screen name="Demos" component={Demos} />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>

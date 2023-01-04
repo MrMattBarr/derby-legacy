@@ -23,7 +23,7 @@ const Header = observer(() => {
   const { user } = useUser();
   const { header, pageName, pageNameAndIcon } = generateStyles(colors);
   return (
-    <View style={{ ...pageStyles.pageContent, ...header }}>
+    <View style={{ ...pageStyles.section, ...header }}>
       <View style={pageNameAndIcon}>
         <Avatar />
         <View style={pageName}>

@@ -8,6 +8,7 @@ import { toJS } from "mobx";
 import useDemo from "../../contexts/DemoContext";
 import { useColors } from "../../hooks/useColorScheme";
 import Track from "./Track";
+import { Sizes } from "../../styles/sizes";
 
 interface ITrackList {
   id: string;
@@ -22,27 +23,16 @@ const TrackList = observer(() => {
   });
   const s = StyleSheet.create({
     trackList: {
-      borderColor: "#bcac8b",
+      borderColor: colors.Borders.dramatic,
       backgroundColor: "transparent",
       maxWidth: 500,
     },
     listHolder: {
-      backgroundColor: colors.accentBG,
-      borderRadius: 5,
-      borderColor: "#bcac8b",
-      borderWidth: 3,
-    },
-    track: {
-      backgroundColor: "transparent",
-      borderBottomWidth: 1,
-      borderBottomColor: "#bcac8b99",
-    },
-    lastTrack: {
-      borderBottomWidth: 0,
-    },
-    trackText: {
-      fontFamily: "Kalam",
-      color: "#bcac8b",
+      marginTop: Sizes.Spacings.STANDARD,
+      backgroundColor: colors.Backgrounds.primary,
+      borderRadius: Sizes.CURVED_BORDER,
+      borderColor: colors.Borders.dramatic,
+      borderWidth: 2,
     },
   });
 

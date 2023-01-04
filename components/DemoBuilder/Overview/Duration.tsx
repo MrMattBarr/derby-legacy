@@ -10,8 +10,8 @@ const Duration = observer(() => {
   const { duration } = useDemo();
   return (
     <View style={labelAndText}>
-      <Text style={label}>Duration:</Text>
-      <Text style={text}>{duration}</Text>
+      <Text style={label}>Duration: </Text>
+      <Text style={text}>{duration} seconds</Text>
     </View>
   );
 });

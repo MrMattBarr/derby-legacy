@@ -4,13 +4,13 @@ import { FlatList } from "react-native";
 import { DemoProvider } from "../../contexts/DemoContext";
 import useUser from "../../contexts/UserContext";
 import { useColors } from "../../hooks/useColorScheme";
-import main from "../../styles/main";
 import DemoLine from "../DemoLine";
+import { generateStyles } from "./styles";
 
 const UserDemoList = observer(() => {
   const { user } = useUser();
   const colors = useColors();
-  const { list } = main(colors);
+  const { list } = generateStyles(colors);
   if (!user) {
     return <></>;
   }

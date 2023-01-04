@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
+import useColorScheme, { useColors } from "../hooks/useColorScheme";
 import * as Haptics from "expo-haptics";
 
 interface IToggleButton {
@@ -17,7 +17,7 @@ export default function ToggleButton({
   InactiveIcon,
   ActiveIcon,
 }: IToggleButton) {
-  const colorScheme = useColorScheme();
+  const colors = useColors();
   const happyHaptic = () => {
     console.log("happy haptics");
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -25,16 +25,14 @@ export default function ToggleButton({
   const styles = StyleSheet.create({
     button: {
       borderWidth: 1,
-      borderColor: "black",
+      borderColor: colors.Buttons.foreground,
       borderRadius: 50,
-      marginRight: 10,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       width: 50,
       height: 50,
-      backgroundColor: Colors[colorScheme!].buttonBG,
-      color: Colors[colorScheme!].text,
+      color: colors.Buttons.foreground,
     },
   });
 

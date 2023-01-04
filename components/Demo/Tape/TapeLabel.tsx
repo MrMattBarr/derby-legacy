@@ -1,9 +1,9 @@
-import { useFonts } from "@expo-google-fonts/kalam";
 import { LinearGradient } from "expo-linear-gradient";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
+import { AppColor } from "../../../constants/Colors";
 import usePlayback from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
@@ -59,10 +59,6 @@ const TapeLabel = observer(() => {
   };
 
   const colors = useColors();
-
-  const [fontsLoaded] = useFonts({
-    Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
-  });
 
   const s = StyleSheet.create({
     label: {
@@ -137,21 +133,13 @@ const TapeLabel = observer(() => {
     gear: {
       borderColor: "black",
       borderWidth: 1,
-      backgroundColor: "#ddd",
+      backgroundColor: AppColor.SNOW_WHITE,
       height: innerGearSize,
       width: innerGearSize,
       borderRadius: innerGearSize,
       margin: gearPadding,
     },
   });
-
-  if (!fontsLoaded) {
-    return <></>;
-  }
-
-  const image = {
-    uri: "https://www.transparenttextures.com/patterns/skulls.png",
-  };
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>

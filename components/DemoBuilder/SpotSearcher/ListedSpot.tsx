@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { Pressable, TouchableOpacity } from "react-native";
 import useDemo from "../../../contexts/DemoContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { useSpots } from "../../../stores/SpotsStore";
@@ -15,12 +15,17 @@ const ListedSpot = observer(({ spotId }: IListedSpot) => {
   const colors = useColors();
   const { listedSpot, listedSpotText } = generateStyles(colors);
   const spotStore = useSpots();
+  const { toggleSpot } = useDemo();
   const spot = spotStore.spots[spotId];
 
+  const toggle = () => {
+    toggleSpot(spotId);
+  };
+
   return (
-    <View style={listedSpot}>
+    <Pressable style={listedSpot} onPress={toggle}>
       <Text style={listedSpotText}>{spot?.title}</Text>
-    </View>
+    </Pressable>
   );
 });
 

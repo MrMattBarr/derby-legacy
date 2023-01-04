@@ -18,8 +18,9 @@ const PhoneBottomSpacer = () => {
     clear: {
       backgroundColor: "transparent",
       display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
+      flexGrow: 1,
+      flexDirection: "row",
+      justifyContent: "space-evenly",
     },
     spacer: {
       ...Platform.select({
@@ -46,6 +47,12 @@ const PhoneBottomSpacer = () => {
   return (
     <View style={styles.spacer}>
       <View style={styles.clear}>
+        <TextButton
+          onPress={() => {
+            linkTo("/home");
+          }}
+          label="Home"
+        />
         <TextButton
           onPress={() => {
             linkTo("/demos");

@@ -16,10 +16,11 @@ export const generateStyles = (colors: Theme) => {
           backgroundColor: colors.Backgrounds.secondary,
         },
         web: {
-          backgroundColor: colors.Backgrounds.default,
+          backgroundColor: colors.Backgrounds.primary,
         },
       }),
     },
+    list: { flex: 1 },
     pageNameAndIcon: {
       display: "flex",
       flexDirection: "row",

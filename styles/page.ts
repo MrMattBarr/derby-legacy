@@ -1,26 +1,34 @@
 import { Platform, StyleSheet } from "react-native";
-import { Theme } from "../constants/Colors";
+import { AppColor, Theme } from "../constants/Colors";
 import { Sizes } from "./sizes";
 
 interface IPageStyle {
   padded?: boolean;
+  unpadded?: boolean;
+  opaque?: boolean;
 }
 export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
-  const padded = props?.padded;
+  const { padded, unpadded, opaque } = props ?? {};
+
+  const section = Platform.select({
+    web: {
+      padding: unpadded ? 0 : Sizes.Spacings.STANDARD,
+    },
+    native: {
+      padding: padded ? Sizes.Spacings.STANDARD : 0,
+    },
+  });
   return StyleSheet.create({
     page: {
-      backgroundColor: colors.Backgrounds.primary,
       flexGrow: 1,
+      backgroundColor: opaque
+        ? colors.Backgrounds.primary
+        : AppColor.TRANSPARENT,
     },
     pageContent: {
-      ...Platform.select({
-        web: {
-          padding: 20,
-        },
-        native: {
-          padding: padded ? Sizes.Spacings.STANDARD : 0,
-        },
-      }),
+      ...section,
+      flexGrow: 1,
     },
+    section: { ...section },
   });
 };

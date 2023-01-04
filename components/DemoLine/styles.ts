@@ -10,7 +10,7 @@ export const generateStyles = (colors: Theme, props?: ITapeStyle) => {
   return StyleSheet.create({
     listItem: {
       color: colors.Text.default,
-      backgroundColor: background ?? colors.Backgrounds.empty,
+      backgroundColor: background ?? colors.Backgrounds.default,
       marginBottom: Sizes.Spacings.SMALL,
       padding: Sizes.Spacings.STANDARD,
     },

@@ -3,8 +3,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import useDemo from "../../contexts/DemoContext";
 import { PlayState } from "../../contexts/PlaybackContext";
-import { useColors } from "../../hooks/useColorScheme";
-import PlayButton from "../PlayButton";
+import PlayButton from "../Buttons/PlayButton";
 import ShareButton from "../ShareButton";
 import { View } from "../Themed";
 import EditButton from "./EditButton";
@@ -38,7 +37,7 @@ const Tape = observer(({ playDemo, status }: IControls) => {
 
   return (
     <View style={s.controls}>
-      <PlayButton onToggle={playDemo} playing={status == PlayState.PLAYING} />
+      <PlayButton onToggle={playDemo} />
       <ShareButton message={shareMessage} />
       {isOwner && <EditButton />}
     </View>

@@ -13,6 +13,7 @@ import { ParameterPage } from "../../types/ParameterPage";
 import { useAuth } from "../../stores/AuthStore";
 import UserDemoList from "./UserDemoList";
 import { generatePageStyles } from "../../styles/page";
+import Page from "../Page";
 
 const Demos = observer(({ route }: ParameterPage) => {
   const demos = useDemos();
@@ -27,10 +28,10 @@ const Demos = observer(({ route }: ParameterPage) => {
   }
   return (
     <UserProvider id={id}>
-      <View style={styles.page}>
+      <Page unpadded>
         <Header />
         <UserDemoList />
-      </View>
+      </Page>
     </UserProvider>
   );
 });

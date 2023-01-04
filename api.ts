@@ -226,7 +226,6 @@ const updateSpot = (spot: Partial<Spot>) => {
 
 const updateDemo = (demo: Partial<Demo>) => {
   const copy = { ...toJS(demo) };
-  console.log(copy);
   delete copy.id;
   const db = getDatabase();
   const demoLocation = `demos/${demo.id}`;

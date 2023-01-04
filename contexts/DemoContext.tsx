@@ -21,6 +21,7 @@ type DemoStore = {
   update: (update: DemoUpdate) => void;
   toggleSpot: (spotId: string) => void;
   duration?: number;
+  readableDuration: string;
 };
 
 interface IDemoContext {
@@ -46,7 +47,6 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
     const newDuration = spots.reduce<number | undefined>((total, spotId) => {
       const spot = spotsStore.spots[spotId];
       const duration = spot?.length;
-      console.log(spot?.length);
       if (!duration || total === undefined) {
         return undefined;
       }
@@ -56,9 +56,6 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   };
 
   useEffect(recalculateDuration, [demo?.spots]);
-  useEffect(() => {
-    console.log({ duration });
-  }, [duration]);
 
   useEffect(() => {
     if (demo?.userId) {
@@ -95,9 +92,31 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   const { user } = authStore;
   const isOwner = demo?.userId === user?.uid && !!demo?.userId;
 
+  const getReadableDuration = () => {
+    if (duration === undefined) {
+      return "Unkown Duration";
+    }
+    let minutes = Math.floor(duration / 60);
+    let seconds = Math.floor(duration % 60);
+    let secondString = `${seconds}`;
+    while (secondString.length < 2) {
+      secondString = `0${secondString}`;
+    }
+    return `${minutes}:${secondString}`;
+  };
+  const readableDuration = getReadableDuration();
+
   return (
     <DemoContext.Provider
-      value={{ demo, isOwner, update, toggleSpot, setVisibility, duration }}
+      value={{
+        demo,
+        isOwner,
+        update,
+        toggleSpot,
+        setVisibility,
+        duration,
+        readableDuration,
+      }}
     >
       {demo && children}
       {!demo && (

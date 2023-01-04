@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AppModal from "./components/AppModal";
+import Background from "./components/Background";
 import PhoneBottomSpacer from "./components/PhoneBottomSpacer";
 import PhoneTopSpacer from "./components/PhoneTopSpacer";
 import PlaybackModal from "./components/Playback";
@@ -27,31 +28,33 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <NavigationContainer linking={linking}>
-          <ModalStoreProvider>
-            <AuthStoreProvider>
-              <ApiProvider>
-                <UsersStoreProvider>
-                  <SpotsStoreProvider>
-                    <DemosStoreProvider>
-                      <PlaybackProvider>
-                        <ReactiveProvider>
-                          <PhoneTopSpacer />
-                          <WebHeader />
-                          <RootNavigator />
-                          <PhoneBottomSpacer />
-                          <AppModal />
-                          <PlaybackModal />
-                          <StatusBar />
-                        </ReactiveProvider>
-                      </PlaybackProvider>
-                    </DemosStoreProvider>
-                  </SpotsStoreProvider>
-                </UsersStoreProvider>
-              </ApiProvider>
-            </AuthStoreProvider>
-          </ModalStoreProvider>
-        </NavigationContainer>
+        <Background>
+          <NavigationContainer linking={linking}>
+            <ModalStoreProvider>
+              <AuthStoreProvider>
+                <ApiProvider>
+                  <UsersStoreProvider>
+                    <SpotsStoreProvider>
+                      <DemosStoreProvider>
+                        <PlaybackProvider>
+                          <ReactiveProvider>
+                            <PhoneTopSpacer />
+                            <WebHeader />
+                            <RootNavigator />
+                            <PhoneBottomSpacer />
+                            <AppModal />
+                            <PlaybackModal />
+                            <StatusBar />
+                          </ReactiveProvider>
+                        </PlaybackProvider>
+                      </DemosStoreProvider>
+                    </SpotsStoreProvider>
+                  </UsersStoreProvider>
+                </ApiProvider>
+              </AuthStoreProvider>
+            </ModalStoreProvider>
+          </NavigationContainer>
+        </Background>
       </SafeAreaProvider>
     );
   }

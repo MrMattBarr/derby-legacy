@@ -1,27 +1,30 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { Modal } from "react-native";
+import { DemoProvider } from "../../contexts/DemoContext";
+import usePlayback from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
 import textStyles from "../../styles/text";
-import Avatar from "../Avatar";
-import { Text, View } from "../Themed";
+import { View } from "../Themed";
+import Demo from "./Demo";
 import { generateStyles } from "./styles";
 
-const PlaybackModal = observer(() => {
+const Playback = observer(() => {
   const [focused, focus] = useState(false);
+  const playbackStore = usePlayback;
+  const { active } = playbackStore();
   const colors = useColors();
-  const { h3, text } = textStyles(colors);
-  const { holder, playbackModal, stack } = generateStyles(colors);
+  const { holder, playbackModal } = generateStyles(colors);
 
   return (
     <View style={holder}>
       <View style={playbackModal}>
-        <View style={stack}>
-          <Text style={h3}>Demo Title</Text>
-          <Text style={text}>Duration</Text>
-        </View>
+        {active?.demo && (
+          <DemoProvider id={active.demo}>
+            <Demo />
+          </DemoProvider>
+        )}
       </View>
     </View>
   );
 });
-export default PlaybackModal;
+export default Playback;

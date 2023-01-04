@@ -8,7 +8,7 @@ export enum AppColor {
   FADED_WHITE = "#CCCCCC",
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
-  CLEAR_TEAL = "#0e5c65CC",
+  CLEAR_TEAL = "#0e5c6599",
   NEARLY_BLACK = "#090909",
   CHARCOAL = "#222222",
   HAT_RED = "#7d011e",

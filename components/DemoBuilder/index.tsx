@@ -17,7 +17,7 @@ const Content = () => {
     return <></>;
   }
   return (
-    <Page padded>
+    <Page padded opaque>
       <TitleInput />
       <Overview />
       <SummaryInput />
