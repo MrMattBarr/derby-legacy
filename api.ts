@@ -221,7 +221,10 @@ const createDemo = async (demo: Partial<Demo>) => {
 const updateSpot = (spot: Partial<Spot>) => {
   const db = getDatabase();
   const spotLocation = `spots/${spot.id}`;
-  update(dbRef(db, spotLocation), spot);
+  const copy = { ...spot };
+  delete copy.id;
+  delete copy.audio;
+  update(dbRef(db, spotLocation), copy);
 };
 
 const updateDemo = (demo: Partial<Demo>) => {

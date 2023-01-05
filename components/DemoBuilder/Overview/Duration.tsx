@@ -7,11 +7,11 @@ import { generateStyles } from "./styles";
 
 const Duration = observer(() => {
   const { label, labelAndText, text } = generateStyles(useColors());
-  const { duration } = useDemo();
+  const { readableDuration } = useDemo();
   return (
     <View style={labelAndText}>
       <Text style={label}>Duration: </Text>
-      <Text style={text}>{duration} seconds</Text>
+      <Text style={text}>{readableDuration}</Text>
     </View>
   );
 });

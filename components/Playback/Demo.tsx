@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Pressable } from "react-native";
 import useDemo from "../../contexts/DemoContext";
+import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Sizes } from "../../styles/sizes";
 import textStyles from "../../styles/text";
@@ -17,6 +18,10 @@ const Demo = observer(() => {
   const { demo, readableDuration } = useDemo();
   const { h3, text } = textStyles(colors);
   const { stack, horizontal, content } = generateStyles(colors);
+  const PlaybackStore = usePlayback();
+  const play = () => {
+    PlaybackStore.play(0);
+  };
 
   const visit = () => {
     linkTo(`/demos/${demo!.id}`);
@@ -30,7 +35,10 @@ const Demo = observer(() => {
       </View>
       <View style={{ ...horizontal, flexGrow: 0 }}>
         <EditButton style={{ marginRight: Sizes.Spacings.STANDARD }} />
-        <PlayButton />
+        <PlayButton
+          onToggle={play}
+          playing={PlaybackStore.active.status === PlayState.PLAYING}
+        />
       </View>
     </Pressable>
   );

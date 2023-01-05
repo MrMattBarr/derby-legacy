@@ -7,7 +7,7 @@ import useColorScheme from "../hooks/useColorScheme";
 export default function BackgroundProgressBar({
   progress,
 }: {
-  progress: number;
+  progress?: number;
 }) {
   const colorScheme = useColorScheme();
   const styles = StyleSheet.create({
@@ -18,12 +18,12 @@ export default function BackgroundProgressBar({
       zIndex: 0,
     },
   });
-  const width = `${progress * 100}%`;
+  const width = `${(progress ?? 0) * 100}%`;
   return (
     <View
       style={{
         ...styles.container,
-        backgroundColor: Colors[colorScheme].progressBarFill,
+        backgroundColor: Colors[colorScheme].Player.progress,
         position: "absolute",
         top: 0,
         height: "100%",

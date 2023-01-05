@@ -9,6 +9,7 @@ export enum AppColor {
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
   CLEAR_TEAL = "#0e5c6599",
+  PROGRESS_GREEN = "#08640f99",
   NEARLY_BLACK = "#090909",
   CHARCOAL = "#222222",
   HAT_RED = "#7d011e",
@@ -91,7 +92,7 @@ const AppDarkTheme: Theme = {
     background: AppColor.CHARCOAL,
   },
   Player: {
-    progress: AppColor.IVY_GREEN,
+    progress: AppColor.PROGRESS_GREEN,
     background: AppColor.CHARCOAL,
   },
 };

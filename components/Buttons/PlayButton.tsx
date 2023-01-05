@@ -4,15 +4,15 @@ import { useColors } from "../../hooks/useColorScheme";
 import ToggleButton from "../ToggleButton";
 
 interface IPlayButton {
-  isAdd?: boolean;
+  playing?: boolean;
   onToggle?: () => void;
 }
 
-const PlayButton = ({ onToggle, isAdd }: IPlayButton) => {
+const PlayButton = ({ onToggle, playing }: IPlayButton) => {
   const colors = useColors();
   return (
     <ToggleButton
-      isActive={isAdd}
+      isActive={playing}
       onToggle={onToggle}
       InactiveIcon={() => (
         <FontAwesome
