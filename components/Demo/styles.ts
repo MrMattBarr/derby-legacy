@@ -37,7 +37,6 @@ export const generateStyles = (colors: Theme) => {
       borderRadius: 10,
       minWidth: 400,
       overflow: "hidden",
-      boxShadow: "0px 0px 8px 4px black inset",
       minHeight: 250,
       display: "flex",
       flexDirection: "column",

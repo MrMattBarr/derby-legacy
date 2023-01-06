@@ -48,7 +48,7 @@ export const RootNavigator = observer(() => {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        headerStyle: { backgroundColor: "transparent" },
+        headerTransparent: true,
         contentStyle: {
           backgroundColor: "transparent",
         },
@@ -72,9 +72,6 @@ export const RootNavigator = observer(() => {
       <Stack.Screen name="NotFound" component={NotFoundScreen} />
       <Stack.Screen name="DemoDetail" component={DemoPage} />
       <Stack.Screen name="Demos" component={Demos} />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 });

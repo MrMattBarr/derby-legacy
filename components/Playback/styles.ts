@@ -46,6 +46,9 @@ export const generateStyles = (colors: Theme) => {
       ...Platform.select({
         web: {
           maxHeight: 100,
+          borderRadius: 0,
+          width: Sizes.Pages.WEB,
+          alignSelf: "center",
         },
         native: {
           maxHeight: 70,

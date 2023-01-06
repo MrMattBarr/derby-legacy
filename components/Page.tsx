@@ -1,8 +1,8 @@
 import React from "react";
-import { ImageBackground, View } from "react-native";
+import { View } from "react-native";
 import { useColors } from "../hooks/useColorScheme";
 import { generatePageStyles } from "../styles/page";
-import { Text } from "./Themed";
+import Background from "./Background";
 
 interface IPage {
   children: React.ReactNode;
@@ -20,9 +20,11 @@ const Page = ({ children, padded, unpadded, opaque }: IPage) => {
 
   const image = require("../assets/images/background.png");
   return (
-    <View style={page}>
-      <View style={pageContent}>{children}</View>
-    </View>
+    <Background>
+      <View style={page}>
+        <View style={pageContent}>{children}</View>
+      </View>
+    </Background>
   );
 };
 

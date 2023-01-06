@@ -28,6 +28,17 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
     pageContent: {
       ...section,
       flexGrow: 1,
+      ...Platform.select({
+        web: {
+          backgroundColor: colors.Backgrounds.primary,
+          width: Sizes.Pages.WEB,
+          borderLeftWidth: 3,
+          borderRightWidth: 3,
+          alignSelf: "center",
+          overflow: "hidden",
+          borderColor: colors.Borders.default,
+        },
+      }),
     },
     section: { ...section },
   });

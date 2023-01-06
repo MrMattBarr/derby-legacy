@@ -13,6 +13,7 @@ export const generateStyles = (colors: Theme) => {
       flexDirection: "row",
       display: "flex",
       padding: 5,
+      zIndex: 3,
       alignItems: "center",
       borderColor: colors.Borders.default,
     },
