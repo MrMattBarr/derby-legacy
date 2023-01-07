@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Platform, Text, TextInput } from "react-native";
+import { Platform, TextInput } from "react-native";
 import { useColors } from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";
 import { useModal } from "../../stores/ModalStore";
-import mainStyles from "../../styles/main";
+import { modalStyles } from "../../styles/modals";
 import { View } from "../Themed";
 
 const Login = () => {
   const authStore = useAuth();
   const modalStore = useModal();
   const colors = useColors();
-  const styles = mainStyles(colors);
+  const { modal } = modalStyles(colors);
   const emailRef = useRef<TextInput>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const Login = () => {
     }
   }, [emailRef]);
   return (
-    <View style={styles.container}>
+    <View style={modal}>
       <TextInput
         ref={emailRef}
         style={styles.input}

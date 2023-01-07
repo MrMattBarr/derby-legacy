@@ -26,11 +26,14 @@ type PlaybackContract = {
   active: Active;
   playbackPercent?: number;
   demo?: Demo;
+  spot?: Spot;
   spots: Spot[];
-  play: (timeStamp: number) => void;
+  togglePlay: () => void;
+  play: (timeStamp?: number) => void;
   pause: () => void;
-  onFinish: (spot: Spot) => void;
-  setPlaybackPercent: (status: AVPlaybackStatus, spot: Spot) => void;
+  resume: () => void;
+  onFinish: () => void;
+  updatePlaybackPercent: (status: AVPlaybackStatus) => void;
   focusDemo: (id: string) => void;
 };
 
@@ -44,29 +47,32 @@ export const PlaybackProvider = ({ children }: any) => {
       status: PlayState.PAUSED,
     },
     spots: [],
-    pause() {},
-    onFinish(spot: Spot) {
+    pause() {
+      runInAction(() => {
+        this.spot?.audio?.pauseAsync();
+        this.active.status = PlayState.PAUSED;
+      });
+    },
+    onFinish() {
       let foundActive = false;
       let foundNext = false;
 
       this.spots.forEach((nextSpot) => {
-        if (nextSpot.id === spot.id) {
+        if (nextSpot.id === this.spot!.id) {
           foundActive = true;
         } else {
           if (foundActive && !foundNext) {
             foundNext = true;
-            spot.audio?.setOnPlaybackStatusUpdate(null);
+            this.spot!.audio?.setOnPlaybackStatusUpdate(null);
             nextSpot.audio?.setOnPlaybackStatusUpdate(
               (status: AVPlaybackStatus) => {
                 runInAction(() => {
-                  this.setPlaybackPercent(status, nextSpot);
+                  this.spot = nextSpot;
+                  this.updatePlaybackPercent(status);
                 });
               }
             );
             nextSpot.audio?.playFromPositionAsync(0);
-            runInAction(() => {
-              this.active.status = PlayState.PLAYING;
-            });
           }
         }
       });
@@ -77,6 +83,28 @@ export const PlaybackProvider = ({ children }: any) => {
         });
       }
     },
+    togglePlay() {
+      console.log(this.active.status);
+      switch (this.active.status) {
+        case PlayState.PAUSED:
+          this.resume();
+          break;
+        case PlayState.PLAYING:
+          this.pause();
+          break;
+        case PlayState.READY:
+          this.play();
+          break;
+        default:
+          console.warn("unkown play state");
+      }
+    },
+    resume() {
+      runInAction(() => {
+        this.spot?.audio?.playAsync();
+        this.active.status = PlayState.PLAYING;
+      });
+    },
     focusDemo(id: string) {
       runInAction(() => {
         this.active.demo = id;
@@ -86,16 +114,20 @@ export const PlaybackProvider = ({ children }: any) => {
           (spotId) => SpotsStore.spots[spotId]
         );
         this.playbackPercent = 0;
+        this.play();
       });
     },
-    setPlaybackPercent(status: AVPlaybackStatus, spot: Spot) {
+    updatePlaybackPercent(status: AVPlaybackStatus) {
+      if (!this.spot) {
+        return;
+      }
       const { positionMillis, durationMillis } =
         status as AVPlaybackStatusSuccess;
       const durationSecs = durationMillis! / 1000;
-      if (durationSecs !== spot.length) {
+      if (durationSecs !== this.spot.length) {
         runInAction(() => {
-          spot.length = durationSecs;
-          updateSpot(spot);
+          this.spot!.length = durationSecs;
+          updateSpot(this.spot!);
         });
       }
 
@@ -106,7 +138,7 @@ export const PlaybackProvider = ({ children }: any) => {
       this.spots.forEach((nextSpot) => {
         const spotLength = (nextSpot.length ?? 0) * MS_TO_S;
         if (!foundActive) {
-          if (spot.id !== nextSpot.id) {
+          if (this.spot!.id !== nextSpot.id) {
             elapsed += spotLength;
           } else {
             elapsed += positionMillis;
@@ -121,27 +153,31 @@ export const PlaybackProvider = ({ children }: any) => {
       });
       const finishedSpot = durationMillis === positionMillis;
       if (finishedSpot) {
-        runInAction(() => this.onFinish(spot));
+        runInAction(() => this.onFinish());
       }
     },
-    play(timeStamp: number = 0) {
+    play(timeStamp?: number) {
       if (!this.active.demo) {
         console.warn("Cannot play demo with no active demo");
         return;
       }
       const activeSpotIndex = 0;
-      let adjustedPosition = timeStamp;
+      let adjustedPosition = timeStamp ?? 0;
       const isTooLong = false;
       const demo = DemosStore.demos[this.active.demo];
       const spotId = demo.spots![activeSpotIndex];
-      const spot = SpotsStore.spots[spotId];
       while (isTooLong) {}
-      spot.audio?.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-        runInAction(() => {
-          this.setPlaybackPercent(status, spot);
-        });
+      runInAction(() => {
+        this.spot = SpotsStore.spots[spotId];
       });
-      spot.audio?.playFromPositionAsync(adjustedPosition);
+      this.spot!.audio?.setOnPlaybackStatusUpdate(
+        (status: AVPlaybackStatus) => {
+          runInAction(() => {
+            this.updatePlaybackPercent(status);
+          });
+        }
+      );
+      this.spot!.audio?.playFromPositionAsync(adjustedPosition);
       runInAction(() => {
         this.active.status = PlayState.PLAYING;
       });

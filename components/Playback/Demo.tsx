@@ -19,12 +19,14 @@ const Demo = observer(() => {
   const { h3, text } = textStyles(colors);
   const { stack, horizontal, content } = generateStyles(colors);
   const PlaybackStore = usePlayback();
-  const play = () => {
-    PlaybackStore.play(0);
-  };
 
   const visit = () => {
     linkTo(`/demos/${demo!.id}`);
+  };
+
+  const toggle = () => {
+    console.log("toggle");
+    PlaybackStore.togglePlay();
   };
 
   return (
@@ -36,7 +38,7 @@ const Demo = observer(() => {
       <View style={{ ...horizontal, flexGrow: 0 }}>
         <EditButton style={{ marginRight: Sizes.Spacings.STANDARD }} />
         <PlayButton
-          onToggle={play}
+          onToggle={toggle}
           playing={PlaybackStore.active.status === PlayState.PLAYING}
         />
       </View>

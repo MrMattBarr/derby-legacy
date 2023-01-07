@@ -5,7 +5,7 @@ import { GestureResponderEvent, Modal, Pressable } from "react-native";
 import { View } from "../components/Themed";
 import { useColors } from "../hooks/useColorScheme";
 import { useModal } from "../stores/ModalStore";
-import mainStyles from "../styles/main";
+import { modalStyles } from "../styles/modals";
 import PickyLogin from "./Login";
 
 const AppModal = observer(() => {
@@ -16,7 +16,7 @@ const AppModal = observer(() => {
   };
   const eatClick = (event: GestureResponderEvent) => {};
 
-  const styles = mainStyles(colors);
+  const { background, modal, header, body } = modalStyles(colors);
 
   return (
     <Modal
@@ -25,15 +25,15 @@ const AppModal = observer(() => {
       visible={!!modalStore.modal}
       onRequestClose={clearModal}
     >
-      <Pressable style={styles.modalBG} onPress={clearModal}>
-        <Pressable style={styles.modalBox} onPress={eatClick}>
-          <View style={styles.modalHeader}>
+      <Pressable style={background} onPress={clearModal}>
+        <Pressable style={modal} onPress={eatClick}>
+          <View style={header}>
             <View style={{ flexGrow: 1 }} />
             <Pressable onPress={clearModal}>
               <FontAwesome name="close" size={25} color={colors.Text.default} />
             </Pressable>
           </View>
-          <View style={styles.modalBody}>
+          <View style={body}>
             <PickyLogin />
           </View>
         </Pressable>
