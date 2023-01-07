@@ -49,6 +49,7 @@ export const generateStyles = (colors: Theme) => {
           borderRadius: 0,
           width: Sizes.Pages.WEB,
           alignSelf: "center",
+          boxShadow: "0 0 10px black",
         },
         native: {
           maxHeight: 70,

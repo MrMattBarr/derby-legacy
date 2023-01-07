@@ -13,6 +13,7 @@ export const generateStyles = (colors: Theme, props?: ITapeStyle) => {
       backgroundColor: background ?? colors.Backgrounds.default,
       marginBottom: Sizes.Spacings.SMALL,
       padding: Sizes.Spacings.STANDARD,
+      borderRadius: Sizes.CURVED_BORDER,
     },
   });
 };
