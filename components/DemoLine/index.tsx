@@ -9,9 +9,11 @@ import { generateStyles } from "./styles";
 
 const DemoLine = observer(() => {
   const colors = useColors();
-  const { focusDemo } = usePlayback();
-  const { listItem } = generateStyles(colors);
+  const { focusDemo, active } = usePlayback();
+
   const { demo } = useDemo();
+  const focused = active?.demo === demo?.id;
+  const { listItem } = generateStyles(colors, { focused });
 
   const focus = () => {
     focusDemo(demo!.id);
