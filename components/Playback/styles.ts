@@ -2,21 +2,27 @@ import { Platform, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Colors";
 import { Sizes } from "../../styles/sizes";
 
-export const generateStyles = (colors: Theme) => {
+interface IStyles {
+  isMobile?: boolean;
+}
+
+export const generateStyles = (colors: Theme, props?: IStyles) => {
+  const { isMobile } = props ?? {};
+
+  const webModal = {
+    maxHeight: 100,
+    borderRadius: 0,
+    width: Sizes.Pages.WEB,
+    alignSelf: "center",
+    boxShadow: "0 0 10px black",
+  };
   return StyleSheet.create({
     holder: {
       position: "absolute",
       width: "100%",
       display: "flex",
       overflow: "hidden",
-      ...Platform.select({
-        web: {
-          bottom: Sizes.Spacings.STANDARD,
-        },
-        native: {
-          bottom: Sizes.PHONE_BOTTOM_NAV,
-        },
-      }),
+      bottom: isMobile ? Sizes.PHONE_BOTTOM_NAV : Sizes.Spacings.STANDARD,
     },
     stack: {
       display: "flex",
@@ -44,13 +50,7 @@ export const generateStyles = (colors: Theme) => {
       borderWidth: 1,
       borderColor: colors.Borders.default,
       ...Platform.select({
-        web: {
-          maxHeight: 100,
-          borderRadius: 0,
-          width: Sizes.Pages.WEB,
-          alignSelf: "center",
-          boxShadow: "0 0 10px black",
-        },
+        web: isMobile ? {} : webModal,
         native: {
           maxHeight: 70,
         },

@@ -6,9 +6,20 @@ interface IPageStyle {
   padded?: boolean;
   unpadded?: boolean;
   opaque?: boolean;
+  isMobile?: boolean;
 }
 export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
-  const { padded, unpadded, opaque } = props ?? {};
+  const { padded, unpadded, opaque, isMobile } = props ?? {};
+
+  const webContent = {
+    backgroundColor: colors.Backgrounds.primary,
+    width: Sizes.Pages.WEB,
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    alignSelf: "center",
+    overflow: "hidden",
+    borderColor: colors.Borders.default,
+  };
 
   const section = Platform.select({
     web: {
@@ -29,15 +40,7 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
       ...section,
       flexGrow: 1,
       ...Platform.select({
-        web: {
-          backgroundColor: colors.Backgrounds.primary,
-          width: Sizes.Pages.WEB,
-          borderLeftWidth: 3,
-          borderRightWidth: 3,
-          alignSelf: "center",
-          overflow: "hidden",
-          borderColor: colors.Borders.default,
-        },
+        web: isMobile ? {} : webContent,
       }),
     },
     section: { ...section },

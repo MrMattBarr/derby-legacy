@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
 import React, { useState } from "react";
+import useClient from "../../contexts/ClientContext";
 import { DemoProvider } from "../../contexts/DemoContext";
 import usePlayback from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
@@ -14,7 +15,8 @@ const Playback = observer(() => {
   const playbackStore = usePlayback();
   const { active, playbackPercent } = playbackStore;
   const colors = useColors();
-  const { holder, playbackModal } = generateStyles(colors);
+  const { isMobile } = useClient();
+  const { holder, playbackModal } = generateStyles(colors, { isMobile });
 
   return (
     <View style={holder}>

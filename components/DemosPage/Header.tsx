@@ -1,11 +1,10 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
 import Colors from "../../constants/Colors";
+import useClient from "../../contexts/ClientContext";
 import useUser from "../../contexts/UserContext";
 import useColorScheme from "../../hooks/useColorScheme";
-import { useDemos } from "../../stores/DemosStore";
 import { generatePageStyles } from "../../styles/page";
 import textStyles from "../../styles/text";
 import Avatar from "../Avatar";
@@ -14,14 +13,16 @@ import { Text } from "../Themed";
 import { generateStyles } from "./styles";
 
 const Header = observer(() => {
-  const demos = useDemos();
   const colorScheme = useColorScheme();
+  const { isMobile } = useClient();
   const colors = Colors[colorScheme];
   const pageStyles = generatePageStyles(colors);
   const text = textStyles(colors);
 
   const { user } = useUser();
-  const { header, pageName, pageNameAndIcon } = generateStyles(colors);
+  const { header, pageName, pageNameAndIcon } = generateStyles(colors, {
+    isMobile,
+  });
   return (
     <View style={{ ...pageStyles.section, ...header }}>
       <View style={pageNameAndIcon}>

@@ -1,6 +1,7 @@
 import { Link } from "@react-navigation/native";
 import React from "react";
 import { Platform } from "react-native";
+import useClient from "../../contexts/ClientContext";
 import { useColors } from "../../hooks/useColorScheme";
 import Nothing from "../Nothing";
 import { View } from "../Themed";
@@ -10,6 +11,11 @@ import { generateStyles } from "./styles";
 const WebHeader = () => {
   const colors = useColors();
   const styles = generateStyles(colors);
+  const { isMobile } = useClient();
+
+  if (isMobile) {
+    return Nothing;
+  }
 
   return (
     <View style={styles.webHeader}>
@@ -27,9 +33,5 @@ const WebHeader = () => {
     </View>
   );
 };
-const PickyWebHeader = Platform.select({
-  native: () => Nothing,
-  default: () => WebHeader,
-})();
 
-export default PickyWebHeader;
+export default WebHeader;

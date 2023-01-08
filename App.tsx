@@ -9,6 +9,7 @@ import PhoneTopSpacer from "./components/PhoneTopSpacer";
 import PlaybackModal from "./components/Playback";
 import WebHeader from "./components/WebHeader";
 import { ApiProvider } from "./contexts/ApiContext";
+import { ClientProvider } from "./contexts/ClientContext";
 import { PlaybackProvider } from "./contexts/PlaybackContext";
 import { ReactiveProvider } from "./contexts/ReactiveContext";
 import useCachedResources from "./hooks/useCachedResources";
@@ -37,15 +38,17 @@ export default function App() {
                     <SpotsStoreProvider>
                       <DemosStoreProvider>
                         <PlaybackProvider>
-                          <ReactiveProvider>
-                            <PhoneTopSpacer />
-                            <WebHeader />
-                            <RootNavigator />
-                            <PhoneBottomSpacer />
-                            <AppModal />
-                            <PlaybackModal />
-                            <StatusBar />
-                          </ReactiveProvider>
+                          <ClientProvider>
+                            <ReactiveProvider>
+                              <PhoneTopSpacer />
+                              <WebHeader />
+                              <RootNavigator />
+                              <PhoneBottomSpacer />
+                              <AppModal />
+                              <PlaybackModal />
+                              <StatusBar />
+                            </ReactiveProvider>
+                          </ClientProvider>
                         </PlaybackProvider>
                       </DemosStoreProvider>
                     </SpotsStoreProvider>

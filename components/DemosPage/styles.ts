@@ -1,7 +1,11 @@
 import { Platform, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Colors";
 
-export const generateStyles = (colors: Theme) => {
+interface IStyles {
+  isMobile?: boolean;
+}
+export const generateStyles = (colors: Theme, props?: IStyles) => {
+  const { isMobile } = props ?? {};
   return StyleSheet.create({
     header: {
       display: "flex",
@@ -10,15 +14,9 @@ export const generateStyles = (colors: Theme) => {
       justifyContent: "space-between",
       borderBottomWidth: 2,
       padding: 10,
-
-      ...Platform.select({
-        native: {
-          backgroundColor: colors.Backgrounds.secondary,
-        },
-        web: {
-          backgroundColor: colors.Backgrounds.primary,
-        },
-      }),
+      backgroundColor: isMobile
+        ? colors.Backgrounds.secondary
+        : colors.Backgrounds.primary,
     },
     list: { flex: 1 },
     pageNameAndIcon: {
