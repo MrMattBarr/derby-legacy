@@ -20,7 +20,8 @@ export enum AppColor {
   NAVY_BLUE = "#242448",
   DEEP_TEAL = "#0e5c65",
   OLIVE_GREEN = "#80806D",
-  SAND_BROWN = "#a48960",
+  TREE_BROWN = "#a48960",
+  SANDY_WHITE = "#fff8e9",
   IVY_GREEN = "#08640f",
   TINTED_GRAY = "#445",
   EMPTY_GRAY = "#949494",
@@ -49,6 +50,7 @@ export interface Theme {
     secondary: AppColor;
     empty: AppColor;
     contrast: AppColor;
+    label: AppColor;
     inputs: AppColor;
     playback: AppColor;
   };
@@ -83,7 +85,8 @@ const AppDarkTheme: Theme = {
     primary: AppColor.CHARCOAL,
     secondary: AppColor.TINTED_GRAY,
     empty: AppColor.STONE_GRAY,
-    contrast: AppColor.SAND_BROWN,
+    contrast: AppColor.TREE_BROWN,
+    label: AppColor.SANDY_WHITE,
     playback: AppColor.CLEAR_TEAL,
     inputs: AppColor.NEARLY_BLACK,
   },

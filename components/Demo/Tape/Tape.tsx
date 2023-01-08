@@ -2,7 +2,7 @@ import { useFonts } from "@expo-google-fonts/kalam";
 import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { Animated, Easing, ImageBackground } from "react-native";
+import { Animated, Easing, ImageBackground, Pressable } from "react-native";
 import useDemo from "../../../contexts/DemoContext";
 import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
@@ -39,16 +39,11 @@ const Tape = observer(() => {
 
   const { demo } = useDemo();
 
-  const playDemo = () => {
-    const nextStatus =
-      active.status === PlayState.PLAYING
-        ? PlayState.PAUSED
-        : PlayState.PLAYING;
-    runInAction(() => {
-      active.demo = demo?.id;
-      active.status = nextStatus;
-    });
-    setSpin(calculateSpin());
+  const { focusDemo } = usePlayback();
+  const focusMe = () => {
+    if (demo?.id) {
+      focusDemo(demo.id);
+    }
   };
 
   const [fontsLoaded] = useFonts({
@@ -66,7 +61,7 @@ const Tape = observer(() => {
   };
 
   return (
-    <View style={styles.tape}>
+    <Pressable style={styles.tape} onPress={focusMe}>
       <ImageBackground
         source={image}
         resizeMode="repeat"
@@ -74,7 +69,7 @@ const Tape = observer(() => {
       />
       <Screws />
       <TapeLabel />
-    </View>
+    </Pressable>
   );
 });
 

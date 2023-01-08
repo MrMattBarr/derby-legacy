@@ -19,7 +19,9 @@ const DemoTitle = observer(() => {
 
   const s = StyleSheet.create({
     demoNameLabel: {
-      backgroundColor: focused ? colors.Backgrounds.playback : "#eeed",
+      backgroundColor: focused
+        ? colors.Backgrounds.playback
+        : colors.Backgrounds.label,
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
