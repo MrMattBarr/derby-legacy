@@ -8,15 +8,17 @@ import Background from "./Background";
 interface IPage {
   children: React.ReactNode;
   padded?: boolean;
+  centered?: boolean;
   unpadded?: boolean;
   opaque?: boolean;
 }
-const Page = ({ children, padded, unpadded, opaque }: IPage) => {
+const Page = ({ children, padded, unpadded, opaque, centered }: IPage) => {
   const colors = useColors();
   const { isMobile } = useClient();
   const { page, pageContent } = generatePageStyles(colors, {
     padded,
     unpadded,
+    centered,
     opaque,
     isMobile,
   });

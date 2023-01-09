@@ -1,5 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 import { DefaultColors, Theme } from "../../constants/Colors";
+import { Sizes } from "../../styles/sizes";
 
 export const generateStyles = (colors: Theme) => {
   return StyleSheet.create({
@@ -34,6 +35,7 @@ export const generateStyles = (colors: Theme) => {
       backgroundColor: "#3f79b3",
       maxWidth: 500,
       aspectRatio: 1.6,
+      margin: Sizes.Spacings.LARGE,
       borderRadius: 10,
       minWidth: 400,
       overflow: "hidden",

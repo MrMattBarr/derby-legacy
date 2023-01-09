@@ -2,34 +2,31 @@ import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet } from "react-native";
 import useDemo from "../../contexts/DemoContext";
-import { PlayState } from "../../contexts/PlaybackContext";
+import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
+import { useColors } from "../../hooks/useColorScheme";
+import { Sizes } from "../../styles/sizes";
 import PlayButton from "../Buttons/PlayButton";
 import ShareButton from "../ShareButton";
 import { View } from "../Themed";
 import EditButton from "./EditButton";
 
-interface IControls {
-  playDemo: () => void;
-  status?: PlayState;
-}
-const Tape = observer(({ playDemo, status }: IControls) => {
+const Tape = observer(() => {
   const { isOwner, demo } = useDemo();
+  const colors = useColors();
+  const { togglePlay } = usePlayback();
   const s = StyleSheet.create({
     controls: {
       display: "flex",
-      marginVertical: 10,
-      borderRadius: 5,
-      borderTopRightRadius: 0,
-      borderTopLeftRadius: 0,
       alignContent: "stretch",
       flexDirection: "row",
-      flexGrow: 1,
-      borderColor: "#bcac8b",
+      justifyContent: "space-evenly",
+      alignSelf: "stretch",
+      borderBottomColor: colors.Borders.default,
+      borderTopWidth: 3,
+      borderBottomWidth: 3,
+      backgroundColor: colors.Backgrounds.secondary,
       alignItems: "center",
-      backgroundColor: "transparent",
-      borderBottomWidth: 1,
-      borderLeftWidth: 1,
-      borderRightWidth: 1,
+      padding: Sizes.Spacings.STANDARD,
     },
   });
   const shareButtonLink = `derbydemos.app/demos/${demo?.id}`;
@@ -37,7 +34,7 @@ const Tape = observer(({ playDemo, status }: IControls) => {
 
   return (
     <View style={s.controls}>
-      <PlayButton onToggle={playDemo} />
+      <PlayButton onToggle={togglePlay} />
       <ShareButton message={shareMessage} />
       {isOwner && <EditButton />}
     </View>

@@ -6,10 +6,11 @@ interface IPageStyle {
   padded?: boolean;
   unpadded?: boolean;
   opaque?: boolean;
+  centered?: boolean;
   isMobile?: boolean;
 }
 export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
-  const { padded, unpadded, opaque, isMobile } = props ?? {};
+  const { padded, unpadded, opaque, isMobile, centered } = props ?? {};
 
   const webContent = {
     backgroundColor: colors.Backgrounds.primary,
@@ -18,6 +19,7 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
     borderRightWidth: 3,
     alignSelf: "center",
     overflow: "hidden",
+    display: "flex",
     borderColor: colors.Borders.default,
   };
 
@@ -39,6 +41,7 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
     pageContent: {
       ...section,
       flexGrow: 1,
+      alignItems: centered ? "center" : undefined,
       ...Platform.select({
         web: isMobile ? {} : webContent,
       }),

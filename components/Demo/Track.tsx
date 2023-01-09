@@ -47,7 +47,7 @@ const Track = observer(({ id, index }: ITrack) => {
     track: {
       backgroundColor: "transparent",
       borderBottomWidth: 1,
-      borderBottomColor: "#bcac8b99",
+      borderBottomColor: colors.Borders.default,
     },
     foreground: {
       backgroundColor: "transparent",
@@ -67,9 +67,11 @@ const Track = observer(({ id, index }: ITrack) => {
     },
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || !spot) {
     return <></>;
   }
+
+  const length = Math.floor(spot?.length ?? 0 * 10) / 10;
 
   return (
     <View style={s.track}>
@@ -78,7 +80,7 @@ const Track = observer(({ id, index }: ITrack) => {
         <Text style={s.trackTitle}>
           {index}. {spot?.title ?? "..."}
         </Text>
-        <Text style={s.trackLength}>{spot?.length}s</Text>
+        <Text style={s.trackLength}>{length}s</Text>
       </View>
     </View>
   );

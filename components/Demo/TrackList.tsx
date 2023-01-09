@@ -10,9 +10,6 @@ import { useColors } from "../../hooks/useColorScheme";
 import Track from "./Track";
 import { Sizes } from "../../styles/sizes";
 
-interface ITrackList {
-  id: string;
-}
 const TrackList = observer(() => {
   const colors = useColors();
 
@@ -23,15 +20,13 @@ const TrackList = observer(() => {
   });
   const s = StyleSheet.create({
     trackList: {
-      borderColor: colors.Borders.dramatic,
-      backgroundColor: "transparent",
-      maxWidth: 500,
+      width: 500,
+      padding: Sizes.Spacings.LARGE,
     },
     listHolder: {
-      marginTop: Sizes.Spacings.STANDARD,
-      backgroundColor: colors.Backgrounds.primary,
       borderRadius: Sizes.CURVED_BORDER,
-      borderColor: colors.Borders.dramatic,
+      borderColor: colors.Borders.default,
+      backgroundColor: colors.Backgrounds.empty,
       borderWidth: 2,
     },
   });
