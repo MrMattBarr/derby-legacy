@@ -30,7 +30,7 @@ const Tape = observer(() => {
     },
   });
   const shareButtonLink = `derbydemos.app/demos/${demo?.id}`;
-  const shareMessage = `Check out this demo created on Derby.\n${demo?.title} - ${demo?.userId}\n\n ${shareButtonLink}`;
+  const shareMessage = `Check out this demo titled "${demo?.title}"\n ${shareButtonLink}\n\n  Created on Derby.`;
 
   return (
     <View style={s.controls}>
