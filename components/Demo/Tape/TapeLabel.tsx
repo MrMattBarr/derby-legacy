@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { toJS } from "mobx";
 import { observer } from "mobx-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
 import { AppColor } from "../../../constants/Colors";
 import usePlayback from "../../../contexts/PlaybackContext";
@@ -9,53 +9,52 @@ import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
 import UserSummary from "../UserSummary";
 import FrontTitle from "./FrontTitle";
+import Gear from "./Gear";
 
 const TapeLabel = observer(() => {
-  const { active } = usePlayback();
-  const jsActive = toJS(active);
+  const { active, playbackPercent } = usePlayback();
 
-  let progress = 0;
-  if (jsActive.playbackStatus?.isLoaded) {
-    progress =
-      jsActive?.playbackStatus?.positionMillis /
-      jsActive.playbackStatus.durationMillis!;
-  }
-
-  let remainingProgress = 1 - progress;
+  let remainingProgress = 1 - (playbackPercent ?? 0);
 
   const totalReelSize = 200;
-  const minDialSize = 50;
+  const minDialSize = 70;
   const playableReelSize = totalReelSize - 2 * minDialSize;
 
-  const gearPadding = 10;
-  const innerGearSize = 30;
+  const gearPadding = 5;
+  const gearSize = 40;
   const lReelSize = minDialSize + remainingProgress * playableReelSize;
-  let lReelOffset = (lReelSize - innerGearSize) / 2 - gearPadding;
+  let lReelOffset = (lReelSize - gearSize) / 2 - gearPadding;
   const rReelSize = totalReelSize - lReelSize;
-  const rReelOffset = (rReelSize - innerGearSize) / 2 - gearPadding;
+  const rReelOffset = (rReelSize - gearSize) / 2 - gearPadding;
   const lMotionBlurSize = lReelSize - 35;
   const rMotionBlurSize = rReelSize - 10;
-  const [spin, setSpin] = useState<
-    Animated.AnimatedInterpolation<number> | undefined
-  >("0deg");
 
-  let spinValue = new Animated.Value(0);
+  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
 
-  const calculateSpin = () => {
+  const spin = () => {
     Animated.loop(
-      Animated.timing(spinValue, {
+      Animated.timing(rotateAnimation, {
         toValue: 1,
-        duration: 2000,
+        duration: 4000,
         easing: Easing.linear, // Easing is an additional import from react-native
         useNativeDriver: false, // To make use of native driver for performance
       })
-    ).start(() => {});
-
-    // Next, interpolate beginning and end values (in this case 0 and 1)
-    return spinValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["0deg", "-360deg"],
+    ).start(() => {
+      rotateAnimation.setValue(0);
     });
+  };
+
+  const interpolateRotating = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "720deg"],
+  });
+
+  const spinStyle = {
+    transform: [
+      {
+        rotate: interpolateRotating,
+      },
+    ],
   };
 
   const colors = useColors();
@@ -92,7 +91,6 @@ const TapeLabel = observer(() => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      transform: [{ rotate: spin }],
     },
     lReel: {
       width: lReelSize,
@@ -130,29 +128,37 @@ const TapeLabel = observer(() => {
       right: -rReelOffset,
       top: -rReelOffset,
     },
-    gear: {
-      borderColor: "black",
-      borderWidth: 1,
-      backgroundColor: AppColor.SNOW_WHITE,
-      height: innerGearSize,
-      width: innerGearSize,
-      borderRadius: innerGearSize,
-      margin: gearPadding,
-    },
   });
+
+  useEffect(() => {
+    spin();
+  }, []);
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>
       <FrontTitle />
       <View style={s.gears}>
-        <Animated.View style={[s.lReel, s.reel]}>
+        <Animated.View style={[s.lReel, s.reel, spinStyle]}>
           <View style={[s.lMotionBlur]} />
         </Animated.View>
-        <Animated.View style={[s.rReel, s.reel]}>
+        <Animated.View style={[s.rReel, s.reel, spinStyle]}>
           <View style={[s.rMotionBlur]} />
         </Animated.View>
-        <View style={s.gear}></View>
-        <View style={s.gear}></View>
+
+        <Animated.View style={spinStyle}>
+          <Gear
+            size={gearSize}
+            padding={gearPadding}
+            background={colors.Backgrounds.primary}
+          />
+        </Animated.View>
+        <Animated.View style={spinStyle}>
+          <Gear
+            size={gearSize}
+            padding={gearPadding}
+            background={colors.Backgrounds.primary}
+          />
+        </Animated.View>
       </View>
       <UserSummary />
     </LinearGradient>

@@ -17,16 +17,17 @@ const Playback = observer(() => {
   const colors = useColors();
   const { isMobile } = useClient();
   const { holder, playbackModal } = generateStyles(colors, { isMobile });
+  if (!active.demo) {
+    return <></>;
+  }
 
   return (
     <View style={holder}>
       <View style={playbackModal}>
         <BackgroundProgressBar progress={playbackPercent} />
-        {active?.demo && (
-          <DemoProvider id={active.demo}>
-            <Demo />
-          </DemoProvider>
-        )}
+        <DemoProvider id={active.demo}>
+          <Demo />
+        </DemoProvider>
       </View>
     </View>
   );
