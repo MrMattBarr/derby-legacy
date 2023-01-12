@@ -46,6 +46,5 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
         web: isMobile ? {} : webContent,
       }),
     },
-    section: { ...section },
   });
 };

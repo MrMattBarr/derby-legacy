@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { FlatList } from "react-native";
+import { FlatList, Text } from "react-native";
 import { DemoProvider } from "../../contexts/DemoContext";
 import useUser from "../../contexts/UserContext";
 import { useColors } from "../../hooks/useColorScheme";
@@ -14,22 +14,24 @@ const UserDemoList = observer(() => {
   const colors = useColors();
   const { list } = generateStyles(colors);
   const { section } = generatePageStyles(colors);
-  if (!user) {
-    return <></>;
-  }
+  // return (
+  //   <View style={section}>
+  //     <Text>NO USER</Text>
+  //   </View>
+  // );
+  // if (!user) {
+  //   return <></>;
+  // }
   const demoIds = Object.keys(user?.demos);
   return (
     <View style={section}>
-      <FlatList
-        data={[...demoIds]}
-        style={list}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <DemoProvider id={item}>
+      {demoIds.map((id) => {
+        return (
+          <DemoProvider key={id} id={id}>
             <DemoLine />
           </DemoProvider>
-        )}
-      />
+        );
+      })}
     </View>
   );
 });

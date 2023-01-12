@@ -24,6 +24,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       flexDirection: "row",
       alignItems: "center",
     },
+    section: {
+      backgroundColor: "green",
+    },
     pageName: {
       marginRight: 30,
     },
