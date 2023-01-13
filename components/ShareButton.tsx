@@ -10,6 +10,7 @@ const ShareButton = ({ message }: IShareButton) => {
   const onShare = async () => {
     try {
       const result = await Share.share({
+        title: "Derby Demos",
         message,
       });
       if (result.action === Share.sharedAction) {

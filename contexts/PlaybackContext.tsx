@@ -84,7 +84,6 @@ export const PlaybackProvider = ({ children }: any) => {
       }
     },
     togglePlay() {
-      console.log(this.active.status);
       switch (this.active.status) {
         case PlayState.PAUSED:
           this.resume();

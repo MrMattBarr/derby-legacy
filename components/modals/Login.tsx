@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Platform, TextInput } from "react-native";
 import { useColors } from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";
-import { useModal } from "../../stores/ModalStore";
+import { useModal } from "../../contexts/ModalContext";
 import { modalStyles } from "../../styles/modals";
 import { View } from "../Themed";
 
@@ -30,13 +30,11 @@ const Login = () => {
     <View style={modal}>
       <TextInput
         ref={emailRef}
-        style={styles.input}
         placeholder="email"
         onChangeText={setEmail}
         onSubmitEditing={authenticate}
       />
       <TextInput
-        style={styles.input}
         placeholder="password"
         secureTextEntry
         onChangeText={setPassword}

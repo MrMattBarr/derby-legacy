@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { useAuth } from "../../stores/AuthStore";
-import { useModal } from "../../stores/ModalStore";
+import { useModal } from "../../contexts/ModalContext";
 import { useUsers } from "../../stores/UsersStore";
 import TextButton from "../Buttons/TextButton";
 

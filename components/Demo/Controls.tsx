@@ -6,6 +6,7 @@ import usePlayback, { PlayState } from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Sizes } from "../../styles/sizes";
 import PlayButton from "../Buttons/PlayButton";
+import RecordButton from "../Buttons/RecordButton";
 import ShareButton from "../ShareButton";
 import { View } from "../Themed";
 import EditButton from "./EditButton";
@@ -19,24 +20,28 @@ const Tape = observer(() => {
       display: "flex",
       alignContent: "stretch",
       flexDirection: "row",
-      justifyContent: "space-evenly",
+      justifyContent: "center",
       alignSelf: "stretch",
       borderBottomColor: colors.Borders.default,
       borderTopWidth: 3,
       borderBottomWidth: 3,
       backgroundColor: colors.Backgrounds.secondary,
       alignItems: "center",
-      padding: Sizes.Spacings.STANDARD,
     },
   });
-  const shareButtonLink = `derbydemos.app/demos/${demo?.id}`;
+  const shareButtonLink = `https://derbydemos.app/demos/${demo?.id}`;
   const shareMessage = `Check out this demo titled "${demo?.title}"\n ${shareButtonLink}\n\n  Created on Derby.`;
 
   return (
     <View style={s.controls}>
       <PlayButton onToggle={togglePlay} />
       <ShareButton message={shareMessage} />
-      {isOwner && <EditButton />}
+      {isOwner && (
+        <>
+          <EditButton />
+          <RecordButton />
+        </>
+      )}
     </View>
   );
 });

@@ -2,6 +2,7 @@ import { useFonts } from "@expo-google-fonts/kalam";
 import { observer } from "mobx-react";
 import React from "react";
 import { StyleSheet } from "react-native";
+import { AppColor } from "../../../constants/Colors";
 import useDemo from "../../../contexts/DemoContext";
 import usePlayback from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
@@ -19,9 +20,7 @@ const DemoTitle = observer(() => {
 
   const s = StyleSheet.create({
     demoNameLabel: {
-      backgroundColor: focused
-        ? colors.Backgrounds.playback
-        : colors.Backgrounds.label,
+      backgroundColor: colors.Backgrounds.label,
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
@@ -30,7 +29,7 @@ const DemoTitle = observer(() => {
       borderRadius: 4,
     },
     demoNameText: {
-      color: focused ? colors.Text.default : colors.Text.contrast,
+      color: colors.Text.contrast,
       fontSize: 30,
       fontFamily: "Kalam",
     },

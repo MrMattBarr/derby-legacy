@@ -14,7 +14,7 @@ const WebHeader = () => {
   const { isMobile } = useClient();
 
   if (isMobile) {
-    return Nothing;
+    return <Nothing />;
   }
 
   return (

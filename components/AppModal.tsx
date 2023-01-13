@@ -4,9 +4,9 @@ import React from "react";
 import { GestureResponderEvent, Modal, Pressable } from "react-native";
 import { View } from "../components/Themed";
 import { useColors } from "../hooks/useColorScheme";
-import { useModal } from "../stores/ModalStore";
+import { useModal } from "../contexts/ModalContext";
 import { modalStyles } from "../styles/modals";
-import PickyLogin from "./Login";
+import PickyLogin from "./modals/Login";
 
 const AppModal = observer(() => {
   const colors = useColors();

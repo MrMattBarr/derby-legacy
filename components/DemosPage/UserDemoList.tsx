@@ -12,16 +12,11 @@ import { generateStyles } from "./styles";
 const UserDemoList = observer(() => {
   const { user } = useUser();
   const colors = useColors();
-  const { list } = generateStyles(colors);
-  const { section } = generatePageStyles(colors);
-  // return (
-  //   <View style={section}>
-  //     <Text>NO USER</Text>
-  //   </View>
-  // );
-  // if (!user) {
-  //   return <></>;
-  // }
+  const { section } = generateStyles(colors);
+
+  if (!user) {
+    return <></>;
+  }
   const demoIds = Object.keys(user?.demos);
   return (
     <View style={section}>

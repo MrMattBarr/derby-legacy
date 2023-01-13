@@ -3,8 +3,9 @@ import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
+import { Stop } from "react-native-svg";
 import { AppColor } from "../../../constants/Colors";
-import usePlayback from "../../../contexts/PlaybackContext";
+import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
 import UserSummary from "../UserSummary";
@@ -12,7 +13,10 @@ import FrontTitle from "./FrontTitle";
 import Gear from "./Gear";
 
 const TapeLabel = observer(() => {
-  const { active, playbackPercent } = usePlayback();
+  const {
+    active: { status },
+    playbackPercent,
+  } = usePlayback();
 
   let remainingProgress = 1 - (playbackPercent ?? 0);
 
@@ -131,8 +135,12 @@ const TapeLabel = observer(() => {
   });
 
   useEffect(() => {
-    spin();
-  }, []);
+    if (status === PlayState.PLAYING) {
+      spin();
+    } else {
+      rotateAnimation.stopAnimation();
+    }
+  }, [status]);
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>

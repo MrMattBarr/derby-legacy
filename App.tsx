@@ -17,7 +17,7 @@ import { RootNavigator } from "./navigation";
 import linking from "./navigation/LinkingConfiguration";
 import { AuthStoreProvider } from "./stores/AuthStore";
 import { DemosStoreProvider } from "./stores/DemosStore";
-import { ModalStoreProvider } from "./stores/ModalStore";
+import { ModalProvider } from "./contexts/ModalContext";
 import { SpotsStoreProvider } from "./stores/SpotsStore";
 import { UsersStoreProvider } from "./stores/UsersStore";
 
@@ -31,7 +31,7 @@ export default function App() {
       <SafeAreaProvider>
         <Background>
           <NavigationContainer linking={linking}>
-            <ModalStoreProvider>
+            <ModalProvider>
               <AuthStoreProvider>
                 <ApiProvider>
                   <UsersStoreProvider>
@@ -44,7 +44,6 @@ export default function App() {
                               <WebHeader />
                               <RootNavigator />
                               <PhoneBottomSpacer />
-                              <AppModal />
                               <PlaybackModal />
                               <StatusBar />
                             </ReactiveProvider>
@@ -55,7 +54,7 @@ export default function App() {
                   </UsersStoreProvider>
                 </ApiProvider>
               </AuthStoreProvider>
-            </ModalStoreProvider>
+            </ModalProvider>
           </NavigationContainer>
         </Background>
       </SafeAreaProvider>

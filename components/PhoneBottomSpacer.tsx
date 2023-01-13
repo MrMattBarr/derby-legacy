@@ -3,7 +3,7 @@ import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import useClient from "../contexts/ClientContext";
 import { useColors } from "../hooks/useColorScheme";
-import { useModal } from "../stores/ModalStore";
+import { useModal } from "../contexts/ModalContext";
 import { Sizes } from "../styles/sizes";
 import textStyles from "../styles/text";
 import TextButton from "./Buttons/TextButton";

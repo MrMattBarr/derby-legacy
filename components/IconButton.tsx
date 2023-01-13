@@ -1,18 +1,30 @@
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { AppColor } from "../constants/Colors";
 import { useColors } from "../hooks/useColorScheme";
+import { Sizes } from "../styles/sizes";
 
 export interface IIconButton {
   size?: number;
   style?: object;
   onPress: () => void;
   icon: string;
-  borderless?: boolean;
+  color?: AppColor;
+  background?: AppColor;
+  border?: AppColor;
   label?: string;
 }
 
-const PlayerButton = ({ size, onPress, icon, style }: IIconButton) => {
+const PlayerButton = ({
+  size,
+  onPress,
+  icon,
+  style,
+  color,
+  border,
+  background,
+}: IIconButton) => {
   const finalSize = size ?? 50;
   const colors = useColors();
   const styles = StyleSheet.create({
@@ -22,6 +34,13 @@ const PlayerButton = ({ size, onPress, icon, style }: IIconButton) => {
       justifyContent: "center",
       alignItems: "center",
       alignSelf: "stretch",
+      borderColor: border ?? colors.Borders.dramatic,
+      borderRadius: 50,
+      borderWidth: 1,
+      backgroundColor: background ?? "",
+      margin: Sizes.Spacings.STANDARD,
+      width: 50,
+      height: 50,
       ...style,
     },
   });
@@ -35,7 +54,7 @@ const PlayerButton = ({ size, onPress, icon, style }: IIconButton) => {
       <Entypo
         name={icon as any}
         size={finalSize * 0.65}
-        color={colors.Buttons.foreground}
+        color={color ?? colors.Buttons.foreground}
       />
     </TouchableOpacity>
   );

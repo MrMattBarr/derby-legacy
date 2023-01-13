@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme, { useColors } from "../hooks/useColorScheme";
 import * as Haptics from "expo-haptics";
+import { Sizes } from "../styles/sizes";
 
 interface IToggleButton {
   isActive?: boolean;
@@ -32,6 +33,7 @@ export default function ToggleButton({
       alignItems: "center",
       width: 50,
       height: 50,
+      margin: Sizes.Spacings.STANDARD,
       color: colors.Buttons.foreground,
     },
   });
