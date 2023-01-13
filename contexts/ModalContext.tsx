@@ -1,9 +1,6 @@
-import { JSXElement } from "@babel/types";
-import { action, makeObservable, observable, runInAction } from "mobx";
-
-import { useLocalObservable } from "mobx-react";
 import React, { useContext, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
+import ClickEater from "../components/controls/ClickEater";
 import RecordingModal from "../components/modals/Recording";
 import { modalStyles } from "../components/modals/styles";
 import { useColors } from "../hooks/useColorScheme";
@@ -42,12 +39,12 @@ export const ModalProvider = ({ children }: any) => {
         transparent
       >
         <Pressable style={styles.background} onPress={unsetModal}>
-          <View style={styles.modal}>
+          <ClickEater style={styles.modal}>
             <View style={styles.header}></View>
             <View style={styles.body}>
               <Component />
             </View>
-          </View>
+          </ClickEater>
         </Pressable>
       </Modal>
       {children}
