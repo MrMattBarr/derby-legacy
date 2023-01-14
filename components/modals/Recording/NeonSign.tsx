@@ -7,11 +7,13 @@ import { useModal } from "../../../contexts/ModalContext";
 import { Text } from "../../Themed";
 import { modalStyles } from "../styles";
 import { generateStyles } from "./styles";
+import useRecordingBooth from "./context";
 
 const RecordingModal = observer(() => {
+  const { recording } = useRecordingBooth();
   const colors = useColors();
 
-  const { sign, signText } = generateStyles(colors);
+  const { sign, signText } = generateStyles(colors, { recording });
 
   return (
     <View style={sign}>

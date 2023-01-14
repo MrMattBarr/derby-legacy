@@ -28,6 +28,7 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
     },
     body: {
       padding: Sizes.Spacings.STANDARD,
+      flexGrow: 1,
     },
   });
 };

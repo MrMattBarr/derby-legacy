@@ -2,10 +2,18 @@ import { StyleSheet } from "react-native";
 import { AppColor, Theme } from "../../../constants/Colors";
 import { Sizes } from "../../../styles/sizes";
 
-export const generateStyles = (colors: Theme) => {
+interface IRecordingStyles {
+  recording?: boolean;
+}
+
+export const generateStyles = (
+  colors: Theme,
+  { recording }: IRecordingStyles = {}
+) => {
+  const signColor = recording ? AppColor.CHALK_RED : AppColor.SLATE;
   return StyleSheet.create({
     sign: {
-      borderColor: AppColor.CHALK_RED,
+      borderColor: signColor,
       padding: Sizes.Spacings.STANDARD,
       borderRadius: Sizes.CURVED_BORDER,
       borderWidth: 2,
@@ -15,15 +23,16 @@ export const generateStyles = (colors: Theme) => {
     },
     signText: {
       fontSize: 30,
-      color: AppColor.CHALK_RED,
+      color: signColor,
       textShadowColor: "#300",
       textShadowOffset: { width: 5, height: 5 },
       textShadowRadius: 5,
     },
-    modal: {
+    booth: {
       flexGrow: 1,
       display: "flex",
       flexDirection: "column",
+      justifyContent: "space-between",
     },
   });
 };
