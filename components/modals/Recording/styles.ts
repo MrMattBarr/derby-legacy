@@ -17,6 +17,7 @@ export const generateStyles = (
       padding: Sizes.Spacings.STANDARD,
       borderRadius: Sizes.CURVED_BORDER,
       borderWidth: 2,
+      marginBottom: Sizes.Spacings.LARGE,
       alignSelf: "center",
       paddingHorizontal: Sizes.Spacings.LARGE,
       boxShadow: "5px 5px 5px #300, 5px 5px 5px #300 inset",
@@ -33,6 +34,40 @@ export const generateStyles = (
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
+    },
+    center: {
+      flexGrow: 1,
+      display: "flex",
+      justifyContent: "flex-start",
+      paddingVertical: Sizes.Spacings.LARGE,
+      flexDirection: "column",
+    },
+    playbackBox: {
+      padding: Sizes.Spacings.STANDARD,
+      borderWidth: 1,
+      backgroundColor: recording
+        ? colors.Backgrounds.playback
+        : colors.Backgrounds.empty,
+      borderColor: colors.Borders.dramatic,
+      width: Sizes.ContentWidths.CENTER,
+      height: Sizes.ContentHeights.MEDIUM,
+      borderRadius: Sizes.CURVED_BORDER,
+      alignItems: "center",
+      justifyContent: "center",
+      display: "flex",
+      alignSelf: "center",
+    },
+    header: {
+      fontSize: Sizes.Fonts.HEADER,
+      alignSelf: "center",
+      color: colors.Text.default,
+      marginBottom: Sizes.Spacings.STANDARD,
+    },
+    detail: {
+      fontSize: Sizes.Fonts.DFEAULT,
+      alignSelf: "center",
+      color: colors.Text.subtle,
+      opacity: 0.9,
     },
   });
 };

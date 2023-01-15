@@ -37,6 +37,7 @@ export interface Theme {
   Text: {
     default: AppColor;
     delete: AppColor;
+    subtle: AppColor;
     placeholder: AppColor;
     contrast: AppColor;
   };
@@ -73,6 +74,7 @@ const AppDarkTheme: Theme = {
   Text: {
     contrast: AppColor.NEARLY_BLACK,
     default: AppColor.SNOW_WHITE,
+    subtle: AppColor.FADED_WHITE,
     delete: AppColor.CHALK_RED,
     placeholder: AppColor.STONE_GRAY,
   },

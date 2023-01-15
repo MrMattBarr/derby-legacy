@@ -13,7 +13,7 @@ const RecordingModal = observer(() => {
   const { recording } = useRecordingBooth();
   const colors = useColors();
 
-  const { sign, signText } = generateStyles(colors, { recording });
+  const { sign, signText } = generateStyles(colors, { recording: !!recording });
 
   return (
     <View style={sign}>

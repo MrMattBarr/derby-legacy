@@ -5,17 +5,19 @@ import { useColors } from "../../../hooks/useColorScheme";
 import BigButton from "./BigButton";
 import { RecordingBoothProvider } from "./context";
 import NeonSign from "./NeonSign";
-import PlaybackButton from "./PlaybackButton";
+import PlaybackBox from "./PlaybackBox";
 import { generateStyles } from "./styles";
 
 const RecordingModal = observer(() => {
   const colors = useColors();
-  const { booth } = generateStyles(colors);
+  const { booth, center } = generateStyles(colors);
   return (
     <RecordingBoothProvider>
       <View style={booth}>
         <NeonSign />
-        <PlaybackButton />
+        <View style={center}>
+          <PlaybackBox />
+        </View>
         <BigButton />
       </View>
     </RecordingBoothProvider>

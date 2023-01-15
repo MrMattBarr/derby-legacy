@@ -5,8 +5,18 @@ export const Sizes = {
     STANDARD: 10,
     SMALL: 5,
   },
+  ContentWidths: {
+    CENTER: 500,
+  },
+  ContentHeights: {
+    MEDIUM: 200,
+  },
   Pages: {
     WEB: 1000,
+  },
+  Fonts: {
+    HEADER: 20,
+    DFEAULT: 14,
   },
   CURVED_BORDER: 5,
   VERY_CURVED_BORDER: 20,

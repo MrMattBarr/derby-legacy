@@ -12,10 +12,9 @@ const PlaybackButton = () => {
   const { audio, recording, playback } = useRecordingBooth();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const finalSize = 100;
   const ON_COLOR = AppColor.CHALK_RED;
   const OFF_COLOR = AppColor.SLATE;
-  const buttonSize = 200;
+  const buttonSize = 100;
   const styles = StyleSheet.create({
     appButton: {
       fontSize: 12,
@@ -30,7 +29,6 @@ const PlaybackButton = () => {
       margin: Sizes.Spacings.STANDARD,
       width: buttonSize,
       height: buttonSize,
-      marginBottom: 50,
     },
   });
 
@@ -46,7 +44,11 @@ const PlaybackButton = () => {
 
   return (
     <Pressable style={styles.appButton} onPress={playback}>
-      <Entypo name="controller-play" size={finalSize * 0.65} color={ON_COLOR} />
+      <Entypo
+        name="controller-play"
+        size={buttonSize * 0.65}
+        color={ON_COLOR}
+      />
     </Pressable>
   );
 };
