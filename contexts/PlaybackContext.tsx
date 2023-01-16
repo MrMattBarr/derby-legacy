@@ -1,4 +1,4 @@
-import { AVPlaybackStatus, AVPlaybackStatusSuccess } from "expo-av";
+import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from "expo-av";
 import { runInAction } from "mobx";
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
@@ -16,20 +16,17 @@ export enum PlayState {
   READY = "READY",
 }
 
-type Active = {
-  demo?: string;
-  spot?: string;
-  status: PlayState;
-};
-
 type PlaybackContract = {
-  active: Active;
+  audio?: Audio.Sound;
+  state: PlayState;
   playbackPercent?: number;
+  duration: number;
   demo?: Demo;
   spot?: Spot;
   spots: Spot[];
   togglePlay: () => void;
   play: (timeStamp?: number) => void;
+  setAudio: (audio: Audio.Sound, duration: number) => void;
   pause: () => void;
   resume: () => void;
   onFinish: () => void;
@@ -43,48 +40,47 @@ export const PlaybackProvider = ({ children }: any) => {
   const SpotsStore = useSpots();
   const store = useLocalObservable<PlaybackContract>(() => ({
     playbackPercent: 0,
-    active: {
-      status: PlayState.PAUSED,
-    },
+    state: PlayState.READY,
+    duration: 0,
     spots: [],
     pause() {
       runInAction(() => {
-        this.spot?.audio?.pauseAsync();
-        this.active.status = PlayState.PAUSED;
+        this.audio?.pauseAsync();
+        this.state = PlayState.PAUSED;
       });
     },
     onFinish() {
-      let foundActive = false;
-      let foundNext = false;
-
-      this.spots.forEach((nextSpot) => {
-        if (nextSpot.id === this.spot!.id) {
-          foundActive = true;
-        } else {
-          if (foundActive && !foundNext) {
-            foundNext = true;
-            this.spot!.audio?.setOnPlaybackStatusUpdate(null);
-            nextSpot.audio?.setOnPlaybackStatusUpdate(
-              (status: AVPlaybackStatus) => {
-                runInAction(() => {
-                  this.spot = nextSpot;
-                  this.updatePlaybackPercent(status);
-                });
-              }
-            );
-            nextSpot.audio?.playFromPositionAsync(0);
-          }
-        }
+      // let foundActive = false;
+      // let foundNext = false;
+      // this.spots.forEach((nextSpot) => {
+      //   if (nextSpot.id === this.spot!.id) {
+      //     foundActive = true;
+      //   } else {
+      //     if (foundActive && !foundNext) {
+      //       foundNext = true;
+      //       this.audio?.setOnPlaybackStatusUpdate(null);
+      //       this.audio = nextSpot.audio;
+      //       this.audio?.setOnPlaybackStatusUpdate(
+      //         (status: AVPlaybackStatus) => {
+      //           runInAction(() => {
+      //             this.spot = nextSpot;
+      //             this.updatePlaybackPercent(status);
+      //           });
+      //         }
+      //       );
+      //       this.audio?.playFromPositionAsync(0);
+      //     }
+      //   }
+      // });
+      // if (!foundNext) {
+      runInAction(() => {
+        this.state = PlayState.READY;
       });
-
-      if (!foundNext) {
-        runInAction(() => {
-          this.active.status = PlayState.READY;
-        });
-      }
+      // }
     },
     togglePlay() {
-      switch (this.active.status) {
+      console.log({ state: this.state, audio: this.audio });
+      switch (this.state) {
         case PlayState.PAUSED:
           this.resume();
           break;
@@ -100,13 +96,19 @@ export const PlaybackProvider = ({ children }: any) => {
     },
     resume() {
       runInAction(() => {
-        this.spot?.audio?.playAsync();
-        this.active.status = PlayState.PLAYING;
+        this.audio?.playAsync();
+        this.state = PlayState.PLAYING;
+      });
+    },
+    setAudio(audio: Audio.Sound, duration: number) {
+      runInAction(() => {
+        this.audio = audio;
+        this.playbackPercent = 0;
+        this.duration = duration;
       });
     },
     focusDemo(id: string) {
       runInAction(() => {
-        this.active.demo = id;
         const demo = DemosStore.demos[id];
         this.demo = demo;
         this.spots = (demo.spots ?? []).map(
@@ -117,68 +119,53 @@ export const PlaybackProvider = ({ children }: any) => {
       });
     },
     updatePlaybackPercent(status: AVPlaybackStatus) {
-      if (!this.spot) {
-        return;
-      }
       const { positionMillis, durationMillis } =
         status as AVPlaybackStatusSuccess;
-      const durationSecs = durationMillis! / 1000;
-      if (durationSecs !== this.spot.length) {
-        runInAction(() => {
-          this.spot!.length = durationSecs;
-          updateSpot(this.spot!);
-        });
-      }
 
-      let elapsed = 0;
-      let total = 0;
-      let foundActive = false;
+      // let elapsed = 0;
+      // let total = 0;
+      // let foundActive = false;
 
-      this.spots.forEach((nextSpot) => {
-        const spotLength = (nextSpot.length ?? 0) * MS_TO_S;
-        if (!foundActive) {
-          if (this.spot!.id !== nextSpot.id) {
-            elapsed += spotLength;
-          } else {
-            elapsed += positionMillis;
-            foundActive = true;
-          }
-        }
-        total += spotLength;
-      });
-      const percent = elapsed / total;
-      runInAction(() => {
-        this.playbackPercent = percent;
-      });
+      // this.spots.forEach((nextSpot) => {
+      //   const spotLength = (nextSpot.length ?? 0);
+      //   if (!foundActive) {
+      //     if (this.spot!.id !== nextSpot.id) {
+      //       elapsed += spotLength;
+      //     } else {
+      //       elapsed += positionMillis;
+      //       foundActive = true;
+      //     }
+      //   }
+      //   total += spotLength;
+      // });
+      const percent = positionMillis / this.duration;
       const finishedSpot = durationMillis === positionMillis;
+      runInAction(() => {
+        this.playbackPercent = finishedSpot ? 1 : percent;
+      });
       if (finishedSpot) {
         runInAction(() => this.onFinish());
       }
     },
     play(timeStamp?: number) {
-      if (!this.active.demo) {
-        console.warn("Cannot play demo with no active demo");
-        return;
-      }
-      const activeSpotIndex = 0;
+      // const activeSpotIndex = 0;
       let adjustedPosition = timeStamp ?? 0;
-      const isTooLong = false;
-      const demo = DemosStore.demos[this.active.demo];
-      const spotId = demo.spots![activeSpotIndex];
-      while (isTooLong) {}
-      runInAction(() => {
-        this.spot = SpotsStore.spots[spotId];
+      // const isTooLong = false;
+      // const spotId = this.demo.spots![activeSpotIndex];
+      // while (isTooLong) {}
+      // runInAction(() => {
+      //   const spot = SpotsStore.spots[spotId];
+      //   this.spot = spot;
+      //   this.audio = spot.audio;
+      // });
+      this.audio?.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
+        runInAction(() => {
+          this.updatePlaybackPercent(status);
+        });
       });
-      this.spot!.audio?.setOnPlaybackStatusUpdate(
-        (status: AVPlaybackStatus) => {
-          runInAction(() => {
-            this.updatePlaybackPercent(status);
-          });
-        }
-      );
-      this.spot!.audio?.playFromPositionAsync(adjustedPosition);
+      this.audio?.playFromPositionAsync(adjustedPosition);
       runInAction(() => {
-        this.active.status = PlayState.PLAYING;
+        this.state = PlayState.PLAYING;
       });
     },
   }));

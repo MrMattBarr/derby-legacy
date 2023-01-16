@@ -39,7 +39,7 @@ const Demo = observer(() => {
         <EditButton style={{ marginRight: Sizes.Spacings.STANDARD }} />
         <PlayButton
           onToggle={toggle}
-          playing={PlaybackStore.active.status === PlayState.PLAYING}
+          playing={PlaybackStore.state === PlayState.PLAYING}
         />
       </View>
     </Pressable>

@@ -1,5 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
+import * as Haptics from "expo-haptics";
 import { useColors } from "../../hooks/useColorScheme";
 import ToggleButton from "../ToggleButton";
 
@@ -10,10 +11,15 @@ interface IPlayButton {
 
 const PlayButton = ({ onToggle, playing }: IPlayButton) => {
   const colors = useColors();
+
+  const hapticToggle = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onToggle!();
+  };
   return (
     <ToggleButton
       isActive={playing}
-      onToggle={onToggle}
+      onToggle={hapticToggle}
       InactiveIcon={() => (
         <FontAwesome
           name="play"

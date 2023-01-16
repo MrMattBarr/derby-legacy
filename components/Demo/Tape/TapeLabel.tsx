@@ -13,10 +13,7 @@ import FrontTitle from "./FrontTitle";
 import Gear from "./Gear";
 
 const TapeLabel = observer(() => {
-  const {
-    active: { status },
-    playbackPercent,
-  } = usePlayback();
+  const { state, playbackPercent } = usePlayback();
 
   let remainingProgress = 1 - (playbackPercent ?? 0);
 
@@ -135,12 +132,12 @@ const TapeLabel = observer(() => {
   });
 
   useEffect(() => {
-    if (status === PlayState.PLAYING) {
+    if (state === PlayState.PLAYING) {
       spin();
     } else {
       rotateAnimation.stopAnimation();
     }
-  }, [status]);
+  }, [state]);
 
   return (
     <LinearGradient colors={["#fb7ba2", "#fce043"]} style={s.label}>

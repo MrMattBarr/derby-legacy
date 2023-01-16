@@ -1,13 +1,17 @@
 import { Audio } from "expo-av";
 import { Recording, Sound } from "expo-av/build/Audio";
+import { runInAction } from "mobx";
 import { observer } from "mobx-react";
-import React, { createContext, useContext, useState } from "react";
+
+import React, { createContext, useContext, useEffect, useState } from "react";
+import usePlayback from "../../../contexts/PlaybackContext";
 
 type BoothContract = {
   recording?: Recording;
   startRecording: () => Promise<void>;
   stopRecording: () => Promise<void>;
   playback: () => void;
+  reset: () => void;
   audio?: Sound;
 };
 
@@ -18,11 +22,11 @@ interface IRecordingBoothContext {
 const RecordingBoothContext = createContext({} as BoothContract);
 export const RecordingBoothProvider = observer(
   ({ children }: IRecordingBoothContext) => {
+    const PlaybackStore = usePlayback();
     const [recording, setRecording] = useState<Recording | undefined>();
     const [audio, setAudio] = useState<Sound | undefined>();
     const [duration, setDuration] = useState(0);
     const startRecording = async () => {
-      setAudio(undefined);
       try {
         await Audio.requestPermissionsAsync();
         await Audio.setAudioModeAsync({
@@ -34,6 +38,7 @@ export const RecordingBoothProvider = observer(
           Audio.RecordingOptionsPresets.HIGH_QUALITY
         );
         setRecording(recording);
+        setAudio(undefined);
       } catch (err) {
         console.error("Failed to start recording", err);
       }
@@ -47,8 +52,9 @@ export const RecordingBoothProvider = observer(
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
       });
-      console.log({ recording });
+
       const { sound } = await recording.createNewLoadedSoundAsync();
+      PlaybackStore.setAudio(sound, recording._finalDurationMillis);
       setAudio(sound);
       setDuration(recording._finalDurationMillis);
       setRecording(undefined);
@@ -58,7 +64,20 @@ export const RecordingBoothProvider = observer(
       audio?.playAsync();
     };
 
-    const value = { recording, startRecording, stopRecording, audio, playback };
+    const reset = () => {
+      audio?.stopAsync();
+      setAudio(undefined);
+      setRecording(undefined);
+    };
+
+    const value = {
+      recording,
+      startRecording,
+      stopRecording,
+      audio,
+      playback,
+      reset,
+    };
 
     return (
       <RecordingBoothContext.Provider value={value}>

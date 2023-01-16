@@ -39,7 +39,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     content: {
       margin: Sizes.Spacings.STANDARD,
     },
-    playbackModal: {
+    playback: {
       margin: Sizes.Spacings.SMALL,
       backgroundColor: colors.Backgrounds.playback,
       flexGrow: 1,
@@ -48,13 +48,8 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       alignItems: "center",
       borderRadius: Sizes.CURVED_BORDER,
       borderWidth: 1,
+      overflow: "hidden",
       borderColor: colors.Borders.default,
-      ...Platform.select({
-        web: isMobile ? {} : webModal,
-        native: {
-          maxHeight: 70,
-        },
-      }),
     },
   });
 };

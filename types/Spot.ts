@@ -3,18 +3,21 @@ import { DocumentResult } from "expo-document-picker";
 import { getStorage } from "firebase/storage";
 import { randomId } from "../utils";
 
-export type Spot = {
+export type SaveableSpot = {
   title: string;
   transcript?: string;
   recordDate?: Date;
   uploadDate: Date;
-  tags: string[];
-  length?: number;
-  audio?: Audio.Sound;
-  author: string;
-  id: string;
+  length: number;
   url: string;
+  tags: string[];
+  author: string;
 };
+
+export interface Spot extends SaveableSpot {
+  audio?: Audio.Sound;
+  id: string;
+}
 
 export const spotFromFile = (
   file: DocumentResult,
@@ -24,6 +27,7 @@ export const spotFromFile = (
     const storage = getStorage();
     const spot: Spot = {
       title: file.name,
+      length: partialSpot.length ?? 0,
       tags: partialSpot.tags ?? [],
       author: partialSpot.author || "",
       recordDate: partialSpot.recordDate ?? new Date(),

@@ -3,6 +3,7 @@ import { Platform, useWindowDimensions } from "react-native";
 
 type IClientContext = {
   isMobile: boolean;
+  isApp: boolean;
 };
 
 const ClientContext = React.createContext({} as IClientContext);
@@ -13,7 +14,7 @@ export const ClientProvider = ({ children, id }: any) => {
   const isMobile = width <= 1000 || isApp;
 
   return (
-    <ClientContext.Provider value={{ isMobile }}>
+    <ClientContext.Provider value={{ isMobile, isApp }}>
       {children}
     </ClientContext.Provider>
   );

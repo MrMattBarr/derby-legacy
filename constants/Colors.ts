@@ -8,6 +8,7 @@ export enum AppColor {
   FADED_WHITE = "#CCCCCC",
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
+  TRANSPARENT_WHITE = "#FFFFFF09",
   CLEAR_TEAL = "#0e5c6599",
   PROGRESS_GREEN = "#08640f99",
   NEARLY_BLACK = "#090909",
@@ -59,6 +60,10 @@ export interface Theme {
     foreground: AppColor;
     background: AppColor;
   };
+  Gear: {
+    inactive: AppColor;
+    active: AppColor;
+  };
   Player: {
     progress: AppColor;
     background: AppColor;
@@ -95,6 +100,10 @@ const AppDarkTheme: Theme = {
   Buttons: {
     foreground: AppColor.FADED_WHITE,
     background: AppColor.CHARCOAL,
+  },
+  Gear: {
+    inactive: AppColor.TRANSPARENT_WHITE,
+    active: AppColor.OLIVE_GREEN,
   },
   Player: {
     progress: AppColor.PROGRESS_GREEN,

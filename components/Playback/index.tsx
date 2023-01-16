@@ -1,35 +1,33 @@
 import { observer } from "mobx-react";
-import React, { useState } from "react";
+import React, { ReactNode } from "react";
+import { Pressable } from "react-native";
 import useClient from "../../contexts/ClientContext";
-import { DemoProvider } from "../../contexts/DemoContext";
 import usePlayback from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
-import textStyles from "../../styles/text";
 import BackgroundProgressBar from "../BackgroundProgressBar";
-import { View } from "../Themed";
-import Demo from "./Demo";
 import { generateStyles } from "./styles";
 
-const Playback = observer(() => {
-  const [focused, focus] = useState(false);
+interface iPlayback {
+  children?: ReactNode;
+}
+
+const Playback = observer(({ children }: iPlayback) => {
   const playbackStore = usePlayback();
-  const { active, playbackPercent } = playbackStore;
+  const { playbackPercent, togglePlay } = playbackStore;
   const colors = useColors();
   const { isMobile } = useClient();
-  const { holder, playbackModal } = generateStyles(colors, { isMobile });
-  if (!active.demo) {
-    return <></>;
-  }
+  const { playback } = generateStyles(colors, { isMobile });
+
+  const toggle = () => {
+    console.log("toggling");
+    playbackStore.togglePlay();
+  };
 
   return (
-    <View style={holder}>
-      <View style={playbackModal}>
-        <BackgroundProgressBar progress={playbackPercent} />
-        <DemoProvider id={active.demo}>
-          <Demo />
-        </DemoProvider>
-      </View>
-    </View>
+    <Pressable style={playback} onPress={toggle}>
+      <BackgroundProgressBar progress={playbackStore.playbackPercent} />
+      {children}
+    </Pressable>
   );
 });
 export default Playback;

@@ -14,7 +14,7 @@ const PlaybackButton = () => {
 
   const ON_COLOR = AppColor.CHALK_RED;
   const OFF_COLOR = AppColor.SLATE;
-  const buttonSize = 100;
+  const buttonSize = 60;
   const styles = StyleSheet.create({
     appButton: {
       fontSize: 12,

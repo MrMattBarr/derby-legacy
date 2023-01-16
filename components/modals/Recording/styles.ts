@@ -42,20 +42,30 @@ export const generateStyles = (
       paddingVertical: Sizes.Spacings.LARGE,
       flexDirection: "column",
     },
+    holder: {
+      alignSelf: "center",
+      alignItems: "stretch",
+      padding: Sizes.Spacings.STANDARD,
+      display: "flex",
+      width: Sizes.ContentWidths.CENTER,
+    },
     playbackBox: {
       padding: Sizes.Spacings.STANDARD,
       borderWidth: 1,
+      flexGrow: 1,
       backgroundColor: recording
         ? colors.Backgrounds.playback
         : colors.Backgrounds.empty,
       borderColor: colors.Borders.dramatic,
-      width: Sizes.ContentWidths.CENTER,
-      height: Sizes.ContentHeights.MEDIUM,
+      maxWidth: Sizes.ContentWidths.CENTER,
+      minHeight: Sizes.ContentHeights.MEDIUM,
       borderRadius: Sizes.CURVED_BORDER,
       alignItems: "center",
       justifyContent: "center",
       display: "flex",
-      alignSelf: "center",
+    },
+    spinner: {
+      position: "absolute",
     },
     header: {
       fontSize: Sizes.Fonts.HEADER,
@@ -69,5 +79,6 @@ export const generateStyles = (
       color: colors.Text.subtle,
       opacity: 0.9,
     },
+    recordButton: {},
   });
 };

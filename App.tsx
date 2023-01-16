@@ -31,14 +31,14 @@ export default function App() {
       <SafeAreaProvider>
         <Background>
           <NavigationContainer linking={linking}>
-            <ModalProvider>
-              <AuthStoreProvider>
-                <ApiProvider>
-                  <UsersStoreProvider>
-                    <SpotsStoreProvider>
-                      <DemosStoreProvider>
-                        <PlaybackProvider>
-                          <ClientProvider>
+            <AuthStoreProvider>
+              <ApiProvider>
+                <UsersStoreProvider>
+                  <SpotsStoreProvider>
+                    <DemosStoreProvider>
+                      <PlaybackProvider>
+                        <ClientProvider>
+                          <ModalProvider>
                             <ReactiveProvider>
                               <PhoneTopSpacer />
                               <WebHeader />
@@ -47,14 +47,14 @@ export default function App() {
                               <PlaybackModal />
                               <StatusBar />
                             </ReactiveProvider>
-                          </ClientProvider>
-                        </PlaybackProvider>
-                      </DemosStoreProvider>
-                    </SpotsStoreProvider>
-                  </UsersStoreProvider>
-                </ApiProvider>
-              </AuthStoreProvider>
-            </ModalProvider>
+                          </ModalProvider>
+                        </ClientProvider>
+                      </PlaybackProvider>
+                    </DemosStoreProvider>
+                  </SpotsStoreProvider>
+                </UsersStoreProvider>
+              </ApiProvider>
+            </AuthStoreProvider>
           </NavigationContainer>
         </Background>
       </SafeAreaProvider>

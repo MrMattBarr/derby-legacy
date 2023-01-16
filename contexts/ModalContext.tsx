@@ -26,7 +26,7 @@ export const ModalContext = React.createContext<ModalContract | undefined>(
 export const ModalProvider = ({ children }: any) => {
   const colors = useColors();
   const styles = modalStyles(colors);
-  const [modal, setModal] = useState(ModalKey.NONE);
+  const [modal, setModal] = useState(ModalKey.RECORDING);
   const Component = ModalByKey[modal];
   const unsetModal = () => {
     setModal(ModalKey.NONE);
