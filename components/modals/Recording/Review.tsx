@@ -1,17 +1,16 @@
 import { observer } from "mobx-react";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { useColors } from "../../../hooks/useColorScheme";
-import Playback from "../../Playback";
 import useRecordingBooth from "./context";
-import PlaybackButton from "./PlaybackButton";
-import Spinner from "./Spinner";
+import PlaybackView from "./PlaybackView";
 import { generateStyles } from "./styles";
 import Texts from "./texts";
 
 const Review = observer(() => {
   const colors = useColors();
-  const { header, detail, holder } = generateStyles(colors);
+  const { header, detail, secondaryButton, secondaryButtonText } =
+    generateStyles(colors);
   const { reset } = useRecordingBooth();
   const headerText = "Got it!";
   const pleaseReview =
@@ -22,10 +21,15 @@ const Review = observer(() => {
     <View>
       <Text style={header}>{headerText}</Text>
       <Text style={detail}>{pleaseReview}</Text>
-      <Playback>
-        <Text style={detail}>Some text</Text>
-      </Playback>
+      <PlaybackView />
       <Text style={detail}>{nextSteps}</Text>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={secondaryButton}
+        onPress={reset}
+      >
+        <Text style={secondaryButtonText}>{Texts.RE_RECORD_BUTTON}</Text>
+      </TouchableOpacity>
     </View>
   );
 });

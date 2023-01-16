@@ -49,6 +49,12 @@ export const generateStyles = (
       display: "flex",
       width: Sizes.ContentWidths.CENTER,
     },
+    playback: {
+      padding: Sizes.Spacings.STANDARD,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
     playbackBox: {
       padding: Sizes.Spacings.STANDARD,
       borderWidth: 1,
@@ -61,11 +67,24 @@ export const generateStyles = (
       minHeight: Sizes.ContentHeights.MEDIUM,
       borderRadius: Sizes.CURVED_BORDER,
       alignItems: "center",
-      justifyContent: "center",
       display: "flex",
     },
     spinner: {
       position: "absolute",
+    },
+    secondaryButton: {
+      borderRadius: Sizes.CURVED_BORDER,
+      borderColor: colors.Borders.default,
+      borderWidth: 1,
+      marginTop: Sizes.Spacings.STANDARD,
+      padding: Sizes.Spacings.STANDARD,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      backgroundColor: colors.Backgrounds.default,
+    },
+    secondaryButtonText: {
+      color: colors.Text.default,
     },
     header: {
       fontSize: Sizes.Fonts.HEADER,
@@ -75,7 +94,6 @@ export const generateStyles = (
     },
     detail: {
       fontSize: Sizes.Fonts.DFEAULT,
-      alignSelf: "center",
       color: colors.Text.subtle,
       opacity: 0.9,
     },

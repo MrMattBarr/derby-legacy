@@ -40,7 +40,6 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       margin: Sizes.Spacings.STANDARD,
     },
     playback: {
-      margin: Sizes.Spacings.SMALL,
       backgroundColor: colors.Backgrounds.playback,
       flexGrow: 1,
       display: "flex",
