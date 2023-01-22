@@ -53,5 +53,17 @@ export const generateStyles = (colors: Theme) => {
       right: 0,
       flexGrow: 1,
     },
+    trackList: {
+      overflow: "hidden",
+      padding: Sizes.Spacings.STANDARD,
+      alignSelf: "stretch",
+      maxWidth: Sizes.ContentWidths.CENTER,
+    },
+    listHolder: {
+      borderRadius: Sizes.CURVED_BORDER,
+      borderColor: colors.Borders.default,
+      backgroundColor: colors.Backgrounds.empty,
+      borderWidth: 2,
+    },
   });
 };

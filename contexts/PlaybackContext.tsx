@@ -1,7 +1,7 @@
 import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from "expo-av";
 import { runInAction } from "mobx";
 import { useLocalObservable } from "mobx-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { updateSpot } from "../api";
 import { useDemos } from "../stores/DemosStore";
 import { useSpots } from "../stores/SpotsStore";
@@ -30,6 +30,7 @@ type PlaybackContract = {
   pause: () => void;
   resume: () => void;
   onFinish: () => void;
+  reset: () => void;
   updatePlaybackPercent: (status: AVPlaybackStatus) => void;
   focusDemo: (id: string) => void;
 };
@@ -79,7 +80,6 @@ export const PlaybackProvider = ({ children }: any) => {
       // }
     },
     togglePlay() {
-      console.log({ state: this.state, audio: this.audio });
       switch (this.state) {
         case PlayState.PAUSED:
           this.resume();
@@ -102,6 +102,7 @@ export const PlaybackProvider = ({ children }: any) => {
     },
     setAudio(audio: Audio.Sound, duration: number) {
       runInAction(() => {
+        console.log({ duration });
         this.audio = audio;
         this.playbackPercent = 0;
         this.duration = duration;
@@ -115,6 +116,10 @@ export const PlaybackProvider = ({ children }: any) => {
           (spotId) => SpotsStore.spots[spotId]
         );
         this.playbackPercent = 0;
+        console.log(this.spots[0]);
+        if (this.spots[0]?.audio) {
+          this.setAudio(this.spots[0].audio, this.spots[0].length);
+        }
         this.play();
       });
     },
@@ -147,7 +152,7 @@ export const PlaybackProvider = ({ children }: any) => {
         runInAction(() => this.onFinish());
       }
     },
-    play(timeStamp?: number) {
+    async play(timeStamp?: number) {
       // const activeSpotIndex = 0;
       let adjustedPosition = timeStamp ?? 0;
       // const isTooLong = false;
@@ -158,14 +163,23 @@ export const PlaybackProvider = ({ children }: any) => {
       //   this.spot = spot;
       //   this.audio = spot.audio;
       // });
-      this.audio?.setOnPlaybackStatusUpdate((status: AVPlaybackStatus) => {
-        runInAction(() => {
-          this.updatePlaybackPercent(status);
-        });
-      });
-      this.audio?.playFromPositionAsync(adjustedPosition);
+      await this.audio?.setOnPlaybackStatusUpdate(
+        (status: AVPlaybackStatus) => {
+          runInAction(() => {
+            this.updatePlaybackPercent(status);
+          });
+        }
+      );
+      await this.audio?.playFromPositionAsync(adjustedPosition);
+      await this.audio?.setProgressUpdateIntervalAsync(25);
       runInAction(() => {
         this.state = PlayState.PLAYING;
+      });
+    },
+    reset() {
+      this.audio?.stopAsync();
+      runInAction(() => {
+        this.audio = undefined;
       });
     },
   }));

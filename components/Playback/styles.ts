@@ -20,6 +20,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     holder: {
       position: "absolute",
       width: "100%",
+      padding: Sizes.Spacings.SMALL,
       display: "flex",
       overflow: "hidden",
       bottom: isMobile ? Sizes.PHONE_BOTTOM_NAV : Sizes.Spacings.STANDARD,

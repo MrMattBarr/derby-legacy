@@ -9,7 +9,6 @@ import { generateStyles } from "./styles";
 
 const TitleInput = observer(() => {
   const demoContext = useDemo();
-  console.log(toJS(demoContext.demo));
   const { title } = demoContext.demo!;
   const colors = useColors();
   const { h1 } = textStyles(colors);

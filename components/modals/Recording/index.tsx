@@ -2,11 +2,12 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
 import { useColors } from "../../../hooks/useColorScheme";
-import BigButton from "./BigButton";
+import MicButton from "./MicButton";
 import { RecordingBoothProvider } from "./context";
 import NeonSign from "./NeonSign";
 import PlaybackBox from "./PlaybackBox";
 import { generateStyles } from "./styles";
+import BottomButton from "./BottomButton";
 
 const RecordingModal = observer(() => {
   const colors = useColors();
@@ -18,7 +19,7 @@ const RecordingModal = observer(() => {
         <View style={center}>
           <PlaybackBox />
         </View>
-        <BigButton />
+        <BottomButton />
       </View>
     </RecordingBoothProvider>
   );

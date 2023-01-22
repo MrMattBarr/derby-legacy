@@ -9,6 +9,7 @@ import useDemo from "../../contexts/DemoContext";
 import { useColors } from "../../hooks/useColorScheme";
 import Track from "./Track";
 import { Sizes } from "../../styles/sizes";
+import { generateStyles } from "./styles";
 
 const TrackList = observer(() => {
   const colors = useColors();
@@ -18,26 +19,15 @@ const TrackList = observer(() => {
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
-  const s = StyleSheet.create({
-    trackList: {
-      width: 500,
-      padding: Sizes.Spacings.LARGE,
-    },
-    listHolder: {
-      borderRadius: Sizes.CURVED_BORDER,
-      borderColor: colors.Borders.default,
-      backgroundColor: colors.Backgrounds.empty,
-      borderWidth: 2,
-    },
-  });
+  const { trackList, listHolder } = generateStyles(colors);
 
   if (!fontsLoaded || !jsDemo?.spots) {
     return <></>;
   }
 
   return (
-    <View style={s.trackList}>
-      <View style={s.listHolder}>
+    <View style={trackList}>
+      <View style={listHolder}>
         {(jsDemo?.spots ?? []).map((id, index) => {
           return <Track id={id} key={id} index={index + 1} />;
         })}

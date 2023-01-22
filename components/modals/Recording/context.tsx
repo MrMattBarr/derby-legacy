@@ -4,15 +4,39 @@ import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { MAX_SPOT_LENGTH } from "../../../constants/restrictions";
 import usePlayback from "../../../contexts/PlaybackContext";
+import { useAuth } from "../../../stores/AuthStore";
+import { useSpots } from "../../../stores/SpotsStore";
+import { Visibility } from "../../../types/Demo";
+import Spot, { SaveableSpot } from "../../../types/Spot";
+
+export enum RecordingState {
+  READY = "READY",
+  RECORDING = "RECORDING",
+  REVIEW = "REVIEW",
+  POST = "POST",
+}
+
+export enum RecordingError {
+  TOO_LONG = "TOO_LONG",
+}
+
+export const ErrorMessages: Record<RecordingError, String> = {
+  [RecordingError.TOO_LONG]: `Unfortunately, at this time we can't support audio uploads that are over ${Math.ceil(
+    MAX_SPOT_LENGTH / 1000
+  )} seconds long. You'll have to try again and bring it in range. Good luck!`,
+};
 
 type BoothContract = {
   recording?: Recording;
+  recordingState: RecordingState;
   startRecording: () => Promise<void>;
+  error?: RecordingError;
   stopRecording: () => Promise<void>;
-  playback: () => void;
   reset: () => void;
-  audio?: Sound;
+  upload: () => void;
+  readyToRecord: boolean;
 };
 
 interface IRecordingBoothContext {
@@ -23,9 +47,30 @@ const RecordingBoothContext = createContext({} as BoothContract);
 export const RecordingBoothProvider = observer(
   ({ children }: IRecordingBoothContext) => {
     const PlaybackStore = usePlayback();
+    const SpotsStore = useSpots();
+    const authStore = useAuth();
+    const uid = authStore.user!.uid;
+    const [recordingState, setRecordingState] = useState(RecordingState.READY);
     const [recording, setRecording] = useState<Recording | undefined>();
-    const [audio, setAudio] = useState<Sound | undefined>();
-    const [duration, setDuration] = useState(0);
+    const [recordStart, setRecordStart] = useState(0);
+    const [error, setError] = useState<RecordingError | undefined>();
+    const audio = PlaybackStore.audio;
+
+    const readyToRecord = !recording && !audio;
+
+    const upload = async () => {
+      const newSpot: SaveableSpot = {
+        title: "New Spot",
+        author: uid,
+        tags: [],
+        url: "",
+        visibility: Visibility.DRAFT,
+        created: Date.now(),
+        length: PlaybackStore.duration,
+      };
+      const uploadedDemo = await SpotsStore.createSpot(newSpot, recording!);
+    };
+
     const startRecording = async () => {
       try {
         await Audio.requestPermissionsAsync();
@@ -37,8 +82,9 @@ export const RecordingBoothProvider = observer(
         const { recording } = await Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.HIGH_QUALITY
         );
+        setRecordStart(Date.now());
         setRecording(recording);
-        setAudio(undefined);
+        setRecordingState(RecordingState.RECORDING);
       } catch (err) {
         console.error("Failed to start recording", err);
       }
@@ -54,29 +100,32 @@ export const RecordingBoothProvider = observer(
       });
 
       const { sound } = await recording.createNewLoadedSoundAsync();
-      PlaybackStore.setAudio(sound, recording._finalDurationMillis);
-      setAudio(sound);
-      setDuration(recording._finalDurationMillis);
-      setRecording(undefined);
+      const duration = Date.now() - recordStart;
+      PlaybackStore.setAudio(sound, duration);
+      setRecordStart(0);
+      setRecordingState(RecordingState.REVIEW);
+      if (duration > MAX_SPOT_LENGTH) {
+        setError(RecordingError.TOO_LONG);
+      }
     };
-
-    const playback = () => {
-      audio?.playAsync();
-    };
-
     const reset = () => {
-      audio?.stopAsync();
-      setAudio(undefined);
       setRecording(undefined);
+      setError(undefined);
+      setRecordingState(RecordingState.READY);
+      PlaybackStore.reset();
     };
+
+    useEffect(reset, []);
 
     const value = {
       recording,
       startRecording,
       stopRecording,
-      audio,
-      playback,
+      error,
+      recordingState,
+      upload,
       reset,
+      readyToRecord,
     };
 
     return (

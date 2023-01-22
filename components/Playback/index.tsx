@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import useClient from "../../contexts/ClientContext";
 import usePlayback from "../../contexts/PlaybackContext";
@@ -14,18 +14,16 @@ interface iPlayback {
 
 const Playback = observer(({ children, style }: iPlayback) => {
   const playbackStore = usePlayback();
-  const { playbackPercent, togglePlay } = playbackStore;
   const colors = useColors();
   const { isMobile } = useClient();
   const { playback } = generateStyles(colors, { isMobile });
 
   const toggle = () => {
-    console.log("toggling");
     playbackStore.togglePlay();
   };
 
   return (
-    <Pressable style={{ ...playback, ...style }} onPress={toggle}>
+    <Pressable style={{ ...playback, ...(style ?? {}) }} onPress={toggle}>
       <BackgroundProgressBar progress={playbackStore.playbackPercent} />
       {children}
     </Pressable>

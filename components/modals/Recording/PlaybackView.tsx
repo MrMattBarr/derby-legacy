@@ -12,15 +12,18 @@ const PlaybackView = observer(() => {
   const playbackStore = usePlayback();
   const duration = readableDuration(playbackStore.duration);
   const colors = useColors();
-  const { playback, header, detail } = generateStyles(colors);
+  const { playback, playbackTitle, detail, playbackHolder } =
+    generateStyles(colors);
 
   return (
-    <Playback style={{ marginVertical: Sizes.Spacings.STANDARD }}>
-      <View style={playback}>
-        <Text style={header}>New Recording</Text>
-        <Text style={detail}>{duration}</Text>
-      </View>
-    </Playback>
+    <View style={playbackHolder}>
+      <Playback style={{ marginVertical: Sizes.Spacings.STANDARD }}>
+        <View style={playback}>
+          <Text style={playbackTitle}>New Recording</Text>
+          <Text style={detail}>{duration}</Text>
+        </View>
+      </Playback>
+    </View>
   );
 });
 export default PlaybackView;

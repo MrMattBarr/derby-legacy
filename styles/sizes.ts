@@ -15,6 +15,7 @@ export const Sizes = {
     WEB: 1000,
   },
   Fonts: {
+    BIG_BUTTON: 26,
     HEADER: 20,
     DFEAULT: 14,
   },

@@ -13,7 +13,7 @@ export enum AppColor {
   PROGRESS_GREEN = "#08640f99",
   NEARLY_BLACK = "#090909",
   CHARCOAL = "#222222",
-  HAT_RED = "#7d011e",
+  HAT_RED = "#7d011e99",
   CHALK_RED = "#f32052",
   ICY_BLUE = "#2f95dc",
   OCEAN_BLUE = "#0050a4",
@@ -45,15 +45,18 @@ export interface Theme {
   Borders: {
     default: AppColor;
     dramatic: AppColor;
+    error: AppColor;
   };
   Backgrounds: {
     default: AppColor;
+    success: AppColor;
     primary: AppColor;
     secondary: AppColor;
     empty: AppColor;
     contrast: AppColor;
     label: AppColor;
     inputs: AppColor;
+    error: AppColor;
     playback: AppColor;
   };
   Buttons: {
@@ -86,9 +89,12 @@ const AppDarkTheme: Theme = {
   Borders: {
     default: AppColor.PURE_BLACK,
     dramatic: AppColor.PURE_WHITE,
+    error: AppColor.CHALK_RED,
   },
   Backgrounds: {
     default: AppColor.PURE_BLACK,
+
+    success: AppColor.IVY_GREEN,
     primary: AppColor.CHARCOAL,
     secondary: AppColor.TINTED_GRAY,
     empty: AppColor.STONE_GRAY,
@@ -96,6 +102,7 @@ const AppDarkTheme: Theme = {
     label: AppColor.SANDY_WHITE,
     playback: AppColor.CLEAR_TEAL,
     inputs: AppColor.NEARLY_BLACK,
+    error: AppColor.HAT_RED,
   },
   Buttons: {
     foreground: AppColor.FADED_WHITE,

@@ -20,7 +20,6 @@ export default function ToggleButton({
 }: IToggleButton) {
   const colors = useColors();
   const happyHaptic = () => {
-    console.log("happy haptics");
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
   const styles = StyleSheet.create({

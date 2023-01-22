@@ -9,6 +9,7 @@ import { useDemos } from "../stores/DemosStore";
 import { useSpots } from "../stores/SpotsStore";
 import { useUsers } from "../stores/UsersStore";
 import Demo, { Visibility } from "../types/Demo";
+import { readableDuration as _readableDuration } from "../utils/utils";
 
 interface DemoUpdate {
   field: "title" | "summary";
@@ -92,19 +93,7 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   const { user } = authStore;
   const isOwner = demo?.userId === user?.uid && !!demo?.userId;
 
-  const getReadableDuration = () => {
-    if (duration === undefined) {
-      return "Unkown Duration";
-    }
-    let minutes = Math.floor(duration / 60);
-    let seconds = Math.floor(duration % 60);
-    let secondString = `${seconds}`;
-    while (secondString.length < 2) {
-      secondString = `0${secondString}`;
-    }
-    return `${minutes}:${secondString}`;
-  };
-  const readableDuration = getReadableDuration();
+  const readableDuration = _readableDuration(duration);
 
   return (
     <DemoContext.Provider

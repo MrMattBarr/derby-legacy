@@ -4,6 +4,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
+import OpenBoothButton from "./modals/Recording/OpenBoothButton";
 import Page from "./Page";
 
 const LoginPage = observer(() => {
@@ -11,9 +12,7 @@ const LoginPage = observer(() => {
   const styles = mainStyles(colors);
   return (
     <Page>
-      <Link to="/demos" style={styles.headerLink}>
-        Demos
-      </Link>
+      <OpenBoothButton />
     </Page>
   );
 });

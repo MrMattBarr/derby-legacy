@@ -1,4 +1,5 @@
 import { Audio } from "expo-av";
+import { Recording } from "expo-av/build/Audio";
 import { DocumentResult } from "expo-document-picker";
 import {
   createUserWithEmailAndPassword,
@@ -8,11 +9,11 @@ import {
 import {
   getDatabase,
   onValue,
+  push,
   ref as dbRef,
   remove,
   set,
   update,
-  push,
 } from "firebase/database";
 import {
   getDownloadURL,
@@ -24,9 +25,9 @@ import {
 } from "firebase/storage";
 import { toJS } from "mobx";
 import Demo from "./types/Demo";
-import Spot from "./types/Spot";
+import Spot, { SaveableSpot } from "./types/Spot";
 import User from "./types/User";
-import { randomId } from "./utils";
+import { randomId, recordingToBlob } from "./utils";
 
 //TODO: separate quick and full
 const loadSpotAudio = async (spotId: string) => {
@@ -42,6 +43,14 @@ type UploadFileArgs = {
   author: string;
   onUpdate?: (snapshot: UploadTaskSnapshot) => void;
   onComplete?: (downloadURL: string, id: string) => void;
+  onError?: (error: string | StorageError) => void;
+};
+
+type UploadSpotArgs = {
+  spot: Spot;
+  recording: Recording;
+  onUpdate?: (snapshot: UploadTaskSnapshot) => void;
+  onComplete?: (downloadURL: string) => void;
   onError?: (error: string | StorageError) => void;
 };
 
@@ -62,9 +71,10 @@ const registerDemoToUser = (userId: string, demoId: string) => {
   set(dbRef(db, reference), true);
 };
 
-const registerSpot = (spot: Partial<Spot>) => {
+const registerSpotToUser = (userId: string, spotId: string) => {
   const db = getDatabase();
-  const reference = `users/${spot.author}/spots/${spot.id}`;
+  const reference = `users/${userId}/spots/${spotId}`;
+  console.log({ reference });
   set(dbRef(db, reference), true);
 };
 
@@ -114,11 +124,51 @@ const uploadFile = async ({
           url,
         };
         set(dbRef(db, uploadName), spot);
-        registerSpot({ ...spot, id });
+        registerSpotToUser(author, spot.id!);
       });
     }
   );
 };
+
+const uploadSpot = async ({
+  spot,
+  recording,
+  onUpdate,
+  onError,
+  onComplete,
+}: UploadSpotArgs) => {
+  console.log("beginning spot upload");
+  const storage = getStorage();
+  const uploadName = `/spots/${spot.id}`;
+  const storageRef = ref(storage, uploadName);
+  const blob = await recordingToBlob(recording);
+  const uploadTask = uploadBytesResumable(storageRef, blob);
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      if (onUpdate) {
+        onUpdate(snapshot);
+      }
+    },
+    (error) => {
+      if (onError) {
+        onError(error);
+      }
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        const db = getDatabase();
+        const uploadName = `spots/${spot.id}/url`;
+        console.log({ uploadName, url });
+        set(dbRef(db, uploadName), url);
+        if (onComplete) {
+          onComplete(url);
+        }
+      });
+    }
+  );
+};
+
 const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
   const db = getDatabase();
   const spotsRef = dbRef(db, `users/${user}/spots`);
@@ -218,6 +268,34 @@ const createDemo = async (demo: Partial<Demo>) => {
   return newDemo;
 };
 
+const createSpot = async (spot: SaveableSpot, recording: Recording) => {
+  console.log("Beginning Spot Creation");
+  if (!spot.author) {
+    throw new Error("Can't createa spot without an author");
+  }
+  const db = getDatabase();
+  const uploadPromise = new Promise<Spot>((resolve, reject) => {
+    push(dbRef(db, "spots"), spot)
+      .then(({ key }) => {
+        if (!key) {
+          throw new Error("No key was returned for spot creation");
+        }
+        const uploadedSpot: Partial<Spot> = { ...spot };
+        uploadedSpot.id = key;
+
+        console.log(`Spot uploaded. Key: ${key}`);
+        registerSpotToUser(uploadedSpot.author!, key);
+        uploadSpot({ spot: uploadedSpot as Spot, recording });
+        resolve(uploadedSpot as Spot);
+      })
+      .catch((reason) => {
+        reject(reason);
+      });
+  });
+  const newSpot = await uploadPromise;
+  return newSpot;
+};
+
 const updateSpot = (spot: Partial<Spot>) => {
   const db = getDatabase();
   const spotLocation = `spots/${spot.id}`;
@@ -275,6 +353,7 @@ export {
   loadSpotAudio,
   uploadFile,
   createDemo,
+  createSpot,
   subscribeToUserSpots,
   fetchSpot,
   fetchUser,

@@ -1,20 +1,24 @@
 import { Entypo } from "@expo/vector-icons";
-import React from "react";
-import { Platform, Pressable, StyleSheet } from "react-native";
-import { AppColor } from "../../../constants/Colors";
-import { useColors } from "../../../hooks/useColorScheme";
 import * as Haptics from "expo-haptics";
-import { Sizes } from "../../../styles/sizes";
-import useRecordingBooth from "./context";
+import React from "react";
+import { Pressable, StyleSheet } from "react-native";
+import { AppColor } from "../../../constants/Colors";
 import useClient from "../../../contexts/ClientContext";
+import { Sizes } from "../../../styles/sizes";
+import Nothing from "../../Nothing";
+import useRecordingBooth from "./context";
 
-const BigButton = () => {
-  const { recording, startRecording, stopRecording } = useRecordingBooth();
+const MicButton = () => {
+  const { recording, startRecording, stopRecording, error } =
+    useRecordingBooth();
   const finalSize = 100;
   const ON_COLOR = AppColor.CHALK_RED;
   const OFF_COLOR = AppColor.PURE_BLACK;
   const { isApp } = useClient();
   const buttonSize = 200;
+  if (error) {
+    return <Nothing />;
+  }
   const styles = StyleSheet.create({
     appButton: {
       fontSize: 12,
@@ -55,4 +59,4 @@ const BigButton = () => {
   );
 };
 
-export default BigButton;
+export default MicButton;

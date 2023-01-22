@@ -1,14 +1,16 @@
-import { action, makeObservable, observable, runInAction } from "mobx";
+import { Recording } from "expo-av/build/Audio";
+import { makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
-import { fetchSpot } from "../api";
-import Spot from "../types/Spot";
+import { createSpot, fetchSpot } from "../api";
+import Spot, { SaveableSpot } from "../types/Spot";
 
 type ISpotsStore = {
   spotIds: string[];
   spots: Record<string, Spot>;
   addSpot: (spot: Spot) => void;
+  createSpot: (spot: SaveableSpot, recording: Recording) => Promise<Spot>;
   processSpotIds: (spotIds: string[]) => void;
   loadSpot: (spotId: string) => void;
 };
@@ -33,6 +35,15 @@ export function SpotsStore() {
         if (!spotAlreadyThere) {
           this.spotIds.push(spot.id);
         }
+      },
+      async createSpot(spot: SaveableSpot, recording: Recording) {
+        const uploadedSpot = await createSpot(spot, recording);
+
+        runInAction(() => {
+          this.addSpot(uploadedSpot);
+        });
+
+        return uploadedSpot;
       },
       loadSpot(spotId: string) {
         if (!spotId) {

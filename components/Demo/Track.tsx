@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { useColors } from "../../hooks/useColorScheme";
 import { useSpots } from "../../stores/SpotsStore";
+import { readableDuration } from "../../utils/utils";
 import { Text, View } from "../Themed";
 
 interface ITrack {
@@ -50,15 +51,13 @@ const Track = observer(({ id, index }: ITrack) => {
     return <></>;
   }
 
-  const length = Math.floor(spot?.length ?? 0 * 10) / 10;
-
   return (
     <View style={s.track}>
       <View style={s.foreground}>
         <Text style={s.trackTitle}>
           {index}. {spot?.title ?? "..."}
         </Text>
-        <Text style={s.trackLength}>{length}s</Text>
+        <Text style={s.trackLength}>{readableDuration(spot?.length)}</Text>
       </View>
     </View>
   );

@@ -1,4 +1,4 @@
-export const readableDuration = (duration: number) => {
+export const readableDuration = (duration?: number) => {
   if (duration === undefined) {
     return "Unkown Duration";
   }
@@ -10,7 +10,6 @@ export const readableDuration = (duration: number) => {
   }
   let seconds = Math.floor((actualSeconds % 60) * 10) / 10;
   let secondString = `${seconds}`;
-  console.log({ seconds, actualSeconds });
   while (secondString.length < 2) {
     secondString = `0${secondString}`;
   }

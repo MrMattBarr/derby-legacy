@@ -25,7 +25,6 @@ const Demo = observer(() => {
   };
 
   const toggle = () => {
-    console.log("toggle");
     PlaybackStore.togglePlay();
   };
 

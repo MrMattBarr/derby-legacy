@@ -1,5 +1,5 @@
 const Texts = {
-  PROCEED_BUTTON: "Proceed",
+  PROCEED_BUTTON: "➤",
   RE_RECORD_BUTTON: "Try Again",
 };
 

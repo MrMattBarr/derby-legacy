@@ -1,5 +1,7 @@
+import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
+import usePlayback from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import Nothing from "../../Nothing";
 import useRecordingBooth from "./context";
@@ -8,15 +10,16 @@ import Review from "./Review";
 import Spinner from "./Spinner";
 import { generateStyles } from "./styles";
 
-const PlaybackBox = () => {
+const PlaybackBox = observer(() => {
   const colors = useColors();
   const { playbackBox, holder } = generateStyles(colors);
-  const { recording, audio } = useRecordingBooth();
+  const playbackStore = usePlayback();
+  const audio = playbackStore.audio;
+  const { recording, readyToRecord } = useRecordingBooth();
   let Content = Nothing;
 
-  const showPrompts = recording === undefined && audio === undefined;
   const showReview = !!audio;
-  if (showPrompts) {
+  if (readyToRecord) {
     Content = Prompt;
   } else if (showReview) {
     Content = Review;
@@ -36,5 +39,5 @@ const PlaybackBox = () => {
       </View>
     </View>
   );
-};
+});
 export default PlaybackBox;

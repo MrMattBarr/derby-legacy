@@ -14,6 +14,7 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
       borderColor: colors.Borders.default,
       borderRadius: Sizes.CURVED_BORDER,
       backgroundColor: colors.Backgrounds.primary,
+      borderWidth: 1,
       flexGrow: 1,
       marginTop: 100,
       borderTopLeftRadius: Sizes.VERY_CURVED_BORDER,

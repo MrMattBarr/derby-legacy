@@ -47,7 +47,7 @@ const TapeLabel = observer(() => {
 
   const interpolateRotating = rotateAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: ["0deg", "720deg"],
+    outputRange: ["720deg", "0deg"],
   });
 
   const spinStyle = {

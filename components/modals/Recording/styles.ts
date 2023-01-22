@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { AppColor, Theme } from "../../../constants/Colors";
 import { Sizes } from "../../../styles/sizes";
 
@@ -35,25 +35,39 @@ export const generateStyles = (
       flexDirection: "column",
       justifyContent: "space-between",
     },
+    openBoothButton: {
+      borderRadius: Sizes.CURVED_BORDER,
+      borderWidth: 1,
+      borderColor: colors.Borders.default,
+      padding: Sizes.Spacings.STANDARD,
+      backgroundColor: colors.Backgrounds.secondary,
+      margin: Sizes.Spacings.STANDARD,
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    openButtonText: {
+      fontSize: Sizes.Fonts.BIG_BUTTON,
+      alignSelf: "center",
+      fontWeight: "bold",
+      marginLeft: Sizes.Spacings.STANDARD,
+      color: colors.Text.default,
+    },
     center: {
       flexGrow: 1,
       display: "flex",
-      justifyContent: "flex-start",
-      paddingVertical: Sizes.Spacings.LARGE,
       flexDirection: "column",
+      flexWrap: "wrap",
+      alignItems: "center",
+      overflow: "hidden",
     },
     holder: {
-      alignSelf: "center",
-      alignItems: "stretch",
-      padding: Sizes.Spacings.STANDARD,
+      overflow: "hidden",
+      paddingHorizontal: Sizes.Spacings.STANDARD,
       display: "flex",
+      maxWidth: "100%",
       width: Sizes.ContentWidths.CENTER,
-    },
-    playback: {
-      padding: Sizes.Spacings.STANDARD,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start",
     },
     playbackBox: {
       padding: Sizes.Spacings.STANDARD,
@@ -63,20 +77,41 @@ export const generateStyles = (
         ? colors.Backgrounds.playback
         : colors.Backgrounds.empty,
       borderColor: colors.Borders.dramatic,
-      maxWidth: Sizes.ContentWidths.CENTER,
       minHeight: Sizes.ContentHeights.MEDIUM,
       borderRadius: Sizes.CURVED_BORDER,
       alignItems: "center",
       display: "flex",
+      flexDirection: "column",
+    },
+    playback: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      padding: Sizes.Spacings.STANDARD,
+    },
+    playbackHolder: {
+      display: "flex",
+      flexDirection: "row",
+    },
+    playbackTitle: {
+      fontSize: Sizes.Fonts.HEADER,
+      color: colors.Text.default,
     },
     spinner: {
       position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     },
     secondaryButton: {
       borderRadius: Sizes.CURVED_BORDER,
       borderColor: colors.Borders.default,
       borderWidth: 1,
-      marginTop: Sizes.Spacings.STANDARD,
+      marginTop: Sizes.Spacings.LARGE,
       padding: Sizes.Spacings.STANDARD,
       display: "flex",
       flexDirection: "row",
@@ -98,5 +133,6 @@ export const generateStyles = (
       opacity: 0.9,
     },
     recordButton: {},
+    bottomButtonHolder: {},
   });
 };
