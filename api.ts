@@ -34,8 +34,14 @@ const loadSpotAudio = async (spotId: string) => {
   const storage = getStorage();
   const storageRef = ref(storage, `spots/${spotId}`);
   const uri = await getDownloadURL(ref(storage, storageRef.fullPath));
-  const { sound } = await Audio.Sound.createAsync({ uri });
-  return sound;
+  const soundObject = new Audio.Sound();
+  try {
+    await soundObject.loadAsync({ uri });
+    console.log({ soundObject });
+  } catch (error) {
+    console.log("error:", error);
+  }
+  return soundObject;
 };
 
 type UploadFileArgs = {
@@ -218,7 +224,9 @@ const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
   const db = getDatabase();
   const spotsRef = dbRef(db, `demos/${id}`);
   onValue(spotsRef, (snapshot) => {
+    console.log({ id });
     const demo: Demo = snapshot.val();
+    console.log({ demo });
     demo.id = id;
     callback(demo);
   });

@@ -18,10 +18,10 @@ const Content = () => {
   }
   return (
     <Page padded opaque>
+      <SpotSearcher />
       <TitleInput />
       <Overview />
       <SummaryInput />
-      <SpotSearcher />
     </Page>
   );
 };
