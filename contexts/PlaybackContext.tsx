@@ -1,14 +1,13 @@
-import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from "expo-av";
+import is from "date-fns/esm/locale/is/index.js";
+import { AVPlaybackStatus, AVPlaybackStatusSuccess } from "expo-av";
+import { Sound } from "expo-av/build/Audio";
 import { runInAction } from "mobx";
 import { useLocalObservable } from "mobx-react";
-import React, { useContext, useEffect } from "react";
-import { updateSpot } from "../api";
+import React, { useContext } from "react";
 import { useDemos } from "../stores/DemosStore";
 import { useSpots } from "../stores/SpotsStore";
 import Demo from "../types/Demo";
 import Spot from "../types/Spot";
-
-const MS_TO_S = 1000;
 
 export enum PlayState {
   PLAYING = "PLAYING",
@@ -16,34 +15,58 @@ export enum PlayState {
   READY = "READY",
 }
 
+interface SoundWithDuration extends Sound {
+  duration: number;
+}
+
+type Loadable = Demo | Spot | Spot[] | SoundWithDuration | SoundWithDuration[];
+
 type PlaybackContract = {
-  audio?: Audio.Sound;
+  audio?: SoundWithDuration;
+  queue: SoundWithDuration[];
+  index: number;
   state: PlayState;
   playbackPercent?: number;
   duration: number;
-  demo?: Demo;
-  spot?: Spot;
-  spots: Spot[];
   togglePlay: () => void;
   play: (timeStamp?: number) => void;
-  setAudio: (audio: Audio.Sound, duration: number) => void;
+  setAudio: (audio: SoundWithDuration[]) => void;
+  unload: () => Promise<void>;
+  load: (source: Loadable) => void;
   pause: () => void;
   resume: () => void;
   onFinish: () => void;
   reset: () => void;
-  updatePlaybackPercent: (status: AVPlaybackStatus) => void;
-  focusDemo: (id: string) => void;
+  onUpdate: (status: AVPlaybackStatus) => void;
 };
 
 const PlaybackContext = React.createContext({} as PlaybackContract);
 export const PlaybackProvider = ({ children }: any) => {
-  const DemosStore = useDemos();
   const SpotsStore = useSpots();
+
+  const spotsToAudioList = (spots: Spot[]) => {
+    const sounds = spots.map((spot) => {
+      if (!spot.audio) {
+        throw new Error("Unable to load spots without audio");
+      }
+      const audio = spot.audio as SoundWithDuration;
+      audio.duration = spot.length;
+      return audio;
+    });
+    return sounds;
+  };
+
+  const spotIdsToAudioList = (ids: string[]) => {
+    const spots = ids.map((id) => SpotsStore.spots[id]);
+    return spotsToAudioList(spots);
+  };
+
   const store = useLocalObservable<PlaybackContract>(() => ({
     playbackPercent: 0,
     state: PlayState.READY,
     duration: 0,
-    spots: [],
+    queue: [],
+    index: 0,
     pause() {
       runInAction(() => {
         this.audio?.pauseAsync();
@@ -51,33 +74,25 @@ export const PlaybackProvider = ({ children }: any) => {
       });
     },
     onFinish() {
-      // let foundActive = false;
-      // let foundNext = false;
-      // this.spots.forEach((nextSpot) => {
-      //   if (nextSpot.id === this.spot!.id) {
-      //     foundActive = true;
-      //   } else {
-      //     if (foundActive && !foundNext) {
-      //       foundNext = true;
-      //       this.audio?.setOnPlaybackStatusUpdate(null);
-      //       this.audio = nextSpot.audio;
-      //       this.audio?.setOnPlaybackStatusUpdate(
-      //         (status: AVPlaybackStatus) => {
-      //           runInAction(() => {
-      //             this.spot = nextSpot;
-      //             this.updatePlaybackPercent(status);
-      //           });
-      //         }
-      //       );
-      //       this.audio?.playFromPositionAsync(0);
-      //     }
-      //   }
-      // });
-      // if (!foundNext) {
-      runInAction(() => {
-        this.state = PlayState.READY;
-      });
-      // }
+      console.log("on finish");
+      const nextIndex = this.index + 1;
+      if (nextIndex < this.queue.length) {
+        runInAction(async () => {
+          this.index = nextIndex;
+          this.audio = this.queue[nextIndex];
+          await this.audio?.setOnPlaybackStatusUpdate(
+            (status: AVPlaybackStatus) => {
+              runInAction(() => {
+                this.onUpdate(status);
+              });
+            }
+          );
+          await this.audio?.setProgressUpdateIntervalAsync(25);
+          await this.audio?.playFromPositionAsync(0);
+        });
+      } else {
+        this.unload();
+      }
     },
     togglePlay() {
       switch (this.state) {
@@ -100,30 +115,55 @@ export const PlaybackProvider = ({ children }: any) => {
         this.state = PlayState.PLAYING;
       });
     },
-    setAudio(audio: Audio.Sound, duration: number) {
+    setAudio(audio: SoundWithDuration[]) {
       runInAction(() => {
-        console.log({ duration });
-        this.audio = audio;
+        this.audio = audio[0];
         this.playbackPercent = 0;
-        this.duration = duration;
       });
     },
-    focusDemo(id: string) {
-      runInAction(() => {
-        const demo = DemosStore.demos[id];
-        this.demo = demo;
-        this.spots = (demo.spots ?? []).map(
-          (spotId) => SpotsStore.spots[spotId]
-        );
-        this.playbackPercent = 0;
-        console.log(this.spots[0]);
-        if (this.spots[0]?.audio) {
-          this.setAudio(this.spots[0].audio, this.spots[0].length);
+    async unload() {
+      if (this.audio) {
+        await this.audio.stopAsync();
+        runInAction(() => {
+          this.audio = undefined;
+          this.playbackPercent = 0;
+          this.index = 0;
+          this.duration = 0;
+          this.queue = [];
+          this.state = PlayState.READY;
+        });
+      }
+    },
+    load(source: Loadable) {
+      let sounds: SoundWithDuration[] = [];
+
+      if ((source as Demo).spots) {
+        const demo = source as Demo;
+        if (!demo.spots) {
+          throw new Error("Unable to load demo with no spots");
         }
+        sounds = spotIdsToAudioList(demo.spots);
+      } else if ((source as Spot).author) {
+        sounds = spotsToAudioList([source as Spot]);
+      } else if (Array.isArray(source)) {
+        const first = source[0];
+        if ((first as Spot).author) {
+          sounds = spotsToAudioList(source as Spot[]);
+        } else {
+          sounds = source as SoundWithDuration[];
+        }
+      }
+      runInAction(async () => {
+        await this.unload();
+        this.queue = sounds;
+        this.duration = sounds.reduce(
+          (current, { duration }) => current + duration,
+          0
+        );
         this.play();
       });
     },
-    updatePlaybackPercent(status: AVPlaybackStatus) {
+    onUpdate(status: AVPlaybackStatus) {
       const { positionMillis, durationMillis } =
         status as AVPlaybackStatusSuccess;
 
@@ -153,27 +193,21 @@ export const PlaybackProvider = ({ children }: any) => {
       }
     },
     async play(timeStamp?: number) {
-      // const activeSpotIndex = 0;
+      const activeSpotIndex = 0;
       let adjustedPosition = timeStamp ?? 0;
-      // const isTooLong = false;
-      // const spotId = this.demo.spots![activeSpotIndex];
-      // while (isTooLong) {}
-      // runInAction(() => {
-      //   const spot = SpotsStore.spots[spotId];
-      //   this.spot = spot;
-      //   this.audio = spot.audio;
-      // });
-      await this.audio?.setOnPlaybackStatusUpdate(
-        (status: AVPlaybackStatus) => {
-          runInAction(() => {
-            this.updatePlaybackPercent(status);
-          });
-        }
-      );
-      await this.audio?.playFromPositionAsync(adjustedPosition);
-      await this.audio?.setProgressUpdateIntervalAsync(25);
-      runInAction(() => {
+
+      runInAction(async () => {
+        this.audio = this.queue[activeSpotIndex];
+        await this.audio?.setOnPlaybackStatusUpdate(
+          (status: AVPlaybackStatus) => {
+            runInAction(() => {
+              this.onUpdate(status);
+            });
+          }
+        );
+        await this.audio?.setProgressUpdateIntervalAsync(25);
         this.state = PlayState.PLAYING;
+        await this.audio?.playFromPositionAsync(adjustedPosition);
       });
     },
     reset() {
