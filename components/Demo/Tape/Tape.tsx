@@ -13,10 +13,10 @@ const Tape = observer(() => {
 
   const { demo } = useDemo();
 
-  const { focusDemo } = usePlayback();
+  const { load } = usePlayback();
   const focusMe = () => {
     if (demo?.id) {
-      focusDemo(demo.id);
+      load(demo);
     }
   };
 

@@ -56,6 +56,12 @@ const PhoneBottomSpacer = () => {
           }}
           label="Demos"
         />
+        <TextButton
+          onPress={() => {
+            linkTo("/spots");
+          }}
+          label="Spots"
+        />
       </View>
     </View>
   );

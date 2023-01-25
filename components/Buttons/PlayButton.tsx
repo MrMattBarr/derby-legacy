@@ -3,6 +3,7 @@ import React from "react";
 import * as Haptics from "expo-haptics";
 import { useColors } from "../../hooks/useColorScheme";
 import ToggleButton from "../ToggleButton";
+import useClient from "../../contexts/ClientContext";
 
 interface IPlayButton {
   playing?: boolean;
@@ -11,9 +12,12 @@ interface IPlayButton {
 
 const PlayButton = ({ onToggle, playing }: IPlayButton) => {
   const colors = useColors();
+  const { isApp } = useClient();
 
   const hapticToggle = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    if (isApp) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
     onToggle!();
   };
   return (
