@@ -5,9 +5,14 @@ import useClient from "../../contexts/ClientContext";
 import { DemoProvider } from "../../contexts/DemoContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Text, View } from "../Themed";
-import Demo from "./Demo";
+import DemoPreview from "./Demo";
 import { generateStyles } from "./styles";
-import usePlayback from "../../contexts/PlaybackContext";
+import usePlayback, {
+  getLoadableType,
+  LoadableType,
+} from "../../contexts/PlaybackContext";
+import Nothing from "../Nothing";
+import Demo from "../../types/Demo";
 
 const PlaybackModal = observer(() => {
   const colors = useColors();
@@ -15,15 +20,22 @@ const PlaybackModal = observer(() => {
   const { holder } = generateStyles(colors, { isMobile });
   const playbackStore = usePlayback();
   const DemoContent = () => {
+    const demo: Demo = playbackStore.loadedElement;
     return (
-      <DemoProvider id={playbackStore.demo!.id}>
-        <Demo />
+      <DemoProvider id={demo!.id}>
+        <DemoPreview />
       </DemoProvider>
     );
   };
+  let Content = Nothing;
+  if (getLoadableType(playbackStore.loadedElement) === LoadableType.DEMO) {
+    Content = DemoContent;
+  }
   return (
     <View style={holder}>
-      <Playback>{playbackStore.demo && <DemoContent />}</Playback>
+      <Playback>
+        <Content />
+      </Playback>
     </View>
   );
 });

@@ -22,6 +22,7 @@ export type RootStackParamList = {
   DemoBuilder: undefined;
   DemoGenerationPage: undefined;
   Authenticated: undefined;
+  Spots: undefined;
   DemoDetail: undefined;
   NotFound: undefined;
   Welcome: undefined;
@@ -35,6 +36,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 export type RootTabParamList = {
   Projects: undefined;
   Demos: undefined;
+  Spots: undefined;
   DemoDetail: undefined;
   DemoBuilder: undefined;
   DemoGenerationPage: undefined;

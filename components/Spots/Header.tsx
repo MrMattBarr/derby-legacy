@@ -3,6 +3,7 @@ import React from "react";
 import { View } from "react-native";
 import Colors from "../../constants/Colors";
 import useClient from "../../contexts/ClientContext";
+import { ModalKey, useModal } from "../../contexts/ModalContext";
 import useUser from "../../contexts/UserContext";
 import useColorScheme from "../../hooks/useColorScheme";
 import { generatePageStyles } from "../../styles/page";
@@ -14,11 +15,14 @@ import { generateStyles } from "./styles";
 
 const Header = observer(() => {
   const colorScheme = useColorScheme();
+  const { setModal } = useModal();
   const { isMobile } = useClient();
   const colors = Colors[colorScheme];
-  const pageStyles = generatePageStyles(colors);
   const text = textStyles(colors);
 
+  const openModal = () => {
+    setModal(ModalKey.RECORDING);
+  };
   const { user } = useUser();
   const { header, pageName, pageNameAndIcon } = generateStyles(colors, {
     isMobile,
@@ -29,11 +33,11 @@ const Header = observer(() => {
         <Avatar />
         <View style={pageName}>
           <Text style={text.h1}>{user?.profile?.displayName}</Text>
-          <Text style={text.text}>Demos</Text>
+          <Text style={text.text}>Spots</Text>
         </View>
       </View>
       <View>
-        <BigButton link="/demos/new" icon="plus" label="Create New" />
+        <BigButton onPress={openModal} icon="microphone" label="Record" />
       </View>
     </View>
   );

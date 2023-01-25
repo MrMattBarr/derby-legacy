@@ -28,6 +28,9 @@ const WebHeader = () => {
       <Link to="/demos" style={styles.headerLink}>
         Demos
       </Link>
+      <Link to="/spots" style={styles.headerLink}>
+        Spots
+      </Link>
       <View style={styles.spacer} />
       <SignInButton />
     </View>

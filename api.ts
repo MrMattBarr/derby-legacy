@@ -37,7 +37,6 @@ const loadSpotAudio = async (spotId: string) => {
   const soundObject = new Audio.Sound();
   try {
     await soundObject.loadAsync({ uri });
-    console.log({ soundObject });
   } catch (error) {
     console.log("error:", error);
   }
@@ -68,7 +67,6 @@ const registerUser = (user: User) => {
     spots: {},
     profile: user.profile,
   });
-  console.log(`New user registered: ${user.id}`);
 };
 
 const registerDemoToUser = (userId: string, demoId: string) => {
@@ -80,7 +78,6 @@ const registerDemoToUser = (userId: string, demoId: string) => {
 const registerSpotToUser = (userId: string, spotId: string) => {
   const db = getDatabase();
   const reference = `users/${userId}/spots/${spotId}`;
-  console.log({ reference });
   set(dbRef(db, reference), true);
 };
 
@@ -143,7 +140,6 @@ const uploadSpot = async ({
   onError,
   onComplete,
 }: UploadSpotArgs) => {
-  console.log("beginning spot upload");
   const storage = getStorage();
   const uploadName = `/spots/${spot.id}`;
   const storageRef = ref(storage, uploadName);
@@ -165,7 +161,6 @@ const uploadSpot = async ({
       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
         const db = getDatabase();
         const uploadName = `spots/${spot.id}/url`;
-        console.log({ uploadName, url });
         set(dbRef(db, uploadName), url);
         if (onComplete) {
           onComplete(url);
@@ -196,14 +191,22 @@ const fetchThing = <Type>({ id, onFetch, dbKey }: FetchArgs<Type>) => {
   const thingRef = dbRef(db, `${dbKey}/${id}`);
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
-    onFetch(thing);
+    try {
+      onFetch(thing);
+    } catch (err) {
+      console.log({ err });
+    }
   });
 };
 
 const fetchUser = (id: string, callback: (user: User) => void) => {
   const onFetch = async (user: User) => {
-    user.id = id;
-    callback(user);
+    if (user) {
+      user.id = id;
+      callback(user);
+    } else {
+      console.warn(`unable to load user: ${id}`);
+    }
   };
   fetchThing({ id, onFetch, dbKey: "users" });
 };
@@ -224,9 +227,7 @@ const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
   const db = getDatabase();
   const spotsRef = dbRef(db, `demos/${id}`);
   onValue(spotsRef, (snapshot) => {
-    console.log({ id });
     const demo: Demo = snapshot.val();
-    console.log({ demo });
     demo.id = id;
     callback(demo);
   });
@@ -277,7 +278,6 @@ const createDemo = async (demo: Partial<Demo>) => {
 };
 
 const createSpot = async (spot: SaveableSpot, recording: Recording) => {
-  console.log("Beginning Spot Creation");
   if (!spot.author) {
     throw new Error("Can't createa spot without an author");
   }
@@ -291,7 +291,6 @@ const createSpot = async (spot: SaveableSpot, recording: Recording) => {
         const uploadedSpot: Partial<Spot> = { ...spot };
         uploadedSpot.id = key;
 
-        console.log(`Spot uploaded. Key: ${key}`);
         registerSpotToUser(uploadedSpot.author!, key);
         uploadSpot({ spot: uploadedSpot as Spot, recording });
         resolve(uploadedSpot as Spot);

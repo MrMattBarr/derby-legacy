@@ -19,7 +19,29 @@ interface SoundWithDuration extends Sound {
   duration: number;
 }
 
+export enum LoadableType {
+  DEMO = "demo",
+  SPOT = "spot",
+  SPOT_ARRAY = "spotArray",
+  SOUND = "sound",
+}
+
 type Loadable = Demo | Spot | Spot[] | SoundWithDuration | SoundWithDuration[];
+
+export const getLoadableType = (source?: Loadable) => {
+  if (!source) {
+    return undefined;
+  }
+  if ((source as Demo).userId) {
+    return LoadableType.DEMO;
+  } else if ((source as Spot).author) {
+    return LoadableType.SPOT;
+  } else if (Array.isArray(source)) {
+    if ((source[0] as Spot).author) {
+      return LoadableType.SPOT_ARRAY;
+    }
+  }
+};
 
 type PlaybackContract = {
   audio?: SoundWithDuration;
@@ -28,6 +50,7 @@ type PlaybackContract = {
   state: PlayState;
   playbackPercent?: number;
   duration: number;
+  loadedElement?: Loadable;
   togglePlay: () => void;
   play: (timeStamp?: number) => void;
   setAudio: (audio: SoundWithDuration[]) => void;
@@ -45,14 +68,16 @@ export const PlaybackProvider = ({ children }: any) => {
   const SpotsStore = useSpots();
 
   const spotsToAudioList = (spots: Spot[]) => {
-    const sounds = spots.map((spot) => {
-      if (!spot.audio) {
-        throw new Error("Unable to load spots without audio");
-      }
-      const audio = spot.audio as SoundWithDuration;
-      audio.duration = spot.length;
-      return audio;
-    });
+    const sounds = spots
+      .filter((x) => x)
+      .map((spot) => {
+        if (!spot?.audio) {
+          throw new Error("Unable to load spots without audio");
+        }
+        const audio = spot.audio as SoundWithDuration;
+        audio.duration = spot.length;
+        return audio;
+      });
     return sounds;
   };
 
@@ -74,7 +99,6 @@ export const PlaybackProvider = ({ children }: any) => {
       });
     },
     onFinish() {
-      console.log("on finish");
       const nextIndex = this.index + 1;
       if (nextIndex < this.queue.length) {
         runInAction(async () => {
@@ -130,6 +154,7 @@ export const PlaybackProvider = ({ children }: any) => {
           this.index = 0;
           this.duration = 0;
           this.queue = [];
+          this.loadedElement = undefined;
           this.state = PlayState.READY;
         });
       }
@@ -155,6 +180,7 @@ export const PlaybackProvider = ({ children }: any) => {
       }
       runInAction(async () => {
         await this.unload();
+        this.loadedElement = source;
         this.queue = sounds;
         this.duration = sounds.reduce(
           (current, { duration }) => current + duration,

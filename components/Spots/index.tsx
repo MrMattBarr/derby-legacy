@@ -1,18 +1,13 @@
-import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
-import { Text } from "react-native";
 import { UserProvider } from "../../contexts/UserContext";
-import useColorScheme from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";
-import { useDemos } from "../../stores/DemosStore";
 import { ParameterPage } from "../../types/ParameterPage";
 import Page from "../Page";
 import Header from "./Header";
-import UserDemoList from "./UserDemoList";
+import SpotList from "./SpotList";
 
-const Demos = observer(({ route }: ParameterPage) => {
-  const demos = useDemos();
+const Spots = observer(({ route }: ParameterPage) => {
   const authStore = useAuth();
   const id = route?.params?.id ?? authStore.user?.uid;
   if (!id) {
@@ -22,10 +17,10 @@ const Demos = observer(({ route }: ParameterPage) => {
     <UserProvider id={id}>
       <Page unpadded>
         <Header />
-        <UserDemoList />
+        <SpotList />
       </Page>
     </UserProvider>
   );
 });
 
-export default Demos;
+export default Spots;
