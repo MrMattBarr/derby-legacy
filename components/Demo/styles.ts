@@ -56,7 +56,7 @@ export const generateStyles = (colors: Theme) => {
     trackList: {
       overflow: "hidden",
       padding: Sizes.Spacings.STANDARD,
-      alignSelf: "stretch",
+      width: "100%",
       maxWidth: Sizes.ContentWidths.CENTER,
     },
     listHolder: {

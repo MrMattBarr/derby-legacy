@@ -5,6 +5,7 @@ import { SpotProvider } from "../../../contexts/SpotContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
 import TitleInput from "./TitleInput";
+import TranscriptInput from "./TranscriptInput";
 
 const SpotEditorModal = observer(() => {
   const colors = useColors();
@@ -15,6 +16,7 @@ const SpotEditorModal = observer(() => {
   return (
     <SpotProvider id={spotId!}>
       <TitleInput />
+      <TranscriptInput />
     </SpotProvider>
   );
 });

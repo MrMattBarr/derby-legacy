@@ -9,19 +9,14 @@ interface IStyles {
 export const generateStyles = (colors: Theme, props?: IStyles) => {
   const { isMobile } = props ?? {};
 
-  const webModal = {
-    maxHeight: 100,
-    borderRadius: 0,
-    width: Sizes.Pages.WEB,
-    alignSelf: "center",
-    boxShadow: "0 0 10px black",
-  };
   return StyleSheet.create({
     holder: {
       position: "absolute",
       width: "100%",
       padding: Sizes.Spacings.SMALL,
       display: "flex",
+      justifyContent: "center",
+      flexDirection: "row",
       overflow: "hidden",
       bottom: isMobile ? Sizes.PHONE_BOTTOM_NAV : Sizes.Spacings.STANDARD,
     },
@@ -46,6 +41,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      maxWidth: isMobile ? undefined : Sizes.Pages.WEB,
       borderRadius: Sizes.CURVED_BORDER,
       borderWidth: 1,
       overflow: "hidden",

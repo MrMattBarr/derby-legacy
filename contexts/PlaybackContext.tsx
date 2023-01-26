@@ -115,7 +115,10 @@ export const PlaybackProvider = ({ children }: any) => {
           await this.audio?.playFromPositionAsync(0);
         });
       } else {
-        this.unload();
+        runInAction(async () => {
+          this.playbackPercent = 0;
+          this.state = PlayState.READY;
+        });
       }
     },
     togglePlay() {

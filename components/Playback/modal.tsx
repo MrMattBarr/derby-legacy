@@ -5,7 +5,7 @@ import useClient from "../../contexts/ClientContext";
 import { DemoProvider } from "../../contexts/DemoContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Text, View } from "../Themed";
-import SpotPreview from "../Spots/Spot";
+import SpotPreview from "./Spot";
 import DemoPreview from "./Demo";
 import { generateStyles } from "./styles";
 import usePlayback, {

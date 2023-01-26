@@ -39,7 +39,12 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       color: colors.Text.default,
       fontSize: Sizes.Fonts.HEADER,
     },
-    section: {},
+    duration: {
+      color: colors.Text.subtle,
+    },
+    section: {
+      backgroundColor: colors.Backgrounds.default,
+    },
     pageName: {
       marginRight: 30,
     },

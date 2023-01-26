@@ -6,6 +6,7 @@ import usePlayback from "../../contexts/PlaybackContext";
 import useSpot from "../../contexts/SpotContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Sizes } from "../../styles/sizes";
+import { readableDuration } from "../../utils/utils";
 import IconButton from "../IconButton";
 import Nothing from "../Nothing";
 import { Text, View } from "../Themed";
@@ -31,7 +32,10 @@ const Spot = observer(() => {
 
   return (
     <TouchableOpacity activeOpacity={0.7} style={styles.spot} onPress={load}>
-      <Text style={styles.spotTitle}>{spot?.title}</Text>
+      <View>
+        <Text style={styles.spotTitle}>{spot?.title}</Text>
+        <Text style={styles.duration}>{readableDuration(spot?.length)}</Text>
+      </View>
       {isOwner && (
         <View>
           <IconButton
