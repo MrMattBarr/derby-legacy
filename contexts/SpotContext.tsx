@@ -49,7 +49,7 @@ export const SpotProvider = observer(({ children, id }: ISpotContext) => {
   const update = ({ field, value }: SpotUpdate) => {
     runInAction(() => {
       spot[field] = value;
-      updateDemo(spot);
+      updateSpot(spot);
     });
   };
   const setVisibility = (visibility: Visibility) => {
