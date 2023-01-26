@@ -9,16 +9,7 @@ const EditButton = (options: Partial<IIconButton>) => {
   const onEdit = () => {
     linkTo(`/demos/${demo!.id}/edit`);
   };
-  return (
-    <IconButton
-      size={40}
-      onPress={onEdit}
-      icon="edit"
-      label="EDIT"
-      borderless
-      {...options}
-    />
-  );
+  return <IconButton onPress={onEdit} icon="edit" label="EDIT" {...options} />;
 };
 
 export default EditButton;

@@ -15,7 +15,7 @@ import { generateStyles } from "./styles";
 const Demo = observer(() => {
   const colors = useColors();
   const linkTo = useLinkTo();
-  const { demo, readableDuration } = useDemo();
+  const { demo, readableDuration, isOwner } = useDemo();
   const { h3, text } = textStyles(colors);
   const { stack, horizontal, content } = generateStyles(colors);
   const PlaybackStore = usePlayback();
@@ -34,8 +34,10 @@ const Demo = observer(() => {
         <Text style={h3}>{demo?.title}</Text>
         <Text style={text}>{readableDuration}</Text>
       </View>
-      <View style={{ ...horizontal, flexGrow: 0 }}>
-        <EditButton style={{ marginRight: Sizes.Spacings.STANDARD }} />
+      <View style={{ ...horizontal, flexGrow: 0, alignItems: "center" }}>
+        {isOwner && (
+          <EditButton style={{ marginRight: Sizes.Spacings.STANDARD }} />
+        )}
         <PlayButton
           onToggle={toggle}
           playing={PlaybackStore.state === PlayState.PLAYING}

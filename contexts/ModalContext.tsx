@@ -2,21 +2,31 @@ import React, { useContext, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
 import ClickEater from "../components/controls/ClickEater";
 import RecordingModal from "../components/modals/Recording";
+import SpotEditorModal from "../components/modals/SpotEditor";
 import { modalStyles } from "../components/modals/styles";
+import Nothing from "../components/Nothing";
 import { useColors } from "../hooks/useColorScheme";
+import useClient from "./ClientContext";
 
 export enum ModalKey {
-  RECORDING = "RECORDING",
-  NONE = "NONE",
+  RECORDING = "recording",
+  SPOT_EDITOR = "spotEditor",
+  NONE = "none",
 }
 
 const ModalByKey: Record<ModalKey, () => JSX.Element> = {
   [ModalKey.RECORDING]: RecordingModal,
-  [ModalKey.NONE]: RecordingModal,
+  [ModalKey.SPOT_EDITOR]: SpotEditorModal,
+  [ModalKey.NONE]: Nothing,
 };
 
+interface ModalArgs {
+  spotId: string;
+}
+
 type ModalContract = {
-  setModal: React.Dispatch<React.SetStateAction<ModalKey>>;
+  setModal: (key: ModalKey, args?: Partial<ModalArgs>) => void;
+  modalArgs: Partial<ModalArgs>;
 };
 
 export const ModalContext = React.createContext<ModalContract | undefined>(
@@ -25,17 +35,25 @@ export const ModalContext = React.createContext<ModalContract | undefined>(
 
 export const ModalProvider = ({ children }: any) => {
   const colors = useColors();
-  const styles = modalStyles(colors);
-  const [modal, setModal] = useState(ModalKey.NONE);
+  const { isMobile } = useClient();
+  const styles = modalStyles(colors, { isMobile });
+  const [modal, setModalKey] = useState(ModalKey.NONE);
+  const [modalArgs, setModalArgs] = useState<Partial<ModalArgs>>({});
   const Component = ModalByKey[modal];
+
+  const setModal = (key: ModalKey, args?: Partial<ModalArgs>) => {
+    setModalKey(key);
+    setModalArgs(args ?? {});
+  };
   const unsetModal = () => {
     setModal(ModalKey.NONE);
   };
+  const animationType = isMobile ? "slide" : "fade";
   return (
-    <ModalContext.Provider value={{ setModal }}>
+    <ModalContext.Provider value={{ setModal, modalArgs }}>
       <Modal
         visible={modal !== ModalKey.NONE}
-        animationType="slide"
+        animationType={animationType}
         transparent
       >
         <Pressable style={styles.background} onPress={unsetModal}>

@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import App from "../../App";
 import { Theme } from "../../constants/Colors";
 import { Sizes } from "../../styles/sizes";
 
@@ -28,6 +29,10 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     spot: {
       padding: Sizes.Spacings.STANDARD,
       borderBottomWidth: 1,
+      display: "flex",
+      justifyContent: "space-between",
+      flexDirection: "row",
+      backgroundColor: colors.Backgrounds.primary,
       borderBottomColor: colors.Borders.default,
     },
     spotTitle: {

@@ -33,14 +33,12 @@ const PlayerButton = ({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      alignSelf: "stretch",
       borderColor: border ?? colors.Borders.dramatic,
-      borderRadius: 50,
+      borderRadius: finalSize,
       borderWidth: 1,
       backgroundColor: background ?? "",
-      margin: Sizes.Spacings.STANDARD,
-      width: 50,
-      height: 50,
+      width: finalSize,
+      height: finalSize,
       ...style,
     },
   });
@@ -53,7 +51,7 @@ const PlayerButton = ({
     >
       <Entypo
         name={icon as any}
-        size={finalSize * 0.65}
+        size={finalSize * 0.5}
         color={color ?? colors.Buttons.foreground}
       />
     </TouchableOpacity>

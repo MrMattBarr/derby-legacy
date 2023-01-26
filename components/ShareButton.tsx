@@ -27,7 +27,7 @@ const ShareButton = ({ message }: IShareButton) => {
     }
   };
 
-  return <IconButton size={40} label="SHARE" onPress={onShare} icon="share" />;
+  return <IconButton label="SHARE" onPress={onShare} icon="share" />;
 };
 
 export default ShareButton;

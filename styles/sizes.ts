@@ -10,11 +10,14 @@ export const Sizes = {
   },
   ContentHeights: {
     MEDIUM: 200,
+    SMALL_MODAL: "25vh",
+    BIG_MODAL: "50vh",
   },
   Pages: {
     WEB: 1000,
   },
   Fonts: {
+    ICONS: 40,
     BIG_BUTTON: 26,
     HEADER: 20,
     DFEAULT: 14,
