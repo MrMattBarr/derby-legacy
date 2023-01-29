@@ -1,17 +1,32 @@
 import { StyleSheet } from "react-native";
-import { Theme } from "../../constants/Colors";
+import { AppColor, Theme } from "../../constants/Colors";
+import { Sizes } from "../../styles/sizes";
 
 interface IAvatarStyles {
   size?: number;
+  framed?: boolean;
+  isMobile?: boolean;
 }
 
-export const generateStyles = (colors: Theme, { size }: IAvatarStyles) => {
+export const generateStyles = (
+  colors: Theme,
+  { size, framed, isMobile }: IAvatarStyles
+) => {
   const avatarSize = size ?? 50;
   return StyleSheet.create({
+    holder: {
+      backgroundColor: framed ? colors.Backgrounds.empty : AppColor.TRANSPARENT,
+      borderWidth: framed ? 2 : 0,
+      borderColor: colors.Borders.default,
+      borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
+      flexGrow: 0,
+      alignSelf: "flex-start",
+      display: "flex",
+    },
     avatar: {
       width: avatarSize,
       height: avatarSize,
-      marginRight: 10,
+      margin: Sizes.Spacings.STANDARD,
     },
     avatarPlaceHolder: {
       width: avatarSize,

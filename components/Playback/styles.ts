@@ -43,7 +43,6 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       alignItems: "center",
       maxWidth: isMobile ? undefined : Sizes.Pages.WEB,
       borderRadius: Sizes.CURVED_BORDER,
-      borderWidth: 1,
       overflow: "hidden",
       borderColor: colors.Borders.default,
     },

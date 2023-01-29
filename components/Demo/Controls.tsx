@@ -11,7 +11,7 @@ import ShareButton from "../ShareButton";
 import { View } from "../Themed";
 import EditButton from "./EditButton";
 
-const Tape = observer(() => {
+const Controls = observer(() => {
   const { isOwner, demo } = useDemo();
   const colors = useColors();
   const { togglePlay } = usePlayback();
@@ -46,4 +46,4 @@ const Tape = observer(() => {
   );
 });
 
-export default Tape;
+export default Controls;

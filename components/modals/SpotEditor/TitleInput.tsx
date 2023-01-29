@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import useSpot from "../../../contexts/SpotContext";
 import { useColors } from "../../../hooks/useColorScheme";
@@ -8,21 +8,26 @@ import { generateStyles } from "./styles";
 
 const TitleInput = observer(() => {
   const spotContext = useSpot();
-  const { title } = spotContext.spot!;
+  const [local, setLocal] = useState(spotContext.spot?.title);
   const colors = useColors();
   const { h1 } = textStyles(colors);
   const { titleInput, control } = generateStyles(useColors());
   const update = (value: string) => {
-    spotContext.update({ field: "title", value });
+    setLocal(value);
+  };
+
+  const commit = () => {
+    spotContext.update({ field: "title", value: local ?? "" });
   };
   return (
     <View style={control}>
       <Text style={h1}>Demo Title</Text>
       <TextInput
         style={titleInput}
-        defaultValue={title}
+        defaultValue={local}
         placeholder="Aa…"
         onChangeText={update}
+        onBlur={commit}
       />
     </View>
   );

@@ -116,8 +116,8 @@ export const PlaybackProvider = ({ children }: any) => {
         });
       } else {
         runInAction(async () => {
-          this.playbackPercent = 0;
           this.state = PlayState.READY;
+          this.index = 0;
         });
       }
     },
@@ -196,26 +196,18 @@ export const PlaybackProvider = ({ children }: any) => {
       const { positionMillis, durationMillis } =
         status as AVPlaybackStatusSuccess;
 
-      // let elapsed = 0;
-      // let total = 0;
-      // let foundActive = false;
+      let playedMs = positionMillis;
+      let previouslyPlayed = 0;
 
-      // this.spots.forEach((nextSpot) => {
-      //   const spotLength = (nextSpot.length ?? 0);
-      //   if (!foundActive) {
-      //     if (this.spot!.id !== nextSpot.id) {
-      //       elapsed += spotLength;
-      //     } else {
-      //       elapsed += positionMillis;
-      //       foundActive = true;
-      //     }
-      //   }
-      //   total += spotLength;
-      // });
-      const percent = positionMillis / this.duration;
+      while (previouslyPlayed < this.index) {
+        playedMs += this.queue[previouslyPlayed].duration;
+        previouslyPlayed++;
+      }
+
+      const percent = playedMs / this.duration;
       const finishedSpot = durationMillis === positionMillis;
       runInAction(() => {
-        this.playbackPercent = finishedSpot ? 1 : percent;
+        this.playbackPercent = percent;
       });
       if (finishedSpot) {
         runInAction(() => this.onFinish());

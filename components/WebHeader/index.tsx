@@ -3,6 +3,7 @@ import React from "react";
 import { Platform } from "react-native";
 import useClient from "../../contexts/ClientContext";
 import { useColors } from "../../hooks/useColorScheme";
+import { useAuth } from "../../stores/AuthStore";
 import Nothing from "../Nothing";
 import { View } from "../Themed";
 import SignInButton from "./SignInButton";
@@ -11,7 +12,9 @@ import { generateStyles } from "./styles";
 const WebHeader = () => {
   const colors = useColors();
   const styles = generateStyles(colors);
+  const authStore = useAuth();
   const { isMobile } = useClient();
+  const profileLink = `/profile/${authStore.user?.uid}`;
 
   if (isMobile) {
     return <Nothing />;
@@ -22,8 +25,8 @@ const WebHeader = () => {
       <Link to="/home" style={styles.headerHomeLink}>
         Derby Demos
       </Link>
-      <Link to="/account" style={styles.headerLink}>
-        Account
+      <Link to={profileLink} style={styles.headerLink}>
+        Profile
       </Link>
       <Link to="/demos" style={styles.headerLink}>
         Demos

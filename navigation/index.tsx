@@ -15,10 +15,10 @@ import { ColorSchemeName } from "react-native";
 import DemoPage from "../components/Demo";
 import DemoBuilder from "../components/DemoBuilder";
 import Demos from "../components/DemosPage/Demos";
+import Profile from "../components/Profile";
 import Spots from "../components/Spots";
 import WelcomePage from "../components/WelcomePage";
 import DemoGenerationPage from "../screens/DemoGenerationPage";
-import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
@@ -73,6 +73,7 @@ export const RootNavigator = observer(() => {
       <Stack.Screen name="NotFound" component={NotFoundScreen} />
       <Stack.Screen name="DemoDetail" component={DemoPage} />
       <Stack.Screen name="Demos" component={Demos} />
+      <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Spots" component={Spots} />
     </Stack.Navigator>
   );

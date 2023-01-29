@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import useDemo from "../../contexts/DemoContext";
 import { useColors } from "../../hooks/useColorScheme";
@@ -8,12 +8,17 @@ import { generateStyles } from "./styles";
 
 const SummaryInput = observer(() => {
   const demoContext = useDemo();
-  const { summary } = demoContext.demo!;
+  const [local, setLocal] = useState(demoContext.demo?.summary);
   const colors = useColors();
   const { h1 } = textStyles(colors);
   const { summaryInput, control } = generateStyles(useColors());
+
   const update = (value: string) => {
-    demoContext.update({ field: "summary", value });
+    setLocal(value);
+  };
+
+  const commit = () => {
+    demoContext.update({ field: "summary", value: local ?? "" });
   };
   return (
     <View style={control}>
@@ -22,9 +27,10 @@ const SummaryInput = observer(() => {
         multiline
         numberOfLines={3}
         style={summaryInput}
-        defaultValue={summary}
+        defaultValue={local}
         placeholder="Aa…"
         onChangeText={update}
+        onBlur={commit}
       />
     </View>
   );
