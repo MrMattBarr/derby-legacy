@@ -1,6 +1,7 @@
+import { useLinkTo } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import Colors from "../../constants/Colors";
 import useClient from "../../contexts/ClientContext";
 import { ModalKey, useModal } from "../../contexts/ModalContext";
@@ -17,28 +18,38 @@ const Header = observer(() => {
   const colorScheme = useColorScheme();
   const { setModal } = useModal();
   const { isMobile } = useClient();
+
+  const linkTo = useLinkTo();
   const colors = Colors[colorScheme];
   const text = textStyles(colors);
+
+  const { user, isSelf } = useUser();
+  const headerText = isSelf ? "My Spots" : user?.profile?.displayName;
+  const navigate = () => {
+    const destination = `/profile/${user?.id}`;
+    linkTo(destination);
+  };
 
   const openModal = () => {
     setModal(ModalKey.RECORDING);
   };
-  const { user } = useUser();
   const { header, pageName, pageNameAndIcon } = generateStyles(colors, {
     isMobile,
   });
   return (
     <View style={header}>
-      <View style={pageNameAndIcon}>
+      <Pressable onPress={navigate} style={pageNameAndIcon}>
         <Avatar />
         <View style={pageName}>
-          <Text style={text.h1}>{user?.profile?.displayName}</Text>
-          <Text style={text.text}>Spots</Text>
+          <Text style={text.h1}>{headerText}</Text>
+          {!isSelf && <Text style={text.text}>Spots</Text>}
         </View>
-      </View>
-      <View>
-        <BigButton onPress={openModal} icon="microphone" label="Record" />
-      </View>
+      </Pressable>
+      {isSelf && (
+        <View>
+          <BigButton onPress={openModal} icon="microphone" label="Record" />
+        </View>
+      )}
     </View>
   );
 });

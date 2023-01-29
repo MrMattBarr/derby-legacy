@@ -1,6 +1,6 @@
 import { Link } from "@react-navigation/native";
+import { observer } from "mobx-react";
 import React from "react";
-import { Platform } from "react-native";
 import useClient from "../../contexts/ClientContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";
@@ -9,11 +9,12 @@ import { View } from "../Themed";
 import SignInButton from "./SignInButton";
 import { generateStyles } from "./styles";
 
-const WebHeader = () => {
+const WebHeader = observer(() => {
   const colors = useColors();
   const styles = generateStyles(colors);
   const authStore = useAuth();
   const { isMobile } = useClient();
+  console.log(authStore.user?.uid);
   const profileLink = `/profile/${authStore.user?.uid}`;
 
   if (isMobile) {
@@ -38,6 +39,6 @@ const WebHeader = () => {
       <SignInButton />
     </View>
   );
-};
+});
 
 export default WebHeader;

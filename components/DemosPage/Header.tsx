@@ -1,4 +1,4 @@
-import { Link } from "@react-navigation/native";
+import { Link, useLinkTo } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
 import { Pressable, View } from "react-native";
@@ -18,25 +18,30 @@ const Header = observer(() => {
   const { isMobile } = useClient();
   const colors = Colors[colorScheme];
   const text = textStyles(colors);
+  const linkTo = useLinkTo();
 
-  const { user } = useUser();
-  const destination = `/profile/${user?.id}`;
+  const { user, isSelf } = useUser();
+  const navigate = () => {
+    const destination = `/profile/${user?.id}`;
+    linkTo(destination);
+  };
+
+  const headerText = isSelf ? "My Demos" : user?.profile?.displayName;
   const { header, pageName, pageNameAndIcon } = generateStyles(colors, {
     isMobile,
   });
-  console.log({ destination });
   if (!user?.id) {
     return <></>;
   }
   return (
     <View style={header}>
-      <Link to={destination} style={pageNameAndIcon}>
+      <Pressable onPress={navigate} style={pageNameAndIcon}>
         <Avatar />
         <View style={pageName}>
-          <Text style={text.h1}>{user?.profile?.displayName}</Text>
-          <Text style={text.text}>Demos</Text>
+          <Text style={text.h1}>{headerText}</Text>
+          {!isSelf && <Text style={text.text}>Demos</Text>}
         </View>
-      </Link>
+      </Pressable>
       <View>
         <BigButton link="/demos/new" icon="plus" label="Create New" />
       </View>
