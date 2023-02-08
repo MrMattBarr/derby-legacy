@@ -32,7 +32,6 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
     maxWidth: Sizes.Pages.WEB,
     marginTop: "-45vh",
   };
-  console.log({ isMobile });
 
   let modalStyles = isMobile
     ? { ...baseStyles, ...mobileStyles }

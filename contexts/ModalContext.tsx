@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
 import ClickEater from "../components/controls/ClickEater";
+import AvatarUpload from "../components/modals/AvatarUpload";
 import RecordingModal from "../components/modals/Recording";
 import SpotEditorModal from "../components/modals/SpotEditor";
 import { modalStyles } from "../components/modals/styles";
@@ -11,12 +12,14 @@ import useClient from "./ClientContext";
 export enum ModalKey {
   RECORDING = "recording",
   SPOT_EDITOR = "spotEditor",
+  AVATAR_UPLOAD = "avatarUpload",
   NONE = "none",
 }
 
 const ModalByKey: Record<ModalKey, () => JSX.Element> = {
   [ModalKey.RECORDING]: RecordingModal,
   [ModalKey.SPOT_EDITOR]: SpotEditorModal,
+  [ModalKey.AVATAR_UPLOAD]: AvatarUpload,
   [ModalKey.NONE]: Nothing,
 };
 

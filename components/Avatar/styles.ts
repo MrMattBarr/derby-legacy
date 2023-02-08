@@ -35,5 +35,21 @@ export const generateStyles = (
       backgroundColor: "#333",
       marginRight: 10,
     },
+    editView: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "baseline",
+      position: "absolute",
+      backgroundColor: AppColor.TRANSPARENT_BLACK,
+      paddingHorizontal: Sizes.Spacings.STANDARD,
+      paddingVertical: Sizes.Spacings.SMALL,
+      bottom: 0,
+      right: 0,
+      borderTopLeftRadius: Sizes.CURVED_BORDER,
+    },
+    editText: {
+      textDecorationLine: "underline",
+      color: colors.Text.default,
+    },
   });
 };

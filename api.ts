@@ -320,6 +320,14 @@ const updateDemo = (demo: Partial<Demo>) => {
   update(dbRef(db, demoLocation), copy);
 };
 
+const updateUser = (user: Partial<User>) => {
+  const copy = { ...toJS(user) };
+  delete copy.id;
+  const db = getDatabase();
+  const demoLocation = `users/${user.id}`;
+  update(dbRef(db, demoLocation), copy);
+};
+
 export interface FirebaseUserCredentials {
   email: string;
   password: string;
@@ -368,6 +376,7 @@ export {
   subscribeToUserDemos,
   deleteDemo,
   registerUser,
+  updateUser,
   updateSpot,
   updateDemo,
   createAccount,

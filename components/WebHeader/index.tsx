@@ -14,7 +14,6 @@ const WebHeader = observer(() => {
   const styles = generateStyles(colors);
   const authStore = useAuth();
   const { isMobile } = useClient();
-  console.log(authStore.user?.uid);
   const profileLink = `/profile/${authStore.user?.uid}`;
 
   if (isMobile) {

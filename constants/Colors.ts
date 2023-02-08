@@ -21,7 +21,7 @@ export enum AppColor {
   NAVY_BLUE = "#242448",
   DEEP_TEAL = "#0e5c65",
   OLIVE_GREEN = "#80806D",
-  TREE_BROWN = "#a48960",
+  TREE_BROWN = "#534b40",
   SANDY_WHITE = "#fff8e9",
   IVY_GREEN = "#08640f",
   TINTED_GRAY = "#445",

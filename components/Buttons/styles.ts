@@ -18,6 +18,18 @@ export const generateStyles = (colors: Theme, { fontSize }: StyleParams) => {
       fontSize: fontSize ?? 12,
       color: colors.Text.default,
     },
+    disabledBigButton: {
+      opacity: 0.6,
+      padding: 10,
+      borderWidth: 3,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderRadius: 5,
+      borderColor: colors.Borders.dramatic,
+      backgroundColor: colors.Backgrounds.empty,
+    },
     bigButton: {
       padding: 10,
       borderWidth: 3,

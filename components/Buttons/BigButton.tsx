@@ -10,11 +10,19 @@ interface ITextButton {
   fontSize?: number;
   link?: string;
   onPress?: () => void;
+  disabled?: boolean;
   icon?: string;
   label: string;
 }
 
-const BigButton = ({ fontSize, onPress, label, icon, link }: ITextButton) => {
+const BigButton = ({
+  fontSize,
+  onPress,
+  label,
+  icon,
+  link,
+  disabled,
+}: ITextButton) => {
   const colors = useColors();
   const styles = generateStyles(colors, { fontSize });
   const linkTo = useLinkTo();
@@ -33,11 +41,14 @@ const BigButton = ({ fontSize, onPress, label, icon, link }: ITextButton) => {
     }
   };
 
+  const buttonStyle = disabled ? styles.disabledBigButton : styles.bigButton;
+
   return (
     <TouchableOpacity
+      disabled={disabled}
       activeOpacity={0.7}
-      style={styles.bigButton}
-      onPress={onPress}
+      style={buttonStyle}
+      onPress={press}
     >
       {icon && (
         <FontAwesome

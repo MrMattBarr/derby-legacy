@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Platform, TextInput } from "react-native";
 import { useColors } from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";
-import { useModal } from "../../contexts/ModalContext";
-import { modalStyles } from "../../styles/modals";
+import { ModalKey, useModal } from "../../contexts/ModalContext";
 import { View } from "../Themed";
+import { modalStyles } from "./styles";
 
 const Login = () => {
   const authStore = useAuth();
@@ -17,7 +17,7 @@ const Login = () => {
   const authenticate = async () => {
     const user = await authStore.authenticateWithEmail({ email, password });
     if (user) {
-      modalStore.setModal();
+      modalStore.setModal(ModalKey.NONE);
     }
   };
 

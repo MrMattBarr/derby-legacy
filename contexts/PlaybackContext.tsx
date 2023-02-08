@@ -116,8 +116,7 @@ export const PlaybackProvider = ({ children }: any) => {
         });
       } else {
         runInAction(async () => {
-          this.state = PlayState.READY;
-          this.index = 0;
+          this.unload();
         });
       }
     },

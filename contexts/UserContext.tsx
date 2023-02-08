@@ -1,11 +1,18 @@
+import { runInAction } from "mobx";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect } from "react";
+import { updateUser } from "../api";
 import { useAuth } from "../stores/AuthStore";
 import { useUsers } from "../stores/UsersStore";
 import User from "../types/User";
 
+interface UserUpdate {
+  field: "avatar";
+  value: string;
+}
 type IUserContext = {
   user: User;
+  update: (update: UserUpdate) => void;
   isSelf: boolean;
 };
 
@@ -21,8 +28,15 @@ export const UserProvider = observer(({ children, id }: any) => {
   const authStore = useAuth();
   const isSelf = id === authStore.user?.uid;
 
+  const update = ({ field, value }: UserUpdate) => {
+    runInAction(() => {
+      user.profile![field] = value;
+      updateUser({ profile: user.profile });
+    });
+  };
+
   return (
-    <UserContext.Provider value={{ user, isSelf }}>
+    <UserContext.Provider value={{ user, isSelf, update }}>
       {children}
     </UserContext.Provider>
   );
