@@ -30,9 +30,11 @@ const Avatar = observer(({ size, framed, editable }: IAvatar) => {
     }
   };
   return (
-    <Pressable style={styles.holder} onPress={editPhoto}>
-      {src && <Image source={src} style={styles.avatar} />}
-      {!src && <View style={styles.avatarPlaceHolder} />}
+    <Pressable onPress={editPhoto}>
+      <View style={styles.holder}>
+        {src && <Image source={src} style={styles.avatar} />}
+        {!src && <View style={styles.avatarPlaceHolder} />}
+      </View>
       {canEdit && (
         <View style={styles.editView}>
           <Entypo

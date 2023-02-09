@@ -11,8 +11,6 @@ export const generateStyles = (colors: Theme) => {
       flexDirection: "row",
     },
     page: {
-      borderRadius: Sizes.CURVED_BORDER,
-      margin: Sizes.Spacings.STANDARD,
       backgroundColor: colors.Backgrounds.empty,
       borderWidth: 2,
       overflow: "hidden",

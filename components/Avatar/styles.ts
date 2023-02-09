@@ -21,12 +21,12 @@ export const generateStyles = (
       borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
       flexGrow: 0,
       alignSelf: "flex-start",
+      overflow: "hidden",
       display: "flex",
     },
     avatar: {
       width: avatarSize,
       height: avatarSize,
-      margin: Sizes.Spacings.STANDARD,
     },
     avatarPlaceHolder: {
       width: avatarSize,
@@ -45,7 +45,10 @@ export const generateStyles = (
       paddingVertical: Sizes.Spacings.SMALL,
       bottom: 0,
       right: 0,
-      borderTopLeftRadius: Sizes.CURVED_BORDER,
+      borderRadius: isMobile ? Sizes.VERY_CURVED_BORDER : 0,
+      borderTopLeftRadius: isMobile
+        ? Sizes.VERY_CURVED_BORDER
+        : Sizes.CURVED_BORDER,
     },
     editText: {
       textDecorationLine: "underline",

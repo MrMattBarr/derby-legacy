@@ -31,7 +31,7 @@ export const UserProvider = observer(({ children, id }: any) => {
   const update = ({ field, value }: UserUpdate) => {
     runInAction(() => {
       user.profile![field] = value;
-      updateUser({ profile: user.profile });
+      updateUser({ id: user.id, profile: user.profile });
     });
   };
 
