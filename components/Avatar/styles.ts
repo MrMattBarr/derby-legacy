@@ -27,6 +27,7 @@ export const generateStyles = (
     avatar: {
       width: avatarSize,
       height: avatarSize,
+      borderRadius: Sizes.CURVED_BORDER,
     },
     avatarPlaceHolder: {
       width: avatarSize,

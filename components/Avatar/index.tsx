@@ -29,6 +29,7 @@ const Avatar = observer(({ size, framed, editable }: IAvatar) => {
       setModal(ModalKey.AVATAR_UPLOAD);
     }
   };
+  console.log({ src });
   return (
     <Pressable onPress={editPhoto}>
       <View style={styles.holder}>

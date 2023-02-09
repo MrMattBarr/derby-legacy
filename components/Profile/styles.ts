@@ -31,6 +31,8 @@ export const generateStyles = (colors: Theme) => {
       display: "flex",
       borderTopWidth: 2,
       borderBottomWidth: 1,
+      overflow: "hidden",
+      justifyContent: "center",
       borderColor: colors.Borders.default,
     },
     rates: {

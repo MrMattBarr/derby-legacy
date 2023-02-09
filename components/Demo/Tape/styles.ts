@@ -1,9 +1,8 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Theme } from "../../../constants/Colors";
 
 export const generateStyles = (colors: Theme) => {
   const GEAR_SIZE = 30;
-  const GEAR_PADDING = 10;
   return StyleSheet.create({
     gear: {
       height: GEAR_SIZE,

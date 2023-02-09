@@ -1,11 +1,13 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import { Link } from "@react-navigation/native";
+import { Link, useLinkTo } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
 
-import { Image, StyleSheet } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
 import useDemo from "../../contexts/DemoContext";
 import { useUsers } from "../../stores/UsersStore";
+import { Sizes } from "../../styles/sizes";
+import Avatar from "../Avatar";
 import { View } from "../Themed";
 
 const UserSummary = observer(() => {
@@ -13,6 +15,8 @@ const UserSummary = observer(() => {
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
   });
+
+  const linkTo = useLinkTo();
 
   const demo = useDemo();
   const userId = demo.demo?.userId;
@@ -38,12 +42,18 @@ const UserSummary = observer(() => {
     username: {
       color: "black",
       fontSize: 20,
+      marginLeft: Sizes.Spacings.STANDARD,
       marginTop: 5,
     },
     avatar: {
       width: avatarSize,
       height: avatarSize,
       marginRight: 10,
+    },
+    userLink: {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "row",
     },
     avatarPlaceHolder: {
       width: avatarSize,
@@ -58,15 +68,16 @@ const UserSummary = observer(() => {
     return <></>;
   }
 
-  const src = { uri: user?.profile?.avatar };
-  const userProfileLink = `/users/${user?.id}`;
+  const userProfileLink = `/profile/${user?.id}`;
+  const goToUser = () => {
+    linkTo(userProfileLink);
+  };
   return (
     <View style={s.userSummary}>
-      {src && <Image source={src} style={s.avatar} />}
-      {!src && <View style={s.avatarPlaceHolder} />}
-      <Link to={userProfileLink} style={s.username}>
-        {displayName}
-      </Link>
+      <Pressable onPress={goToUser} style={s.userLink}>
+        <Avatar size={30} />
+        <Text style={s.username}>{displayName}</Text>
+      </Pressable>
     </View>
   );
 });
