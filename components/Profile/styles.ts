@@ -11,8 +11,8 @@ export const generateStyles = (colors: Theme) => {
       flexDirection: "row",
     },
     page: {
-      backgroundColor: colors.Backgrounds.empty,
-      borderWidth: 2,
+      backgroundColor: colors.Backgrounds.secondary,
+      borderBottomWidth: 2,
       overflow: "hidden",
     },
     userSummary: {

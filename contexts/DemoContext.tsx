@@ -1,7 +1,7 @@
 import { computed, runInAction, toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect, useState } from "react";
-import { updateDemo } from "../api";
+import { updateDemo, updateSpot } from "../api";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
 import { useAuth } from "../stores/AuthStore";
@@ -78,14 +78,18 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   };
 
   const toggleSpot = (spotId: string) => {
+    const spot = spotsStore.spots[spotId];
     runInAction(() => {
       const spots = demo.spots ?? [];
       if (spots.includes(spotId)) {
         demo.spots = spots.filter((x) => x !== spotId);
+        spot.demos = (spot.demos ?? []).filter((x) => x !== demo.id);
       } else {
         demo.spots = [...spots, spotId];
+        spot.demos = [...(spot.demos ?? []), demo.id];
       }
       updateDemo(demo);
+      updateSpot(spot);
     });
   };
 

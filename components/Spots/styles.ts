@@ -46,7 +46,8 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       backgroundColor: colors.Backgrounds.default,
     },
     pageName: {
-      marginRight: 30,
+      marginRight: Sizes.Spacings.STANDARD,
+      marginLeft: Sizes.Spacings.STANDARD,
     },
   });
 };

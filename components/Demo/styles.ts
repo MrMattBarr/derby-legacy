@@ -34,6 +34,7 @@ export const generateStyles = (colors: Theme) => {
       position: "relative",
       backgroundColor: "#3f79b3",
       maxWidth: 500,
+      maxHeight: 312,
       aspectRatio: 1.6,
       margin: Sizes.Spacings.LARGE,
       borderRadius: 10,

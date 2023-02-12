@@ -1,7 +1,7 @@
 import { runInAction } from "mobx";
 import { observer } from "mobx-react";
-import React, { useContext, useEffect, useState } from "react";
-import { updateDemo, updateSpot } from "../api";
+import React, { useContext, useEffect } from "react";
+import { updateSpot } from "../api";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
 import { useAuth } from "../stores/AuthStore";
@@ -9,7 +9,6 @@ import { useSpots } from "../stores/SpotsStore";
 import { useUsers } from "../stores/UsersStore";
 import { Visibility } from "../types/Demo";
 import Spot from "../types/Spot";
-import { readableDuration as _readableDuration } from "../utils/utils";
 
 interface SpotUpdate {
   field: "title" | "transcript";
@@ -20,6 +19,7 @@ type SpotContract = {
   spot?: Spot;
   isOwner: boolean;
   setVisibility: (visibility: Visibility) => void;
+  deleteSpot: () => void;
   update: (update: SpotUpdate) => void;
 };
 
@@ -33,7 +33,6 @@ export const SpotProvider = observer(({ children, id }: ISpotContext) => {
   const spotsStore = useSpots();
   const users = useUsers();
 
-  const [duration, setDuration] = useState<number | undefined>();
   useEffect(() => {
     spotsStore.loadSpot(id);
   }, [spotsStore]);
@@ -62,8 +61,11 @@ export const SpotProvider = observer(({ children, id }: ISpotContext) => {
   const authStore = useAuth();
   const { user } = authStore;
   const isOwner = spot?.author === user?.uid && !!spot?.author;
-
-  const readableDuration = _readableDuration(duration);
+  const deleteSpot = () => {
+    if (isOwner) {
+      spotsStore.deleteSpot(spot);
+    }
+  };
 
   return (
     <SpotContext.Provider
@@ -71,6 +73,7 @@ export const SpotProvider = observer(({ children, id }: ISpotContext) => {
         spot,
         isOwner,
         update,
+        deleteSpot,
         setVisibility,
       }}
     >

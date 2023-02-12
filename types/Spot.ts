@@ -12,6 +12,7 @@ export type SaveableSpot = {
   length: number;
   url: string;
   tags: string[];
+  demos: string[];
   author: string;
 };
 
@@ -31,6 +32,7 @@ export const spotFromFile = (
       visibility: partialSpot.visibility ?? Visibility.PRIVATE,
       length: partialSpot.length ?? 0,
       tags: partialSpot.tags ?? [],
+      demos: partialSpot.demos ?? [],
       author: partialSpot.author || "",
       created: partialSpot.created ?? Date.now(),
       id: partialSpot.id ?? randomId(),

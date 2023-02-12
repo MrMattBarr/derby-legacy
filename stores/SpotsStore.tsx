@@ -3,7 +3,7 @@ import { makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
-import { createSpot, fetchSpot } from "../api";
+import { createSpot, deleteSpot, fetchSpot } from "../api";
 import Spot, { SaveableSpot } from "../types/Spot";
 
 type ISpotsStore = {
@@ -13,6 +13,7 @@ type ISpotsStore = {
   createSpot: (spot: SaveableSpot, recording: Recording) => Promise<Spot>;
   processSpotIds: (spotIds: string[]) => void;
   loadSpot: (spotId: string) => void;
+  deleteSpot: (spot: Spot) => void;
 };
 
 export function SpotsStore() {
@@ -20,12 +21,12 @@ export function SpotsStore() {
     {
       spots: {},
       spotIds: [],
-      processSpotIds(spotIds: string[]) {
+      processSpotIds(spotIds: string[], onError?: (id: string) => void) {
         const onFetch = (spot: Spot) =>
           runInAction(() => {
             this.addSpot(spot);
           });
-        spotIds.forEach((id) => fetchSpot(id, onFetch));
+        spotIds.forEach((id) => fetchSpot(id, onFetch, onError));
       },
 
       addSpot(spot: Spot) {
@@ -44,6 +45,13 @@ export function SpotsStore() {
         });
 
         return uploadedSpot;
+      },
+      deleteSpot(spot: Spot) {
+        runInAction(() => {
+          delete this.spots[spot.id];
+          this.spotIds = this.spotIds.filter((x) => x !== spot.id);
+        });
+        deleteSpot(spot);
       },
       loadSpot(spotId: string) {
         if (!spotId) {

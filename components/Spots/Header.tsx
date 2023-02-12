@@ -7,7 +7,6 @@ import useClient from "../../contexts/ClientContext";
 import { ModalKey, useModal } from "../../contexts/ModalContext";
 import useUser from "../../contexts/UserContext";
 import useColorScheme from "../../hooks/useColorScheme";
-import { generatePageStyles } from "../../styles/page";
 import textStyles from "../../styles/text";
 import Avatar from "../Avatar";
 import BigButton from "../Buttons/BigButton";
@@ -24,7 +23,7 @@ const Header = observer(() => {
   const text = textStyles(colors);
 
   const { user, isSelf } = useUser();
-  const headerText = isSelf ? "My Spots" : user?.profile?.displayName;
+  const headerText = isSelf ? "Spots" : user?.profile?.displayName;
   const navigate = () => {
     const destination = `/profile/${user?.id}`;
     linkTo(destination);

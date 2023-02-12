@@ -16,6 +16,7 @@ import {
   update,
 } from "firebase/database";
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -183,14 +184,22 @@ const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
 interface FetchArgs<Type> {
   id: string;
   onFetch: (things: Type) => any;
+  onError?: (id?: string) => any;
   dbKey: string;
 }
 
-const fetchThing = <Type>({ id, onFetch, dbKey }: FetchArgs<Type>) => {
+const fetchThing = <Type>({ id, onFetch, dbKey, onError }: FetchArgs<Type>) => {
   const db = getDatabase();
   const thingRef = dbRef(db, `${dbKey}/${id}`);
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
+    if (!thing) {
+      console.log({ id, onFetch, dbKey, onError });
+      if (onError) {
+        onError(id);
+        return;
+      }
+    }
     try {
       onFetch(thing);
     } catch (err) {
@@ -211,13 +220,17 @@ const fetchUser = (id: string, callback: (user: User) => void) => {
   fetchThing({ id, onFetch, dbKey: "users" });
 };
 
-const fetchSpot = (id: string, callback: (spots: Spot) => void) => {
+const fetchSpot = (
+  id: string,
+  callback: (spots: Spot) => void,
+  onError?: (id: string) => void
+) => {
   const onFetch = async (spot: Spot) => {
     spot.id = id;
     spot.audio = await loadSpotAudio(id);
     callback(spot);
   };
-  fetchThing({ id, onFetch, dbKey: "spots" });
+  fetchThing({ id, onFetch, dbKey: "spots", onError });
 };
 
 const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
@@ -241,6 +254,20 @@ const subscribeToUserDemos = (user: string, callback: (demos: any) => void) => {
     const demoIds = Object.keys(data ?? {});
     callback(demoIds);
   });
+};
+
+const deleteSpot = async (spot: Spot) => {
+  if ((spot.demos?.length ?? 0) > 0) {
+    throw new Error("unable to delete spot thats in demos");
+  }
+  const storage = getStorage();
+  const refLocation = `/spots/${spot.id}`;
+  const deleteRef = ref(storage, refLocation);
+  console.log({ deleteRef, refLocation });
+  await deleteObject(deleteRef);
+  const db = getDatabase();
+  const spotRef = dbRef(db, `spots/${spot.id}`);
+  remove(spotRef);
 };
 
 const deleteDemo = (id: string) => {
@@ -301,6 +328,16 @@ const createSpot = async (spot: SaveableSpot, recording: Recording) => {
   });
   const newSpot = await uploadPromise;
   return newSpot;
+};
+
+interface IRemveSpot {
+  userId: string;
+  spotId: string;
+}
+const removeSpotFromUser = ({ userId, spotId }: IRemveSpot) => {
+  const db = getDatabase();
+  const removeRef = `users/${userId}/spots/${spotId}`;
+  remove(dbRef(db, removeRef));
 };
 
 const updateSpot = (spot: Partial<Spot>) => {
@@ -370,6 +407,8 @@ export {
   createDemo,
   createSpot,
   subscribeToUserSpots,
+  deleteSpot,
+  removeSpotFromUser,
   fetchSpot,
   fetchUser,
   fetchDemo,

@@ -1,7 +1,11 @@
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import { subscribeToUserDemos, subscribeToUserSpots } from "../api";
+import {
+  removeSpotFromUser,
+  subscribeToUserDemos,
+  subscribeToUserSpots,
+} from "../api";
 import { useAuth } from "../stores/AuthStore";
 import { useDemos } from "../stores/DemosStore";
 import { useSpots } from "../stores/SpotsStore";
@@ -9,7 +13,6 @@ import { useUsers } from "../stores/UsersStore";
 
 const ReactiveContext = React.createContext({});
 export const ReactiveProvider = observer(({ children }: any) => {
-  const [user, setUser] = useState();
   const firebaseAuth = getAuth();
   const authStore = useAuth();
   const userStore = useUsers();
@@ -34,7 +37,9 @@ export const ReactiveProvider = observer(({ children }: any) => {
         demoStore.processDemoIds(demoIds);
       });
       subscribeToUserSpots(authUser.uid, (spotIds: string[]) => {
-        spotStore.processSpotIds(spotIds);
+        const onError = (spotId: string) =>
+          removeSpotFromUser({ spotId, userId: authUser.uid });
+        spotStore.processSpotIds(spotIds, onError);
       });
     } else {
       generateAnonymousAuth();

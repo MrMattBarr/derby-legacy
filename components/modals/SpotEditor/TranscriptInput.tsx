@@ -10,7 +10,6 @@ const TranscriptInput = observer(() => {
   const spotContext = useSpot();
   const [local, setLocal] = useState(spotContext.spot?.transcript);
   const colors = useColors();
-  const { h1 } = textStyles(colors);
   const update = (value: string) => {
     setLocal(value);
   };
@@ -18,10 +17,10 @@ const TranscriptInput = observer(() => {
   const commit = () => {
     spotContext.update({ field: "transcript", value: local ?? "" });
   };
-  const { summaryInput, control } = generateStyles(useColors());
+  const { summaryInput, control, header } = generateStyles(useColors());
   return (
     <View style={control}>
-      <Text style={h1}>Transcript (Optional)</Text>
+      <Text style={header}>Transcript (Optional)</Text>
       <TextInput
         multiline
         numberOfLines={3}

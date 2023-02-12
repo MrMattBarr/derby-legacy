@@ -12,10 +12,11 @@ const SpotList = observer(() => {
   const { user } = useUser();
   const colors = useColors();
   const { section } = generateStyles(colors);
-  console.log({ user });
+
   if (!user) {
     return <></>;
   }
+
   const spotIds = Object.keys(user?.spots);
   return (
     <View style={section}>

@@ -10,8 +10,7 @@ const TitleInput = observer(() => {
   const spotContext = useSpot();
   const [local, setLocal] = useState(spotContext.spot?.title);
   const colors = useColors();
-  const { h1 } = textStyles(colors);
-  const { titleInput, control } = generateStyles(useColors());
+  const { titleInput, control, header } = generateStyles(useColors());
   const update = (value: string) => {
     setLocal(value);
   };
@@ -21,7 +20,7 @@ const TitleInput = observer(() => {
   };
   return (
     <View style={control}>
-      <Text style={h1}>Demo Title</Text>
+      <Text style={header}>Spot Title</Text>
       <TextInput
         style={titleInput}
         defaultValue={local}

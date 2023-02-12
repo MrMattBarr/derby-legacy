@@ -15,6 +15,21 @@ export const generateStyles = (colors: Theme) => {
       color: colors.Text.default,
       fontSize: Sizes.Fonts.HEADER,
     },
+    deleteButton: {
+      padding: Sizes.Spacings.STANDARD,
+      marginVertical: Sizes.Spacings.STANDARD,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+    deleteText: {
+      fontWeight: "bold",
+      color: colors.Text.delete,
+      textDecorationLine: "underline",
+    },
+    spacer: {
+      flexGrow: 1,
+    },
     titleInput: {
       ...commonControl,
       fontSize: 20,
