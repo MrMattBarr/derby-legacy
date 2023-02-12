@@ -10,7 +10,9 @@ import { generateStyles } from "./styles";
 
 const PlaybackView = observer(() => {
   const playbackStore = usePlayback();
-  const duration = readableDuration(playbackStore.duration);
+  const duration = playbackStore.duration;
+  const element = playbackStore.loadedElement;
+  console.log({ duration, element });
   const colors = useColors();
   const { playback, playbackTitle, detail, playbackHolder } =
     generateStyles(colors);
@@ -20,7 +22,7 @@ const PlaybackView = observer(() => {
       <Playback style={{ marginVertical: Sizes.Spacings.STANDARD }}>
         <View style={playback}>
           <Text style={playbackTitle}>New Recording</Text>
-          <Text style={detail}>{duration}</Text>
+          <Text style={detail}>{readableDuration(duration)}</Text>
         </View>
       </Playback>
     </View>

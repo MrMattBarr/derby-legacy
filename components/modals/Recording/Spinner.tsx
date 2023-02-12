@@ -1,25 +1,14 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
-import {
-  Animated,
-  Easing,
-  GestureResponderEvent,
-  Modal,
-  Pressable,
-  View,
-} from "react-native";
-import { useColors } from "../../../hooks/useColorScheme";
-import { useModal } from "../../../contexts/ModalContext";
-import { Text } from "../../Themed";
-import { modalStyles } from "../styles";
-import { generateStyles } from "./styles";
-import useRecordingBooth from "./context";
-import Gear from "../../Demo/Tape/Gear";
+import { Animated, Easing, View } from "react-native";
 import { AppColor } from "../../../constants/Colors";
+import { useColors } from "../../../hooks/useColorScheme";
+import Gear from "../../Demo/Tape/Gear";
+import useRecordingBooth, { RecordingState } from "./context";
+import { generateStyles } from "./styles";
 
 const Spinner = () => {
-  const { recording } = useRecordingBooth();
+  const { recordingState } = useRecordingBooth();
+  const recording = recordingState === RecordingState.RECORDING;
   const colors = useColors();
   const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
 
@@ -62,7 +51,7 @@ const Spinner = () => {
     ? colors.Backgrounds.primary
     : AppColor.TRANSPARENT;
 
-  const { spinner } = generateStyles(colors, { recording: !!recording });
+  const { spinner } = generateStyles(colors, { recording });
 
   return (
     <View style={spinner}>

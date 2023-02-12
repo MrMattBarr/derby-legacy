@@ -1,15 +1,16 @@
 import { Audio } from "expo-av";
-import { Recording, Sound } from "expo-av/build/Audio";
-import { runInAction } from "mobx";
+import { Recording } from "expo-av/build/Audio";
 import { observer } from "mobx-react";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { MAX_SPOT_LENGTH } from "../../../constants/restrictions";
-import usePlayback from "../../../contexts/PlaybackContext";
+import usePlayback, {
+  SoundWithDuration,
+} from "../../../contexts/PlaybackContext";
 import { useAuth } from "../../../stores/AuthStore";
 import { useSpots } from "../../../stores/SpotsStore";
 import { Visibility } from "../../../types/Demo";
-import Spot, { SaveableSpot } from "../../../types/Spot";
+import { SaveableSpot } from "../../../types/Spot";
 
 export enum RecordingState {
   READY = "READY",
@@ -63,6 +64,7 @@ export const RecordingBoothProvider = observer(
         title: "New Spot",
         author: uid,
         tags: [],
+        demos: [],
         url: "",
         visibility: Visibility.DRAFT,
         created: Date.now(),
@@ -101,8 +103,11 @@ export const RecordingBoothProvider = observer(
 
       const { sound } = await recording.createNewLoadedSoundAsync();
       const duration = Date.now() - recordStart;
-      PlaybackStore.setAudio(sound, duration);
-      setRecordStart(0);
+      console.log({ duration });
+      const withDuration = sound as SoundWithDuration;
+      withDuration.duration = duration;
+      console.log({ withDuration });
+      PlaybackStore.load(withDuration, { autoPlay: false });
       setRecordingState(RecordingState.REVIEW);
       if (duration > MAX_SPOT_LENGTH) {
         setError(RecordingError.TOO_LONG);

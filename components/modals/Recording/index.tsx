@@ -1,9 +1,9 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useColors } from "../../../hooks/useColorScheme";
 import MicButton from "./MicButton";
-import { RecordingBoothProvider } from "./context";
+import useRecordingBooth, { RecordingBoothProvider } from "./context";
 import NeonSign from "./NeonSign";
 import PlaybackBox from "./PlaybackBox";
 import { generateStyles } from "./styles";

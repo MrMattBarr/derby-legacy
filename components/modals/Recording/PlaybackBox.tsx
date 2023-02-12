@@ -4,7 +4,7 @@ import { View } from "react-native";
 import usePlayback from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import Nothing from "../../Nothing";
-import useRecordingBooth from "./context";
+import useRecordingBooth, { RecordingState } from "./context";
 import Prompt from "./Prompt";
 import Review from "./Review";
 import Spinner from "./Spinner";
@@ -15,13 +15,12 @@ const PlaybackBox = observer(() => {
   const { playbackBox, holder } = generateStyles(colors);
   const playbackStore = usePlayback();
   const audio = playbackStore.audio;
-  const { recording, readyToRecord } = useRecordingBooth();
+  const { recording, readyToRecord, recordingState } = useRecordingBooth();
   let Content = Nothing;
 
-  const showReview = !!audio;
   if (readyToRecord) {
     Content = Prompt;
-  } else if (showReview) {
+  } else if (recordingState === RecordingState.REVIEW) {
     Content = Review;
   }
   return (
