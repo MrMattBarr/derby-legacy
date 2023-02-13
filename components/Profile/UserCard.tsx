@@ -2,6 +2,7 @@ import React from "react";
 import useUser from "../../contexts/UserContext";
 import { useColors } from "../../hooks/useColorScheme";
 import Avatar from "../Avatar";
+import EditableText from "../Controls/EditableText";
 import { Text, View } from "../Themed";
 import Rates from "./Rates";
 import { generateStyles } from "./styles";
@@ -9,7 +10,10 @@ import { generateStyles } from "./styles";
 const UserCard = () => {
   const colors = useColors();
   const { userCard, userSummary, username, tags } = generateStyles(colors);
-  const { user } = useUser();
+  const { user, isSelf, update } = useUser();
+  const updateName = (newName: string) => {
+    update({ field: "displayName", value: newName });
+  };
   if (!user) {
     return <></>;
   }
@@ -17,7 +21,11 @@ const UserCard = () => {
     <View style={userCard}>
       <Avatar size={100} framed editable />
       <View style={userSummary}>
-        <Text style={username}>{user.profile?.displayName}</Text>
+        <EditableText
+          text={user.profile?.displayName}
+          canEdit={isSelf}
+          onCommit={updateName}
+        />
         <Text style={tags}>Energetic, Confident, Masculine</Text>
         <Rates />
         <Text style={tags}>Roles go here</Text>

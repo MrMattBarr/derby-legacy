@@ -4,19 +4,18 @@ import { Sizes } from "../../styles/sizes";
 
 interface IAvatarStyles {
   size?: number;
-  framed?: boolean;
   isMobile?: boolean;
 }
 
 export const generateStyles = (
   colors: Theme,
-  { size, framed, isMobile }: IAvatarStyles
+  { size, isMobile }: IAvatarStyles
 ) => {
   const avatarSize = size ?? 50;
   return StyleSheet.create({
     holder: {
-      backgroundColor: framed ? colors.Backgrounds.empty : AppColor.TRANSPARENT,
-      borderWidth: framed ? 2 : 0,
+      backgroundColor: colors.Backgrounds.empty,
+      borderWidth: 2,
       borderColor: colors.Borders.default,
       borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
       flexGrow: 0,
@@ -27,12 +26,13 @@ export const generateStyles = (
     avatar: {
       width: avatarSize,
       height: avatarSize,
-      borderRadius: Sizes.CURVED_BORDER,
+      borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
     },
     avatarPlaceHolder: {
       width: avatarSize,
       height: avatarSize,
       borderRadius: avatarSize,
+      overflow: "hidden",
       backgroundColor: "#333",
       marginRight: 10,
     },

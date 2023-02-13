@@ -26,7 +26,7 @@ const Header = observer(() => {
     linkTo(destination);
   };
 
-  const headerText = isSelf ? "My Demos" : user?.profile?.displayName;
+  const headerText = isSelf ? "Demos" : user?.profile?.displayName;
   const { header, pageName, pageNameAndIcon } = generateStyles(colors, {
     isMobile,
   });

@@ -6,6 +6,8 @@ export const generateStyles = (colors: Theme) => {
   return StyleSheet.create({
     userCard: {
       padding: Sizes.Spacings.STANDARD,
+      borderTopWidth: 2,
+      borderBottomWidth: 2,
       backgroundColor: colors.Backgrounds.contrast,
       display: "flex",
       flexDirection: "row",
@@ -29,7 +31,6 @@ export const generateStyles = (colors: Theme) => {
     },
     favoriteTape: {
       display: "flex",
-      borderTopWidth: 2,
       borderBottomWidth: 1,
       overflow: "hidden",
       justifyContent: "center",

@@ -1,5 +1,6 @@
 import { Platform, StyleSheet } from "react-native";
 import { Theme } from "../../constants/Colors";
+import { Sizes } from "../../styles/sizes";
 
 interface IStyles {
   isMobile?: boolean;
@@ -26,7 +27,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     },
     section: {},
     pageName: {
-      marginRight: 30,
+      marginLeft: Sizes.Spacings.STANDARD,
     },
   });
 };

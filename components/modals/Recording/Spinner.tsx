@@ -10,7 +10,7 @@ const Spinner = () => {
   const { recordingState } = useRecordingBooth();
   const recording = recordingState === RecordingState.RECORDING;
   const colors = useColors();
-  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
+  const [rotateAnimation] = useState(new Animated.Value(0));
 
   const spin = () => {
     Animated.loop(

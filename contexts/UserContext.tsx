@@ -7,7 +7,7 @@ import { useUsers } from "../stores/UsersStore";
 import User from "../types/User";
 
 interface UserUpdate {
-  field: "avatar";
+  field: "avatar" | "displayName";
   value: string;
 }
 type IUserContext = {
