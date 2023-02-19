@@ -11,15 +11,18 @@ const UserCard = () => {
   const colors = useColors();
   const { userCard, userSummary, username, tags } = generateStyles(colors);
   const { user, isSelf, update } = useUser();
-  const updateName = (newName: string) => {
-    update({ field: "displayName", value: newName });
+  const updateName = (newName?: string) => {
+    console.log({ newName });
+    if (newName) {
+      update({ field: "displayName", value: newName });
+    }
   };
   if (!user) {
     return <></>;
   }
   return (
     <View style={userCard}>
-      <Avatar size={100} framed editable />
+      <Avatar size={100} editable />
       <View style={userSummary}>
         <EditableText
           text={user.profile?.displayName}

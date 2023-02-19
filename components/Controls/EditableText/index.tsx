@@ -8,6 +8,8 @@ import {
   TextInputSubmitEditingEventData,
   View,
 } from "react-native";
+import useClient from "../../../contexts/ClientContext";
+import useTextBar from "../../../contexts/TextBarContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
 
@@ -20,9 +22,11 @@ interface IEditableText {
 const EditableText = ({ text, canEdit, onCommit }: IEditableText) => {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(text);
+  const { isMobile } = useClient();
   const colors = useColors();
   const inputRef = useRef<TextInput>(null);
   const styles = generateStyles(colors, { canEdit });
+  const { setTextBarArgs } = useTextBar();
   const submit = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
     setEditing(false);
     onCommit(e.nativeEvent.text);
@@ -34,6 +38,14 @@ const EditableText = ({ text, canEdit, onCommit }: IEditableText) => {
     }
   };
 
+  const onClick = () => {
+    if (isMobile) {
+      setTextBarArgs({ onSubmit: onCommit, text });
+    } else {
+      setEditing(true);
+    }
+  };
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -42,7 +54,7 @@ const EditableText = ({ text, canEdit, onCommit }: IEditableText) => {
   return (
     <View style={styles.holder}>
       {!editing && (
-        <Pressable style={styles.pressable} onPress={() => setEditing(true)}>
+        <Pressable style={styles.pressable} onPress={onClick}>
           <Text style={styles.text}>{text}</Text>
           {canEdit && (
             <Entypo

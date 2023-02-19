@@ -9,8 +9,10 @@ import textStyles from "../styles/text";
 import TextButton from "./Buttons/TextButton";
 import Nothing from "./Nothing";
 import { View } from "./Themed";
+import useTextBar from "../contexts/TextBarContext";
 
 const PhoneBottomSpacer = () => {
+  const textBar = useTextBar();
   const linkTo = useLinkTo();
   const colors = useColors();
   const { isMobile } = useClient();
@@ -34,7 +36,7 @@ const PhoneBottomSpacer = () => {
       justifyContent: "center",
       alignContent: "center",
       borderColor: colors.Borders.default,
-      borderTopWidth: 1,
+      borderTopWidth: textBar.args ? 0 : 1,
       zIndex: 3,
       height: Sizes.PHONE_BOTTOM_NAV,
       backgroundColor: colors.Backgrounds.secondary,
