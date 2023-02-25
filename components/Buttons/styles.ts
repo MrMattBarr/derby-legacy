@@ -3,8 +3,12 @@ import { DefaultColors, Theme } from "../../constants/Colors";
 
 interface StyleParams {
   fontSize?: number;
+  danger?: boolean;
 }
-export const generateStyles = (colors: Theme, { fontSize }: StyleParams) => {
+export const generateStyles = (
+  colors: Theme,
+  { fontSize, danger }: StyleParams
+) => {
   return StyleSheet.create({
     textButton: {
       paddingHorizontal: 10,
@@ -15,8 +19,7 @@ export const generateStyles = (colors: Theme, { fontSize }: StyleParams) => {
       backgroundColor: DefaultColors.TRANSPARENT,
     },
     textButtonText: {
-      fontSize: fontSize ?? 12,
-      color: colors.Text.default,
+      color: danger ? colors.Text.delete : colors.Text.default,
     },
     disabledBigButton: {
       opacity: 0.6,
@@ -35,7 +38,7 @@ export const generateStyles = (colors: Theme, { fontSize }: StyleParams) => {
       borderWidth: 3,
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center",
       borderRadius: 5,
       borderColor: colors.Borders.dramatic,
@@ -47,7 +50,7 @@ export const generateStyles = (colors: Theme, { fontSize }: StyleParams) => {
     },
     bigButtonText: {
       fontSize: fontSize ?? 18,
-      color: colors.Text.default,
+      color: danger ? colors.Text.delete : colors.Text.default,
     },
   });
 };

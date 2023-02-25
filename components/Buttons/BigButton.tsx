@@ -11,6 +11,7 @@ interface ITextButton {
   link?: string;
   onPress?: () => void;
   disabled?: boolean;
+  danger?: boolean;
   icon?: string;
   label: string;
 }
@@ -19,12 +20,13 @@ const BigButton = ({
   fontSize,
   onPress,
   label,
+  danger,
   icon,
   link,
   disabled,
 }: ITextButton) => {
   const colors = useColors();
-  const styles = generateStyles(colors, { fontSize });
+  const styles = generateStyles(colors, { fontSize, danger });
   const linkTo = useLinkTo();
 
   if (!linkTo && !onPress) {

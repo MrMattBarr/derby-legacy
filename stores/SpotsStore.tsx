@@ -11,7 +11,7 @@ type ISpotsStore = {
   spots: Record<string, Spot>;
   addSpot: (spot: Spot) => void;
   createSpot: (spot: SaveableSpot, recording: Recording) => Promise<Spot>;
-  processSpotIds: (spotIds: string[]) => void;
+  processSpotIds: (spotIds: string[], onError?: (id: string) => void) => void;
   loadSpot: (spotId: string) => void;
   deleteSpot: (spot: Spot) => void;
 };

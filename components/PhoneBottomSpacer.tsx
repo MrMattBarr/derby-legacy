@@ -1,23 +1,25 @@
 import { useLinkTo } from "@react-navigation/native";
+import { observer } from "mobx-react";
 import React from "react";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import useClient from "../contexts/ClientContext";
-import { useColors } from "../hooks/useColorScheme";
-import { useModal } from "../contexts/ModalContext";
-import { Sizes } from "../styles/sizes";
-import textStyles from "../styles/text";
-import TextButton from "./Buttons/TextButton";
-import Nothing from "./Nothing";
-import { View } from "./Themed";
 import useTextBar from "../contexts/TextBarContext";
+import { useColors } from "../hooks/useColorScheme";
+import { useAuth } from "../stores/AuthStore";
+import { Sizes } from "../styles/sizes";
+import TextButton from "./Buttons/TextButton";
+import { View } from "./Themed";
 
-const PhoneBottomSpacer = () => {
+const PhoneBottomSpacer = observer(() => {
   const textBar = useTextBar();
   const linkTo = useLinkTo();
   const colors = useColors();
   const { isMobile } = useClient();
+  const authStore = useAuth();
+  const uid = authStore.user?.uid;
+  const loggedOut = !uid || authStore.user?.isAnonymous;
 
-  if (!isMobile) {
+  if (!isMobile || loggedOut) {
     return <></>;
   }
 
@@ -30,7 +32,7 @@ const PhoneBottomSpacer = () => {
       justifyContent: "space-evenly",
     },
     spacer: {
-      padding: 20,
+      paddingBottom: 35,
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
@@ -67,6 +69,6 @@ const PhoneBottomSpacer = () => {
       </View>
     </View>
   );
-};
+});
 
 export default PhoneBottomSpacer;

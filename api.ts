@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
+  signOut as signOutFromFirebase,
 } from "firebase/auth";
 import {
   getDatabase,
@@ -401,6 +402,18 @@ const signIn = async ({ email, password }: FirebaseUserCredentials) => {
   }
 };
 
+const signOut = async () => {
+  const auth = getAuth();
+  try {
+    return await signOutFromFirebase(auth);
+  } catch (error: any) {
+    console.error(error);
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  }
+};
+
 export {
   loadSpotAudio,
   uploadFile,
@@ -420,5 +433,6 @@ export {
   updateDemo,
   createAccount,
   signIn,
+  signOut,
 };
 export type { UploadFileArgs };

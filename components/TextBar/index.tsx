@@ -13,17 +13,15 @@ const TextBar = () => {
   const { input, bar, sendButton } = generateStyles(colors);
   const inputRef = useRef<TextInput | null>(null);
 
-  useEffect(() => {
-    if (inputRef.current) {
-      setTimeout(() => {
-        inputRef.current!.focus();
-      }, 100);
-    }
-  }, [inputRef.current]);
   if (!args) {
     return <></>;
   }
   const submit = () => {
+    if (!draft) {
+      if (inputRef.current) {
+        inputRef.current!.focus();
+      }
+    }
     if (submitTextBar) {
       submitTextBar(draft);
     }
@@ -32,7 +30,9 @@ const TextBar = () => {
     <KeyboardAvoidingView behavior={"padding"}>
       <View style={bar}>
         <TextInput
+          autoFocus
           selectTextOnFocus
+          onSubmitEditing={submit}
           ref={inputRef}
           style={input}
           onChangeText={setDraft}

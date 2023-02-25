@@ -1,5 +1,5 @@
 export interface ParameterPage {
-  route: {
+  route?: {
     params: {
       id: string;
     };

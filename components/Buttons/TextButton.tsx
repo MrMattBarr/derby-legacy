@@ -8,13 +8,14 @@ import { generateStyles } from "./styles";
 
 interface ITextButton {
   fontSize?: number;
+  danger?: boolean;
   onPress: () => void;
   label: string;
 }
 
-const TextButton = ({ fontSize, onPress, label }: ITextButton) => {
+const TextButton = ({ fontSize, onPress, label, danger }: ITextButton) => {
   const colors = useColors();
-  const styles = generateStyles(colors, { fontSize });
+  const styles = generateStyles(colors, { fontSize, danger });
   const { h3 } = textStyles(colors);
   return (
     <TouchableOpacity
@@ -22,7 +23,7 @@ const TextButton = ({ fontSize, onPress, label }: ITextButton) => {
       style={styles.textButton}
       onPress={onPress}
     >
-      <Text style={h3}>{label}</Text>
+      <Text style={[h3, styles.textButtonText]}>{label}</Text>
     </TouchableOpacity>
   );
 };

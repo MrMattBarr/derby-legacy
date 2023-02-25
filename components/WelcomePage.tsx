@@ -1,25 +1,23 @@
-import { Link } from "@react-navigation/native";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Platform } from "react-native";
-import { useColors } from "../hooks/useColorScheme";
-import { mainStyles } from "../listStyles";
-import OpenBoothButton from "./modals/Recording/OpenBoothButton";
+import { useAuth } from "../stores/AuthStore";
+import { useUsers } from "../stores/UsersStore";
+import BigButton from "./Buttons/BigButton";
+import LoggedOutView from "./LoggedOutView";
 import Page from "./Page";
+import Profile from "./Profile";
 
-const LoginPage = observer(() => {
-  const colors = useColors();
-  const styles = mainStyles(colors);
-  return (
-    <Page>
-      <OpenBoothButton />
-    </Page>
-  );
+const WelcomePage = observer(() => {
+  const authStore = useAuth();
+  const userStore = useUsers();
+  const uid = authStore.user?.uid;
+  if (uid) {
+    const user = userStore.users[uid];
+    if (user) {
+      return <Profile />;
+    }
+  }
+  return <LoggedOutView />;
 });
 
-const PickyWelcomePage = Platform.select({
-  native: () => LoginPage,
-  default: () => LoginPage,
-})();
-
-export default PickyWelcomePage;
+export default WelcomePage;

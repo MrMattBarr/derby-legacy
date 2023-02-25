@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useRoute } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { KeyboardAvoidingView, Text, TextInput, View } from "react-native";
@@ -26,7 +26,6 @@ import { UsersStoreProvider } from "./stores/UsersStore";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
-
   if (!isLoadingComplete) {
     return null;
   } else {

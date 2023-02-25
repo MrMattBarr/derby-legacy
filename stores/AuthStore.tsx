@@ -3,7 +3,7 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
-import { FirebaseUserCredentials, signIn } from "../api";
+import { FirebaseUserCredentials, signIn, signOut } from "../api";
 
 type IAuthStore = {
   user?: User;
@@ -30,7 +30,8 @@ export function AuthStore() {
       login(user?: User) {
         runInAction(() => (this.user = user));
       },
-      logout() {
+      async logout() {
+        await signOut();
         runInAction(() => (this.user = undefined));
       },
     },
