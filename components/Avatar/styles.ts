@@ -5,17 +5,18 @@ import { Sizes } from "../../styles/sizes";
 interface IAvatarStyles {
   size?: number;
   isMobile?: boolean;
+  borderWidth?: number;
 }
 
 export const generateStyles = (
   colors: Theme,
-  { size, isMobile }: IAvatarStyles
+  { size, isMobile, borderWidth }: IAvatarStyles
 ) => {
   const avatarSize = size ?? 50;
   return StyleSheet.create({
     holder: {
       backgroundColor: colors.Backgrounds.empty,
-      borderWidth: 2,
+      borderWidth: borderWidth ?? 2,
       borderColor: colors.Borders.default,
       borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
       flexGrow: 0,

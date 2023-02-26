@@ -1,15 +1,38 @@
 import { StyleSheet } from "react-native";
 import { Theme } from "../../../constants/Colors";
+import { Sizes } from "../../../styles/sizes";
 
-export const generateStyles = (colors: Theme) => {
-  const GEAR_SIZE = 30;
+interface styleProps {
+  width?: number;
+}
+export const generateStyles = (colors: Theme, { width }: styleProps) => {
+  const REAL_MAX_SIZE = 800;
+  const maxWidth = Math.min(width ?? REAL_MAX_SIZE, REAL_MAX_SIZE);
+  let unitSize = maxWidth / 250;
   return StyleSheet.create({
-    gear: {
-      height: GEAR_SIZE,
-      borderRadius: GEAR_SIZE,
-      width: GEAR_SIZE,
-      padding: 10,
-      backgroundColor: "red",
+    tape: {
+      borderWidth: unitSize / 1.5,
+      borderColor: "black",
+      position: "relative",
+      backgroundColor: "#3f79b3",
+      aspectRatio: 1.6,
+      margin: Sizes.Spacings.LARGE,
+      borderRadius: unitSize * 6,
+      overflow: "hidden",
+      maxWidth,
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "column",
+      padding: unitSize * 10,
+      paddingBottom: 0,
+    },
+    tapeBgTexture: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      flexGrow: 1,
     },
   });
 };

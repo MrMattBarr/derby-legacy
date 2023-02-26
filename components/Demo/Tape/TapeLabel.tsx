@@ -8,21 +8,23 @@ import { AppColor } from "../../../constants/Colors";
 import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
-import UserSummary from "../UserSummary";
+import UserSummary from "./UserSummary";
 import FrontTitle from "./FrontTitle";
 import Gear from "./Gear";
+import { useTape } from "./Tape";
 
 const TapeLabel = observer(() => {
+  const { tapeWidth, unitSize } = useTape();
   const { state, playbackPercent } = usePlayback();
 
   let remainingProgress = 1 - (playbackPercent ?? 0);
 
-  const totalReelSize = 200;
-  const minDialSize = 70;
+  const totalReelSize = unitSize * 100;
+  const minDialSize = unitSize * 35;
   const playableReelSize = totalReelSize - 2 * minDialSize;
 
-  const gearPadding = 5;
-  const gearSize = 40;
+  const gearPadding = unitSize * 2.5;
+  const gearSize = unitSize * 20;
   const lReelSize = minDialSize + remainingProgress * playableReelSize;
   let lReelOffset = (lReelSize - gearSize) / 2 - gearPadding;
   const rReelSize = totalReelSize - lReelSize;
@@ -64,8 +66,8 @@ const TapeLabel = observer(() => {
     label: {
       position: "relative",
       borderColor: "black",
-      borderWidth: 1,
-      borderRadius: 10,
+      borderWidth: unitSize * 1,
+      borderRadius: unitSize * 5,
       aspectRatio: 2.25,
       display: "flex",
       justifyContent: "center",
@@ -76,7 +78,7 @@ const TapeLabel = observer(() => {
       borderColor: "black",
       borderWidth: 1,
       backgroundColor: colors.Backgrounds.primary,
-      borderRadius: 300,
+      borderRadius: unitSize * 15,
       top: "40%",
       width: "66%",
       overflow: "hidden",
@@ -86,7 +88,7 @@ const TapeLabel = observer(() => {
     },
     reel: {
       position: "absolute",
-      borderWidth: 1,
+      borderWidth: unitSize / 1.5,
       borderColor: "black",
       backgroundColor: colors.Backgrounds.default,
       display: "flex",
@@ -103,8 +105,8 @@ const TapeLabel = observer(() => {
     lMotionBlur: {
       backgroundColor: "transparent",
       borderColor: "#837b6f55",
-      borderRightWidth: 3,
-      borderLeftWidth: 1,
+      borderRightWidth: unitSize * 1.5,
+      borderLeftWidth: unitSize / 2,
       borderTopWidth: 0,
       borderBottomWidth: 0,
       borderRadius: lMotionBlurSize,
@@ -114,8 +116,8 @@ const TapeLabel = observer(() => {
     rMotionBlur: {
       backgroundColor: "transparent",
       borderColor: "#837b6f55",
-      borderRightWidth: 3,
-      borderLeftWidth: 1,
+      borderRightWidth: unitSize * 1.5,
+      borderLeftWidth: unitSize / 2,
       borderTopWidth: 0,
       borderBottomWidth: 0,
       width: rMotionBlurSize,

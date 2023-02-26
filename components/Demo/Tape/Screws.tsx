@@ -1,23 +1,27 @@
-import { toJS } from "mobx";
 import React from "react";
 import { StyleSheet } from "react-native";
-import usePlayback from "../../../contexts/PlaybackContext";
+import { useColors } from "../../../hooks/useColorScheme";
 import { Text, View } from "../../Themed";
+import { useTape } from "./Tape";
 
 const Screws = () => {
-  const SCREW_SIZE = 20;
+  const { unitSize } = useTape();
+  const colors = useColors();
+
+  const SPACING_SIZE = unitSize * 1.5;
+  const SCREW_SIZE = unitSize * 10;
+  const BOTTOM_PADDING = unitSize * 2;
 
   const s = StyleSheet.create({
     screw: {
       position: "absolute",
       borderColor: "black",
-      borderWidth: 1,
+      borderWidth: unitSize / 1.5,
       borderRadius: SCREW_SIZE,
       zIndex: 2,
       width: SCREW_SIZE,
       height: SCREW_SIZE,
-      paddingBottom: 3,
-      paddingLeft: 1,
+      paddingBottom: BOTTOM_PADDING,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -25,23 +29,24 @@ const Screws = () => {
     },
     screwText: {
       fontWeight: "bold",
-      color: "black",
+      color: colors.Text.contrast,
+      fontSize: unitSize * 8,
     },
     screwTR: {
-      top: 3,
-      right: 3,
+      top: SPACING_SIZE,
+      right: SPACING_SIZE,
     },
     screwTL: {
-      top: 3,
-      left: 3,
+      top: SPACING_SIZE,
+      left: SPACING_SIZE,
     },
     screwBL: {
-      bottom: 3,
-      left: 3,
+      bottom: SPACING_SIZE,
+      left: SPACING_SIZE,
     },
     screwBR: {
-      bottom: 3,
-      right: 3,
+      bottom: SPACING_SIZE,
+      right: SPACING_SIZE,
     },
   });
 

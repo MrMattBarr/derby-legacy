@@ -13,15 +13,16 @@ import { generateStyles } from "./styles";
 interface IAvatar {
   size?: number;
   editable?: boolean;
+  borderWidth?: number;
 }
 
-const Avatar = observer(({ size, editable }: IAvatar) => {
+const Avatar = observer(({ size, editable, borderWidth }: IAvatar) => {
   const { user, isSelf } = useUser();
   const { isMobile } = useClient();
   const { setModal } = useModal();
   const src = { uri: user?.profile?.avatar };
   const colors = useColors();
-  const styles = generateStyles(colors, { size, isMobile });
+  const styles = generateStyles(colors, { size, isMobile, borderWidth });
   const canEdit = isSelf && editable;
   const editPhoto = () => {
     if (canEdit) {

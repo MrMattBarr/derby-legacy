@@ -8,11 +8,14 @@ import usePlayback from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { Text, View } from "../../Themed";
 
-const DemoTitle = observer(() => {
+interface IDemoTitle {
+  unitSize?: number;
+}
+
+const DemoTitle = observer(({ unitSize }: IDemoTitle) => {
   const { demo } = useDemo();
   const colors = useColors();
-  const { active } = usePlayback();
-  const focused = demo?.id === active?.demo;
+  const size = unitSize ?? 2;
 
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
@@ -26,11 +29,11 @@ const DemoTitle = observer(() => {
       justifyContent: "center",
       flexGrow: 1,
       alignItems: "center",
-      borderRadius: 4,
+      borderRadius: size * 2,
     },
     demoNameText: {
       color: colors.Text.contrast,
-      fontSize: 30,
+      fontSize: size * 15,
       fontFamily: "Kalam",
     },
   });

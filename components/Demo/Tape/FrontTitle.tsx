@@ -2,15 +2,17 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "../../Themed";
 import DemoTitle from "./DemoTitle";
+import { useTape } from "./Tape";
 
 const FrontTitle = () => {
+  const { unitSize } = useTape();
   const { holder } = StyleSheet.create({
     holder: {
       display: "flex",
       flexDirection: "row",
       position: "absolute",
-      top: 10,
-      borderRadius: 4,
+      top: unitSize * 5,
+      borderRadius: unitSize,
       width: "90%",
       color: "black",
     },
@@ -18,7 +20,7 @@ const FrontTitle = () => {
 
   return (
     <View style={holder}>
-      <DemoTitle />
+      <DemoTitle unitSize={unitSize} />
     </View>
   );
 };
