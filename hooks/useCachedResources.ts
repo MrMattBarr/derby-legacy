@@ -5,7 +5,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { Image } from "react-native";
 
-export const APP_BG = require("../assets/images/background.png");
+export const APP_BG_DARK = require("../assets/images/background.png");
+export const APP_BG_LIGHT = require("../assets/images/background-light.jpg");
 export const LOGO = require("../assets/images/adaptive-icon.png");
 
 export default function useCachedResources() {
@@ -21,7 +22,7 @@ export default function useCachedResources() {
     });
   };
 
-  const imageAssets = cacheImages([APP_BG, LOGO]);
+  const imageAssets = cacheImages([APP_BG_DARK, APP_BG_LIGHT, LOGO]);
 
   // Load any resources or data that we need prior to rendering the app
   useEffect(() => {

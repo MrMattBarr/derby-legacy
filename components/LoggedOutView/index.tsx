@@ -2,7 +2,6 @@ import { useFonts } from "expo-font";
 import { observer } from "mobx-react";
 import React from "react";
 import { Image, View } from "react-native";
-import { UserProvider } from "../../contexts/UserContext";
 import { LOGO } from "../../hooks/useCachedResources";
 import { useColors } from "../../hooks/useColorScheme";
 import { useAuth } from "../../stores/AuthStore";

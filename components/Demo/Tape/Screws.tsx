@@ -1,16 +1,18 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import useClient from "../../../contexts/ClientContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { Text, View } from "../../Themed";
 import { useTape } from "./Tape";
 
 const Screws = () => {
   const { unitSize } = useTape();
+  const { isApp } = useClient();
   const colors = useColors();
 
   const SPACING_SIZE = unitSize * 1.5;
   const SCREW_SIZE = unitSize * 10;
-  const BOTTOM_PADDING = unitSize * 2;
+  const BOTTOM_PADDING = isApp ? unitSize : unitSize * 2;
 
   const s = StyleSheet.create({
     screw: {
@@ -21,7 +23,6 @@ const Screws = () => {
       zIndex: 2,
       width: SCREW_SIZE,
       height: SCREW_SIZE,
-      paddingBottom: BOTTOM_PADDING,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -29,6 +30,8 @@ const Screws = () => {
     },
     screwText: {
       fontWeight: "bold",
+
+      marginTop: -BOTTOM_PADDING,
       color: colors.Text.contrast,
       fontSize: unitSize * 8,
     },

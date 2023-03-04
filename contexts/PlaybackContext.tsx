@@ -118,7 +118,7 @@ export const PlaybackProvider = ({ children }: any) => {
         });
       } else {
         runInAction(async () => {
-          this.unload();
+          this.state = PlayState.READY;
         });
       }
     },
@@ -192,9 +192,7 @@ export const PlaybackProvider = ({ children }: any) => {
           (current, { duration }) => current + duration,
           0
         );
-        console.log({ options, gralse: options?.autoPlay !== false });
         if (options?.autoPlay !== false) {
-          console.log("autoplaying");
           this.play();
         }
       });

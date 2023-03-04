@@ -16,6 +16,7 @@ const UserSummary = observer(() => {
   const { unitSize } = useTape();
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
+    Slab: require("/assets/fonts/ZillaSlab-Regular.ttf"),
   });
 
   const linkTo = useLinkTo();
@@ -36,15 +37,16 @@ const UserSummary = observer(() => {
       justifyContent: "flex-start",
       position: "absolute",
       bottom: 0,
-      width: "85%",
+      width: "95%",
       paddingVertical: unitSize * 5,
       borderRadius: unitSize * 2,
       color: "black",
     },
     username: {
       color: "black",
-      fontSize: unitSize * 10,
-      marginLeft: Sizes.Spacings.STANDARD,
+      fontFamily: "Slab",
+      fontSize: unitSize * 12,
+      marginLeft: unitSize * 5,
       marginTop: unitSize * 2,
     },
     avatar: {
@@ -54,15 +56,8 @@ const UserSummary = observer(() => {
     },
     userLink: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "flex-end",
       flexDirection: "row",
-    },
-    avatarPlaceHolder: {
-      width: avatarSize,
-      height: avatarSize,
-      borderRadius: avatarSize,
-      backgroundColor: "#333",
-      marginRight: 10,
     },
   });
 
@@ -77,7 +72,7 @@ const UserSummary = observer(() => {
   return (
     <View style={s.userSummary}>
       <Pressable onPress={goToUser} style={s.userLink}>
-        <Avatar size={unitSize * 20} borderWidth={unitSize / 1.5} />
+        <Avatar size={unitSize * 16} borderWidth={unitSize / 1.5} />
         <Text style={s.username}>{displayName}</Text>
       </Pressable>
     </View>

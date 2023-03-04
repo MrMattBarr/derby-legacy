@@ -39,6 +39,8 @@ const Tape = observer(() => {
   let width = tapeWidth ?? 0;
   let unitSize = width / 250;
 
+  console.log({ width, tapeWidth });
+
   return (
     <TapeContext.Provider value={{ tapeWidth: width, unitSize }}>
       <Pressable
@@ -51,12 +53,8 @@ const Tape = observer(() => {
           resizeMode="repeat"
           style={styles.tapeBgTexture}
         />
-        {tapeWidth && (
-          <>
-            <Screws />
-            <TapeLabel />
-          </>
-        )}
+        <Screws />
+        <TapeLabel />
       </Pressable>
     </TapeContext.Provider>
   );

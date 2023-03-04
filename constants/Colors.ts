@@ -25,6 +25,7 @@ export enum AppColor {
   SANDY_WHITE = "#fff8e9",
   IVY_GREEN = "#08640f",
   TINTED_GRAY = "#445",
+  GRAPE = "#445",
   EMPTY_GRAY = "#949494",
   STONE_GRAY = "#333333",
   MINTY_BLUE = "#e2f6f7",
@@ -119,7 +120,17 @@ const AppDarkTheme: Theme = {
     background: AppColor.CHARCOAL,
   },
 };
-const AppLightTheme: Theme = AppDarkTheme;
+const AppLightTheme: Theme = {
+  ...AppDarkTheme,
+  Backgrounds: {
+    ...AppDarkTheme.Backgrounds,
+    secondary: AppColor.EMPTY_GRAY,
+  },
+  Text: {
+    ...AppDarkTheme.Text,
+    default: AppColor.CHARCOAL,
+  },
+};
 
 const Colors: ThemeSet = {
   light: AppLightTheme,

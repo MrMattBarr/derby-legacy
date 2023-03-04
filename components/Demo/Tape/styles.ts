@@ -6,7 +6,8 @@ interface styleProps {
   width?: number;
 }
 export const generateStyles = (colors: Theme, { width }: styleProps) => {
-  const REAL_MAX_SIZE = 800;
+  const REAL_MAX_SIZE = 500;
+  const aspectRatio = 1.6;
   const maxWidth = Math.min(width ?? REAL_MAX_SIZE, REAL_MAX_SIZE);
   let unitSize = maxWidth / 250;
   return StyleSheet.create({
@@ -15,12 +16,13 @@ export const generateStyles = (colors: Theme, { width }: styleProps) => {
       borderColor: "black",
       position: "relative",
       backgroundColor: "#3f79b3",
-      aspectRatio: 1.6,
+      aspectRatio,
       margin: Sizes.Spacings.LARGE,
       borderRadius: unitSize * 6,
       overflow: "hidden",
       maxWidth,
       flexGrow: 1,
+      maxHeight: maxWidth / aspectRatio,
       display: "flex",
       flexDirection: "column",
       padding: unitSize * 10,

@@ -1,30 +1,27 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
-import { Stop } from "react-native-svg";
-import { AppColor } from "../../../constants/Colors";
 import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
-import UserSummary from "./UserSummary";
 import FrontTitle from "./FrontTitle";
 import Gear from "./Gear";
 import { useTape } from "./Tape";
+import UserSummary from "./UserSummary";
 
 const TapeLabel = observer(() => {
-  const { tapeWidth, unitSize } = useTape();
+  const { unitSize } = useTape();
   const { state, playbackPercent } = usePlayback();
 
   let remainingProgress = 1 - (playbackPercent ?? 0);
 
-  const totalReelSize = unitSize * 100;
-  const minDialSize = unitSize * 35;
+  const totalReelSize = unitSize * 170;
+  const minDialSize = unitSize * 50;
   const playableReelSize = totalReelSize - 2 * minDialSize;
 
   const gearPadding = unitSize * 2.5;
-  const gearSize = unitSize * 20;
+  const gearSize = unitSize * 30;
   const lReelSize = minDialSize + remainingProgress * playableReelSize;
   let lReelOffset = (lReelSize - gearSize) / 2 - gearPadding;
   const rReelSize = totalReelSize - lReelSize;
@@ -49,7 +46,7 @@ const TapeLabel = observer(() => {
 
   const interpolateRotating = rotateAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: ["720deg", "0deg"],
+    outputRange: ["360deg", "0deg"],
   });
 
   const spinStyle = {
@@ -68,7 +65,7 @@ const TapeLabel = observer(() => {
       borderColor: "black",
       borderWidth: unitSize * 1,
       borderRadius: unitSize * 5,
-      aspectRatio: 2.25,
+      aspectRatio: 2.1,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -78,9 +75,9 @@ const TapeLabel = observer(() => {
       borderColor: "black",
       borderWidth: 1,
       backgroundColor: colors.Backgrounds.primary,
-      borderRadius: unitSize * 15,
+      borderRadius: gearSize * 1.2,
       top: "40%",
-      width: "66%",
+      width: "70%",
       overflow: "hidden",
       flexDirection: "row",
       display: "flex",
