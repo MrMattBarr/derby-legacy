@@ -103,10 +103,8 @@ export const RecordingBoothProvider = observer(
 
       const { sound } = await recording.createNewLoadedSoundAsync();
       const duration = Date.now() - recordStart;
-      console.log({ duration });
       const withDuration = sound as SoundWithDuration;
       withDuration.duration = duration;
-      console.log({ withDuration });
       PlaybackStore.load(withDuration, { autoPlay: false });
       setRecordingState(RecordingState.REVIEW);
       if (duration > MAX_SPOT_LENGTH) {

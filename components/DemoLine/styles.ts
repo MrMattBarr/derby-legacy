@@ -12,11 +12,9 @@ export const generateStyles = (colors: Theme, props?: ITapeStyle) => {
     listItem: {
       color: colors.Text.default,
       backgroundColor: background ?? colors.Backgrounds.default,
-      borderWidth: 2,
-      borderColor: focused ? colors.Borders.dramatic : AppColor.TRANSPARENT,
-      marginBottom: Sizes.Spacings.SMALL,
+      borderBottomWidth: 1,
+      borderColor: colors.Borders.dramatic,
       padding: Sizes.Spacings.STANDARD,
-      borderRadius: Sizes.CURVED_BORDER,
     },
   });
 };

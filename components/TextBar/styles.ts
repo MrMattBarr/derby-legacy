@@ -23,7 +23,7 @@ export const generateStyles = (colors: Theme) => {
       flexDirection: "row",
     },
     sendButton: {
-      backgroundColor: colors.Backgrounds.contrast,
+      backgroundColor: colors.Backgrounds.submit,
       borderColor: colors.Borders.default,
       display: "flex",
       justifyContent: "center",

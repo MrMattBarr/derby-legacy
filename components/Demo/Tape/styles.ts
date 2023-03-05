@@ -12,7 +12,7 @@ export const generateStyles = (colors: Theme, { width }: styleProps) => {
   let unitSize = maxWidth / 250;
   return StyleSheet.create({
     tape: {
-      borderWidth: unitSize / 1.5,
+      borderWidth: unitSize,
       borderColor: "black",
       position: "relative",
       backgroundColor: "#3f79b3",

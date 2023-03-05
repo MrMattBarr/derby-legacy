@@ -14,7 +14,7 @@ export const generateStyles = (colors: Theme) => {
     },
     page: {
       backgroundColor: colors.Backgrounds.secondary,
-      borderBottomWidth: 2,
+      borderBottomWidth: 1,
       overflow: "hidden",
     },
     userSummary: {
@@ -32,7 +32,6 @@ export const generateStyles = (colors: Theme) => {
     favoriteTape: {
       display: "flex",
       flexDirection: "row",
-      borderBottomWidth: 1,
       overflow: "hidden",
       justifyContent: "center",
       borderColor: colors.Borders.default,

@@ -71,12 +71,10 @@ export const generateStyles = (
     },
     playbackBox: {
       padding: Sizes.Spacings.STANDARD,
-      borderWidth: 1,
       flexGrow: 1,
       backgroundColor: recording
         ? colors.Backgrounds.playback
         : colors.Backgrounds.empty,
-      borderColor: colors.Borders.dramatic,
       minHeight: Sizes.ContentHeights.MEDIUM,
       borderRadius: Sizes.CURVED_BORDER,
       alignItems: "center",
@@ -84,6 +82,8 @@ export const generateStyles = (
       flexDirection: "column",
     },
     playback: {
+      borderWidth: 1,
+      borderColor: colors.Borders.dramatic,
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-start",

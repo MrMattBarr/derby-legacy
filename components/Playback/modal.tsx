@@ -39,7 +39,7 @@ const PlaybackModal = observer(() => {
     );
   };
 
-  let Content = Nothing;
+  let Content = undefined;
   const loadedType = getLoadableType(playbackStore.loadedElement);
   if (loadedType === LoadableType.DEMO) {
     Content = DemoContent;
@@ -49,9 +49,7 @@ const PlaybackModal = observer(() => {
 
   return (
     <View style={holder}>
-      <Playback>
-        <Content />
-      </Playback>
+      <Playback>{Content && <Content />}</Playback>
     </View>
   );
 });

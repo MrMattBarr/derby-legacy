@@ -7,11 +7,10 @@ import useColorScheme from "../../hooks/useColorScheme";
 interface IBackground {
   children: React.ReactNode;
 }
-const colorScheme = useColorScheme();
-console.log({ colorScheme });
-
-const imgSrc = colorScheme === "light" ? APP_BG_LIGHT : APP_BG_DARK;
 const Page = ({ children }: IBackground) => {
+  const colorScheme = useColorScheme();
+
+  const imgSrc = colorScheme === "light" ? APP_BG_LIGHT : APP_BG_DARK;
   return (
     <ImageBackground
       source={imgSrc}

@@ -14,7 +14,6 @@ const FrontTitle = () => {
       top: unitSize * 5,
       borderRadius: unitSize,
       width: "90%",
-      color: "black",
     },
   });
 

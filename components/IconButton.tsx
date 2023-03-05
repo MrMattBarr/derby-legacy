@@ -33,7 +33,7 @@ const PlayerButton = ({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderColor: border ?? colors.Borders.dramatic,
+      borderColor: border ?? colors.Buttons.foreground,
       borderRadius: finalSize,
       borderWidth: 1,
       backgroundColor: background ?? "",

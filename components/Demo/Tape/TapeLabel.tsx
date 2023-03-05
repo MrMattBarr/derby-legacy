@@ -2,6 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
+import { AppColor } from "../../../constants/Colors";
 import usePlayback, { PlayState } from "../../../contexts/PlaybackContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
@@ -63,7 +64,7 @@ const TapeLabel = observer(() => {
     label: {
       position: "relative",
       borderColor: "black",
-      borderWidth: unitSize * 1,
+      borderWidth: unitSize / 1.5,
       borderRadius: unitSize * 5,
       aspectRatio: 2.1,
       display: "flex",
@@ -74,7 +75,7 @@ const TapeLabel = observer(() => {
       position: "absolute",
       borderColor: "black",
       borderWidth: 1,
-      backgroundColor: colors.Backgrounds.primary,
+      backgroundColor: colors.Backgrounds.secondary,
       borderRadius: gearSize * 1.2,
       top: "40%",
       width: "70%",
@@ -87,7 +88,7 @@ const TapeLabel = observer(() => {
       position: "absolute",
       borderWidth: unitSize / 1.5,
       borderColor: "black",
-      backgroundColor: colors.Backgrounds.default,
+      backgroundColor: AppColor.NEARLY_BLACK,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",

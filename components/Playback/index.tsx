@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
-import React, { ReactNode, useEffect } from "react";
-import { Pressable, StyleProp, ViewStyle } from "react-native";
+import React, { ReactNode } from "react";
+import { Pressable } from "react-native";
 import useClient from "../../contexts/ClientContext";
 import usePlayback from "../../contexts/PlaybackContext";
 import { useColors } from "../../hooks/useColorScheme";
@@ -16,7 +16,10 @@ const Playback = observer(({ children, style }: iPlayback) => {
   const playbackStore = usePlayback();
   const colors = useColors();
   const { isMobile } = useClient();
-  const { playback } = generateStyles(colors, { isMobile });
+  const { playback } = generateStyles(colors, {
+    isMobile,
+    hasBorder: !!children,
+  });
 
   const toggle = () => {
     playbackStore.togglePlay();

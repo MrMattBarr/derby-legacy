@@ -42,7 +42,7 @@ export const generateStyles = (
       flexDirection: "row",
       alignItems: "baseline",
       position: "absolute",
-      backgroundColor: AppColor.TRANSPARENT_BLACK,
+      backgroundColor: colors.Backgrounds.transparentDefault,
       paddingHorizontal: Sizes.Spacings.STANDARD,
       paddingVertical: Sizes.Spacings.SMALL,
       bottom: 0,

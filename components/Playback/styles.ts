@@ -4,10 +4,11 @@ import { Sizes } from "../../styles/sizes";
 
 interface IStyles {
   isMobile?: boolean;
+  hasBorder?: boolean;
 }
 
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const { isMobile } = props ?? {};
+  const { isMobile, hasBorder } = props ?? {};
 
   return StyleSheet.create({
     holder: {
@@ -45,6 +46,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       borderRadius: Sizes.CURVED_BORDER,
       overflow: "hidden",
       borderColor: colors.Borders.default,
+      borderWidth: hasBorder ? 1 : 0,
     },
   });
 };

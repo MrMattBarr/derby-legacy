@@ -48,7 +48,7 @@ Gear.defaultProps = {
   size: 30,
   padding: 10,
   background: AppColor.CHARCOAL,
-  foreground: AppColor.OLIVE_GREEN,
+  foreground: AppColor.OLIVE,
 };
 
 export default Gear;
