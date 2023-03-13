@@ -1,15 +1,14 @@
 import { useFonts } from "@expo-google-fonts/kalam";
-import { Link, useLinkTo } from "@react-navigation/native";
+import { useLinkTo } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React from "react";
 
-import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import useDemo from "../../../contexts/DemoContext";
 import { useUsers } from "../../../stores/UsersStore";
-import { Sizes } from "../../../styles/sizes";
 import Avatar from "../../Avatar";
 import { View } from "../../Themed";
-import { useTape } from "./Tape";
+import { useTape } from "./Context";
 
 const UserSummary = observer(() => {
   const users = useUsers();

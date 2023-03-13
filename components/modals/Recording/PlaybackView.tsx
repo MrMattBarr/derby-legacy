@@ -12,7 +12,6 @@ const PlaybackView = observer(() => {
   const playbackStore = usePlayback();
   const duration = playbackStore.duration;
   const element = playbackStore.loadedElement;
-  console.log({ duration, element });
   const colors = useColors();
   const { playback, playbackTitle, detail, playbackHolder } =
     generateStyles(colors);

@@ -12,7 +12,6 @@ const UserCard = () => {
   const { userCard, userSummary, username, tags } = generateStyles(colors);
   const { user, isSelf, update } = useUser();
   const updateName = (newName?: string) => {
-    console.log({ newName });
     if (newName) {
       update({ field: "displayName", value: newName });
     }

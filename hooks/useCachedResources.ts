@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Image } from "react-native";
 
 export const APP_BG_DARK = require("../assets/images/background.png");
-export const APP_BG_LIGHT = require("../assets/images/background-light.png");
+export const APP_BG_LIGHT = require("../assets/images/background-lighty.png");
 export const LOGO = require("../assets/images/adaptive-icon.png");
 
 export default function useCachedResources() {

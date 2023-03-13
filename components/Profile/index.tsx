@@ -25,8 +25,8 @@ const Profile = observer((args?: ParameterPage) => {
         <View style={page}>
           <UserCard />
           <FavoriteDemo />
+          <AccountsControls />
         </View>
-        <AccountsControls />
       </Page>
     </UserProvider>
   );

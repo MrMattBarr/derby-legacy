@@ -10,14 +10,15 @@ interface IBackground {
 const Page = ({ children }: IBackground) => {
   const colorScheme = useColorScheme();
 
-  const imgSrc = colorScheme === "light" ? APP_BG_LIGHT : APP_BG_DARK;
+  const isLight = colorScheme === "light";
+
+  const imgSrc = isLight ? APP_BG_LIGHT : APP_BG_DARK;
   return (
     <ImageBackground
       source={imgSrc}
-      fadeDuration={1}
       style={{
         flexGrow: 1,
-        backgroundColor: AppColor.NEARLY_BLACK,
+        backgroundColor: AppColor.FADED_WHITE,
       }}
     >
       {children}

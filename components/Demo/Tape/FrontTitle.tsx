@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "../../Themed";
 import DemoTitle from "./DemoTitle";
-import { useTape } from "./Tape";
+import { useTape } from "./Context";
 
 const FrontTitle = () => {
   const { unitSize } = useTape();

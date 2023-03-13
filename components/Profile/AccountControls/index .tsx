@@ -12,9 +12,7 @@ const AccountsControls = observer(() => {
   const authStore = useAuth();
   return (
     <View style={holder}>
-      <View style={headerHolder}>
-        <Text style={header}>Account</Text>
-      </View>
+      <View style={headerHolder}></View>
       <TextButton label="Log Out" onPress={authStore.logout} danger />
     </View>
   );

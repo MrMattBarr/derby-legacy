@@ -13,7 +13,7 @@ export const generateStyles = (colors: Theme, props?: ITapeStyle) => {
       color: colors.Text.default,
       backgroundColor: background ?? colors.Backgrounds.default,
       borderBottomWidth: 1,
-      borderColor: colors.Borders.dramatic,
+      borderColor: colors.Borders.default,
       padding: Sizes.Spacings.STANDARD,
     },
   });

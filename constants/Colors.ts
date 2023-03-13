@@ -8,7 +8,7 @@ export enum AppColor {
   FADED_WHITE = "#CCCCCC",
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
-  TRANSPARENT_WHITE = "#cfc5b099",
+  TRANSPARENT_WHITE = "#eee7",
   CLEAR_TEAL = "#0e5c6599",
   PROGRESS_GREEN = "#08640f99",
   NEARLY_BLACK = "#090909",
@@ -100,7 +100,7 @@ const AppDarkTheme: Theme = {
   },
   Backgrounds: {
     default: AppColor.PURE_BLACK,
-    transparentDefault: AppColor.TRANSPARENT_BLACK,
+    transparentDefault: AppColor.TRANSPARENT,
     success: AppColor.IVY_GREEN,
     primary: AppColor.CHARCOAL,
     secondary: AppColor.TINTED_GRAY,

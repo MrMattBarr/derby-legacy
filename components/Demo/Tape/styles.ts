@@ -8,7 +8,7 @@ interface styleProps {
 export const generateStyles = (colors: Theme, { width }: styleProps) => {
   const REAL_MAX_SIZE = 500;
   const aspectRatio = 1.6;
-  const maxWidth = Math.min(width ?? REAL_MAX_SIZE, REAL_MAX_SIZE);
+  const maxWidth = REAL_MAX_SIZE; //Math.min(width ?? REAL_MAX_SIZE, REAL_MAX_SIZE);
   let unitSize = maxWidth / 250;
   return StyleSheet.create({
     tape: {

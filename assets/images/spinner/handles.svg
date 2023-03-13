@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 958 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-117.738,-1364.92)">
+        <g transform="matrix(0.687339,-0.726336,0.726336,0.687339,-853.228,869.234)">
+            <g id="Brim">
+                <path d="M441.881,1188.12C451.489,1205.29 441.964,1242.08 391.848,1232.56C382.356,1222.54 259,1091.7 259,1091.7C259,1091.7 416.034,1173.21 441.881,1188.12Z" style="fill:rgb(128,128,109);"/>
+                <g transform="matrix(-0.945577,-0.325399,0.325399,-0.945577,806.677,2903.61)">
+                    <path d="M441.881,1188.12C451.489,1205.29 441.964,1242.08 391.848,1232.56C382.356,1222.54 259,1091.7 259,1091.7C259,1091.7 416.034,1173.21 441.881,1188.12Z" style="fill:rgb(128,128,109);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

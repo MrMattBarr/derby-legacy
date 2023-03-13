@@ -3,6 +3,7 @@ import React from "react";
 import { DemoProvider } from "../../contexts/DemoContext";
 import useUser from "../../contexts/UserContext";
 import { useColors } from "../../hooks/useColorScheme";
+import TapeProvider from "../Demo/Tape/Context";
 import Tape from "../Demo/Tape/Tape";
 import { View } from "../Themed";
 import { generateStyles } from "./styles";
@@ -21,9 +22,11 @@ const FavoriteDemo = observer(() => {
   }
   return (
     <DemoProvider id={demo}>
-      <View style={favoriteTape}>
-        <Tape />
-      </View>
+      <TapeProvider>
+        <View style={favoriteTape}>
+          <Tape />
+        </View>
+      </TapeProvider>
     </DemoProvider>
   );
 });

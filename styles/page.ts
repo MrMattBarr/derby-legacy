@@ -36,7 +36,7 @@ export const generatePageStyles = (colors: Theme, props?: IPageStyle) => {
       flexGrow: 1,
       backgroundColor: opaque
         ? colors.Backgrounds.primary
-        : AppColor.TRANSPARENT,
+        : colors.Backgrounds.transparentDefault,
     },
     pageContent: {
       ...section,

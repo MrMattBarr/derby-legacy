@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import useClient from "../../../contexts/ClientContext";
 import { useColors } from "../../../hooks/useColorScheme";
 import { Text, View } from "../../Themed";
-import { useTape } from "./Tape";
+import { useTape } from "./Context";
 
 const Screws = () => {
   const { unitSize } = useTape();
@@ -32,7 +32,7 @@ const Screws = () => {
       fontWeight: "bold",
 
       marginTop: -BOTTOM_PADDING,
-      color: colors.Text.contrast,
+      color: colors.Borders.default,
       fontSize: unitSize * 8,
     },
     screwTR: {

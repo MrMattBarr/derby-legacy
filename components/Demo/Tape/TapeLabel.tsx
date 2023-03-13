@@ -8,7 +8,7 @@ import { useColors } from "../../../hooks/useColorScheme";
 import { View } from "../../Themed";
 import FrontTitle from "./FrontTitle";
 import Gear from "./Gear";
-import { useTape } from "./Tape";
+import { useTape } from "./Context";
 import UserSummary from "./UserSummary";
 
 const TapeLabel = observer(() => {
