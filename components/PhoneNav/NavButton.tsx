@@ -35,7 +35,7 @@ const NavButton = observer(
           go(destination, args);
         }}
       >
-        <View>
+        <View style={styles.centerStack}>
           {notifications && (
             <View style={styles.alert}>
               <Text style={styles.alertText}>{notifications}</Text>

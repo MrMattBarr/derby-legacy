@@ -49,6 +49,8 @@ export const generateStyles = (
     },
     bigButtonText: {
       fontSize: fontSize ?? 18,
+      flexGrow: 1,
+      textAlign: "center",
       color: danger ? colors.Text.delete : colors.Text.default,
     },
   });

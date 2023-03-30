@@ -16,7 +16,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       borderColor: colors.Borders.default,
       padding: Sizes.Spacings.STANDARD,
       paddingLeft: 0,
-      paddingBottom: expanded ? 100 : Sizes.Spacings.STANDARD,
+      paddingBottom: Sizes.Spacings.STANDARD,
     },
     titleText: {
       color: colors.Text.default,
@@ -24,6 +24,10 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       fontSize: Sizes.Fonts.HEADER,
     },
     content: {
+      display: "flex",
+      flexDirection: "row",
+    },
+    header: {
       display: "flex",
       flexDirection: "row",
     },
@@ -47,6 +51,13 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     smallText: {
       color: colors.Text.subtle,
     },
+    expanderColumn: {},
+    expandedContent: {
+      paddingTop: Sizes.Spacings.STANDARD,
+      borderTopWidth: 1,
+      borderTopColor: colors.Borders.default,
+      marginTop: Sizes.Spacings.STANDARD,
+    },
     calendar: {
       position: "relative",
       display: "flex",
@@ -58,6 +69,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       position: "absolute",
       fontSize: Sizes.Fonts.DFEAULT,
       top: 17,
+    },
+    buttonHolder: {
+      paddingVertical: Sizes.Spacings.STANDARD,
     },
   });
 };

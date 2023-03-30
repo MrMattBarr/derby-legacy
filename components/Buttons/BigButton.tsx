@@ -53,7 +53,7 @@ const BigButton = ({
       onPress={press}
     >
       {icon && (
-        <FontAwesome
+        <Entypo
           name={icon as any}
           size={fontSize ?? 20}
           style={styles.bigButtonIcon}
