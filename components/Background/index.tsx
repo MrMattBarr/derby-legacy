@@ -7,7 +7,7 @@ import useColorScheme from "../../hooks/useColorScheme";
 interface IBackground {
   children: React.ReactNode;
 }
-const Page = ({ children }: IBackground) => {
+const Background = ({ children }: IBackground) => {
   const colorScheme = useColorScheme();
 
   const isLight = colorScheme === "light";
@@ -26,4 +26,4 @@ const Page = ({ children }: IBackground) => {
   );
 };
 
-export default Page;
+export default Background;

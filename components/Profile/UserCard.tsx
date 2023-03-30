@@ -9,7 +9,7 @@ import { generateStyles } from "./styles";
 
 const UserCard = () => {
   const colors = useColors();
-  const { userCard, userSummary, username, tags } = generateStyles(colors);
+  const { userCard, userSummary, tags } = generateStyles(colors);
   const { user, isSelf, update } = useUser();
   const updateName = (newName?: string) => {
     if (newName) {

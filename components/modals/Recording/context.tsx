@@ -82,7 +82,10 @@ export const RecordingBoothProvider = observer(
         });
 
         const { recording } = await Audio.Recording.createAsync(
-          Audio.RecordingOptionsPresets.HIGH_QUALITY
+          Audio.RecordingOptionsPresets.HIGH_QUALITY,
+          (status) => {
+            console.log({ status, meter: status.metering });
+          }
         );
         setRecordStart(Date.now());
         setRecording(recording);

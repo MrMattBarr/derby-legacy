@@ -22,12 +22,12 @@ export type RootStackParamList = {
   DemoBuilder: undefined;
   Profile: undefined;
   DemoGenerationPage: undefined;
-  Authenticated: undefined;
   Spots: undefined;
   DemoDetail: undefined;
   NotFound: undefined;
   Welcome: undefined;
   Projects: undefined;
+  Role: undefined;
   Demos: undefined;
 };
 
@@ -43,7 +43,6 @@ export type RootTabParamList = {
   Profile: undefined;
   DemoGenerationPage: undefined;
   Account: undefined;
-  Authenticated: undefined;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =

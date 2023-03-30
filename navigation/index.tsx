@@ -9,6 +9,8 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Projects from "components/Projects";
+import Role from "components/Role";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
@@ -74,7 +76,9 @@ export const RootNavigator = observer(() => {
       <Stack.Screen name="DemoDetail" component={DemoPage} />
       <Stack.Screen name="Demos" component={Demos} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Projects" component={Projects} />
       <Stack.Screen name="Spots" component={Spots} />
+      <Stack.Screen name="Role" component={Role} />
     </Stack.Navigator>
   );
 });

@@ -42,7 +42,7 @@ export const ReactiveProvider = observer(({ children }: any) => {
         spotStore.processSpotIds(spotIds, onError);
       });
     } else {
-      generateAnonymousAuth();
+      // generateAnonymousAuth();
     }
   });
 

@@ -76,6 +76,7 @@ export interface Theme {
   };
   Player: {
     progress: AppColor;
+    waveform: AppColor;
   };
 }
 
@@ -122,6 +123,7 @@ const AppDarkTheme: Theme = {
   },
   Player: {
     progress: AppColor.TRANSPARENT_HOUSE_BLUE,
+    waveform: AppColor.TREE_BROWN,
   },
 };
 const AppLightTheme: Theme = {
@@ -153,6 +155,7 @@ const AppLightTheme: Theme = {
     background: AppColor.FADED_WHITE,
   },
   Player: {
+    ...AppDarkTheme.Player,
     progress: AppColor.TRANSPARENT_HOUSE_BLUE,
   },
 };

@@ -195,7 +195,6 @@ const fetchThing = <Type>({ id, onFetch, dbKey, onError }: FetchArgs<Type>) => {
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
     if (!thing) {
-      console.log({ id, onFetch, dbKey, onError });
       if (onError) {
         onError(id);
         return;

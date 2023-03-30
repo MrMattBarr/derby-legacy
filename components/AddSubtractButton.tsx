@@ -1,8 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import { useColors } from "../hooks/useColorScheme";
+import { useColors } from "hooks/useColorScheme";
 import ToggleButton from "./ToggleButton";
-
 interface IAddSubtractButton {
   isAdd?: boolean;
   onToggle?: () => void;
@@ -15,10 +14,10 @@ const AddSubtractButton = ({ onToggle, isAdd }: IAddSubtractButton) => {
       isActive={isAdd}
       onToggle={onToggle}
       InactiveIcon={() => (
-        <FontAwesome name="minus" size={25} color={colors.buttonFG} />
+        <FontAwesome name="minus" size={25} color={colors.Buttons.foreground} />
       )}
       ActiveIcon={() => (
-        <FontAwesome name="plus" size={25} color={colors.buttonFG} />
+        <FontAwesome name="plus" size={25} color={colors.Buttons.foreground} />
       )}
     />
   );

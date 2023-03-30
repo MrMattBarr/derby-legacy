@@ -1,3 +1,5 @@
+import { NavPage } from "constants/Navigation";
+import useAppNav from "contexts/NavigationContext";
 import { User } from "firebase/auth";
 import { action, makeObservable, observable, runInAction } from "mobx";
 
@@ -30,9 +32,14 @@ export function AuthStore() {
       login(user?: User) {
         runInAction(() => (this.user = user));
       },
-      async logout() {
+      async logout(callback?: () => void) {
         await signOut();
-        runInAction(() => (this.user = undefined));
+        runInAction(() => {
+          this.user = undefined;
+          if (!!callback) {
+            callback();
+          }
+        });
       },
     },
     {

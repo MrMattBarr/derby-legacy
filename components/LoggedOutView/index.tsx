@@ -1,14 +1,12 @@
+import Background from "components/Background";
+import BigButton from "components/Buttons/BigButton";
+import Spinner from "components/Spinner";
 import { useFonts } from "expo-font";
+import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { Image, View } from "react-native";
-import { LOGO } from "../../hooks/useCachedResources";
-import { useColors } from "../../hooks/useColorScheme";
-import { useAuth } from "../../stores/AuthStore";
-import BigButton from "../Buttons/BigButton";
-import Page from "../Page";
-import Spinner from "../Spinner";
-import { Text } from "../Themed";
+import { Text, View } from "react-native";
+import { useAuth } from "stores/AuthStore";
 import { generateStyles } from "./styles";
 
 const LoggedOutView = observer(() => {
@@ -17,7 +15,7 @@ const LoggedOutView = observer(() => {
   const [spinning, setSpinning] = useState(false);
   const LOGO_SIZE = 300;
 
-  const FAKE_LOGIN_TIME = 10000;
+  const FAKE_LOGIN_TIME = 1000;
 
   const authStore = useAuth();
   const signInAsMatt = () => {
@@ -42,7 +40,7 @@ const LoggedOutView = observer(() => {
   const label = spinning ? "signing in..." : "Sign in as Matt Barr";
 
   return (
-    <Page>
+    <Background>
       <View style={styles.view}>
         <View style={styles.outer}>
           <View style={styles.logo}>
@@ -60,7 +58,7 @@ const LoggedOutView = observer(() => {
         </View>
         <View style={styles.bottomPadding} />
       </View>
-    </Page>
+    </Background>
   );
 });
 

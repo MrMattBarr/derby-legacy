@@ -1,5 +1,6 @@
 export type SaveableRole = {
   project: string;
+  name: string;
   contract: string;
   description: string;
   lines: string[];

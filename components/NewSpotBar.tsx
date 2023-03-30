@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { View } from "../components/Themed";
 import useColorScheme from "../hooks/useColorScheme";
-import PhoneBottomSpacer from "./PhoneBottomSpacer";
+import PhoneNav from "./PhoneNav";
 import UploadSpotButton from "./UploadSpotButton";
 
 export default function NewSpotBar() {
@@ -20,7 +20,7 @@ export default function NewSpotBar() {
       <View style={styles.container}>
         <UploadSpotButton />
       </View>
-      <PhoneBottomSpacer />
+      <PhoneNav />
     </>
   );
 }

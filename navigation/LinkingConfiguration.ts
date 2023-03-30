@@ -10,7 +10,7 @@ import * as Linking from "expo-linking";
 import { RootStackParamList } from "../types";
 
 const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: [Linking.makeUrl("/")],
+  prefixes: [Linking.createURL("/")],
   config: {
     screens: {
       DemoGenerationPage: "demos/new",
@@ -19,10 +19,10 @@ const linking: LinkingOptions<RootStackParamList> = {
       Projects: "projects",
       Demos: "demos",
       Profile: "profile/:id",
+      Role: "roles/:id",
       Spots: "spots",
       Modal: "modal",
       Welcome: "home",
-      Authenticated: "authenticated",
       NotFound: "*",
     },
   },

@@ -13,7 +13,7 @@ import UserCard from "./UserCard";
 
 const Profile = observer((args?: ParameterPage) => {
   const authStore = useAuth();
-  const id = args?.route?.params.id ?? authStore.user?.uid;
+  const id = args?.route?.params?.id;
   const colors = useColors();
   const { page } = generateStyles(colors);
   if (!id) {
