@@ -9,7 +9,7 @@ import { Pressable, Text, View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 
-const LineLine = observer(() => {
+const LineLine = observer(({ id }: { id: string }) => {
   const colors = useColors();
   const [expanded, expand] = useState(false);
   const {

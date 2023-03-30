@@ -1,4 +1,5 @@
 import useClient from "contexts/ClientContext";
+import useRole from "contexts/RoleContext";
 import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React from "react";
@@ -13,10 +14,14 @@ const Header = observer(() => {
   const { header } = generateStyles(colors, {
     isMobile,
   });
+  const { role } = useRole();
+  const lineWord = role?.lines.length === 1 ? "line" : "lines";
   return (
     <View style={header}>
-      <Text style={text.h1}>Lord Dracula</Text>
-      <Text style={text.text}>0 / 23 lines complete</Text>
+      <Text style={text.h1}>{role?.name}</Text>
+      <Text style={text.text}>
+        0 / {role?.lines.length} {lineWord} complete
+      </Text>
     </View>
   );
 });

@@ -1,13 +1,17 @@
+import { Visibility } from "types/Demo";
 import Spot from "../types/Spot";
 
 export const TEST_SPOT: Spot = {
   id: "TEST_SPOT",
   title: "Hersheys",
-  text: `No. Thank you. No. I don't want any peanut butter. Thanks.`,
+  transcript: `No. Thank you. No. I don't want any peanut butter. Thanks.`,
   tags: ["hard-sell", "manly", "goofy"],
   length: 34356.292,
+  visibility: Visibility.DRAFT,
+  demos: [],
+  author: "test_user_0",
   url: "https://www.bensound.com/bensound-music/bensound-wildblood.mp3",
-  recordDate: new Date(),
+  created: new Date().getTime(),
 };
 
 export const TEST_SPOT_IDS = [

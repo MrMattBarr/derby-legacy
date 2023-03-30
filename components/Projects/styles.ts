@@ -27,7 +27,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       alignItems: "center",
     },
     section: {},
-    pageName: {},
+    pageName: {
+      marginLeft: Sizes.Spacings.STANDARD,
+    },
     listItem: {
       backgroundColor: colors.Backgrounds.primary,
       borderBottomWidth: 1,
