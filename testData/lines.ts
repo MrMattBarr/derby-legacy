@@ -1,4 +1,4 @@
-import Line from "../types/Line";
+import { Line } from "../types/Line";
 
 export const TEST_LINE: Line = {
   id: "TEST_LINE",

@@ -13,26 +13,35 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     listItem: {
       backgroundColor: colors.Backgrounds.primary,
       borderBottomWidth: 1,
-      borderColor: colors.Borders.default,
       padding: Sizes.Spacings.STANDARD,
       paddingLeft: 0,
       paddingBottom: Sizes.Spacings.STANDARD,
+      borderColor: colors.Borders.default,
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "row",
     },
     titleText: {
       color: colors.Text.default,
       fontWeight: "bold",
-      fontSize: Sizes.Fonts.HEADER,
+      fontSize: expanded ? Sizes.Fonts.ICONS : Sizes.Fonts.HEADER,
     },
     content: {
-      display: "flex",
-      flexDirection: "row",
+      flexGrow: 1,
+      flexShrink: 1,
+      overflow: "hidden",
+      position: "relative",
     },
     header: {
       display: "flex",
       flexDirection: "row",
+      alignItems: "center",
+      overflow: "hidden",
     },
-    spacer: {
+    headerText: {
       flexGrow: 1,
+      flexShrink: 1,
+      overflow: "hidden",
     },
     checkHolder: {
       backgroundColor: complete
@@ -47,9 +56,6 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-    },
-    smallText: {
-      color: colors.Text.subtle,
     },
     expanderColumn: {},
     expandedContent: {
@@ -72,6 +78,11 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     },
     buttonHolder: {
       paddingVertical: Sizes.Spacings.STANDARD,
+    },
+    smallTextHolder: {},
+    smallText: {
+      flexWrap: "wrap",
+      color: colors.Text.subtle,
     },
   });
 };

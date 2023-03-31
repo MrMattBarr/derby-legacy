@@ -1,8 +1,8 @@
 export type SaveableLine = {
-  project: string;
-  contract: string;
-  description: string;
-  lines: string[];
+  id: string;
+  delivery: string;
+  context: string;
+  text: string;
 };
 
 export interface Line extends SaveableLine {
