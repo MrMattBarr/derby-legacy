@@ -1,17 +1,16 @@
-import { Audio } from "expo-av";
+import { Sound } from "expo-av/build/Audio";
+import { AudioMetaData } from "./AudioMetadata";
 
-enum TakeStatus {
+export enum TakeStatus {
   UNHEARD = "unheard",
   APPROVED = "approved",
   REJECTED = "rejected",
 }
 
-export type SaveableTake = {
+export type Take = {
   line: string;
   status: TakeStatus;
-  audio?: Audio.Sound;
-};
-
-export interface Take extends SaveableTake {
   id: string;
-}
+  metadata: AudioMetaData;
+  audio?: Sound;
+};

@@ -5,24 +5,34 @@ import { View } from "react-native";
 import Svg, { Polyline } from "react-native-svg";
 import { generateStyles } from "./styles";
 
-const WavePath = () => {
+interface IWavePath {
+  meters?: number[];
+}
+const WavePath = ({ meters }: IWavePath) => {
   const colors = useColors();
   const { wavePath, polyline } = generateStyles(colors);
 
-  const amplitudes = [
-    0.2, 0.24, 0.3, 0.6, 0.9, 0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2,
-    0.24, 0.3, 0.6, 0.1, 0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24,
-    0.3, 0.6, 0.9, 0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3,
-    0.6, 0.9, 0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3, 0.6,
-    0.9, 0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3, 0.6, 0.9,
-    0.24, 0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3, 0.6, 0.9, 0.24,
-    0.23, 0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3, 0.6, 0.9, 0.24, 0.23,
-    0.02, 0.02, 0.02, 0.02, 0.02, 0.2, 0.24, 0.3, 0.6, 0.9, 0.24, 0.23, 0.02,
-    0.02, 0.02, 0.02, 0.02,
-  ];
+  const adjustedMeters = (meters ?? [])
+    .filter((x) => x > -100)
+    .map((level) => {
+      return level + 160;
+    });
+
+  const max = Math.max(...adjustedMeters);
+  const min = Math.min(...adjustedMeters.filter((x) => x > 0));
+  const range = max - min;
+
+  const normalizedMeters = adjustedMeters
+    .map((x) => {
+      if (x === 0) {
+        return 0;
+      }
+      return (x - min) / range;
+    })
+    .slice(20);
 
   const MAX_BOX_LENGTH = 1;
-  const stepSize = MAX_BOX_LENGTH / amplitudes.length;
+  const stepSize = MAX_BOX_LENGTH / normalizedMeters.length;
   const halfStepSize = stepSize / 2;
 
   let points: number[] = [];
@@ -32,7 +42,7 @@ const WavePath = () => {
     return 0.5 + original / 2;
   };
 
-  amplitudes.forEach((amp) => {
+  normalizedMeters.forEach((amp) => {
     points.push(currentY);
     points.push(convertAmp(amp));
     currentY += halfStepSize;

@@ -9,7 +9,7 @@ export const TEST_SPOT: Spot = {
   length: 34356.292,
   visibility: Visibility.DRAFT,
   demos: [],
-  author: "test_user_0",
+  author: "test-user-0",
   url: "https://www.bensound.com/bensound-music/bensound-wildblood.mp3",
   created: new Date().getTime(),
 };

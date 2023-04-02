@@ -1,10 +1,7 @@
-export type SaveableProject = {
+export type Project = {
   title: string;
   owner: string;
   roles: string[];
   description: string;
-};
-
-export interface Spot extends SaveableProject {
   id: string;
-}
+};

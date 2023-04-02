@@ -7,7 +7,6 @@ import { useColors } from "../../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
 
 const OpenBoothButton = () => {
-  const playbackStore = usePlayback();
   const { setModal } = useModal();
   const colors = useColors();
   const { openBoothButton, openButtonText } = generateStyles(colors);

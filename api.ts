@@ -1,6 +1,5 @@
 import { Audio } from "expo-av";
 import { Recording } from "expo-av/build/Audio";
-import { DocumentResult } from "expo-document-picker";
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -8,28 +7,30 @@ import {
   signOut as signOutFromFirebase,
 } from "firebase/auth";
 import {
+  ref as dbRef,
   getDatabase,
   onValue,
   push,
-  ref as dbRef,
   remove,
   set,
   update,
 } from "firebase/database";
 import {
+  StorageError,
+  UploadTaskSnapshot,
   deleteObject,
   getDownloadURL,
   getStorage,
   ref,
-  StorageError,
   uploadBytesResumable,
-  UploadTaskSnapshot,
 } from "firebase/storage";
 import { toJS } from "mobx";
+import { DB, DBSpecs } from "types/apiHelpers";
 import Demo from "./types/Demo";
-import Spot, { SaveableSpot } from "./types/Spot";
+import Spot from "./types/Spot";
 import User from "./types/User";
-import { randomId, recordingToBlob } from "./utils";
+import { recordingToBlob } from "./utils";
+import { Take } from "types/Take";
 
 //TODO: separate quick and full
 const loadSpotAudio = async (spotId: string) => {
@@ -44,15 +45,6 @@ const loadSpotAudio = async (spotId: string) => {
   }
   return soundObject;
 };
-
-type UploadFileArgs = {
-  file: DocumentResult;
-  author: string;
-  onUpdate?: (snapshot: UploadTaskSnapshot) => void;
-  onComplete?: (downloadURL: string, id: string) => void;
-  onError?: (error: string | StorageError) => void;
-};
-
 type UploadSpotArgs = {
   spot: Spot;
   recording: Recording;
@@ -82,59 +74,6 @@ const registerSpotToUser = (userId: string, spotId: string) => {
   const reference = `users/${userId}/spots/${spotId}`;
   set(dbRef(db, reference), true);
 };
-
-const uploadFile = async ({
-  file,
-  author,
-  onUpdate,
-  onComplete,
-  onError,
-}: UploadFileArgs) => {
-  const storage = getStorage();
-  if (!(file.type === "success")) {
-    return;
-  }
-  if (file.size! > 5000000) {
-    if (onError) {
-      onError("nah thats too big");
-    }
-  }
-  const id = randomId();
-  const uploadName = `/spots/${id}`;
-  const storageRef = ref(storage, uploadName);
-  const fetchResponse = await fetch(file!.uri);
-  const blob = await fetchResponse.blob();
-  const uploadTask = uploadBytesResumable(storageRef, blob);
-  uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      if (onUpdate) {
-        onUpdate(snapshot);
-      }
-    },
-    (error) => {
-      if (onError) {
-        onError(error);
-      }
-    },
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        const db = getDatabase();
-        const uploadName = `spots/${id}`;
-        const spot: Partial<Spot> = {
-          title: "peekaboo",
-          author,
-          tags: [],
-          length: 123,
-          url,
-        };
-        set(dbRef(db, uploadName), spot);
-        registerSpotToUser(author, spot.id!);
-      });
-    }
-  );
-};
-
 const uploadSpot = async ({
   spot,
   recording,
@@ -185,13 +124,19 @@ const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
 interface FetchArgs<Type> {
   id: string;
   onFetch: (things: Type) => any;
-  onError?: (id?: string) => any;
-  dbKey: string;
+  onError?: (id: string) => any;
+  db: DB;
 }
 
-const fetchThing = <Type>({ id, onFetch, dbKey, onError }: FetchArgs<Type>) => {
-  const db = getDatabase();
-  const thingRef = dbRef(db, `${dbKey}/${id}`);
+const fetchThing = <Type extends ThingWithId>({
+  id,
+  onFetch,
+  db,
+  onError,
+}: FetchArgs<Type>) => {
+  const database = getDatabase();
+  const { dbKey } = DBSpecs[db];
+  const thingRef = dbRef(database, `${dbKey}/${id}`);
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
     if (!thing) {
@@ -201,6 +146,7 @@ const fetchThing = <Type>({ id, onFetch, dbKey, onError }: FetchArgs<Type>) => {
       }
     }
     try {
+      thing.id = id;
       onFetch(thing);
     } catch (err) {
       console.log({ err });
@@ -217,7 +163,7 @@ const fetchUser = (id: string, callback: (user: User) => void) => {
       console.warn(`unable to load user: ${id}`);
     }
   };
-  fetchThing({ id, onFetch, dbKey: "users" });
+  fetchThing<User>({ id, onFetch, db: DB.USER });
 };
 
 const fetchSpot = (
@@ -230,7 +176,7 @@ const fetchSpot = (
     spot.audio = await loadSpotAudio(id);
     callback(spot);
   };
-  fetchThing({ id, onFetch, dbKey: "spots", onError });
+  fetchThing<Spot>({ id, onFetch, db: DB.SPOT });
 };
 
 const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
@@ -304,30 +250,93 @@ const createDemo = async (demo: Partial<Demo>) => {
   return newDemo;
 };
 
-const createSpot = async (spot: SaveableSpot, recording: Recording) => {
-  if (!spot.author) {
-    throw new Error("Can't createa spot without an author");
-  }
-  const db = getDatabase();
-  const uploadPromise = new Promise<Spot>((resolve, reject) => {
-    push(dbRef(db, "spots"), spot)
+const createSpot = async (spot: Partial<Spot>, recording: Recording) => {
+  const newSpot = await createThing({ thing: spot, db: DB.SPOT });
+  registerSpotToUser(spot.author!, newSpot.id);
+  uploadSpot({ spot: newSpot, recording });
+  return newSpot;
+  //   if (!spot.author) {
+  //     throw new Error("Can't createa spot without an author");
+  //   }
+  //   const db = getDatabase();
+  //   const uploadPromise = new Promise<Spot>((resolve, reject) => {
+  //     push(dbRef(db, "spots"), spot)
+  //       .then(({ key }) => {
+  //         if (!key) {
+  //           throw new Error("No key was returned for spot creation");
+  //         }
+  //         const uploadedSpot: Partial<Spot> = { ...spot };
+  //         uploadedSpot.id = key;
+  //         registerSpotToUser(uploadedSpot.author!, key);
+  //         uploadSpot({ spot: uploadedSpot as Spot, recording });
+  //         resolve(uploadedSpot as Spot);
+  //       })
+  //       .catch((reason) => {
+  //         reject(reason);
+  //       });
+  //   });
+  //   const newSpot = await uploadPromise;
+  //   return newSpot;
+};
+
+const createTake = ({ take, recording }: any) => {};
+const deleteTake = (id: string) => {};
+const fetchTake = (args: Partial<FetchArgs<Take>>) => {};
+
+export interface ThingWithId {
+  id: string;
+}
+interface ElementLookup<Thing extends ThingWithId> {
+  thing: Partial<Thing>;
+  db: DB;
+}
+
+interface IdLookup {
+  id: string;
+  db: DB;
+}
+
+const createThing = async <Thing extends ThingWithId>({
+  thing,
+  db,
+}: ElementLookup<Thing>) => {
+  const spec = DBSpecs[db];
+  const anything = { ...thing } as any;
+  spec.requiredFields.forEach((field) => {
+    if (!anything[field]) {
+      throw new Error(
+        `Unable to save ${db} due to missing field "${field}": ${JSON.stringify(
+          thing
+        )}`
+      );
+    }
+  });
+  spec.unsaveableFields.forEach((field) => delete anything[field]);
+
+  const database = getDatabase();
+  const uploadPromise = new Promise<Thing>((resolve, reject) => {
+    push(dbRef(database, spec.dbKey), anything)
       .then(({ key }) => {
         if (!key) {
-          throw new Error("No key was returned for spot creation");
+          throw new Error(`No key was returned for ${db} creation`);
         }
-        const uploadedSpot: Partial<Spot> = { ...spot };
-        uploadedSpot.id = key;
-
-        registerSpotToUser(uploadedSpot.author!, key);
-        uploadSpot({ spot: uploadedSpot as Spot, recording });
-        resolve(uploadedSpot as Spot);
+        const uploadedThing: Partial<Thing> = { ...anything };
+        uploadedThing.id = key;
+        resolve(uploadedThing as Thing);
       })
       .catch((reason) => {
         reject(reason);
       });
   });
-  const newSpot = await uploadPromise;
-  return newSpot;
+  const newThing = await uploadPromise;
+  return newThing;
+};
+
+const deleteThing = ({ id, db }: IdLookup) => {
+  const { dbKey } = DBSpecs[db];
+  const database = getDatabase();
+  const demoRef = dbRef(database, `${dbKey}/${id}`);
+  remove(demoRef);
 };
 
 interface IRemveSpot {
@@ -415,7 +424,6 @@ const signOut = async () => {
 
 export {
   loadSpotAudio,
-  uploadFile,
   createDemo,
   createSpot,
   subscribeToUserSpots,
@@ -433,5 +441,10 @@ export {
   createAccount,
   signIn,
   signOut,
+  createTake,
+  deleteTake,
+  fetchTake,
+  fetchThing,
+  createThing,
+  deleteThing,
 };
-export type { UploadFileArgs };

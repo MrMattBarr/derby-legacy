@@ -7,15 +7,19 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { Role } from "types/Role";
 import { useColors } from "../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
+import { useRoles } from "stores/RolesStore";
+import useRole from "contexts/RoleContext";
 
-interface IRoleLine {
-  role: Role;
-}
-const RoleLine = observer(({ role }: IRoleLine) => {
+const RoleLine = observer(() => {
   const colors = useColors();
   const { go } = useAppNav();
   const { listItem, titleText, calendar, smallText, content, daysLeft } =
     generateStyles(colors);
+  const { role } = useRole();
+
+  if (!role) {
+    return <></>;
+  }
 
   const goToRole = () => {
     go(NavPage.ROLE, { id: role.id });

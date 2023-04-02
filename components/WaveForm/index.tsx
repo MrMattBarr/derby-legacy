@@ -1,18 +1,17 @@
 import { View } from "components/Themed";
-import { SoundWithDuration } from "contexts/PlaybackContext";
-import { Audio } from "expo-av";
 import { useColors } from "hooks/useColorScheme";
 import React from "react";
-import { generateStyles } from "./styles";
+import { AudioMetaData } from "types/AudioMetadata";
 import WavePath from "./WavePath";
+import { generateStyles } from "./styles";
 
-const WaveForm = ({ audio }: { audio: SoundWithDuration }) => {
+const WaveForm = ({ meters }: { meters: number[] }) => {
   const colors = useColors();
   const { waveForm } = generateStyles(colors);
 
   return (
     <View style={waveForm}>
-      <WavePath />
+      <WavePath meters={meters} />
     </View>
   );
 };

@@ -8,6 +8,7 @@ type User = {
   id: string;
   demos: string[];
   spots: string[];
+  roles: string[];
   isAnonymous: boolean;
 };
 

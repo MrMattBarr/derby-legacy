@@ -3,14 +3,9 @@ import { Recording } from "expo-av/build/Audio";
 import { observer } from "mobx-react";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { AudioMetaData } from "types/AudioMetadata";
 import { MAX_SPOT_LENGTH } from "../../../constants/restrictions";
-import usePlayback, {
-  SoundWithDuration,
-} from "../../../contexts/PlaybackContext";
-import { useAuth } from "../../../stores/AuthStore";
-import { useSpots } from "../../../stores/SpotsStore";
-import { Visibility } from "../../../types/Demo";
-import { SaveableSpot } from "../../../types/Spot";
+import usePlayback from "../../../contexts/PlaybackContext";
 
 export enum RecordingState {
   READY = "READY",
@@ -31,12 +26,12 @@ export const ErrorMessages: Record<RecordingError, String> = {
 
 type BoothContract = {
   recording?: Recording;
+  metadata?: AudioMetaData;
   recordingState: RecordingState;
   startRecording: () => Promise<void>;
   error?: RecordingError;
   stopRecording: () => Promise<void>;
   reset: () => void;
-  upload: () => void;
   readyToRecord: boolean;
 };
 
@@ -48,30 +43,15 @@ const RecordingBoothContext = createContext({} as BoothContract);
 export const RecordingBoothProvider = observer(
   ({ children }: IRecordingBoothContext) => {
     const PlaybackStore = usePlayback();
-    const SpotsStore = useSpots();
-    const authStore = useAuth();
-    const uid = authStore.user!.uid;
+    const [meters, setMeters] = useState<number[]>([]);
     const [recordingState, setRecordingState] = useState(RecordingState.READY);
     const [recording, setRecording] = useState<Recording | undefined>();
+    const [metadata, setMetadata] = useState<AudioMetaData | undefined>();
     const [recordStart, setRecordStart] = useState(0);
     const [error, setError] = useState<RecordingError | undefined>();
     const audio = PlaybackStore.audio;
 
     const readyToRecord = !recording && !audio;
-
-    const upload = async () => {
-      const newSpot: SaveableSpot = {
-        title: "New Spot",
-        author: uid,
-        tags: [],
-        demos: [],
-        url: "",
-        visibility: Visibility.DRAFT,
-        created: Date.now(),
-        length: PlaybackStore.duration,
-      };
-      const uploadedDemo = await SpotsStore.createSpot(newSpot, recording!);
-    };
 
     const startRecording = async () => {
       try {
@@ -80,12 +60,13 @@ export const RecordingBoothProvider = observer(
           allowsRecordingIOS: true,
           playsInSilentModeIOS: true,
         });
-
+        setMeters([]);
         const { recording } = await Audio.Recording.createAsync(
           Audio.RecordingOptionsPresets.HIGH_QUALITY,
-          (status) => {
-            console.log({ status, meter: status.metering });
-          }
+          ({ metering }) => {
+            setMeters((prevData) => [...prevData, metering ?? -160]);
+          },
+          15
         );
         setRecordStart(Date.now());
         setRecording(recording);
@@ -106,17 +87,26 @@ export const RecordingBoothProvider = observer(
 
       const { sound } = await recording.createNewLoadedSoundAsync();
       const duration = Date.now() - recordStart;
-      const withDuration = sound as SoundWithDuration;
-      withDuration.duration = duration;
-      PlaybackStore.load(withDuration, { autoPlay: false });
+
+      const md = {
+        duration,
+        meters,
+      };
+
+      setMetadata(md);
+      setRecording(recording);
+      PlaybackStore.load({ sound, metadata: md }, { autoPlay: false });
       setRecordingState(RecordingState.REVIEW);
       if (duration > MAX_SPOT_LENGTH) {
         setError(RecordingError.TOO_LONG);
       }
     };
+
     const reset = () => {
       setRecording(undefined);
       setError(undefined);
+      setMetadata(undefined);
+      setMeters([]);
       setRecordingState(RecordingState.READY);
       PlaybackStore.reset();
     };
@@ -129,7 +119,7 @@ export const RecordingBoothProvider = observer(
       stopRecording,
       error,
       recordingState,
-      upload,
+      metadata,
       reset,
       readyToRecord,
     };

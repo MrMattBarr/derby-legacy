@@ -1,17 +1,10 @@
-import { runInAction } from "mobx";
 import { observer } from "mobx-react";
-import React, { useContext, useEffect, useState } from "react";
-import { TEST_ROLES } from "testData/role";
+import React, { useContext, useEffect } from "react";
+import { useRoles } from "stores/RolesStore";
 import { Role } from "types/Role";
-import { updateDemo, updateSpot } from "../api";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
-import { useAuth } from "../stores/AuthStore";
-import { useDemos } from "../stores/DemosStore";
-import { useSpots } from "../stores/SpotsStore";
-import { useUsers } from "../stores/UsersStore";
-import { Visibility } from "../types/Demo";
-import { readableDuration as _readableDuration } from "../utils/utils";
+import { View } from "components/Themed";
 
 type RoleContract = {
   role?: Role;
@@ -24,8 +17,11 @@ interface IDemoContext {
 
 const RoleContext = React.createContext({} as RoleContract);
 export const RoleProvider = observer(({ children, id }: IDemoContext) => {
-  const role = TEST_ROLES.find((x) => x.id === id);
-
+  const roleStore = useRoles();
+  useEffect(() => {
+    roleStore.load(id);
+  }, [roleStore]);
+  const role = roleStore.things[id];
   return (
     <RoleContext.Provider
       value={{
@@ -34,9 +30,9 @@ export const RoleProvider = observer(({ children, id }: IDemoContext) => {
     >
       {role && children}
       {!role && (
-        <Page>
+        <View style={{ backgroundColor: "black", padding: 10 }}>
           <Loading />
-        </Page>
+        </View>
       )}
     </RoleContext.Provider>
   );

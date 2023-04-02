@@ -3,6 +3,7 @@ import { Sound } from "expo-av/build/Audio";
 import { runInAction } from "mobx";
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
+import { LoadableSound } from "types/AudioMetadata";
 import { useSpots } from "../stores/SpotsStore";
 import Demo from "../types/Demo";
 import Spot from "../types/Spot";
@@ -13,10 +14,6 @@ export enum PlayState {
   READY = "READY",
 }
 
-export interface SoundWithDuration extends Sound {
-  duration: number;
-}
-
 export enum LoadableType {
   DEMO = "demo",
   SPOT = "spot",
@@ -24,7 +21,7 @@ export enum LoadableType {
   SOUND = "sound",
 }
 
-type Loadable = Demo | Spot | Spot[] | SoundWithDuration | SoundWithDuration[];
+type Loadable = Demo | Spot | Spot[] | LoadableSound | LoadableSound[];
 
 export const getLoadableType = (source?: Loadable) => {
   if (!source) {
@@ -42,8 +39,8 @@ export const getLoadableType = (source?: Loadable) => {
 };
 
 type PlaybackContract = {
-  audio?: SoundWithDuration;
-  queue: SoundWithDuration[];
+  audio?: Sound;
+  queue: LoadableSound[];
   index: number;
   state: PlayState;
   playbackPercent?: number;
@@ -51,7 +48,7 @@ type PlaybackContract = {
   loadedElement?: Loadable;
   togglePlay: () => void;
   play: (timeStamp?: number) => void;
-  setAudio: (audio: SoundWithDuration[]) => void;
+  setAudio: (audio: Sound[]) => void;
   unload: () => Promise<void>;
   load: (source: Loadable, options?: LoadOptions) => void;
   pause: () => void;
@@ -76,9 +73,8 @@ export const PlaybackProvider = ({ children }: any) => {
         if (!spot?.audio) {
           throw new Error("Unable to load spots without audio");
         }
-        const audio = spot.audio as SoundWithDuration;
-        audio.duration = spot.length;
-        return audio;
+        const audio = spot.audio as Sound;
+        return { sound: audio, metadata: spot.metadata };
       });
     return sounds;
   };
@@ -105,7 +101,7 @@ export const PlaybackProvider = ({ children }: any) => {
       if (nextIndex < this.queue.length) {
         runInAction(async () => {
           this.index = nextIndex;
-          this.audio = this.queue[nextIndex];
+          this.audio = this.queue[nextIndex].sound;
           await this.audio?.setOnPlaybackStatusUpdate(
             (status: AVPlaybackStatus) => {
               runInAction(() => {
@@ -143,7 +139,7 @@ export const PlaybackProvider = ({ children }: any) => {
         this.state = PlayState.PLAYING;
       });
     },
-    setAudio(audio: SoundWithDuration[]) {
+    setAudio(audio: Sound[]) {
       runInAction(() => {
         this.audio = audio[0];
         this.playbackPercent = 0;
@@ -164,7 +160,7 @@ export const PlaybackProvider = ({ children }: any) => {
       }
     },
     load(source: Loadable, options?: LoadOptions) {
-      let sounds: SoundWithDuration[] = [];
+      let sounds: LoadableSound[] = [];
 
       if ((source as Demo).spots) {
         const demo = source as Demo;
@@ -174,14 +170,14 @@ export const PlaybackProvider = ({ children }: any) => {
         sounds = spotIdsToAudioList(demo.spots);
       } else if ((source as Spot).author) {
         sounds = spotsToAudioList([source as Spot]);
-      } else if ((source as SoundWithDuration)._coalesceStatusUpdatesInMillis) {
-        sounds = [source] as SoundWithDuration[];
+      } else if ((source as LoadableSound).sound) {
+        sounds = [source as LoadableSound] as LoadableSound[];
       } else if (Array.isArray(source)) {
         const first = source[0];
         if ((first as Spot).author) {
           sounds = spotsToAudioList(source as Spot[]);
         } else {
-          sounds = source as SoundWithDuration[];
+          sounds = source as LoadableSound[];
         }
       }
       runInAction(async () => {
@@ -189,7 +185,7 @@ export const PlaybackProvider = ({ children }: any) => {
         this.loadedElement = source;
         this.queue = sounds;
         this.duration = sounds.reduce(
-          (current, { duration }) => current + duration,
+          (current, { metadata: { duration } }) => current + duration,
           0
         );
         if (options?.autoPlay !== false) {
@@ -205,7 +201,7 @@ export const PlaybackProvider = ({ children }: any) => {
       let previouslyPlayed = 0;
 
       while (previouslyPlayed < this.index) {
-        playedMs += this.queue[previouslyPlayed].duration;
+        playedMs += this.queue[previouslyPlayed].metadata.duration;
         previouslyPlayed++;
       }
 
@@ -223,7 +219,7 @@ export const PlaybackProvider = ({ children }: any) => {
       let adjustedPosition = timeStamp ?? 0;
 
       runInAction(async () => {
-        this.audio = this.queue[activeSpotIndex];
+        this.audio = this.queue[activeSpotIndex].sound;
         await this.audio?.setOnPlaybackStatusUpdate(
           (status: AVPlaybackStatus) => {
             runInAction(() => {

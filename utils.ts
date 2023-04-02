@@ -1,6 +1,4 @@
-import { Recording, Sound } from "expo-av/build/Audio";
-import Spot from "./types/Spot";
-
+import { Recording } from "expo-av/build/Audio";
 export const randomId = () => {
   return Math.random().toString(36).substr(2, 6).toUpperCase();
 };

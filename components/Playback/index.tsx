@@ -1,5 +1,4 @@
 import BackgroundProgressBar from "components/BackgroundProgressBar";
-import WaveForm from "components/WaveForm";
 import useClient from "contexts/ClientContext";
 import usePlayback from "contexts/PlaybackContext";
 import { useColors } from "hooks/useColorScheme";
@@ -29,7 +28,6 @@ const Playback = observer(({ children, style }: iPlayback) => {
   return (
     <Pressable style={{ ...playback, ...(style ?? {}) }} onPress={toggle}>
       <BackgroundProgressBar progress={playbackStore.playbackPercent} />
-      {playbackStore.audio && <WaveForm audio={playbackStore.audio} />}
       {children}
     </Pressable>
   );

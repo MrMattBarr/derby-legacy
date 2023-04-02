@@ -84,10 +84,24 @@ export const generateStyles = (
     playback: {
       borderWidth: 1,
       borderColor: colors.Borders.dramatic,
+      borderRadius: Sizes.CURVED_BORDER,
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
+      padding: Sizes.Spacings.STANDARD,
+    },
+    playbackTexts: {
+      flexGrow: 1,
       display: "flex",
       flexDirection: "column",
-      alignItems: "flex-start",
-      padding: Sizes.Spacings.STANDARD,
+      justifyContent: "space-evenly",
+    },
+    buttons: {
+      display: "flex",
+
+      flexDirection: "row",
     },
     playbackHolder: {
       display: "flex",

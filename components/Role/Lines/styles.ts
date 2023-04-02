@@ -24,7 +24,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     titleText: {
       color: colors.Text.default,
       fontWeight: "bold",
-      fontSize: expanded ? Sizes.Fonts.ICONS : Sizes.Fonts.HEADER,
+      fontSize: expanded ? 26 : Sizes.Fonts.HEADER,
     },
     content: {
       flexGrow: 1,
@@ -35,12 +35,12 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     header: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "center",
       overflow: "hidden",
     },
     headerText: {
       flexGrow: 1,
       flexShrink: 1,
+      alignSelf: expanded ? "center" : undefined,
       overflow: "hidden",
     },
     checkHolder: {
@@ -79,10 +79,13 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     buttonHolder: {
       paddingVertical: Sizes.Spacings.STANDARD,
     },
-    smallTextHolder: {},
+    textHolder: {
+      paddingVertical: Sizes.Spacings.STANDARD,
+    },
     smallText: {
       flexWrap: "wrap",
       color: colors.Text.subtle,
+      fontWeight: "300",
     },
   });
 };

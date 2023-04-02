@@ -123,7 +123,7 @@ const AppDarkTheme: Theme = {
   },
   Player: {
     progress: AppColor.TRANSPARENT_HOUSE_BLUE,
-    waveform: AppColor.TREE_BROWN,
+    waveform: AppColor.EMPTY_GRAY,
   },
 };
 const AppLightTheme: Theme = {

@@ -20,6 +20,8 @@ import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AuthStoreProvider } from "stores/AuthStore";
 import { DemosStoreProvider } from "stores/DemosStore";
+import { ProjectsStoreProvider } from "stores/ProjectsStore";
+import { RolesStoreProvider } from "stores/RolesStore";
 import { SpotsStoreProvider } from "stores/SpotsStore";
 import { UsersStoreProvider } from "stores/UsersStore";
 
@@ -36,27 +38,31 @@ export default function App() {
               <AuthStoreProvider>
                 <ApiProvider>
                   <UsersStoreProvider>
-                    <SpotsStoreProvider>
-                      <DemosStoreProvider>
-                        <PlaybackProvider>
-                          <ClientProvider>
-                            <ModalProvider>
-                              <TextBarProvider>
-                                <ReactiveProvider>
-                                  <PhoneTopSpacer />
-                                  <WebHeader />
-                                  <RootNavigator />
-                                  <TextBar />
-                                  <PhoneNav />
-                                  <PlaybackModal />
-                                  <StatusBar />
-                                </ReactiveProvider>
-                              </TextBarProvider>
-                            </ModalProvider>
-                          </ClientProvider>
-                        </PlaybackProvider>
-                      </DemosStoreProvider>
-                    </SpotsStoreProvider>
+                    <ProjectsStoreProvider>
+                      <RolesStoreProvider>
+                        <SpotsStoreProvider>
+                          <DemosStoreProvider>
+                            <PlaybackProvider>
+                              <ClientProvider>
+                                <ModalProvider>
+                                  <TextBarProvider>
+                                    <ReactiveProvider>
+                                      <PhoneTopSpacer />
+                                      <WebHeader />
+                                      <RootNavigator />
+                                      <TextBar />
+                                      <PhoneNav />
+                                      <PlaybackModal />
+                                      <StatusBar />
+                                    </ReactiveProvider>
+                                  </TextBarProvider>
+                                </ModalProvider>
+                              </ClientProvider>
+                            </PlaybackProvider>
+                          </DemosStoreProvider>
+                        </SpotsStoreProvider>
+                      </RolesStoreProvider>
+                    </ProjectsStoreProvider>
                   </UsersStoreProvider>
                 </ApiProvider>
               </AuthStoreProvider>

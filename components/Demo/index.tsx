@@ -18,7 +18,6 @@ const DemoPage = observer(({ route }: IDemoPage) => {
       <Preview />
     </DemoProvider>
   );
-  i;
 });
 
 export default DemoPage;
