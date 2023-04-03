@@ -5,7 +5,7 @@ export enum DB {
   TAKE = "take",
   USER = "user",
   PROJECT = "project",
-  ROLE = "project",
+  ROLE = "role",
 }
 
 type DBSpec = {

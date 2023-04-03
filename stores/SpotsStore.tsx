@@ -38,7 +38,6 @@ export function SpotsStore() {
         }
       },
       async createSpot(spot: Partial<Spot>, recording: Recording) {
-        console.log({ spot });
         const uploadedSpot = await createSpot(spot, recording);
 
         runInAction(() => {

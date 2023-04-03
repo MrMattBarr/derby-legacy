@@ -8,8 +8,7 @@ import { RoleProvider } from "contexts/RoleContext";
 
 const RoleList = observer(() => {
   const user = useUser();
-  const roleIds = Object.keys(user.user.roles);
-  console.log({ roleIds });
+  const roleIds = Object.keys(user?.user?.roles ?? {}) ?? [];
   return (
     <View>
       {roleIds.map((id) => {

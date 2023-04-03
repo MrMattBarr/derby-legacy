@@ -209,7 +209,6 @@ const deleteSpot = async (spot: Spot) => {
   const storage = getStorage();
   const refLocation = `/spots/${spot.id}`;
   const deleteRef = ref(storage, refLocation);
-  console.log({ deleteRef, refLocation });
   await deleteObject(deleteRef);
   const db = getDatabase();
   const spotRef = dbRef(db, `spots/${spot.id}`);

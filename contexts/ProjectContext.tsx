@@ -11,7 +11,6 @@ export const ProjectProvider = observer(
       store.load(id);
     }, [store]);
     const thing = store.things[id];
-    console.log({ thing, id });
     return (
       <ProjectContext.Provider
         value={{

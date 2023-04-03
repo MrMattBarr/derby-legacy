@@ -33,7 +33,6 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
       status: TakeStatus.UNHEARD,
     };
     setLine({ ...line, takes: [...line.takes, take.id] });
-    console.log({ take });
   };
 
   return (

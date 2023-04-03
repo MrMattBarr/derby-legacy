@@ -38,7 +38,6 @@ export function Store<Thing extends ThingWithId>(db: DB) {
         this.ids.add(thing.id);
       },
       async create(thing: Partial<Thing>) {
-        console.log(`creating in store: ${{ thing, db }}`);
         const uploadedThing = (await createThing({ thing, db })) as any;
 
         runInAction(() => {
