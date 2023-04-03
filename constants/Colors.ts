@@ -128,36 +128,36 @@ const AppDarkTheme: Theme = {
 };
 const AppLightTheme: Theme = {
   ...AppDarkTheme,
-  Backgrounds: {
-    ...AppDarkTheme.Backgrounds,
-    label: AppColor.SLATE,
-    primary: AppColor.SANDY_WHITE,
-    playback: AppColor.TRANSPARENT_WHITE,
-    secondary: AppColor.WARM_WHITE,
-    inputs: AppColor.SNOW_WHITE,
-    transparentDefault: AppColor.TRANSPARENT_WHITE,
-    contrast: AppColor.HOUSE_BLUE,
-    default: AppColor.SANDY_WHITE,
-    submit: AppColor.ICY_BLUE,
-  },
-  Text: {
-    ...AppDarkTheme.Text,
-    default: AppColor.CHARCOAL,
-    contrast: AppColor.PURE_WHITE,
-    subtle: AppColor.STONE_GRAY,
-  },
-  Borders: {
-    ...AppDarkTheme.Borders,
-    dramatic: AppColor.CHARCOAL,
-  },
-  Buttons: {
-    foreground: AppColor.CHARCOAL,
-    background: AppColor.FADED_WHITE,
-  },
-  Player: {
-    ...AppDarkTheme.Player,
-    progress: AppColor.TRANSPARENT_HOUSE_BLUE,
-  },
+  // Backgrounds: {
+  //   ...AppDarkTheme.Backgrounds,
+  //   label: AppColor.SLATE,
+  //   primary: AppColor.SANDY_WHITE,
+  //   playback: AppColor.TRANSPARENT_WHITE,
+  //   secondary: AppColor.WARM_WHITE,
+  //   inputs: AppColor.SNOW_WHITE,
+  //   transparentDefault: AppColor.TRANSPARENT_WHITE,
+  //   contrast: AppColor.HOUSE_BLUE,
+  //   default: AppColor.SANDY_WHITE,
+  //   submit: AppColor.ICY_BLUE,
+  // },
+  // Text: {
+  //   ...AppDarkTheme.Text,
+  //   default: AppColor.CHARCOAL,
+  //   contrast: AppColor.PURE_WHITE,
+  //   subtle: AppColor.STONE_GRAY,
+  // },
+  // Borders: {
+  //   ...AppDarkTheme.Borders,
+  //   dramatic: AppColor.CHARCOAL,
+  // },
+  // Buttons: {
+  //   foreground: AppColor.CHARCOAL,
+  //   background: AppColor.FADED_WHITE,
+  // },
+  // Player: {
+  //   ...AppDarkTheme.Player,
+  //   progress: AppColor.TRANSPARENT_HOUSE_BLUE,
+  // },
 };
 
 const Colors: ThemeSet = {

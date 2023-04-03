@@ -6,7 +6,7 @@ import Spinner from "components/Spinner";
 import { AppColor } from "constants/Colors";
 import { Sizes } from "styles/sizes";
 
-const Loading = () => {
+const Loading = ({ text }: { text?: string }) => {
   return (
     <View
       style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
@@ -19,7 +19,7 @@ const Loading = () => {
           fontSize: Sizes.Fonts.HEADER,
         }}
       >
-        Loading...
+        {`Loading${text ? ` ${text}` : ""}...`}
       </Text>
     </View>
   );

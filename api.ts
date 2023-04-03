@@ -314,6 +314,7 @@ const createThing = async <Thing extends ThingWithId>({
 
   const database = getDatabase();
   const uploadPromise = new Promise<Thing>((resolve, reject) => {
+    console.log({ anything, spec });
     push(dbRef(database, spec.dbKey), anything)
       .then(({ key }) => {
         if (!key) {

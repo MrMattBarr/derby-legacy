@@ -1,17 +1,15 @@
-import { Entypo } from "@expo/vector-icons";
-import BigButton from "components/Buttons/BigButton";
 import AppText from "components/Controls/Text";
 import { RecordingBoothProvider } from "components/modals/Recording/context";
-import { AppColor } from "constants/Colors";
 import useLine from "contexts/LineContext";
 import { useColors } from "hooks/useColorScheme";
 import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
-import { Sizes } from "styles/sizes";
+import { Pressable, View } from "react-native";
 import ExpanderColumn from "./ExpanderColumn";
 import Header from "./Header";
 import RecordButton from "./RecordButton";
 import { generateStyles } from "./styles";
+import { useLines } from "stores/LinesStore";
+import { TEST_LINE } from "testData/lines";
 
 const LineLine = () => {
   const colors = useColors();
@@ -25,7 +23,6 @@ const LineLine = () => {
   const toggleExpand = () => {
     expand(!expanded);
   };
-
   return (
     <RecordingBoothProvider>
       <Pressable style={listItem} onPress={toggleExpand}>

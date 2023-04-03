@@ -43,7 +43,7 @@ export const DBSpecs: Record<DB, DBSpec> = {
   [DB.LINE]: {
     requiredFields: [],
     unsaveableFields: [],
-    dbKey: "line",
+    dbKey: "lines",
   },
   [DB.TAKE]: {
     requiredFields: [],

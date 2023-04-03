@@ -9,8 +9,7 @@ interface IBackground {
 }
 const Background = ({ children }: IBackground) => {
   const colorScheme = useColorScheme();
-
-  const isLight = colorScheme === "light";
+  const isLight = false; //colorScheme === "light";
 
   const imgSrc = isLight ? APP_BG_LIGHT : APP_BG_DARK;
   return (

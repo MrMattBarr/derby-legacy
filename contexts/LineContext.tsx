@@ -1,11 +1,13 @@
 import { observer } from "mobx-react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TEST_LINES } from "testData/lines";
 import { Line } from "types/Line";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
 import { DerbySound } from "./PlaybackContext";
 import { Take, TakeStatus } from "types/Take";
+import { useLines } from "stores/LinesStore";
+import { View } from "react-native";
 
 type LineContract = {
   line?: Line;
@@ -19,7 +21,11 @@ interface ILineContext {
 
 const LineContext = React.createContext({} as LineContract);
 export const LineProvider = observer(({ children, id }: ILineContext) => {
-  const [line, setLine] = useState(TEST_LINES[id]);
+  const lineStore = useLines();
+  useEffect(() => {
+    lineStore.load(id);
+  }, [lineStore]);
+  const line = lineStore.things[id];
 
   const addTake = (sound: DerbySound) => {
     const take: Take = {
@@ -32,7 +38,7 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
       },
       status: TakeStatus.UNHEARD,
     };
-    setLine({ ...line, takes: [...line.takes, take.id] });
+    console.log({ take });
   };
 
   return (
@@ -44,9 +50,9 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
     >
       {line && children}
       {!line && (
-        <Page>
-          <Loading />
-        </Page>
+        <View style={{ backgroundColor: "black", padding: 10 }}>
+          <Loading text={`line: "${id}"`} />
+        </View>
       )}
     </LineContext.Provider>
   );
