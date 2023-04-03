@@ -24,6 +24,7 @@ import { LinesStoreProvider } from "stores/LinesStore";
 import { ProjectsStoreProvider } from "stores/ProjectsStore";
 import { RolesStoreProvider } from "stores/RolesStore";
 import { SpotsStoreProvider } from "stores/SpotsStore";
+import { TakesStoreProvider } from "stores/TakesStore";
 import { UsersStoreProvider } from "stores/UsersStore";
 
 export default function App() {
@@ -42,27 +43,29 @@ export default function App() {
                     <ProjectsStoreProvider>
                       <RolesStoreProvider>
                         <LinesStoreProvider>
-                          <SpotsStoreProvider>
-                            <DemosStoreProvider>
-                              <PlaybackProvider>
-                                <ClientProvider>
-                                  <ModalProvider>
-                                    <TextBarProvider>
-                                      <ReactiveProvider>
-                                        <PhoneTopSpacer />
-                                        <WebHeader />
-                                        <RootNavigator />
-                                        <TextBar />
-                                        <PhoneNav />
-                                        <PlaybackModal />
-                                        <StatusBar />
-                                      </ReactiveProvider>
-                                    </TextBarProvider>
-                                  </ModalProvider>
-                                </ClientProvider>
-                              </PlaybackProvider>
-                            </DemosStoreProvider>
-                          </SpotsStoreProvider>
+                          <TakesStoreProvider>
+                            <SpotsStoreProvider>
+                              <DemosStoreProvider>
+                                <PlaybackProvider>
+                                  <ClientProvider>
+                                    <ModalProvider>
+                                      <TextBarProvider>
+                                        <ReactiveProvider>
+                                          <PhoneTopSpacer />
+                                          <WebHeader />
+                                          <RootNavigator />
+                                          <TextBar />
+                                          <PhoneNav />
+                                          <PlaybackModal />
+                                          <StatusBar />
+                                        </ReactiveProvider>
+                                      </TextBarProvider>
+                                    </ModalProvider>
+                                  </ClientProvider>
+                                </PlaybackProvider>
+                              </DemosStoreProvider>
+                            </SpotsStoreProvider>
+                          </TakesStoreProvider>
                         </LinesStoreProvider>
                       </RolesStoreProvider>
                     </ProjectsStoreProvider>

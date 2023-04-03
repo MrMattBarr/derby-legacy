@@ -1,17 +1,16 @@
 import { observer } from "mobx-react";
-import React, { useContext, useEffect, useState } from "react";
-import { TEST_LINES } from "testData/lines";
-import { Line } from "types/Line";
-import Loading from "../components/Demo/Loading";
-import Page from "../components/Page";
-import { DerbySound } from "./PlaybackContext";
-import { Take, TakeStatus } from "types/Take";
-import { useLines } from "stores/LinesStore";
+import React, { useContext, useEffect } from "react";
 import { View } from "react-native";
+import { useLines } from "stores/LinesStore";
+import { Line } from "types/Line";
+import { Take, TakeStatus } from "types/Take";
+import Loading from "../components/Demo/Loading";
+import { Sound } from "expo-av/build/Audio";
+import { AudioMetaData } from "types/AudioMetadata";
 
 type LineContract = {
   line?: Line;
-  addTake: (audio: DerbySound) => void;
+  addTake: (audio: Sound, metadata: AudioMetaData) => void;
 };
 
 interface ILineContext {
@@ -27,9 +26,9 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
   }, [lineStore]);
   const line = lineStore.things[id];
 
-  const addTake = (sound: DerbySound) => {
+  const addTake = (audio: Sound, metadata: AudioMetaData) => {
     const take: Take = {
-      audio: sound,
+      audio,
       id: "test-take-1",
       line: id,
       metadata: {
@@ -38,7 +37,6 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
       },
       status: TakeStatus.UNHEARD,
     };
-    console.log({ take });
   };
 
   return (

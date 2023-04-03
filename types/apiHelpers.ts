@@ -11,6 +11,7 @@ export enum DB {
 type DBSpec = {
   requiredFields: string[];
   unsaveableFields: string[];
+  recordingField?: string;
   dbKey: string;
 };
 
@@ -18,6 +19,7 @@ export const DBSpecs: Record<DB, DBSpec> = {
   [DB.SPOT]: {
     requiredFields: ["url", "created", "author", "audio"],
     unsaveableFields: ["id", "audio"],
+    recordingField: "audio",
     dbKey: "spots",
   },
   [DB.USER]: {
@@ -41,13 +43,14 @@ export const DBSpecs: Record<DB, DBSpec> = {
     dbKey: "demos",
   },
   [DB.LINE]: {
-    requiredFields: [],
+    requiredFields: ["role", "takes", "text"],
     unsaveableFields: [],
     dbKey: "lines",
   },
   [DB.TAKE]: {
-    requiredFields: [],
-    unsaveableFields: [],
+    requiredFields: ["line"],
+    unsaveableFields: ["id", "audio"],
     dbKey: "takes",
+    recordingField: "audio",
   },
 };

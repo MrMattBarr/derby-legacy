@@ -111,6 +111,54 @@ const uploadSpot = async ({
   );
 };
 
+interface IUploadRecording {
+  id: string;
+  recording: Recording;
+  db: DB;
+  onUpdate?: (snapshot: UploadTaskSnapshot) => void;
+  onComplete?: (downloadURL: string) => void;
+  onError?: (error: string | StorageError) => void;
+}
+
+const uploadRecording = async ({
+  id,
+  db,
+  recording,
+  onUpdate,
+  onError,
+  onComplete,
+}: IUploadRecording) => {
+  const storage = getStorage();
+  const { dbKey } = DBSpecs[db];
+  const uploadName = `/${dbKey}/${id}`;
+  const storageRef = ref(storage, uploadName);
+  const blob = await recordingToBlob(recording);
+  const uploadTask = uploadBytesResumable(storageRef, blob);
+  uploadTask.on(
+    "state_changed",
+    (snapshot) => {
+      if (onUpdate) {
+        onUpdate(snapshot);
+      }
+    },
+    (error) => {
+      if (onError) {
+        onError(error);
+      }
+    },
+    () => {
+      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+        const db = getDatabase();
+        const uploadName = `${dbKey}/${id}/url`;
+        set(dbRef(db, uploadName), url);
+        if (onComplete) {
+          onComplete(url);
+        }
+      });
+    }
+  );
+};
+
 const subscribeToUserSpots = (user: string, callback: (spots: any) => void) => {
   const db = getDatabase();
   const spotsRef = dbRef(db, `users/${user}/spots`);
@@ -152,6 +200,31 @@ const fetchThing = <Type extends ThingWithId>({
       console.log({ err });
     }
   });
+};
+
+interface UpdateArgs<Type> {
+  thing: Partial<Type>;
+  onFetch: (things: Type) => any;
+  onError?: (id: string) => any;
+  db: DB;
+}
+
+const updateThing = <Type extends ThingWithId>({
+  thing,
+  onFetch,
+  db,
+  onError,
+}: UpdateArgs<Type>) => {
+  const database = getDatabase();
+  const { dbKey, unsaveableFields } = DBSpecs[db];
+  const spotLocation = `${dbKey}/${thing.id}`;
+  const copy = { ...thing } as any;
+  unsaveableFields.map((field) => {
+    if (Object.keys(copy).includes(field)) {
+      delete copy[field];
+    }
+  });
+  update(dbRef(database, spotLocation), copy);
 };
 
 const fetchUser = (id: string, callback: (user: User) => void) => {
@@ -441,10 +514,9 @@ export {
   createAccount,
   signIn,
   signOut,
-  createTake,
-  deleteTake,
-  fetchTake,
   fetchThing,
   createThing,
   deleteThing,
+  updateThing,
+  uploadRecording,
 };
