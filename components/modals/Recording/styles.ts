@@ -90,13 +90,14 @@ export const generateStyles = (
       flexDirection: "row",
       alignItems: "flex-start",
       justifyContent: "space-between",
-      padding: Sizes.Spacings.STANDARD,
+      padding: Sizes.Spacings.SMALL,
     },
     playbackTexts: {
       flexGrow: 1,
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-evenly",
+      alignSelf: "center",
     },
     buttons: {
       display: "flex",
@@ -110,6 +111,7 @@ export const generateStyles = (
     playbackTitle: {
       fontSize: Sizes.Fonts.HEADER,
       color: colors.Text.default,
+      fontWeight: "bold",
     },
     spinner: {
       position: "absolute",
@@ -143,7 +145,7 @@ export const generateStyles = (
     },
     detail: {
       fontSize: Sizes.Fonts.DFEAULT,
-      color: colors.Text.subtle,
+      color: colors.Text.default,
       opacity: 0.9,
     },
     recordButton: {},

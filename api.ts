@@ -30,12 +30,30 @@ import Demo from "./types/Demo";
 import Spot from "./types/Spot";
 import User from "./types/User";
 import { recordingToBlob } from "./utils";
-import { Take } from "types/Take";
+import { SpotsContext } from "stores/SpotsStore";
 
 //TODO: separate quick and full
 const loadSpotAudio = async (spotId: string) => {
   const storage = getStorage();
   const storageRef = ref(storage, `spots/${spotId}`);
+  const uri = await getDownloadURL(ref(storage, storageRef.fullPath));
+  const soundObject = new Audio.Sound();
+  try {
+    await soundObject.loadAsync({ uri });
+  } catch (error) {
+    console.log("error:", error);
+  }
+  return soundObject;
+};
+
+interface IFetchAudio {
+  id: string;
+  db: DB;
+}
+const loadAudio = async ({ id, db }: IFetchAudio) => {
+  const storage = getStorage();
+  const spec = DBSpecs[db];
+  const storageRef = ref(storage, `${spec.dbKey}/${id}`);
   const uri = await getDownloadURL(ref(storage, storageRef.fullPath));
   const soundObject = new Audio.Sound();
   try {
@@ -183,7 +201,7 @@ const fetchThing = <Type extends ThingWithId>({
   onError,
 }: FetchArgs<Type>) => {
   const database = getDatabase();
-  const { dbKey } = DBSpecs[db];
+  const { dbKey, recordingField } = DBSpecs[db];
   const thingRef = dbRef(database, `${dbKey}/${id}`);
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
@@ -194,8 +212,12 @@ const fetchThing = <Type extends ThingWithId>({
       }
     }
     try {
-      thing.id = id;
-      onFetch(thing);
+      const anything = thing as any;
+      anything.id = id;
+      if (anything.url && recordingField) {
+        anything[recordingField] = await loadAudio({ id, db });
+      }
+      onFetch(anything);
     } catch (err) {
       console.log({ err });
     }
@@ -204,7 +226,7 @@ const fetchThing = <Type extends ThingWithId>({
 
 interface UpdateArgs<Type> {
   thing: Partial<Type>;
-  onFetch: (things: Type) => any;
+  onFetch?: (things: Type) => any;
   onError?: (id: string) => any;
   db: DB;
 }
@@ -217,14 +239,15 @@ const updateThing = <Type extends ThingWithId>({
 }: UpdateArgs<Type>) => {
   const database = getDatabase();
   const { dbKey, unsaveableFields } = DBSpecs[db];
-  const spotLocation = `${dbKey}/${thing.id}`;
+  const location = `${dbKey}/${thing.id}`;
   const copy = { ...thing } as any;
   unsaveableFields.map((field) => {
     if (Object.keys(copy).includes(field)) {
       delete copy[field];
     }
   });
-  update(dbRef(database, spotLocation), copy);
+  console.log({ location, copy });
+  update(dbRef(database, location), copy);
 };
 
 const fetchUser = (id: string, callback: (user: User) => void) => {
@@ -351,16 +374,13 @@ const createSpot = async (spot: Partial<Spot>, recording: Recording) => {
   //   return newSpot;
 };
 
-const createTake = ({ take, recording }: any) => {};
-const deleteTake = (id: string) => {};
-const fetchTake = (args: Partial<FetchArgs<Take>>) => {};
-
 export interface ThingWithId {
   id: string;
 }
 interface ElementLookup<Thing extends ThingWithId> {
   thing: Partial<Thing>;
   db: DB;
+  recording?: Recording;
 }
 
 interface IdLookup {
@@ -371,6 +391,7 @@ interface IdLookup {
 const createThing = async <Thing extends ThingWithId>({
   thing,
   db,
+  recording,
 }: ElementLookup<Thing>) => {
   const spec = DBSpecs[db];
   const anything = { ...thing } as any;
@@ -387,7 +408,6 @@ const createThing = async <Thing extends ThingWithId>({
 
   const database = getDatabase();
   const uploadPromise = new Promise<Thing>((resolve, reject) => {
-    console.log({ anything, spec });
     push(dbRef(database, spec.dbKey), anything)
       .then(({ key }) => {
         if (!key) {
@@ -395,7 +415,19 @@ const createThing = async <Thing extends ThingWithId>({
         }
         const uploadedThing: Partial<Thing> = { ...anything };
         uploadedThing.id = key;
-        resolve(uploadedThing as Thing);
+        const onComplete = () => {
+          resolve(uploadedThing as Thing);
+        };
+        if (spec.recordingField && recording) {
+          uploadRecording({
+            id: key,
+            db,
+            recording,
+            onComplete,
+          });
+        } else {
+          onComplete();
+        }
       })
       .catch((reason) => {
         reject(reason);

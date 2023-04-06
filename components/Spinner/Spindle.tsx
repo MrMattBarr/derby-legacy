@@ -6,7 +6,7 @@ interface ISpindle {
   size: number;
   foreground: AppColor;
 }
-const Spindle = ({ size, background, foreground }: ISpindle) => {
+const Spindle = ({ size, foreground }: ISpindle) => {
   return (
     <Svg
       viewBox="0 0 585 585"

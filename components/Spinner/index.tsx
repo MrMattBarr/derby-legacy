@@ -4,12 +4,14 @@ import { View } from "../Themed";
 import Brim from "./Brim";
 import Spindle from "./Spindle";
 import { generateStyles } from "./styles";
+import { AppColor } from "constants/Colors";
 
 interface ISpinner {
   size: number;
   spinning: boolean;
+  color?: AppColor;
 }
-const Spinner = ({ size, spinning }: ISpinner) => {
+const Spinner = ({ size, spinning, color }: ISpinner) => {
   const INNER_SIZE = size / 1.64;
   const { holder, spindleHolder, brimHolder, outerHolder } =
     generateStyles(INNER_SIZE);
@@ -54,11 +56,11 @@ const Spinner = ({ size, spinning }: ISpinner) => {
       <View style={holder}>
         <View style={spindleHolder}>
           <Animated.View style={spinStyle}>
-            <Spindle size={INNER_SIZE} />
+            <Spindle size={INNER_SIZE} foreground={color} />
           </Animated.View>
         </View>
         <View style={brimHolder}>
-          <Brim size={size} />
+          <Brim size={size} foreground={color} />
         </View>
       </View>
     </View>

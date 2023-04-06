@@ -21,7 +21,7 @@ export enum LoadableType {
   SOUND = "sound",
 }
 
-type Loadable = Demo | Spot | Spot[] | LoadableSound | LoadableSound[];
+export type Loadable = Demo | Spot | Spot[] | LoadableSound | LoadableSound[];
 
 export const getLoadableType = (source?: Loadable) => {
   if (!source) {
@@ -40,6 +40,7 @@ export const getLoadableType = (source?: Loadable) => {
 
 type PlaybackContract = {
   audio?: Sound;
+  playerId?: number;
   queue: LoadableSound[];
   index: number;
   state: PlayState;
@@ -51,6 +52,7 @@ type PlaybackContract = {
   setAudio: (audio: Sound[]) => void;
   unload: () => Promise<void>;
   load: (source: Loadable, options?: LoadOptions) => void;
+  loadOrToggle: (source?: Loadable, options?: LoadOptions) => void;
   pause: () => void;
   resume: () => void;
   onFinish: () => void;
@@ -59,7 +61,8 @@ type PlaybackContract = {
 };
 
 export interface LoadOptions {
-  autoPlay: boolean;
+  autoPlay?: boolean;
+  playerId?: number;
 }
 
 const PlaybackContext = React.createContext({} as PlaybackContract);
@@ -133,6 +136,15 @@ export const PlaybackProvider = ({ children }: any) => {
           console.warn("unkown play state");
       }
     },
+    loadOrToggle(source?: Loadable, options?: LoadOptions) {
+      console.log({ tpid: this.playerId, options });
+      if ((options?.playerId ?? -1) === this.playerId) {
+        console.log("toggle");
+        this.togglePlay();
+      } else if (source) {
+        this.load(source, options);
+      }
+    },
     resume() {
       runInAction(() => {
         this.audio?.playAsync();
@@ -159,7 +171,7 @@ export const PlaybackProvider = ({ children }: any) => {
         });
       }
     },
-    load(source: Loadable, options?: LoadOptions) {
+    async load(source: Loadable, options?: LoadOptions) {
       let sounds: LoadableSound[] = [];
 
       if ((source as Demo).spots) {
@@ -180,9 +192,10 @@ export const PlaybackProvider = ({ children }: any) => {
           sounds = source as LoadableSound[];
         }
       }
-      runInAction(async () => {
-        await this.unload();
+      await this.unload();
+      runInAction(() => {
         this.loadedElement = source;
+        this.playerId = options?.playerId;
         this.queue = sounds;
         this.duration = sounds.reduce(
           (current, { metadata: { duration } }) => current + duration,

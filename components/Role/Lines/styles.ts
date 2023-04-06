@@ -26,6 +26,11 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       fontWeight: "bold",
       fontSize: expanded ? 26 : Sizes.Fonts.HEADER,
     },
+    takeName: {
+      color: colors.Text.default,
+      fontWeight: "bold",
+      fontSize: expanded ? 26 : Sizes.Fonts.HEADER,
+    },
     content: {
       flexGrow: 1,
       flexShrink: 1,
@@ -78,6 +83,8 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     },
     buttonHolder: {
       paddingVertical: Sizes.Spacings.STANDARD,
+      display: "flex",
+      flexDirection: "row",
     },
     textHolder: {
       paddingVertical: Sizes.Spacings.STANDARD,

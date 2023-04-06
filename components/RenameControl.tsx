@@ -1,15 +1,6 @@
-import React, { useRef, useState } from "react";
-import {
-  Button,
-  NativeSyntheticEvent,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TextInputKeyPressEventData,
-  View,
-} from "react-native";
-import Colors from "../constants/Colors";
-import useColorScheme, { useColors } from "../hooks/useColorScheme";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { useColors } from "../hooks/useColorScheme";
 import { mainStyles } from "../listStyles";
 import { Text } from "./Themed";
 

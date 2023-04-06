@@ -1,16 +1,23 @@
+import { Recording } from "expo-av/build/Audio";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect } from "react";
 import { View } from "react-native";
 import { useLines } from "stores/LinesStore";
+import { useTakes } from "stores/TakesStore";
+import { AudioMetaData } from "types/AudioMetadata";
 import { Line } from "types/Line";
 import { Take, TakeStatus } from "types/Take";
 import Loading from "../components/Demo/Loading";
-import { Sound } from "expo-av/build/Audio";
-import { AudioMetaData } from "types/AudioMetadata";
 
 type LineContract = {
   line?: Line;
-  addTake: (audio: Sound, metadata: AudioMetaData) => void;
+  addTake: ({
+    recording,
+    metadata,
+  }: {
+    recording: Recording;
+    metadata: AudioMetaData;
+  }) => Promise<void>;
 };
 
 interface ILineContext {
@@ -21,22 +28,28 @@ interface ILineContext {
 const LineContext = React.createContext({} as LineContract);
 export const LineProvider = observer(({ children, id }: ILineContext) => {
   const lineStore = useLines();
+  const takeStore = useTakes();
   useEffect(() => {
     lineStore.load(id);
   }, [lineStore]);
   const line = lineStore.things[id];
 
-  const addTake = (audio: Sound, metadata: AudioMetaData) => {
-    const take: Take = {
-      audio,
-      id: "test-take-1",
+  const addTake = async ({
+    recording,
+    metadata,
+  }: {
+    recording: Recording;
+    metadata: AudioMetaData;
+  }) => {
+    const partialTake: Partial<Take> = {
       line: id,
-      metadata: {
-        duration: 12,
-        meters: [],
-      },
+      metadata,
       status: TakeStatus.UNHEARD,
+      number: (line.takes.length ?? 0) + 1,
     };
+
+    const take = await takeStore.create(partialTake, recording);
+    lineStore.update({ id, takes: [...(line.takes ?? []), take.id] });
   };
 
   return (

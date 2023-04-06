@@ -8,13 +8,14 @@ import ExpanderColumn from "./ExpanderColumn";
 import Header from "./Header";
 import RecordButton from "./RecordButton";
 import { generateStyles } from "./styles";
-import { useLines } from "stores/LinesStore";
-import { TEST_LINE } from "testData/lines";
+import ExistingTakes from "./ExistingTakes";
+import { observer } from "mobx-react";
 
-const LineLine = () => {
+const LineLine = observer(() => {
   const colors = useColors();
   const line = useLine().line!;
   const [expanded, expand] = useState(false);
+  const maxTakes = 1;
   const { listItem, expandedContent, buttonHolder, textHolder, content } =
     generateStyles(colors, {
       expanded,
@@ -23,25 +24,27 @@ const LineLine = () => {
   const toggleExpand = () => {
     expand(!expanded);
   };
+  const canAddTakes = (line.takes?.length ?? 0) < maxTakes;
   return (
-    <RecordingBoothProvider>
-      <Pressable style={listItem} onPress={toggleExpand}>
-        <ExpanderColumn expanded={expanded} />
-        <View style={content}>
-          <Header expanded={expanded} />
-          {expanded && (
-            <View style={expandedContent}>
-              <View style={textHolder}>
-                <AppText>{line.text}</AppText>
-              </View>
+    <Pressable style={listItem} onPress={toggleExpand}>
+      <ExpanderColumn expanded={expanded} />
+      <View style={content}>
+        <Header expanded={expanded} />
+        {expanded && (
+          <View style={expandedContent}>
+            <View style={textHolder}>
+              <AppText>{line.text}</AppText>
+            </View>
+            <ExistingTakes />
+            {canAddTakes && (
               <View style={buttonHolder}>
                 <RecordButton />
               </View>
-            </View>
-          )}
-        </View>
-      </Pressable>
-    </RecordingBoothProvider>
+            )}
+          </View>
+        )}
+      </View>
+    </Pressable>
   );
-};
+});
 export default LineLine;

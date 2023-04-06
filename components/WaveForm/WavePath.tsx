@@ -62,6 +62,7 @@ const WavePath = ({ meters }: IWavePath) => {
           points={points}
           fill={AppColor.TRANSPARENT}
           stroke={colors.Player.waveform}
+          opacity={0.5}
           strokeWidth={MAX_BOX_LENGTH / 700}
         />
       </Svg>

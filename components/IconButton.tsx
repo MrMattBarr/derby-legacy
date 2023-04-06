@@ -4,11 +4,14 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AppColor } from "../constants/Colors";
 import { useColors } from "../hooks/useColorScheme";
 import { Sizes } from "../styles/sizes";
+import Spinner from "./Spinner";
+import App from "App";
 
 export interface IIconButton {
   size?: number;
   style?: object;
   onPress: () => void;
+  loading?: boolean;
   icon: string;
   color?: AppColor;
   background?: AppColor;
@@ -22,11 +25,15 @@ const PlayerButton = ({
   icon,
   style,
   color,
+  loading,
   border,
   background,
 }: IIconButton) => {
   const finalSize = size ?? 50;
   const colors = useColors();
+  const foreground = loading
+    ? colors.Text.subtle
+    : color ?? colors.Buttons.foreground;
   const styles = StyleSheet.create({
     appButton: {
       fontSize: 12,
@@ -36,7 +43,7 @@ const PlayerButton = ({
       borderColor: border ?? colors.Buttons.foreground,
       borderRadius: finalSize,
       borderWidth: 1,
-      backgroundColor: background ?? "",
+      backgroundColor: loading ? colors.Backgrounds.empty : background ?? "",
       width: finalSize,
       height: finalSize,
       ...style,
@@ -49,11 +56,12 @@ const PlayerButton = ({
       style={styles.appButton}
       onPress={onPress}
     >
-      <Entypo
-        name={icon as any}
-        size={finalSize * 0.5}
-        color={color ?? colors.Buttons.foreground}
-      />
+      {!loading && (
+        <Entypo name={icon as any} size={finalSize * 0.5} color={foreground} />
+      )}
+      {loading && (
+        <Spinner size={finalSize * 0.75} color={foreground} spinning />
+      )}
     </TouchableOpacity>
   );
 };

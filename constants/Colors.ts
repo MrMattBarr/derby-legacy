@@ -6,6 +6,7 @@ export enum AppColor {
   PURE_WHITE = "#FFFFFF",
   SNOW_WHITE = "#EEEEEE",
   FADED_WHITE = "#CCCCCC",
+  BARELY_WHITE = "#999",
   PURE_BLACK = "#000000",
   TRANSPARENT_BLACK = "#00000099",
   TRANSPARENT_WHITE = "#eee7",
@@ -89,7 +90,7 @@ const AppDarkTheme: Theme = {
   Text: {
     contrast: AppColor.NEARLY_BLACK,
     default: AppColor.SNOW_WHITE,
-    subtle: AppColor.FADED_WHITE,
+    subtle: AppColor.BARELY_WHITE,
     error: AppColor.CHALK_RED,
     delete: AppColor.CHALK_RED,
     placeholder: AppColor.STONE_GRAY,

@@ -3,7 +3,7 @@ import { Recording } from "expo-av/build/Audio";
 import { observer } from "mobx-react";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { AudioMetaData } from "types/AudioMetadata";
+import { AudioMetaData, LoadableSound } from "types/AudioMetadata";
 import { MAX_SPOT_LENGTH } from "../../../constants/restrictions";
 import usePlayback from "../../../contexts/PlaybackContext";
 
@@ -27,6 +27,7 @@ export const ErrorMessages: Record<RecordingError, String> = {
 type BoothContract = {
   recording?: Recording;
   metadata?: AudioMetaData;
+  sound?: LoadableSound;
   recordingState: RecordingState;
   startRecording: () => Promise<void>;
   error?: RecordingError;
@@ -49,6 +50,7 @@ export const RecordingBoothProvider = observer(
     const [metadata, setMetadata] = useState<AudioMetaData | undefined>();
     const [recordStart, setRecordStart] = useState(0);
     const [error, setError] = useState<RecordingError | undefined>();
+    const [sound, setSound] = useState<LoadableSound | undefined>();
     const audio = PlaybackStore.audio;
 
     const readyToRecord = !recording && !audio;
@@ -95,7 +97,7 @@ export const RecordingBoothProvider = observer(
 
       setMetadata(md);
       setRecording(recording);
-      PlaybackStore.load({ sound, metadata: md }, { autoPlay: false });
+      setSound({ sound, metadata: md });
       setRecordingState(RecordingState.REVIEW);
       if (duration > MAX_SPOT_LENGTH) {
         setError(RecordingError.TOO_LONG);
@@ -121,6 +123,7 @@ export const RecordingBoothProvider = observer(
       recordingState,
       metadata,
       reset,
+      sound,
       readyToRecord,
     };
 

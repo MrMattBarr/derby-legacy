@@ -1,21 +1,23 @@
 import { makeObservable, observable, runInAction } from "mobx";
 
-import { ThingWithId, createThing, deleteThing, fetchThing } from "../api";
+import { Recording } from "expo-av/build/Audio";
 import React, { createContext, useContext } from "react";
-import { useLocalObservable } from "mobx-react";
-import { DB, DBSpecs } from "types/apiHelpers";
-
-type Storable = {
-  storableType: string;
-  content: any;
-};
+import { DB } from "types/apiHelpers";
+import {
+  ThingWithId,
+  createThing,
+  deleteThing,
+  fetchThing,
+  updateThing,
+} from "../api";
 
 export type StoreContract<Thing extends ThingWithId> = {
   ids: Set<string>;
   things: Record<string, Thing>;
   add: (thing: Thing) => void;
-  create: (thing: Partial<Thing>, storable?: Storable) => Promise<Thing>;
+  create: (thing: Partial<Thing>, recording?: Recording) => Promise<Thing>;
   processIds: (ids: string[], onError?: (id: string) => void) => void;
+  update: (thing: Partial<Thing>) => void;
   load: (id: string) => void;
   delete: (id: string) => void;
 };
@@ -37,8 +39,12 @@ export function Store<Thing extends ThingWithId>(db: DB) {
         this.things[thing.id] = thing;
         this.ids.add(thing.id);
       },
-      async create(thing: Partial<Thing>) {
-        const uploadedThing = (await createThing({ thing, db })) as any;
+      async create(thing: Partial<Thing>, recording?: Recording) {
+        const uploadedThing = (await createThing({
+          thing,
+          db,
+          recording,
+        })) as any;
 
         runInAction(() => {
           this.add(uploadedThing);
@@ -52,6 +58,9 @@ export function Store<Thing extends ThingWithId>(db: DB) {
           this.ids.delete(id);
         });
         deleteThing({ id, db });
+      },
+      update(thing: Partial<Thing>) {
+        updateThing({ thing, db });
       },
       load(id: string) {
         if (!id) {

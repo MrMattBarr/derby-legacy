@@ -9,6 +9,7 @@ export enum TakeStatus {
 
 export type Take = {
   line: string;
+  number: number;
   status: TakeStatus;
   id: string;
   metadata: AudioMetaData;

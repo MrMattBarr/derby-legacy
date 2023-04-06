@@ -5,7 +5,7 @@ export type AudioMetaData = {
   meters: number[];
 };
 
-export type LoadableSound = {
+export interface LoadableSound {
   sound: Sound;
   metadata: AudioMetaData;
-};
+}
