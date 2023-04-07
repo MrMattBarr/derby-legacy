@@ -9,7 +9,6 @@ import TakeLine from "./Take";
 const ExistingTakes = observer(() => {
   const { line } = useLine();
   const takes = line?.takes ?? [];
-  console.log({ takes });
   if (takes.length === 0) {
     return <Nothing />;
   }

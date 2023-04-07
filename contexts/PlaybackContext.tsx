@@ -137,9 +137,7 @@ export const PlaybackProvider = ({ children }: any) => {
       }
     },
     loadOrToggle(source?: Loadable, options?: LoadOptions) {
-      console.log({ tpid: this.playerId, options });
       if ((options?.playerId ?? -1) === this.playerId) {
-        console.log("toggle");
         this.togglePlay();
       } else if (source) {
         this.load(source, options);

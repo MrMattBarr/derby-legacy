@@ -27,6 +27,15 @@ const LoggedOutView = observer(() => {
       });
     }, FAKE_LOGIN_TIME);
   };
+  const signInAsJenisa = () => {
+    setSpinning(true);
+    setTimeout(() => {
+      authStore.authenticateWithEmail({
+        email: "jenisbarr@gmail.com",
+        password: "password",
+      });
+    }, FAKE_LOGIN_TIME);
+  };
 
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
@@ -37,7 +46,8 @@ const LoggedOutView = observer(() => {
     return <></>;
   }
 
-  const label = spinning ? "signing in..." : "Sign in as Matt Barr";
+  const label1 = spinning ? "signing in..." : "Sign in as Matt Barr";
+  const label2 = spinning ? "signing in..." : "Sign in as Jenisa";
 
   return (
     <Background>
@@ -51,7 +61,14 @@ const LoggedOutView = observer(() => {
           <View style={styles.buttonHolder}>
             <BigButton
               onPress={signInAsMatt}
-              label={label}
+              label={label1}
+              disabled={spinning}
+            />
+          </View>
+          <View style={styles.buttonHolder}>
+            <BigButton
+              onPress={signInAsJenisa}
+              label={label2}
               disabled={spinning}
             />
           </View>

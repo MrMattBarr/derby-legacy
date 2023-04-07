@@ -1,11 +1,11 @@
+import TextButton from "components/Buttons/TextButton";
 import { NavPage } from "constants/Navigation";
 import useAppNav from "contexts/NavigationContext";
+import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React from "react";
-import { useColors } from "../../../hooks/useColorScheme";
-import { useAuth } from "../../../stores/AuthStore";
-import TextButton from "../../Buttons/TextButton";
-import { View } from "../../Themed";
+import { View } from "react-native";
+import { useAuth } from "stores/AuthStore";
 import { generateStyles } from "./styles";
 
 const AccountsControls = observer(() => {
@@ -16,7 +16,7 @@ const AccountsControls = observer(() => {
 
     reset(NavPage.WELCOME);
   };
-  const { holder, header, headerHolder } = generateStyles(colors);
+  const { holder, headerHolder } = generateStyles(colors);
   const authStore = useAuth();
   return (
     <View style={holder}>

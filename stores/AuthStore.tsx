@@ -1,11 +1,9 @@
-import { NavPage } from "constants/Navigation";
-import useAppNav from "contexts/NavigationContext";
+import { FirebaseUserCredentials, signIn, signOut } from "api";
 import { User } from "firebase/auth";
 import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
-import { FirebaseUserCredentials, signIn, signOut } from "../api";
 
 type IAuthStore = {
   user?: User;

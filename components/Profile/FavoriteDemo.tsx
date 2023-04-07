@@ -15,7 +15,7 @@ const FavoriteDemo = observer(() => {
   if (!user) {
     return <></>;
   }
-  const demo = Object.keys(user?.demos)[0];
+  const demo = Object.keys(user?.demos ?? [])[0];
 
   if (!demo) {
     return <></>;

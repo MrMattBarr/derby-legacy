@@ -201,7 +201,7 @@ const fetchThing = <Type extends ThingWithId>({
   onError,
 }: FetchArgs<Type>) => {
   const database = getDatabase();
-  const { dbKey, recordingField } = DBSpecs[db];
+  const { dbKey, recordingField, firebaseNullables } = DBSpecs[db];
   const thingRef = dbRef(database, `${dbKey}/${id}`);
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
@@ -217,6 +217,11 @@ const fetchThing = <Type extends ThingWithId>({
       if (anything.url && recordingField) {
         anything[recordingField] = await loadAudio({ id, db });
       }
+      (firebaseNullables ?? []).forEach((field) => {
+        if (!anything[field]) {
+          anything[field] = {};
+        }
+      });
       onFetch(anything);
     } catch (err) {
       console.log({ err });
@@ -246,7 +251,6 @@ const updateThing = <Type extends ThingWithId>({
       delete copy[field];
     }
   });
-  console.log({ location, copy });
   update(dbRef(database, location), copy);
 };
 
@@ -492,6 +496,7 @@ const createAccount = ({ email, password }: FirebaseUserCredentials) => {
       // ...
     })
     .catch((error) => {
+      console.log({ error });
       const errorCode = error.code;
       const errorMessage = error.message;
       // ..

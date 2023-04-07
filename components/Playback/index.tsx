@@ -28,7 +28,6 @@ const Playback = observer(({ children, style, loadable }: iPlayback) => {
   }, []);
 
   const toggle = () => {
-    console.log({ id, loadable });
     playbackStore.loadOrToggle(loadable, { playerId: id });
   };
 

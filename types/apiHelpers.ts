@@ -11,6 +11,7 @@ export enum DB {
 type DBSpec = {
   requiredFields: string[];
   unsaveableFields: string[];
+  firebaseNullables?: string[];
   recordingField?: string;
   dbKey: string;
 };
@@ -24,6 +25,7 @@ export const DBSpecs: Record<DB, DBSpec> = {
   },
   [DB.USER]: {
     requiredFields: ["profile", "demos", "spots"],
+    firebaseNullables: ["profile", "demos", "spots"],
     unsaveableFields: ["id"],
     dbKey: "users",
   },
