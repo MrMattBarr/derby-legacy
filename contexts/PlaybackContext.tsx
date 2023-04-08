@@ -67,7 +67,7 @@ export interface LoadOptions {
 
 const PlaybackContext = React.createContext({} as PlaybackContract);
 export const PlaybackProvider = ({ children }: any) => {
-  const SpotsStore = useSpots();
+  const spotsStore = useSpots();
 
   const spotsToAudioList = (spots: Spot[]) => {
     const sounds = spots
@@ -83,7 +83,7 @@ export const PlaybackProvider = ({ children }: any) => {
   };
 
   const spotIdsToAudioList = (ids: string[]) => {
-    const spots = ids.map((id) => SpotsStore.spots[id]);
+    const spots = ids.map((id) => spotsStore.things[id]);
     return spotsToAudioList(spots);
   };
 

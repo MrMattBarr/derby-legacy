@@ -1,6 +1,6 @@
+import { AppColor, Theme } from "constants/Colors";
 import { StyleSheet } from "react-native";
-import { AppColor, Theme } from "../../constants/Colors";
-import { Sizes } from "../../styles/sizes";
+import { Sizes } from "styles/sizes";
 
 interface IModalStyle {
   padded?: boolean;
@@ -9,7 +9,7 @@ interface IModalStyle {
   isMobile?: boolean;
 }
 export const modalStyles = (colors: Theme, props?: IModalStyle) => {
-  const { padded, unpadded, opaque, isMobile } = props ?? {};
+  const { isMobile } = props ?? {};
   const mobileStyles = {
     flexGrow: 1,
     marginTop: 100,

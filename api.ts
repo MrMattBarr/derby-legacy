@@ -18,7 +18,6 @@ import {
 import {
   StorageError,
   UploadTaskSnapshot,
-  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -30,21 +29,6 @@ import Demo from "./types/Demo";
 import Spot from "./types/Spot";
 import User from "./types/User";
 import { recordingToBlob } from "./utils";
-import { SpotsContext } from "stores/SpotsStore";
-
-//TODO: separate quick and full
-const loadSpotAudio = async (spotId: string) => {
-  const storage = getStorage();
-  const storageRef = ref(storage, `spots/${spotId}`);
-  const uri = await getDownloadURL(ref(storage, storageRef.fullPath));
-  const soundObject = new Audio.Sound();
-  try {
-    await soundObject.loadAsync({ uri });
-  } catch (error) {
-    console.log("error:", error);
-  }
-  return soundObject;
-};
 
 interface IFetchAudio {
   id: string;
@@ -266,19 +250,6 @@ const fetchUser = (id: string, callback: (user: User) => void) => {
   fetchThing<User>({ id, onFetch, db: DB.USER });
 };
 
-const fetchSpot = (
-  id: string,
-  callback: (spots: Spot) => void,
-  onError?: (id: string) => void
-) => {
-  const onFetch = async (spot: Spot) => {
-    spot.id = id;
-    spot.audio = await loadSpotAudio(id);
-    callback(spot);
-  };
-  fetchThing<Spot>({ id, onFetch, db: DB.SPOT });
-};
-
 const fetchDemo = (id: string, callback: (demo: Demo) => void) => {
   if (!id) {
     throw new Error("Unable to fetch demo with no ID");
@@ -300,19 +271,6 @@ const subscribeToUserDemos = (user: string, callback: (demos: any) => void) => {
     const demoIds = Object.keys(data ?? {});
     callback(demoIds);
   });
-};
-
-const deleteSpot = async (spot: Spot) => {
-  if ((spot.demos?.length ?? 0) > 0) {
-    throw new Error("unable to delete spot thats in demos");
-  }
-  const storage = getStorage();
-  const refLocation = `/spots/${spot.id}`;
-  const deleteRef = ref(storage, refLocation);
-  await deleteObject(deleteRef);
-  const db = getDatabase();
-  const spotRef = dbRef(db, `spots/${spot.id}`);
-  remove(spotRef);
 };
 
 const deleteDemo = (id: string) => {
@@ -348,36 +306,6 @@ const createDemo = async (demo: Partial<Demo>) => {
   const newDemo = await uploadPromise;
   return newDemo;
 };
-
-const createSpot = async (spot: Partial<Spot>, recording: Recording) => {
-  const newSpot = await createThing({ thing: spot, db: DB.SPOT });
-  registerSpotToUser(spot.author!, newSpot.id);
-  uploadSpot({ spot: newSpot, recording });
-  return newSpot;
-  //   if (!spot.author) {
-  //     throw new Error("Can't createa spot without an author");
-  //   }
-  //   const db = getDatabase();
-  //   const uploadPromise = new Promise<Spot>((resolve, reject) => {
-  //     push(dbRef(db, "spots"), spot)
-  //       .then(({ key }) => {
-  //         if (!key) {
-  //           throw new Error("No key was returned for spot creation");
-  //         }
-  //         const uploadedSpot: Partial<Spot> = { ...spot };
-  //         uploadedSpot.id = key;
-  //         registerSpotToUser(uploadedSpot.author!, key);
-  //         uploadSpot({ spot: uploadedSpot as Spot, recording });
-  //         resolve(uploadedSpot as Spot);
-  //       })
-  //       .catch((reason) => {
-  //         reject(reason);
-  //       });
-  //   });
-  //   const newSpot = await uploadPromise;
-  //   return newSpot;
-};
-
 export interface ThingWithId {
   id: string;
 }
@@ -458,15 +386,6 @@ const removeSpotFromUser = ({ userId, spotId }: IRemveSpot) => {
   remove(dbRef(db, removeRef));
 };
 
-const updateSpot = (spot: Partial<Spot>) => {
-  const db = getDatabase();
-  const spotLocation = `spots/${spot.id}`;
-  const copy = { ...spot };
-  delete copy.id;
-  delete copy.audio;
-  update(dbRef(db, spotLocation), copy);
-};
-
 const updateDemo = (demo: Partial<Demo>) => {
   const copy = { ...toJS(demo) };
   delete copy.id;
@@ -533,20 +452,15 @@ const signOut = async () => {
 };
 
 export {
-  loadSpotAudio,
   createDemo,
-  createSpot,
   subscribeToUserSpots,
-  deleteSpot,
   removeSpotFromUser,
-  fetchSpot,
   fetchUser,
   fetchDemo,
   subscribeToUserDemos,
   deleteDemo,
   registerUser,
   updateUser,
-  updateSpot,
   updateDemo,
   createAccount,
   signIn,

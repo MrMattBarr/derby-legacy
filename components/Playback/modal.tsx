@@ -1,21 +1,20 @@
 import { observer } from "mobx-react";
 import React from "react";
-import Playback from "./index";
 import useClient from "../../contexts/ClientContext";
 import { DemoProvider } from "../../contexts/DemoContext";
-import { useColors } from "../../hooks/useColorScheme";
-import { Text, View } from "../Themed";
-import SpotPreview from "./Spot";
-import DemoPreview from "./Demo";
-import { generateStyles } from "./styles";
 import usePlayback, {
-  getLoadableType,
   LoadableType,
+  getLoadableType,
 } from "../../contexts/PlaybackContext";
-import Nothing from "../Nothing";
+import { SpotProvider } from "../../contexts/SpotContext";
+import { useColors } from "../../hooks/useColorScheme";
 import Demo from "../../types/Demo";
 import { Spot } from "../../types/Spot";
-import { SpotProvider } from "../../contexts/SpotContext";
+import { View } from "../Themed";
+import DemoPreview from "./Demo";
+import SpotPreview from "./Spot";
+import Playback from "./index";
+import { generateStyles } from "./styles";
 
 const PlaybackModal = observer(() => {
   const colors = useColors();

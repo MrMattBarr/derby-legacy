@@ -12,12 +12,12 @@ import { generateStyles } from "./styles";
 const SpotSearchInput = observer(() => {
   const { toggleSpot } = useDemo();
   const spotStore = useSpots();
-  const spotIds = spotStore.spotIds;
+  const spotIds = spotStore.ids;
   const selectSpot = (spotId: string) => {
     toggleSpot(spotId);
   };
   const spotMatches = (query: string, spotId: string) => {
-    const spot = spotStore.spots[spotId];
+    const spot = spotStore.things[spotId];
     const lowerTitle = spot.title.toLowerCase();
     const lowerQuery = query.toLowerCase().trim();
     const nameMatches = lowerTitle.includes(lowerQuery);

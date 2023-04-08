@@ -1,7 +1,7 @@
 import { computed, runInAction, toJS } from "mobx";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect, useState } from "react";
-import { updateDemo, updateSpot } from "../api";
+import { updateDemo } from "../api";
 import Loading from "../components/Demo/Loading";
 import Page from "../components/Page";
 import { useAuth } from "../stores/AuthStore";
@@ -46,8 +46,8 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   const recalculateDuration = () => {
     const spots = demo?.spots ?? [];
     const newDuration = spots.reduce<number | undefined>((total, spotId) => {
-      const spot = spotsStore.spots[spotId];
-      const duration = spot?.length;
+      const spot = spotsStore.things[spotId];
+      const duration = spot?.metadata?.duration;
       if (!duration || total === undefined) {
         return undefined;
       }
@@ -78,7 +78,7 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
   };
 
   const toggleSpot = (spotId: string) => {
-    const spot = spotsStore.spots[spotId];
+    const spot = spotsStore.things[spotId];
     runInAction(() => {
       const spots = demo.spots ?? [];
       if (spots.includes(spotId)) {
@@ -89,7 +89,7 @@ export const DemoProvider = observer(({ children, id }: IDemoContext) => {
         spot.demos = [...(spot.demos ?? []), demo.id];
       }
       updateDemo(demo);
-      updateSpot(spot);
+      spotsStore.update(spot);
     });
   };
 

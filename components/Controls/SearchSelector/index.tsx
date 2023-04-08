@@ -1,10 +1,6 @@
-import { toJS } from "mobx";
-import { observer } from "mobx-react";
 import React, { useState } from "react";
-import { StyleProp, Text, TextInput, TextStyle, View } from "react-native";
-import useDemo from "../../../contexts/DemoContext";
+import { TextInput, View } from "react-native";
 import { useColors } from "../../../hooks/useColorScheme";
-import textStyles from "../../../styles/text";
 import { generateStyles } from "./styles";
 
 const Defaults = {
@@ -26,7 +22,7 @@ interface ElementRenderer<Type> {
 }
 
 interface ISearchSelector<Type> {
-  items: Type[];
+  items: Set<Type>;
   onSelect: (element: Type) => void;
   keyExtractor?: (element: Type) => string;
   renderElement: (props: ElementRenderer<Type>) => JSX.Element;
@@ -56,7 +52,7 @@ const SearchSelector = <Type extends unknown>({
       setFocused(false);
     }, DEFOCUS_TIME);
   };
-  const matchedItems = items.filter((x) => match(query, x));
+  const matchedItems = [...items].filter((x) => match(query, x));
   return (
     <View style={{ ...defaultStyle, ...style }}>
       <TextInput

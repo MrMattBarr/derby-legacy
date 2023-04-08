@@ -52,6 +52,8 @@ export const ModalProvider = ({ children }: any) => {
     setModal(ModalKey.NONE);
   };
   const animationType = isMobile ? "slide" : "fade";
+
+  console.log({ styles });
   return (
     <ModalContext.Provider value={{ setModal, modalArgs }}>
       <Modal

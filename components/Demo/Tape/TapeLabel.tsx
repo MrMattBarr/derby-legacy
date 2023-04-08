@@ -21,12 +21,11 @@ const TapeLabel = observer(() => {
   const minDialSize = unitSize * 50;
   const playableReelSize = totalReelSize - 2 * minDialSize;
 
-  const gearPadding = unitSize * 2.5;
   const gearSize = unitSize * 30;
   const lReelSize = minDialSize + remainingProgress * playableReelSize;
-  let lReelOffset = (lReelSize - gearSize) / 2 - gearPadding;
+  let lReelOffset = (lReelSize - gearSize) / 2 ?? 0;
   const rReelSize = totalReelSize - lReelSize;
-  const rReelOffset = (rReelSize - gearSize) / 2 - gearPadding;
+  const rReelOffset = (rReelSize - gearSize) / 2 ?? 0;
   const lMotionBlurSize = lReelSize - 35;
   const rMotionBlurSize = rReelSize - 10;
 
@@ -149,20 +148,12 @@ const TapeLabel = observer(() => {
         <Animated.View style={[s.rReel, s.reel, spinStyle]}>
           <View style={[s.rMotionBlur]} />
         </Animated.View>
+        <Animated.View style={spinStyle}>
+          <Gear size={gearSize} background={colors.Backgrounds.primary} />
+        </Animated.View>
 
         <Animated.View style={spinStyle}>
-          <Gear
-            size={gearSize}
-            padding={gearPadding}
-            background={colors.Backgrounds.primary}
-          />
-        </Animated.View>
-        <Animated.View style={spinStyle}>
-          <Gear
-            size={gearSize}
-            padding={gearPadding}
-            background={colors.Backgrounds.primary}
-          />
+          <Gear size={gearSize} background={colors.Backgrounds.primary} />
         </Animated.View>
       </View>
       <UserSummary />

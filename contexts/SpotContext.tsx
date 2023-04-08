@@ -37,7 +37,7 @@ export const SpotProvider = observer(({ children, id }: ISpotContext) => {
     spotsStore.loadSpot(id);
   }, [spotsStore]);
 
-  const spot = spotsStore.spots[id];
+  const spot = spotsStore.things[id];
 
   useEffect(() => {
     if (spot?.author) {

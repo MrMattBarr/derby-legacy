@@ -20,6 +20,7 @@ export const DBSpecs: Record<DB, DBSpec> = {
   [DB.SPOT]: {
     requiredFields: ["url", "created", "author", "audio"],
     unsaveableFields: ["id", "audio"],
+    firebaseNullables: ["metadata"],
     recordingField: "audio",
     dbKey: "spots",
   },

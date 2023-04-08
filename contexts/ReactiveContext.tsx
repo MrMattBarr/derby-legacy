@@ -39,7 +39,7 @@ export const ReactiveProvider = observer(({ children }: any) => {
       subscribeToUserSpots(authUser.uid, (spotIds: string[]) => {
         const onError = (spotId: string) =>
           removeSpotFromUser({ spotId, userId: authUser.uid });
-        spotStore.processSpotIds(spotIds, onError);
+        spotStore.processIds(spotIds, onError);
       });
     } else {
       // generateAnonymousAuth();

@@ -19,7 +19,7 @@ const SearchedSpot = observer(
       generateStyles(colors);
     const spotStore = useSpots();
     const demo = useDemo();
-    const spot = spotStore.spots[spotId];
+    const spot = spotStore.things[spotId];
     const spotInDemo = demo.demo?.spots?.includes(spotId);
 
     let style = { ...searchedSpot };

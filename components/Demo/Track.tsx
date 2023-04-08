@@ -15,10 +15,9 @@ const Track = observer(({ id, index }: ITrack) => {
   const colors = useColors();
 
   const spotsStore = useSpots();
-  const { spots } = spotsStore;
-  const spot = spots[id];
+  const spot = spotsStore.things[id];
   useEffect(() => {
-    spotsStore.loadSpot(id);
+    spotsStore.load(id);
   }, []);
   const [fontsLoaded] = useFonts({
     Kalam: require("/assets/fonts/Kalam-Regular.ttf"),
@@ -57,7 +56,9 @@ const Track = observer(({ id, index }: ITrack) => {
         <Text style={s.trackTitle}>
           {index}. {spot?.title ?? "..."}
         </Text>
-        <Text style={s.trackLength}>{readableDuration(spot?.length)}</Text>
+        <Text style={s.trackLength}>
+          {readableDuration(spot?.metadata?.duration)}
+        </Text>
       </View>
     </View>
   );

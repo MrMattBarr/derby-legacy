@@ -16,7 +16,7 @@ const ListedSpot = observer(({ spotId }: IListedSpot) => {
   const { listedSpot, listedSpotText } = generateStyles(colors);
   const spotStore = useSpots();
   const { toggleSpot } = useDemo();
-  const spot = spotStore.spots[spotId];
+  const spot = spotStore.things[spotId];
 
   const toggle = () => {
     toggleSpot(spotId);
