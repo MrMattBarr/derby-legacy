@@ -6,6 +6,7 @@ import { useAuth } from "stores/AuthStore";
 import { ParameterPage } from "types/ParameterPage";
 import Header from "./Header";
 import RoleList from "./RoleList";
+import ProejctList from "./ProjectList";
 
 const Projects = observer((args?: ParameterPage) => {
   const authStore = useAuth();
@@ -18,6 +19,7 @@ const Projects = observer((args?: ParameterPage) => {
     <UserProvider id={id}>
       <Page unpadded>
         <Header />
+        <ProejctList />
         <RoleList />
       </Page>
     </UserProvider>

@@ -25,8 +25,8 @@ export const DBSpecs: Record<DB, DBSpec> = {
     dbKey: "spots",
   },
   [DB.USER]: {
-    requiredFields: ["profile", "demos", "spots"],
-    firebaseNullables: ["profile", "demos", "spots"],
+    requiredFields: ["profile", "demos", "spots", "projects"],
+    firebaseNullables: ["profile", "demos", "spots", "projects"],
     unsaveableFields: ["id"],
     dbKey: "users",
   },
@@ -41,8 +41,9 @@ export const DBSpecs: Record<DB, DBSpec> = {
     dbKey: "roles",
   },
   [DB.DEMO]: {
-    requiredFields: [],
+    requiredFields: ["user"],
     unsaveableFields: [],
+    firebaseNullables: ["spots"],
     dbKey: "demos",
   },
   [DB.LINE]: {

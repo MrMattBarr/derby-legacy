@@ -190,6 +190,7 @@ const fetchThing = <Type extends ThingWithId>({
   onValue(thingRef, async (snapshot) => {
     const thing: Type = snapshot.val();
     if (!thing) {
+      console.log(`Unable to load: ${dbKey}/${id}`);
       if (onError) {
         onError(id);
         return;

@@ -20,6 +20,17 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
         ? colors.Backgrounds.secondary
         : colors.Backgrounds.primary,
     },
+    projectLine: {
+      backgroundColor: colors.Backgrounds.primary,
+      borderBottomWidth: 1,
+      padding: Sizes.Spacings.STANDARD,
+      paddingLeft: 0,
+      paddingBottom: Sizes.Spacings.STANDARD,
+      borderColor: colors.Borders.default,
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "row",
+    },
     list: { flex: 1 },
     pageNameAndIcon: {
       display: "flex",

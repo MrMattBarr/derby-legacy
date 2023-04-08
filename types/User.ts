@@ -9,6 +9,7 @@ type User = {
   demos: string[];
   spots: string[];
   roles: string[];
+  projects: string[];
   isAnonymous: boolean;
 };
 
