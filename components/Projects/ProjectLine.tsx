@@ -1,17 +1,14 @@
 import Loading from "components/Demo/Loading";
-import PlaybackView from "components/modals/Recording/PlaybackView";
-import { LoadableSound } from "types/AudioMetadata";
 
-import useTake, { TakeProvider } from "contexts/TakeContext";
-import React, { useState } from "react";
-import useProject, { ProjectProvider } from "contexts/ProjectContext";
-import { useProjects } from "stores/ProjectsStore";
-import { FontAwesome } from "@expo/vector-icons";
-import { TouchableOpacity, View, Text } from "react-native";
-import { useColors } from "hooks/useColorScheme";
-import useAppNav from "contexts/NavigationContext";
-import { generateStyles } from "./styles";
 import ExpanderColumn from "components/Role/Lines/ExpanderColumn";
+import useProject, { ProjectProvider } from "contexts/ProjectContext";
+import { useColors } from "hooks/useColorScheme";
+import React, { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { useProjects } from "stores/ProjectsStore";
+import { generateStyles } from "../Role/Lines/styles";
+import AppText from "components/Controls/Text";
+import ProjectRoles from "./ProjectRoles";
 
 const InnerLine = () => {
   const { element } = useProject();
@@ -21,8 +18,15 @@ const InnerLine = () => {
 
   const [expanded, setExpanded] = useState(false);
   const colors = useColors();
-  const { listItem, titleText, projectLine, smallText, content, daysLeft } =
-    generateStyles(colors);
+  const {
+    titleText,
+    smallText,
+    content,
+    textHolder,
+    listItem,
+    header,
+    expandedContent,
+  } = generateStyles(colors);
 
   const toggleExpand = () => {
     setExpanded(!expanded);
@@ -33,15 +37,23 @@ const InnerLine = () => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={projectLine}
+      style={listItem}
       onPress={toggleExpand}
     >
       <ExpanderColumn expanded={expanded} />
       <View style={content}>
-        <View>
+        <View style={header}>
           <Text style={titleText}>{element.title}</Text>
           <Text style={smallText}>{`${element.roles.length} ${roleWord}`}</Text>
         </View>
+        {expanded && (
+          <View style={expandedContent}>
+            <View style={textHolder}>
+              <AppText>This is where the project summary might go.</AppText>
+            </View>
+            <ProjectRoles />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
