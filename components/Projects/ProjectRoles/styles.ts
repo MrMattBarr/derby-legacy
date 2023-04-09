@@ -20,5 +20,14 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       padding: 2,
       paddingBottom: 0,
     },
+    uncastAvatar: {
+      width: 60,
+      height: 60,
+      borderColor: colors.Borders.default,
+      borderWidth: 2,
+      borderRadius: 55,
+      marginRight: Sizes.Spacings.STANDARD,
+      borderStyle: "dashed",
+    },
   });
 };
