@@ -18,7 +18,7 @@ export const generateStyles = (
       backgroundColor: colors.Backgrounds.empty,
       borderWidth: borderWidth ?? 2,
       borderColor: colors.Borders.default,
-      borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
+      borderRadius: isMobile ? avatarSize : Sizes.CURVED_BORDER,
       flexGrow: 0,
       alignSelf: "flex-start",
       overflow: "hidden",
@@ -27,7 +27,7 @@ export const generateStyles = (
     avatar: {
       width: avatarSize,
       height: avatarSize,
-      borderRadius: isMobile ? size : Sizes.CURVED_BORDER,
+      borderRadius: isMobile ? avatarSize : Sizes.CURVED_BORDER,
     },
     avatarPlaceHolder: {
       width: avatarSize,

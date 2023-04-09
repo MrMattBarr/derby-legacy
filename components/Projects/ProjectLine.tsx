@@ -43,8 +43,12 @@ const InnerLine = () => {
       <ExpanderColumn expanded={expanded} />
       <View style={content}>
         <View style={header}>
-          <Text style={titleText}>{element.title}</Text>
-          <Text style={smallText}>{`${element.roles.length} ${roleWord}`}</Text>
+          <View>
+            <Text style={titleText}>{element.title}</Text>
+            <Text
+              style={smallText}
+            >{`${element.roles.length} ${roleWord}`}</Text>
+          </View>
         </View>
         {expanded && (
           <View style={expandedContent}>

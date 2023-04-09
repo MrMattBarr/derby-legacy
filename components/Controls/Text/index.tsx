@@ -6,12 +6,13 @@ import { generateStyles } from "./styles";
 interface IAppText {
   header?: boolean;
   children?: string;
+  style?: any;
 }
 
-const AppText = ({ header, children }: IAppText) => {
+const AppText = ({ header, children, style }: IAppText) => {
   const colors = useColors();
   const styles = generateStyles(colors, { isHeader: !!header });
-  return <Text style={styles.text}>{children}</Text>;
+  return <Text style={[styles.text, style || {}]}>{children}</Text>;
 };
 
 export default AppText;

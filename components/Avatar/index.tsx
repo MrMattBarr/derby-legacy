@@ -14,15 +14,16 @@ interface IAvatar {
   size?: number;
   editable?: boolean;
   borderWidth?: number;
+  style?: any;
 }
 
-const Avatar = observer(({ size, editable, borderWidth }: IAvatar) => {
+const Avatar = observer(({ size, editable, borderWidth, style }: IAvatar) => {
   const { user, isSelf } = useUser();
   const { isMobile } = useClient();
   const { setModal } = useModal();
   const src = { uri: user?.profile?.avatar };
   const colors = useColors();
-  const styles = generateStyles(colors, { size, isMobile, borderWidth });
+  const s = generateStyles(colors, { size, isMobile, borderWidth });
   const canEdit = isSelf && editable;
   const editPhoto = () => {
     if (canEdit) {
@@ -31,19 +32,19 @@ const Avatar = observer(({ size, editable, borderWidth }: IAvatar) => {
   };
 
   return (
-    <Pressable onPress={editPhoto}>
-      <View style={styles.holder}>
-        {src && <Image source={src} style={styles.avatar} />}
-        {!src && <View style={styles.avatarPlaceHolder} />}
+    <Pressable onPress={editPhoto} style={{ ...(style ?? {}) }}>
+      <View style={s.holder}>
+        {src && <Image source={src} style={s.avatar} />}
+        {!src && <View style={s.avatarPlaceHolder} />}
       </View>
       {canEdit && (
-        <View style={styles.editView}>
+        <View style={s.editView}>
           <Entypo
             name="camera"
             style={{ marginRight: Sizes.Spacings.SMALL }}
             color={colors.Text.default}
           />
-          <Text style={styles.editText}>Edit</Text>
+          <Text style={s.editText}>Edit</Text>
         </View>
       )}
     </Pressable>
