@@ -10,8 +10,10 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
   return StyleSheet.create({
     header: {
       display: "flex",
+      flexDirection: "row",
       borderBottomWidth: 2,
       padding: Sizes.Spacings.STANDARD,
+      paddingTop: 0,
       backgroundColor: isMobile
         ? colors.Backgrounds.secondary
         : colors.Backgrounds.primary,
@@ -22,6 +24,12 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       backgroundColor: colors.Backgrounds.contrast,
       display: "flex",
       flexDirection: "row",
+    },
+    content: {
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-evenly",
     },
     pageNameAndIcon: {
       display: "flex",
