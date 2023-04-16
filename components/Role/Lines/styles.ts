@@ -16,7 +16,7 @@ export const statusColor = (
   const map = {
     [ApprovalStatus.APPROVED]: colors.Text.success,
     [ApprovalStatus.REJECTED]: colors.Text.default,
-    [ApprovalStatus.UNHEARD]: colors.Text.subtle,
+    [ApprovalStatus.UNHEARD]: colors.Text.default,
   };
   return map[status ?? ApprovalStatus.UNHEARD];
 };
@@ -29,7 +29,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
 
   return StyleSheet.create({
     listItem: {
-      backgroundColor: colors.Backgrounds.primary,
+      backgroundColor: complete
+        ? colors.Backgrounds.contrast
+        : colors.Backgrounds.primary,
       borderBottomWidth: 1,
       padding: Sizes.Spacings.STANDARD,
       paddingLeft: 0,
@@ -65,6 +67,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       flexShrink: 1,
       alignSelf: expanded ? "center" : undefined,
       overflow: "hidden",
+      marginRight: Sizes.Spacings.STANDARD,
     },
     checkHolder: {
       backgroundColor: complete
@@ -84,7 +87,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     expandedContent: {
       paddingTop: Sizes.Spacings.STANDARD,
       borderTopWidth: 1,
-      borderColor: colors.Borders.subtle,
+      borderColor: complete ? colors.Borders.default : colors.Borders.subtle,
       marginTop: Sizes.Spacings.STANDARD,
     },
     calendar: {

@@ -4,11 +4,12 @@ import { Sizes } from "../../../styles/sizes";
 
 interface IRecordingStyles {
   recording?: boolean;
+  compact?: boolean;
 }
 
 export const generateStyles = (
   colors: Theme,
-  { recording }: IRecordingStyles = {}
+  { recording, compact }: IRecordingStyles = {}
 ) => {
   const signColor = recording ? AppColor.CHALK_RED : AppColor.SLATE;
   return StyleSheet.create({
@@ -107,6 +108,7 @@ export const generateStyles = (
     playbackHolder: {
       display: "flex",
       flexDirection: "row",
+      marginBottom: compact ? 0 : Sizes.Spacings.STANDARD,
     },
     playbackTitle: {
       fontSize: Sizes.Fonts.HEADER,

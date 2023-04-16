@@ -15,29 +15,28 @@ interface IPlaybackView {
   Buttons?: () => JSX.Element;
   metadata?: AudioMetaData;
   loadable?: Loadable;
+  compact?: boolean;
   title?: string;
   style?: any;
 }
 
 const PlaybackView = observer(
-  ({ Buttons, metadata, title, loadable, style }: IPlaybackView) => {
+  ({ Buttons, metadata, title, loadable, style, compact }: IPlaybackView) => {
     const colors = useColors();
     const { playback, playbackTitle, detail, playbackHolder, playbackTexts } =
-      generateStyles(colors);
+      generateStyles(colors, { compact });
 
     const meters = metadata?.meters;
+    const showDuration = !compact && !!metadata?.duration;
 
     return (
       <View style={playbackHolder}>
-        <Playback
-          style={{ marginVertical: Sizes.Spacings.STANDARD }}
-          loadable={loadable}
-        >
+        <Playback loadable={loadable}>
           {meters && <WaveForm meters={meters} />}
           <View style={[playback, style]}>
             <View style={playbackTexts}>
               <Text style={[playbackTitle, style]}>{title}</Text>
-              {metadata?.duration && (
+              {showDuration && (
                 <Text style={detail}>
                   {readableDuration(metadata.duration)}
                 </Text>

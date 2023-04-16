@@ -61,6 +61,7 @@ export interface Theme {
     primary: AppColor;
     secondary: AppColor;
     empty: AppColor;
+    complete: AppColor;
     contrast: AppColor;
     transparentDefault: AppColor;
     label: AppColor;
@@ -107,6 +108,7 @@ const AppDarkTheme: Theme = {
   Backgrounds: {
     default: AppColor.PURE_BLACK,
     transparentDefault: AppColor.TRANSPARENT,
+    complete: AppColor.WARM_WHITE,
     success: AppColor.IVY_GREEN,
     primary: AppColor.CHARCOAL,
     secondary: AppColor.TINTED_GRAY,

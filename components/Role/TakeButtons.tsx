@@ -48,7 +48,7 @@ const TakeButtons = observer(() => {
 
   const updating = updatingLine || updatingTake;
 
-  if (take?.status === ApprovalStatus.APPROVED) {
+  if (line?.status === ApprovalStatus.APPROVED) {
     return <Nothing />;
   }
 

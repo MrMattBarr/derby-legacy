@@ -7,10 +7,15 @@ import { Text, View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 import LineStatusIcon from "./LineStatusIcon";
+import { ApprovalStatus } from "types/Take";
+import { useTakes } from "stores/TakesStore";
+import { observer } from "mobx-react";
+import TakeLine from "./Take";
 
-const Header = ({ expanded }: { expanded: boolean }) => {
+const Header = observer(({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
   const { line } = useLine();
+  const takeStore = useTakes();
   if (!line) {
     return <></>;
   }
@@ -19,7 +24,24 @@ const Header = ({ expanded }: { expanded: boolean }) => {
     status: line.status,
   });
 
-  const icon = false ? "check" : "circular-graph";
+  const lineApproved = line.status === ApprovalStatus.APPROVED;
+
+  if (lineApproved) {
+    const approvedTake = line.takes.find(
+      (x) => takeStore.things[x]?.status === ApprovalStatus.APPROVED
+    );
+    if (approvedTake) {
+      return (
+        <View style={header}>
+          <View style={headerText}>
+            <TakeLine id={approvedTake} title={line.name} compact />
+          </View>
+          <LineStatusIcon />
+        </View>
+      );
+    }
+  }
+
   return (
     <View style={header}>
       <View style={headerText}>
@@ -33,6 +55,6 @@ const Header = ({ expanded }: { expanded: boolean }) => {
       <LineStatusIcon />
     </View>
   );
-};
+});
 
 export default Header;

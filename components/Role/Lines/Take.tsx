@@ -4,51 +4,54 @@ import { LoadableSound } from "types/AudioMetadata";
 
 import useTake, { TakeProvider } from "contexts/TakeContext";
 import React from "react";
-import useProject from "contexts/ProjectContext";
 import TakeButtons from "../TakeButtons";
-import { ApprovalStatus } from "types/Take";
-import { useColors } from "hooks/useColorScheme";
 
-const TakeSummary = () => {
+const TakeSummary = ({
+  title,
+  compact,
+}: {
+  title?: string;
+  compact?: boolean;
+}) => {
   const { take } = useTake();
   if (!take || !take.audio) {
     return <Loading />;
   }
 
-  const colors = useColors();
-
-  const title = `Take ${take.number ?? "?"} `;
+  const finalTitle = title ?? `Take ${take.number ?? "?"} `;
 
   const sound: LoadableSound = {
     sound: take.audio,
     metadata: take.metadata,
   };
 
-  let style = {} as any;
-  if (take.status === ApprovalStatus.APPROVED) {
-    style.borderColor = colors.Text.success;
-    style.color = colors.Text.success;
-  }
-
   return (
     <PlaybackView
       metadata={take.metadata}
-      title={title}
+      title={finalTitle}
       loadable={sound}
-      style={style}
+      compact={compact}
       Buttons={TakeButtons}
     />
   );
 };
 
-const TakeLine = ({ id }: { id: string }) => {
+const TakeLine = ({
+  id,
+  title,
+  compact,
+}: {
+  id: string;
+  title?: string;
+  compact?: boolean;
+}) => {
   if (!id) {
     return <Loading />;
   }
 
   return (
     <TakeProvider id={id}>
-      <TakeSummary />
+      <TakeSummary title={title} compact={compact} />
     </TakeProvider>
   );
 };

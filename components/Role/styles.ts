@@ -24,7 +24,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     projectCard: {
       padding: Sizes.Spacings.STANDARD,
       borderBottomWidth: 2,
-      backgroundColor: colors.Backgrounds.contrast,
+      backgroundColor: colors.Backgrounds.primary,
       display: "flex",
       flexDirection: "row",
     },
