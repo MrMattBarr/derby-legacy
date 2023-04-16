@@ -6,17 +6,18 @@ import React from "react";
 import { Text, View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
+import LineStatusIcon from "./LineStatusIcon";
 
 const Header = ({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
-  const { titleText, smallText, header, headerText, checkHolder } =
-    generateStyles(colors, {
-      expanded,
-    });
   const { line } = useLine();
   if (!line) {
     return <></>;
   }
+  const { titleText, smallText, header, headerText } = generateStyles(colors, {
+    expanded,
+    status: line.status,
+  });
 
   const icon = false ? "check" : "circular-graph";
   return (
@@ -29,13 +30,7 @@ const Header = ({ expanded }: { expanded: boolean }) => {
           </Text>
         )}
       </View>
-      <View style={checkHolder}>
-        <Entypo
-          name={icon}
-          color={AppColor.WARM_WHITE}
-          size={Sizes.Fonts.HEADER}
-        />
-      </View>
+      <LineStatusIcon />
     </View>
   );
 };

@@ -1,10 +1,10 @@
-import useLine, { LineProvider } from "contexts/LineContext";
-import useRole from "contexts/RoleContext";
+import Nothing from "components/Nothing";
+import useLine from "contexts/LineContext";
 import { observer } from "mobx-react";
 import React from "react";
-import { Text, View } from "react-native";
-import Nothing from "components/Nothing";
+import { View } from "react-native";
 import TakeLine from "./Take";
+import { Sizes } from "styles/sizes";
 
 const ExistingTakes = observer(() => {
   const { line } = useLine();
@@ -13,8 +13,8 @@ const ExistingTakes = observer(() => {
     return <Nothing />;
   }
   return (
-    <View>
-      {takes.map((id, index) => (
+    <View style={{ paddingBottom: Sizes.Spacings.SMALL }}>
+      {takes.map((id) => (
         <TakeLine key={id} id={id} />
       ))}
     </View>

@@ -22,7 +22,7 @@ const WrappedHeader = observer(() => {
   const isSelf = talent.user.id === authStore.user?.uid;
   const { isMobile } = useClient();
   const text = textStyles(colors);
-  const { header, content } = generateStyles(colors, {
+  const { header, barHolder, content } = generateStyles(colors, {
     isMobile,
   });
   const lineWord = role?.lines.length === 1 ? "line" : "lines";
@@ -39,7 +39,9 @@ const WrappedHeader = observer(() => {
         <Text style={text.text}>
           0 / {role?.lines.length} {lineWord} complete
         </Text>
-        <ProgressBar />
+        <View style={barHolder}>
+          <ProgressBar />
+        </View>
       </View>
     </View>
   );

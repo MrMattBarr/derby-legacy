@@ -18,6 +18,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
         ? colors.Backgrounds.secondary
         : colors.Backgrounds.primary,
     },
+    barHolder: {
+      marginTop: Sizes.Spacings.SMALL,
+    },
     projectCard: {
       padding: Sizes.Spacings.STANDARD,
       borderBottomWidth: 2,

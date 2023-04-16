@@ -4,20 +4,22 @@ import React from "react";
 import { View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
+import useLine from "contexts/LineContext";
 
 const ExpanderColumn = ({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
-  const { expanderColumn } = generateStyles(colors, {
+  const { line } = useLine();
+  const { expanderColumn, titleText } = generateStyles(colors, {
     expanded,
+    status: line?.status,
   });
 
   const chevIcon = expanded ? "chevron-small-down" : "chevron-small-right";
-
   return (
     <View style={expanderColumn}>
       <Entypo
         name={chevIcon}
-        color={colors.Text.subtle}
+        color={titleText.color}
         size={Sizes.Fonts.ICONS}
       />
     </View>

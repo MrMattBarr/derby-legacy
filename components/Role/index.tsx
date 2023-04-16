@@ -1,5 +1,5 @@
 import Page from "components/Page";
-import { RoleProvider } from "contexts/RoleContext";
+import useRole, { RoleProvider } from "contexts/RoleContext";
 import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
@@ -8,12 +8,19 @@ import Header from "./Header";
 import LineLine from "./Lines/LineLine";
 import ProjectSummary from "./ProjectSummary";
 import RoleLines from "./RoleLines";
+import { ProjectProvider } from "contexts/ProjectContext";
+import Loading from "components/Demo/Loading";
+import { useProjects } from "stores/ProjectsStore";
 
-const Role = observer((args?: ParameterPage) => {
-  const { id } = args?.route?.params!;
+const WrappedRole = () => {
+  const { role } = useRole();
+  const projectStore = useProjects();
+  if (!role || !role.project) {
+    return <Loading />;
+  }
 
   return (
-    <RoleProvider id={id}>
+    <ProjectProvider id={role?.project} store={projectStore}>
       <Page unpadded>
         <Header />
         <View>
@@ -21,6 +28,16 @@ const Role = observer((args?: ParameterPage) => {
           <RoleLines />
         </View>
       </Page>
+    </ProjectProvider>
+  );
+};
+
+const Role = observer((args?: ParameterPage) => {
+  const { id } = args?.route?.params!;
+
+  return (
+    <RoleProvider id={id}>
+      <WrappedRole />
     </RoleProvider>
   );
 });

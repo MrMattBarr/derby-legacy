@@ -1,14 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { NavPage } from "constants/Navigation";
 import useAppNav from "contexts/NavigationContext";
+import useRole from "contexts/RoleContext";
 import { observer } from "mobx-react";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Role } from "types/Role";
 import { useColors } from "../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
-import { useRoles } from "stores/RolesStore";
-import useRole from "contexts/RoleContext";
 
 const RoleLine = observer(() => {
   const colors = useColors();

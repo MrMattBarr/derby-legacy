@@ -11,20 +11,16 @@ import { AudioMetaData } from "types/AudioMetadata";
 import { readableDuration } from "utils/utils";
 import { generateStyles } from "./styles";
 
-interface IRecording {
-  recording: Recording;
-  metadata: AudioMetaData;
-}
-
 interface IPlaybackView {
   Buttons?: () => JSX.Element;
   metadata?: AudioMetaData;
   loadable?: Loadable;
   title?: string;
+  style?: any;
 }
 
 const PlaybackView = observer(
-  ({ Buttons, metadata, title, loadable }: IPlaybackView) => {
+  ({ Buttons, metadata, title, loadable, style }: IPlaybackView) => {
     const colors = useColors();
     const { playback, playbackTitle, detail, playbackHolder, playbackTexts } =
       generateStyles(colors);
@@ -38,9 +34,9 @@ const PlaybackView = observer(
           loadable={loadable}
         >
           {meters && <WaveForm meters={meters} />}
-          <View style={playback}>
+          <View style={[playback, style]}>
             <View style={playbackTexts}>
-              <Text style={playbackTitle}>{title}</Text>
+              <Text style={[playbackTitle, style]}>{title}</Text>
               {metadata?.duration && (
                 <Text style={detail}>
                   {readableDuration(metadata.duration)}

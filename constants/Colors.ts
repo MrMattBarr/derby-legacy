@@ -44,6 +44,7 @@ export interface Theme {
     default: AppColor;
     error: AppColor;
     delete: AppColor;
+    success: AppColor;
     subtle: AppColor;
     placeholder: AppColor;
     contrast: AppColor;
@@ -51,6 +52,7 @@ export interface Theme {
   Borders: {
     default: AppColor;
     dramatic: AppColor;
+    subtle: AppColor;
     error: AppColor;
   };
   Backgrounds: {
@@ -91,12 +93,14 @@ const AppDarkTheme: Theme = {
     contrast: AppColor.NEARLY_BLACK,
     default: AppColor.SNOW_WHITE,
     subtle: AppColor.BARELY_WHITE,
+    success: AppColor.WARM_WHITE,
     error: AppColor.CHALK_RED,
     delete: AppColor.CHALK_RED,
     placeholder: AppColor.STONE_GRAY,
   },
   Borders: {
     default: AppColor.PURE_BLACK,
+    subtle: AppColor.SLATE,
     dramatic: AppColor.PURE_WHITE,
     error: AppColor.CHALK_RED,
   },

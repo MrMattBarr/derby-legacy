@@ -6,7 +6,7 @@ import { useLines } from "stores/LinesStore";
 import { useTakes } from "stores/TakesStore";
 import { AudioMetaData } from "types/AudioMetadata";
 import { Line } from "types/Line";
-import { Take, TakeStatus } from "types/Take";
+import { Take, ApprovalStatus } from "types/Take";
 import Loading from "../components/Demo/Loading";
 
 type LineContract = {
@@ -44,8 +44,8 @@ export const LineProvider = observer(({ children, id }: ILineContext) => {
     const partialTake: Partial<Take> = {
       line: id,
       metadata,
-      status: TakeStatus.UNHEARD,
-      number: (line.takes.length ?? 0) + 1,
+      status: ApprovalStatus.UNHEARD,
+      number: (line.takes?.length ?? 0) + 1,
     };
 
     const take = await takeStore.create(partialTake, recording);

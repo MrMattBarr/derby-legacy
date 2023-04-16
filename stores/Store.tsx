@@ -4,6 +4,7 @@ import { Recording } from "expo-av/build/Audio";
 import React, { createContext, useContext } from "react";
 import { DB } from "types/apiHelpers";
 import {
+  Completable,
   ThingWithId,
   createThing,
   deleteThing,
@@ -17,7 +18,7 @@ export type StoreContract<Thing extends ThingWithId> = {
   add: (thing: Thing) => void;
   create: (thing: Partial<Thing>, recording?: Recording) => Promise<Thing>;
   processIds: (ids: string[], onError?: (id: string) => void) => void;
-  update: (thing: Partial<Thing>) => void;
+  update: (thing: Partial<Thing>, callbacks?: Completable) => void;
   load: (id: string) => void;
   delete: (id: string) => void;
 };
@@ -59,8 +60,8 @@ export function Store<Thing extends ThingWithId>(db: DB) {
         });
         deleteThing({ id, db });
       },
-      update(thing: Partial<Thing>) {
-        updateThing({ thing, db });
+      update(thing: Partial<Thing>, callbacks?: Completable) {
+        updateThing({ thing, db, ...callbacks });
       },
       load(id: string) {
         if (!id) {

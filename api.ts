@@ -34,6 +34,12 @@ interface IFetchAudio {
   id: string;
   db: DB;
 }
+
+export interface Completable {
+  success?: () => void;
+  error?: (message: string) => void;
+}
+
 const loadAudio = async ({ id, db }: IFetchAudio) => {
   const storage = getStorage();
   const spec = DBSpecs[db];
@@ -75,42 +81,6 @@ const registerSpotToUser = (userId: string, spotId: string) => {
   const db = getDatabase();
   const reference = `users/${userId}/spots/${spotId}`;
   set(dbRef(db, reference), true);
-};
-const uploadSpot = async ({
-  spot,
-  recording,
-  onUpdate,
-  onError,
-  onComplete,
-}: UploadSpotArgs) => {
-  const storage = getStorage();
-  const uploadName = `/spots/${spot.id}`;
-  const storageRef = ref(storage, uploadName);
-  const blob = await recordingToBlob(recording);
-  const uploadTask = uploadBytesResumable(storageRef, blob);
-  uploadTask.on(
-    "state_changed",
-    (snapshot) => {
-      if (onUpdate) {
-        onUpdate(snapshot);
-      }
-    },
-    (error) => {
-      if (onError) {
-        onError(error);
-      }
-    },
-    () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        const db = getDatabase();
-        const uploadName = `spots/${spot.id}/url`;
-        set(dbRef(db, uploadName), url);
-        if (onComplete) {
-          onComplete(url);
-        }
-      });
-    }
-  );
 };
 
 interface IUploadRecording {
@@ -214,18 +184,15 @@ const fetchThing = <Type extends ThingWithId>({
   });
 };
 
-interface UpdateArgs<Type> {
+interface UpdateArgs<Type> extends Completable {
   thing: Partial<Type>;
-  onFetch?: (things: Type) => any;
-  onError?: (id: string) => any;
   db: DB;
 }
 
 const updateThing = <Type extends ThingWithId>({
   thing,
-  onFetch,
   db,
-  onError,
+  ...onComplete
 }: UpdateArgs<Type>) => {
   const database = getDatabase();
   const { dbKey, unsaveableFields } = DBSpecs[db];
@@ -236,7 +203,11 @@ const updateThing = <Type extends ThingWithId>({
       delete copy[field];
     }
   });
-  update(dbRef(database, location), copy);
+  update(dbRef(database, location), copy).then(() => {
+    if (onComplete.success) {
+      onComplete.success();
+    }
+  });
 };
 
 const fetchUser = (id: string, callback: (user: User) => void) => {

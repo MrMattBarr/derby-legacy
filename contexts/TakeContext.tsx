@@ -21,7 +21,6 @@ export const TakeProvider = observer(({ children, id }: ITakeContext) => {
     takeStore.load(id);
   }, [takeStore]);
   const take = takeStore.things[id];
-
   return (
     <TakeContext.Provider
       value={{
@@ -29,11 +28,7 @@ export const TakeProvider = observer(({ children, id }: ITakeContext) => {
       }}
     >
       {take && children}
-      {!take && (
-        <View style={{ backgroundColor: "black", padding: 10 }}>
-          <Loading text={`Take: "${id}"`} />
-        </View>
-      )}
+      {!take && <Loading text={`Take: "${id}"`} />}
     </TakeContext.Provider>
   );
 });

@@ -2,13 +2,31 @@ import App from "App";
 import { AppColor, Theme } from "constants/Colors";
 import { StyleSheet } from "react-native";
 import { Sizes } from "styles/sizes";
+import { ApprovalStatus } from "types/Take";
 
 interface IStyles {
   expanded?: boolean;
-  complete?: boolean;
+  status?: ApprovalStatus;
 }
+
+export const statusColor = (
+  status: ApprovalStatus | undefined,
+  colors: Theme
+) => {
+  const map = {
+    [ApprovalStatus.APPROVED]: colors.Text.success,
+    [ApprovalStatus.REJECTED]: colors.Text.default,
+    [ApprovalStatus.UNHEARD]: colors.Text.subtle,
+  };
+  return map[status ?? ApprovalStatus.UNHEARD];
+};
+
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const { expanded, complete } = props ?? {};
+  const { expanded, status } = props ?? {};
+
+  const complete = status === ApprovalStatus.APPROVED;
+  const unheard = status === ApprovalStatus.UNHEARD || !status;
+
   return StyleSheet.create({
     listItem: {
       backgroundColor: colors.Backgrounds.primary,
@@ -22,7 +40,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       flexDirection: "row",
     },
     titleText: {
-      color: colors.Text.default,
+      color: statusColor(status, colors),
       fontWeight: "bold",
       fontSize: expanded ? 26 : Sizes.Fonts.HEADER,
     },
@@ -50,14 +68,14 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     },
     checkHolder: {
       backgroundColor: complete
-        ? colors.Backgrounds.success
+        ? colors.Backgrounds.empty
         : AppColor.TRANSPARENT,
-      borderColor: colors.Borders.dramatic,
+      borderColor: statusColor(status, colors),
       width: Sizes.Fonts.ICONS,
       height: Sizes.Fonts.ICONS,
-      borderWidth: 1,
+      borderWidth: 2,
       borderRadius: Sizes.Fonts.ICONS,
-      borderStyle: "dashed",
+      borderStyle: unheard ? "dashed" : "solid",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -66,7 +84,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     expandedContent: {
       paddingTop: Sizes.Spacings.STANDARD,
       borderTopWidth: 1,
-      borderTopColor: colors.Borders.default,
+      borderColor: colors.Borders.subtle,
       marginTop: Sizes.Spacings.STANDARD,
     },
     calendar: {
@@ -82,7 +100,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       top: 17,
     },
     buttonHolder: {
-      paddingVertical: Sizes.Spacings.STANDARD,
+      paddingTop: Sizes.Spacings.STANDARD,
+      borderTopWidth: 1,
+      borderTopColor: colors.Borders.subtle,
       display: "flex",
       flexDirection: "row",
     },

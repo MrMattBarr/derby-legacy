@@ -9,21 +9,27 @@ import ExpanderColumn from "./ExpanderColumn";
 import Header from "./Header";
 import RecordButton from "./RecordButton";
 import { generateStyles } from "./styles";
+import useRole from "contexts/RoleContext";
+import { ApprovalStatus } from "types/Take";
 
 const LineLine = observer(() => {
   const colors = useColors();
   const line = useLine().line!;
   const [expanded, expand] = useState(false);
-  const maxTakes = 1;
+  const { isTalent } = useRole();
+  const maxTakes = 3;
   const { listItem, expandedContent, buttonHolder, textHolder, content } =
     generateStyles(colors, {
       expanded,
+      status: line.status,
     });
 
   const toggleExpand = () => {
     expand(!expanded);
   };
-  const canAddTakes = (line.takes?.length ?? 0) < maxTakes;
+  const moreTakesAllowed = (line.takes?.length ?? 0) < maxTakes;
+  const lineApproved = line.status === ApprovalStatus.APPROVED;
+  const canRecordTake = isTalent && moreTakesAllowed && !lineApproved;
   return (
     <Pressable style={listItem} onPress={toggleExpand}>
       <ExpanderColumn expanded={expanded} />
@@ -35,7 +41,7 @@ const LineLine = observer(() => {
               <AppText>{line.text}</AppText>
             </View>
             <ExistingTakes />
-            {canAddTakes && (
+            {canRecordTake && (
               <View style={buttonHolder}>
                 <RecordButton />
               </View>

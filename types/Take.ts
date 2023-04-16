@@ -1,7 +1,7 @@
 import { Sound } from "expo-av/build/Audio";
 import { AudioMetaData } from "./AudioMetadata";
 
-export enum TakeStatus {
+export enum ApprovalStatus {
   UNHEARD = "unheard",
   APPROVED = "approved",
   REJECTED = "rejected",
@@ -10,7 +10,7 @@ export enum TakeStatus {
 export type Take = {
   line: string;
   number: number;
-  status: TakeStatus;
+  status: ApprovalStatus;
   id: string;
   metadata: AudioMetaData;
   audio?: Sound;
