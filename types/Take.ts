@@ -5,6 +5,7 @@ export enum ApprovalStatus {
   UNHEARD = "unheard",
   APPROVED = "approved",
   REJECTED = "rejected",
+  HEARD = "heard",
 }
 
 export type Take = {

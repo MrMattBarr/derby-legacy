@@ -18,11 +18,18 @@ const LineLine = observer(() => {
   const [expanded, expand] = useState(false);
   const { isTalent } = useRole();
   const maxTakes = 3;
-  const { listItem, expandedContent, buttonHolder, textHolder, content } =
-    generateStyles(colors, {
-      expanded,
-      status: line.status,
-    });
+  const {
+    listItem,
+    expandedContent,
+    buttonHolder,
+    textHolder,
+    content,
+    remainder,
+    expanderColumn,
+  } = generateStyles(colors, {
+    expanded,
+    status: line.status,
+  });
 
   const toggleExpand = () => {
     expand(!expanded);
@@ -32,7 +39,6 @@ const LineLine = observer(() => {
   const canRecordTake = isTalent && moreTakesAllowed && !lineApproved;
   return (
     <Pressable style={listItem} onPress={toggleExpand}>
-      <ExpanderColumn expanded={expanded} />
       <View style={content}>
         <Header expanded={expanded} />
         {expanded && (
@@ -43,7 +49,10 @@ const LineLine = observer(() => {
             <ExistingTakes />
             {canRecordTake && (
               <View style={buttonHolder}>
-                <RecordButton />
+                <View style={expanderColumn} />
+                <View style={remainder}>
+                  <RecordButton />
+                </View>
               </View>
             )}
           </View>

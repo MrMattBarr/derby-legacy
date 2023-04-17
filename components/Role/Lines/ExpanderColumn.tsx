@@ -5,13 +5,16 @@ import { View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 import useLine from "contexts/LineContext";
+import useRole from "contexts/RoleContext";
 
 const ExpanderColumn = ({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
   const { line } = useLine();
+  const { isTalent } = useRole();
   const { expanderColumn, titleText } = generateStyles(colors, {
     expanded,
     status: line?.status,
+    modifiers: { isTalent },
   });
 
   const chevIcon = expanded ? "chevron-small-down" : "chevron-small-right";

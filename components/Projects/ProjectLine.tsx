@@ -25,7 +25,7 @@ const InnerLine = () => {
     textHolder,
     listItem,
     header,
-    expandedContent,
+    expanderColumn,
   } = generateStyles(colors);
 
   const toggleExpand = () => {
@@ -40,9 +40,9 @@ const InnerLine = () => {
       style={listItem}
       onPress={toggleExpand}
     >
-      <ExpanderColumn expanded={expanded} />
       <View style={content}>
         <View style={header}>
+          <ExpanderColumn expanded={expanded} />
           <View>
             <Text style={titleText}>{element.title}</Text>
             <Text
@@ -51,7 +51,7 @@ const InnerLine = () => {
           </View>
         </View>
         {expanded && (
-          <View style={expandedContent}>
+          <View style={expanderColumn}>
             <View style={textHolder}>
               <AppText>This is where the project summary might go.</AppText>
             </View>

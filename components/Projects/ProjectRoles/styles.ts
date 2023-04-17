@@ -6,7 +6,6 @@ interface IStyles {
   isMobile?: boolean;
 }
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const { isMobile } = props ?? {};
   return StyleSheet.create({
     roleLine: {
       display: "flex",
@@ -18,7 +17,18 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     rolesContainer: {
       backgroundColor: colors.Borders.default,
       padding: 2,
+      flexGrow: 1,
       paddingBottom: 0,
+    },
+    expanderColumn: {
+      width: Sizes.Fonts.ICONS,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    rolesContainerHolder: {
+      display: "flex",
+      flexDirection: "row",
     },
     uncastAvatar: {
       width: 60,

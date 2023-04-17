@@ -12,9 +12,10 @@ import { generateStyles } from "./styles";
 import { observer } from "mobx-react";
 import { NavPage } from "constants/Navigation";
 import useAppNav from "contexts/NavigationContext";
+import { ApprovalStatus } from "types/Take";
 
 const InnerSummary = () => {
-  const { role } = useRole();
+  const { role, lines } = useRole();
   const { user } = useUser();
   const colors = useColors();
   const { go } = useAppNav();
@@ -27,15 +28,20 @@ const InnerSummary = () => {
   const goToRole = () => {
     go(NavPage.ROLE, { id: role.id });
   };
+
+  const finishedLineCount = lines.filter(
+    (line) => line?.status === ApprovalStatus.APPROVED
+  ).length;
+
   return (
     <Pressable style={roleLine} onPress={goToRole}>
       <Avatar style={{ marginRight: Sizes.Spacings.STANDARD }} size={55} />
       <View>
         <AppText header>{role.name}</AppText>
         <AppText>{user?.profile?.displayName ?? "Loading"}</AppText>
-        <AppText style={{ color: colors.Text.subtle }}>{`0 / ${
-          role.lines.length ?? 0
-        } ${lineWord}`}</AppText>
+        <AppText
+          style={{ color: colors.Text.subtle }}
+        >{`${finishedLineCount} / ${lines.length ?? 0} ${lineWord}`}</AppText>
       </View>
     </Pressable>
   );

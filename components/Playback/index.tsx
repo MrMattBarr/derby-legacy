@@ -10,36 +10,42 @@ import { generateStyles } from "./styles";
 interface iPlayback {
   children?: ReactNode;
   loadable?: Loadable;
+  onPlay?: () => void;
   style?: object;
 }
 
-const Playback = observer(({ children, style, loadable }: iPlayback) => {
-  const [id, setId] = useState<number | undefined>();
-  const playbackStore = usePlayback();
-  const colors = useColors();
-  const { isMobile } = useClient();
-  const { playback } = generateStyles(colors, {
-    isMobile,
-    hasBorder: !!children,
-  });
+const Playback = observer(
+  ({ children, style, loadable, onPlay }: iPlayback) => {
+    const [id, setId] = useState<number | undefined>();
+    const playbackStore = usePlayback();
+    const colors = useColors();
+    const { isMobile } = useClient();
+    const { playback } = generateStyles(colors, {
+      isMobile,
+      hasBorder: !!children,
+    });
 
-  useEffect(() => {
-    setId(Math.random());
-  }, []);
+    useEffect(() => {
+      setId(Math.random());
+    }, []);
 
-  const toggle = () => {
-    playbackStore.loadOrToggle(loadable, { playerId: id });
-  };
+    const toggle = () => {
+      playbackStore.loadOrToggle(loadable, { playerId: id });
+      if (onPlay) {
+        onPlay();
+      }
+    };
 
-  const active = playbackStore.playerId === id;
+    const active = playbackStore.playerId === id;
 
-  return (
-    <Pressable style={{ ...playback, ...(style ?? {}) }} onPress={toggle}>
-      {active && (
-        <BackgroundProgressBar progress={playbackStore.playbackPercent} />
-      )}
-      {children}
-    </Pressable>
-  );
-});
+    return (
+      <Pressable style={{ ...playback, ...(style ?? {}) }} onPress={toggle}>
+        {active && (
+          <BackgroundProgressBar progress={playbackStore.playbackPercent} />
+        )}
+        {children}
+      </Pressable>
+    );
+  }
+);
 export default Playback;

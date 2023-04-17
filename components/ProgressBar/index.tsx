@@ -7,10 +7,16 @@ interface IProgressBar {
   percent: number;
 }
 
-const ProgressBar = () => {
+const ProgressBar = ({ percent }: IProgressBar) => {
   const colors = useColors();
-  const { progressBar } = generateStyles(colors);
-  return <View style={progressBar} />;
+  const unfinished = 1 - percent;
+  const { progressBar, complete, incomplete } = generateStyles(colors);
+  return (
+    <View style={progressBar}>
+      <View style={{ ...complete, flexGrow: percent }} />
+      <View style={{ ...incomplete, flexGrow: unfinished }} />
+    </View>
+  );
 };
 
 export default ProgressBar;

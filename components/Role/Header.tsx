@@ -13,11 +13,12 @@ import { Sizes } from "styles/sizes";
 import AppText from "components/Controls/Text";
 import Loading from "components/Demo/Loading";
 import ProgressBar from "components/ProgressBar";
+import { ApprovalStatus } from "types/Take";
 
 const WrappedHeader = observer(() => {
   const colors = useColors();
   const authStore = useAuth();
-  const { role } = useRole();
+  const { role, lines } = useRole();
   const talent = useUser();
   const isSelf = talent.user.id === authStore.user?.uid;
   const { isMobile } = useClient();
@@ -25,6 +26,10 @@ const WrappedHeader = observer(() => {
   const { header, barHolder, content } = generateStyles(colors, {
     isMobile,
   });
+
+  const finishedLineCount = lines.filter(
+    (line) => line.status === ApprovalStatus.APPROVED
+  ).length;
   const lineWord = role?.lines.length === 1 ? "line" : "lines";
   return (
     <View style={header}>
@@ -37,10 +42,10 @@ const WrappedHeader = observer(() => {
           {!isSelf && <AppText>{talent.user.profile?.displayName}</AppText>}
         </View>
         <Text style={text.text}>
-          0 / {role?.lines.length} {lineWord} complete
+          {finishedLineCount} / {role?.lines.length} {lineWord} complete
         </Text>
         <View style={barHolder}>
-          <ProgressBar />
+          <ProgressBar percent={finishedLineCount / lines.length} />
         </View>
       </View>
     </View>

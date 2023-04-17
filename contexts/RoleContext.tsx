@@ -1,29 +1,46 @@
 import { View } from "components/Themed";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect } from "react";
+import { useAuth } from "stores/AuthStore";
+import { useLines } from "stores/LinesStore";
 import { useRoles } from "stores/RolesStore";
 import { Role } from "types/Role";
 import Loading from "../components/Demo/Loading";
-import { useAuth } from "stores/AuthStore";
+import { Line } from "types/Line";
 
 type RoleContract = {
   role?: Role;
   isTalent: boolean;
+  lines: Line[];
 };
 
-interface IDemoContext {
+interface IRoleContext {
   children: React.ReactNode;
   id: string;
 }
 
 const RoleContext = React.createContext({} as RoleContract);
-export const RoleProvider = observer(({ children, id }: IDemoContext) => {
+export const RoleProvider = observer(({ children, id }: IRoleContext) => {
   const roleStore = useRoles();
   const authStore = useAuth();
+  const lineStore = useLines();
+
+  const role = roleStore.things[id];
   useEffect(() => {
     roleStore.load(id);
   }, [roleStore]);
-  const role = roleStore.things[id];
+
+  const lineIds = role?.lines ?? [];
+
+  const fullyLoad = () => {
+    lineIds.map((line) => lineStore.load(line));
+  };
+
+  useEffect(() => {
+    fullyLoad();
+  }, [lineIds]);
+
+  const lines = lineIds.map((id) => lineStore.things[id]);
 
   const isTalent = role?.talent === authStore.user?.uid;
   return (
@@ -31,6 +48,7 @@ export const RoleProvider = observer(({ children, id }: IDemoContext) => {
       value={{
         role,
         isTalent,
+        lines,
       }}
     >
       {role && children}

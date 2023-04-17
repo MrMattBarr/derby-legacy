@@ -1,6 +1,3 @@
-import { ColorSchemeName } from "react-native";
-import App from "../App";
-
 export enum AppColor {
   TRANSPARENT = "#00000000",
   PURE_WHITE = "#FFFFFF",
@@ -28,6 +25,7 @@ export enum AppColor {
   TREE_BROWN = "#534b40",
   SANDY_WHITE = "#fff8e9",
   IVY_GREEN = "#08640f",
+  JALAPENO_GREEN = "#67f266",
   TINTED_GRAY = "#445",
   GRAPE = "#9484b6",
   EMPTY_GRAY = "#949494",
@@ -45,6 +43,7 @@ export interface Theme {
     error: AppColor;
     delete: AppColor;
     success: AppColor;
+    notice: AppColor;
     subtle: AppColor;
     placeholder: AppColor;
     contrast: AppColor;
@@ -92,6 +91,7 @@ type ThemeSet = {
 const AppDarkTheme: Theme = {
   Text: {
     contrast: AppColor.NEARLY_BLACK,
+    notice: AppColor.JALAPENO_GREEN,
     default: AppColor.SNOW_WHITE,
     subtle: AppColor.BARELY_WHITE,
     success: AppColor.WARM_WHITE,

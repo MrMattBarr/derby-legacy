@@ -11,17 +11,21 @@ import { ApprovalStatus } from "types/Take";
 import { useTakes } from "stores/TakesStore";
 import { observer } from "mobx-react";
 import TakeLine from "./Take";
+import ExpanderColumn from "./ExpanderColumn";
+import useRole from "contexts/RoleContext";
 
 const Header = observer(({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
   const { line } = useLine();
   const takeStore = useTakes();
+  const { isTalent } = useRole();
   if (!line) {
     return <></>;
   }
   const { titleText, smallText, header, headerText } = generateStyles(colors, {
     expanded,
     status: line.status,
+    modifiers: { isTalent },
   });
 
   const lineApproved = line.status === ApprovalStatus.APPROVED;
@@ -33,6 +37,7 @@ const Header = observer(({ expanded }: { expanded: boolean }) => {
     if (approvedTake) {
       return (
         <View style={header}>
+          <ExpanderColumn expanded={expanded} />
           <View style={headerText}>
             <TakeLine id={approvedTake} title={line.name} compact />
           </View>
@@ -44,6 +49,7 @@ const Header = observer(({ expanded }: { expanded: boolean }) => {
 
   return (
     <View style={header}>
+      <ExpanderColumn expanded={expanded} />
       <View style={headerText}>
         <Text style={titleText}>{line?.name}</Text>
         {!expanded && (

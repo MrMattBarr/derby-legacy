@@ -6,8 +6,9 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
+import { observer } from "mobx-react";
 
-const RecordingPreviewButtons = () => {
+const RecordingPreviewButtons = observer(() => {
   const { reset, recording, metadata } = useRecordingBooth();
   const [submitting, setSubmitting] = useState(false);
   const colors = useColors();
@@ -17,9 +18,12 @@ const RecordingPreviewButtons = () => {
   const canSubmit = recording && metadata;
 
   const submit = () => {
+    const success = () => {
+      setSubmitting(false);
+    };
     if (canSubmit && !submitting) {
       setSubmitting(true);
-      addTake({ recording, metadata });
+      addTake({ recording, metadata, callbacks: { success } });
     }
   };
 
@@ -41,6 +45,6 @@ const RecordingPreviewButtons = () => {
       />
     </View>
   );
-};
+});
 
 export default RecordingPreviewButtons;

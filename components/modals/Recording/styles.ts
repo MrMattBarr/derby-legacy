@@ -84,7 +84,7 @@ export const generateStyles = (
     },
     playback: {
       borderWidth: 1,
-      borderColor: colors.Borders.dramatic,
+      borderColor: colors.Borders.default,
       borderRadius: Sizes.CURVED_BORDER,
       flexGrow: 1,
       display: "flex",

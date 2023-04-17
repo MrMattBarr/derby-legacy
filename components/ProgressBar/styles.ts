@@ -11,8 +11,17 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       height: Sizes.Spacings.STANDARD,
       borderRadius: Sizes.CURVED_BORDER,
       borderWidth: 1,
+      display: "flex",
+      flexDirection: "row",
+      overflow: "hidden",
       borderColor: colors.Borders.default,
       backgroundColor: colors.Backgrounds.empty,
     },
+    complete: {
+      borderTopLeftRadius: Sizes.CURVED_BORDER,
+      borderBottomLeftRadius: Sizes.CURVED_BORDER,
+      backgroundColor: colors.Backgrounds.complete,
+    },
+    incomplete: {},
   });
 };

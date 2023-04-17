@@ -1,12 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useContext, useEffect } from "react";
-import { View } from "react-native";
 import { useTakes } from "stores/TakesStore";
-import { Take } from "types/Take";
+import { ApprovalStatus, Take } from "types/Take";
 import Loading from "../components/Demo/Loading";
+import useProject from "./ProjectContext";
 
 type TakeContract = {
   take?: Take;
+  markHeard: () => void;
 };
 
 interface ITakeContext {
@@ -15,16 +16,28 @@ interface ITakeContext {
 }
 
 const TakeContext = React.createContext({} as TakeContract);
+
 export const TakeProvider = observer(({ children, id }: ITakeContext) => {
   const takeStore = useTakes();
   useEffect(() => {
     takeStore.load(id);
   }, [takeStore]);
   const take = takeStore.things[id];
+
+  const { isOwner } = useProject();
+  const isUnheard = take?.status === ApprovalStatus.UNHEARD;
+
+  const markHeard = () => {
+    if (isOwner && isUnheard) {
+      takeStore.update({ id, status: ApprovalStatus.HEARD });
+    }
+  };
+
   return (
     <TakeContext.Provider
       value={{
         take,
+        markHeard,
       }}
     >
       {take && children}

@@ -17,11 +17,20 @@ interface IPlaybackView {
   loadable?: Loadable;
   compact?: boolean;
   title?: string;
+  onPlay?: () => void;
   style?: any;
 }
 
 const PlaybackView = observer(
-  ({ Buttons, metadata, title, loadable, style, compact }: IPlaybackView) => {
+  ({
+    Buttons,
+    metadata,
+    title,
+    loadable,
+    style,
+    compact,
+    onPlay,
+  }: IPlaybackView) => {
     const colors = useColors();
     const { playback, playbackTitle, detail, playbackHolder, playbackTexts } =
       generateStyles(colors, { compact });
@@ -31,7 +40,7 @@ const PlaybackView = observer(
 
     return (
       <View style={playbackHolder}>
-        <Playback loadable={loadable}>
+        <Playback loadable={loadable} onPlay={onPlay}>
           {meters && <WaveForm meters={meters} />}
           <View style={[playback, style]}>
             <View style={playbackTexts}>

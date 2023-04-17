@@ -8,21 +8,25 @@ import { generateStyles, statusColor } from "./styles";
 import { View } from "react-native";
 import { ApprovalStatus } from "types/Take";
 import { observer } from "mobx-react";
+import useRole from "contexts/RoleContext";
 
 const LineStatusIcon = observer(() => {
   const colors = useColors();
   const { line } = useLine();
+  const { isTalent } = useRole();
   if (!line) {
     return <></>;
   }
-  const { checkHolder, titleText } = generateStyles(colors, {
+  const { checkHolder } = generateStyles(colors, {
     status: line.status,
+    modifiers: { isTalent },
   });
 
   const iconByStatus = {
     [ApprovalStatus.APPROVED]: "check",
     [ApprovalStatus.REJECTED]: "check",
-    [ApprovalStatus.UNHEARD]: undefined,
+    [ApprovalStatus.UNHEARD]: "progress-one",
+    [ApprovalStatus.HEARD]: "progress-two",
   };
 
   const icon = iconByStatus[line.status];
@@ -32,7 +36,7 @@ const LineStatusIcon = observer(() => {
       {icon && (
         <Entypo
           name={icon as any}
-          color={statusColor(line.status, colors)}
+          color={statusColor(line.status, colors, { isTalent })}
           size={Sizes.Fonts.HEADER}
         />
       )}

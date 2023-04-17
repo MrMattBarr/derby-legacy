@@ -11,15 +11,19 @@ const ProjectRoles = observer(() => {
   const { element } = useProject();
   const roles = element?.roles ?? [];
   const colors = useColors();
-  const { rolesContainer } = generateStyles(colors);
+  const { rolesContainer, rolesContainerHolder, expanderColumn } =
+    generateStyles(colors);
   if (roles.length === 0) {
     return <Nothing />;
   }
   return (
-    <View style={rolesContainer}>
-      {roles.map((id) => (
-        <ProjectRoleLine key={id} id={id} />
-      ))}
+    <View style={rolesContainerHolder}>
+      <View style={expanderColumn} />
+      <View style={rolesContainer}>
+        {roles.map((id) => (
+          <ProjectRoleLine key={id} id={id} />
+        ))}
+      </View>
     </View>
   );
 });
