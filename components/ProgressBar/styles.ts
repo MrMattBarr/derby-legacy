@@ -20,7 +20,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     complete: {
       borderTopLeftRadius: Sizes.CURVED_BORDER,
       borderBottomLeftRadius: Sizes.CURVED_BORDER,
-      backgroundColor: colors.Backgrounds.complete,
+      backgroundColor: colors.Text.complete,
     },
     incomplete: {},
   });

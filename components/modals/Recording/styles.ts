@@ -88,6 +88,7 @@ export const generateStyles = (
       borderRadius: Sizes.CURVED_BORDER,
       flexGrow: 1,
       display: "flex",
+      overflow: "hidden",
       flexDirection: "row",
       alignItems: "flex-start",
       justifyContent: "space-between",

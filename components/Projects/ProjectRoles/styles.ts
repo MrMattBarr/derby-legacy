@@ -3,16 +3,19 @@ import { StyleSheet } from "react-native";
 import { Sizes } from "styles/sizes";
 
 interface IStyles {
-  isMobile?: boolean;
+  finalized?: boolean;
 }
 export const generateStyles = (colors: Theme, props?: IStyles) => {
+  const { finalized } = props ?? {};
   return StyleSheet.create({
     roleLine: {
       display: "flex",
       flexDirection: "row",
       marginBottom: 2,
       padding: Sizes.Spacings.STANDARD,
-      backgroundColor: colors.Backgrounds.secondary,
+      backgroundColor: finalized
+        ? colors.Backgrounds.complete
+        : colors.Backgrounds.empty,
     },
     rolesContainer: {
       backgroundColor: colors.Borders.default,

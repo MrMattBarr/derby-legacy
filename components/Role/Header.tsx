@@ -23,14 +23,18 @@ const WrappedHeader = observer(() => {
   const isSelf = talent.user.id === authStore.user?.uid;
   const { isMobile } = useClient();
   const text = textStyles(colors);
-  const { header, barHolder, content } = generateStyles(colors, {
-    isMobile,
-  });
 
   const finishedLineCount = lines.filter(
     (line) => line.status === ApprovalStatus.APPROVED
   ).length;
   const lineWord = role?.lines.length === 1 ? "line" : "lines";
+  const complete = finishedLineCount === lines.length;
+
+  const { header, barHolder, content } = generateStyles(colors, {
+    isMobile,
+    complete,
+  });
+
   return (
     <View style={header}>
       {!isSelf && (

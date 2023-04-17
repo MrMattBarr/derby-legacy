@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Theme } from "../../constants/Colors";
 import { Sizes } from "../../styles/sizes";
 
@@ -8,7 +8,7 @@ interface IStyles {
 }
 
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const { isMobile, hasBorder } = props ?? {};
+  const { isMobile } = props ?? {};
 
   return StyleSheet.create({
     holder: {
@@ -46,7 +46,6 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       borderRadius: Sizes.CURVED_BORDER,
       overflow: "hidden",
       borderColor: colors.Borders.default,
-      borderWidth: hasBorder ? 1 : 0,
     },
   });
 };

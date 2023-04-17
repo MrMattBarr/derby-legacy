@@ -19,7 +19,6 @@ const InnerSummary = () => {
   const { user } = useUser();
   const colors = useColors();
   const { go } = useAppNav();
-  const { roleLine } = generateStyles(colors);
   const lineWord = role?.lines.length === 1 ? "line" : "lines";
 
   if (!role || !user) {
@@ -33,15 +32,23 @@ const InnerSummary = () => {
     (line) => line?.status === ApprovalStatus.APPROVED
   ).length;
 
+  const finalized = finishedLineCount === lines.length;
+  const { roleLine } = generateStyles(colors, { finalized });
+
+  const textColor = finalized ? colors.Text.complete : colors.Text.default;
+  const subtextColor = finalized ? colors.Text.complete : colors.Text.subtle;
+
   return (
     <Pressable style={roleLine} onPress={goToRole}>
       <Avatar style={{ marginRight: Sizes.Spacings.STANDARD }} size={55} />
       <View>
-        <AppText header>{role.name}</AppText>
+        <AppText style={{ color: textColor }} header>
+          {role.name}
+        </AppText>
         <AppText>{user?.profile?.displayName ?? "Loading"}</AppText>
-        <AppText
-          style={{ color: colors.Text.subtle }}
-        >{`${finishedLineCount} / ${lines.length ?? 0} ${lineWord}`}</AppText>
+        <AppText style={{ color: subtextColor }}>{`${finishedLineCount} / ${
+          lines.length ?? 0
+        } ${lineWord}`}</AppText>
       </View>
     </Pressable>
   );

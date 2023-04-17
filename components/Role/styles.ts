@@ -4,17 +4,21 @@ import { Sizes } from "../../styles/sizes";
 
 interface IStyles {
   isMobile?: boolean;
+  complete?: boolean;
 }
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const { isMobile } = props ?? {};
+  const { isMobile, complete } = props ?? {};
   return StyleSheet.create({
     header: {
       display: "flex",
       flexDirection: "row",
       borderBottomWidth: 2,
+      borderTopWidth: complete ? 2 : 0,
       padding: Sizes.Spacings.STANDARD,
-      paddingTop: 0,
-      backgroundColor: isMobile
+      paddingTop: complete ? Sizes.Spacings.STANDARD : 0,
+      backgroundColor: complete
+        ? colors.Backgrounds.complete
+        : isMobile
         ? colors.Backgrounds.secondary
         : colors.Backgrounds.primary,
     },

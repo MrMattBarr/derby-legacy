@@ -1,7 +1,6 @@
 import React from "react";
-import { Platform, StyleSheet, useColorScheme } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { View } from "../components/Themed";
-import Colors from "../constants/Colors";
 import { useColors } from "../hooks/useColorScheme";
 
 export default function PhoneTopSpacer({ children }: any) {

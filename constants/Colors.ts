@@ -42,7 +42,7 @@ export interface Theme {
     default: AppColor;
     error: AppColor;
     delete: AppColor;
-    success: AppColor;
+    complete: AppColor;
     notice: AppColor;
     subtle: AppColor;
     placeholder: AppColor;
@@ -94,7 +94,7 @@ const AppDarkTheme: Theme = {
     notice: AppColor.JALAPENO_GREEN,
     default: AppColor.SNOW_WHITE,
     subtle: AppColor.BARELY_WHITE,
-    success: AppColor.WARM_WHITE,
+    complete: AppColor.WARM_WHITE,
     error: AppColor.CHALK_RED,
     delete: AppColor.CHALK_RED,
     placeholder: AppColor.STONE_GRAY,
@@ -108,7 +108,7 @@ const AppDarkTheme: Theme = {
   Backgrounds: {
     default: AppColor.PURE_BLACK,
     transparentDefault: AppColor.TRANSPARENT,
-    complete: AppColor.WARM_WHITE,
+    complete: AppColor.TREE_BROWN,
     success: AppColor.IVY_GREEN,
     primary: AppColor.CHARCOAL,
     secondary: AppColor.TINTED_GRAY,

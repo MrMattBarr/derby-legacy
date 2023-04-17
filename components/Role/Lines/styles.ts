@@ -20,7 +20,7 @@ export const statusColor = (
   modifiers?: roleModifiers
 ) => {
   const map = {
-    [ApprovalStatus.APPROVED]: colors.Text.success,
+    [ApprovalStatus.APPROVED]: colors.Text.complete,
     [ApprovalStatus.REJECTED]: colors.Text.default,
     [ApprovalStatus.UNHEARD]: modifiers?.isTalent
       ? AppColor.ICY_BLUE
@@ -42,7 +42,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
   return StyleSheet.create({
     listItem: {
       backgroundColor: complete
-        ? colors.Backgrounds.contrast
+        ? colors.Backgrounds.complete
         : colors.Backgrounds.primary,
       borderBottomWidth: 1,
       padding: Sizes.Spacings.STANDARD,
