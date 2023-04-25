@@ -1,18 +1,21 @@
 import React, { useContext, useState } from "react";
 import { Modal, Pressable, View } from "react-native";
-import ClickEater from "../components/controls/ClickEater";
-import AvatarUpload from "../components/modals/AvatarUpload";
-import RecordingModal from "../components/modals/Recording";
-import SpotEditorModal from "../components/modals/SpotEditor";
-import { modalStyles } from "../components/modals/styles";
-import Nothing from "../components/Nothing";
-import { useColors } from "../hooks/useColorScheme";
+import ClickEater from "components/controls/ClickEater";
+import AvatarUpload from "components/modals/AvatarUpload";
+import RecordingModal from "components/modals/Recording";
+import SpotEditorModal from "components/modals/SpotEditor";
+import { modalStyles } from "components/modals/styles";
+import Nothing from "components/Nothing";
+import { useColors } from "hooks/useColorScheme";
 import useClient from "./ClientContext";
+import OfferModal from "components/modals/Offer";
+import { observer } from "mobx-react";
 
 export enum ModalKey {
   RECORDING = "recording",
   SPOT_EDITOR = "spotEditor",
   AVATAR_UPLOAD = "avatarUpload",
+  OFFER = "offer",
   NONE = "none",
 }
 
@@ -20,11 +23,13 @@ const ModalByKey: Record<ModalKey, () => JSX.Element> = {
   [ModalKey.RECORDING]: RecordingModal,
   [ModalKey.SPOT_EDITOR]: SpotEditorModal,
   [ModalKey.AVATAR_UPLOAD]: AvatarUpload,
+  [ModalKey.OFFER]: OfferModal,
   [ModalKey.NONE]: Nothing,
 };
 
 interface ModalArgs {
   spotId: string;
+  offerId: string;
 }
 
 type ModalContract = {
@@ -36,7 +41,7 @@ export const ModalContext = React.createContext<ModalContract | undefined>(
   undefined
 );
 
-export const ModalProvider = ({ children }: any) => {
+export const ModalProvider = observer(({ children }: any) => {
   const colors = useColors();
   const { isMobile } = useClient();
   const styles = modalStyles(colors, { isMobile });
@@ -52,6 +57,8 @@ export const ModalProvider = ({ children }: any) => {
     setModal(ModalKey.NONE);
   };
   const animationType = isMobile ? "slide" : "fade";
+
+  console.log({ modal });
 
   return (
     <ModalContext.Provider value={{ setModal, modalArgs }}>
@@ -72,7 +79,7 @@ export const ModalProvider = ({ children }: any) => {
       {children}
     </ModalContext.Provider>
   );
-};
+});
 
 export const useModal = () => {
   const context = useContext(ModalContext);

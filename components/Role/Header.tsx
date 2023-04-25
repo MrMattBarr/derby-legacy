@@ -20,6 +20,10 @@ const WrappedHeader = observer(() => {
   const authStore = useAuth();
   const { role, lines } = useRole();
   const talent = useUser();
+
+  if (!talent.user) {
+    return <Loading />;
+  }
   const isSelf = talent.user.id === authStore.user?.uid;
   const { isMobile } = useClient();
   const text = textStyles(colors);
@@ -27,6 +31,7 @@ const WrappedHeader = observer(() => {
   const finishedLineCount = lines.filter(
     (line) => line.status === ApprovalStatus.APPROVED
   ).length;
+
   const lineWord = role?.lines.length === 1 ? "line" : "lines";
   const complete = finishedLineCount === lines.length;
 

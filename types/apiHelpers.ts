@@ -6,6 +6,7 @@ export enum DB {
   USER = "user",
   PROJECT = "project",
   ROLE = "role",
+  OFFER = "offer",
 }
 
 type DBSpec = {
@@ -55,6 +56,12 @@ export const DBSpecs: Record<DB, DBSpec> = {
     requiredFields: ["line"],
     unsaveableFields: ["id", "audio"],
     dbKey: "takes",
+    recordingField: "audio",
+  },
+  [DB.OFFER]: {
+    requiredFields: ["created", "role", "owner"],
+    unsaveableFields: ["id", "audio"],
+    dbKey: "offers",
     recordingField: "audio",
   },
 };

@@ -1,6 +1,7 @@
-import { getAuth, signInAnonymously } from "firebase/auth";
+import { useURL, parse } from "expo-linking";
+import { getAuth } from "firebase/auth";
 import { observer } from "mobx-react-lite";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   removeSpotFromUser,
   subscribeToUserDemos,
@@ -10,24 +11,42 @@ import { useAuth } from "../stores/AuthStore";
 import { useDemos } from "../stores/DemosStore";
 import { useSpots } from "../stores/SpotsStore";
 import { useUsers } from "../stores/UsersStore";
+import useAppNav from "./NavigationContext";
+import { NavPage } from "constants/Navigation";
 
 const ReactiveContext = React.createContext({});
 export const ReactiveProvider = observer(({ children }: any) => {
+  const url = useURL();
+
   const firebaseAuth = getAuth();
   const authStore = useAuth();
   const userStore = useUsers();
   const demoStore = useDemos();
+  const { go } = useAppNav();
   const spotStore = useSpots();
-  const generateAnonymousAuth = () => {
-    signInAnonymously(firebaseAuth)
-      .then(({ user }) => {
-        authStore.login(user);
-        userStore.loadUser(user.uid);
-      })
-      .catch((error) => {
-        console.log({ error });
-      });
-  };
+  const user = authStore.user?.uid
+    ? userStore.users[authStore.user?.uid]
+    : undefined;
+  // const generateAnonymousAuth = () => {
+  //   signInAnonymously(firebaseAuth)
+  //     .then(({ user }) => {
+  //       authStore.login(user);
+  //       userStore.loadUser(user.uid);
+  //     })
+  //     .catch((error) => {
+  //       console.log({ error });
+  //     });
+  // };
+
+  useEffect(() => {
+    if (!!user && !!url) {
+      const { path, queryParams } = parse(url ?? "");
+      const found = Object.values(NavPage).includes(path as NavPage);
+      if (found) {
+        go(path as NavPage, queryParams);
+      }
+    }
+  }, [url, user]);
 
   firebaseAuth.onAuthStateChanged((authUser) => {
     if (authUser) {

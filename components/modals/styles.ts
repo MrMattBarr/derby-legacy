@@ -14,13 +14,17 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
     flexGrow: 1,
     marginTop: 100,
     borderBottomLeftRadius: 0,
+    borderTopWidth: 1,
+    borderColor: colors.Borders.subtle,
     borderBottomRightRadius: 0,
+    marginHorizontal: -1,
+    borderWidth: 1,
   };
   const baseStyles = {
     borderColor: colors.Borders.default,
     borderRadius: Sizes.VERY_CURVED_BORDER,
+    overflow: "hidden" as any,
     backgroundColor: colors.Backgrounds.primary,
-    borderWidth: 1,
   };
 
   const bigScreenStyles = {
@@ -48,7 +52,7 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
     },
     header: {},
     body: {
-      padding: Sizes.Spacings.STANDARD,
+      overflow: "hidden",
       flexGrow: 1,
     },
   });

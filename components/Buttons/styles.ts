@@ -1,13 +1,16 @@
 import { StyleSheet } from "react-native";
 import { DefaultColors, Theme } from "../../constants/Colors";
+import { Sizes } from "styles/sizes";
 
 interface StyleParams {
   fontSize?: number;
   danger?: boolean;
+  compact?: boolean;
+  hasIcon?: boolean;
 }
 export const generateStyles = (
   colors: Theme,
-  { fontSize, danger }: StyleParams
+  { fontSize, danger, compact, hasIcon }: StyleParams
 ) => {
   return StyleSheet.create({
     textButton: {
@@ -33,8 +36,11 @@ export const generateStyles = (
       backgroundColor: colors.Backgrounds.empty,
     },
     bigButton: {
-      padding: 10,
-      borderWidth: 3,
+      paddingVertical: compact ? Sizes.Spacings.SMALL : Sizes.Spacings.STANDARD,
+      paddingHorizontal: hasIcon
+        ? Sizes.Spacings.STANDARD
+        : Sizes.Spacings.LARGE,
+      borderWidth: compact ? 1 : 3,
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
@@ -45,7 +51,7 @@ export const generateStyles = (
     },
     bigButtonIcon: {
       alignSelf: "center",
-      marginRight: (fontSize ?? 18) * 0.5,
+      marginRight: Sizes.Spacings.STANDARD,
     },
     bigButtonText: {
       fontSize: fontSize ?? 18,

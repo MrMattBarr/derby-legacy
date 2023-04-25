@@ -20,7 +20,7 @@ const RoleLine = observer(() => {
   }
 
   const goToRole = () => {
-    go(NavPage.ROLE, { id: role.id });
+    go(NavPage.ROLES, { id: role.id });
   };
   const now = new Date();
   const MS_IN_DAY = 86400000;

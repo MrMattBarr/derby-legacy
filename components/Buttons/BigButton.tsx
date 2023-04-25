@@ -19,6 +19,7 @@ interface ITextButton {
   onPressOut?: () => void;
   style?: any;
   disabled?: boolean;
+  compact?: boolean;
   danger?: boolean;
   icon?: string;
   label: string;
@@ -31,13 +32,19 @@ const BigButton = ({
   onPressOut,
   label,
   danger,
+  compact,
   icon,
   link,
   disabled,
   style,
 }: ITextButton) => {
   const colors = useColors();
-  const styles = generateStyles(colors, { fontSize, danger });
+  const styles = generateStyles(colors, {
+    fontSize,
+    danger,
+    compact,
+    hasIcon: !!icon,
+  });
   const linkTo = useLinkTo();
 
   const press = () => {

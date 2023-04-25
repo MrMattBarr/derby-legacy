@@ -25,7 +25,7 @@ const InnerSummary = () => {
     return <Loading />;
   }
   const goToRole = () => {
-    go(NavPage.ROLE, { id: role.id });
+    go(NavPage.ROLES, { id: role.id });
   };
 
   const finishedLineCount = lines.filter(

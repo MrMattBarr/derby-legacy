@@ -4,12 +4,13 @@ import { Sizes } from "../../../styles/sizes";
 
 interface options {
   isHeader: boolean;
+  bold: boolean;
 }
-export const generateStyles = (colors: Theme, { isHeader }: options) => {
+export const generateStyles = (colors: Theme, { isHeader, bold }: options) => {
   return StyleSheet.create({
     text: {
       color: colors.Text.default,
-      fontWeight: isHeader ? "bold" : "normal",
+      fontWeight: isHeader || bold ? "bold" : "normal",
       fontSize: isHeader ? Sizes.Fonts.HEADER : Sizes.Fonts.DFEAULT,
     },
   });
