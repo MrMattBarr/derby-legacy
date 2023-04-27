@@ -10,11 +10,11 @@ import { DateTime } from "luxon";
 import Loading from "components/Demo/Loading";
 import useOffer from "contexts/OfferContext";
 
-const RoleSummary = () => {
+const Description = () => {
   const { role } = useRole();
   const { element: offer } = useOffer();
   const colors = useColors();
-  const { element, line } = generateStyles(colors);
+  const { description } = generateStyles(colors);
   if (!role || !offer) {
     return <Loading />;
   }
@@ -22,27 +22,12 @@ const RoleSummary = () => {
   const roleDt = DateTime.fromMillis(role.dueDate);
   const offerCreatedDt = DateTime.fromMillis(offer?.created);
   return (
-    <View style={element}>
-      <View style={line}>
-        <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
-          Due:
-        </AppText>
-        <AppText>{roleDt.toFormat("DDDD")}</AppText>
-      </View>
-      <View style={line}>
-        <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
-          Line Count:
-        </AppText>
-        <AppText>{`${lineIds.length}`}</AppText>
-      </View>
-      <View style={line}>
-        <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
-          Offered:
-        </AppText>
-        <AppText>{offerCreatedDt.toFormat("DDDD t")}</AppText>
-      </View>
+    <View style={description}>
+      <AppText style={{ color: colors.Text.subtle }}>
+        {role.description}
+      </AppText>
     </View>
   );
 };
 
-export default RoleSummary;
+export default Description;

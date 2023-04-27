@@ -58,8 +58,6 @@ export const ModalProvider = observer(({ children }: any) => {
   };
   const animationType = isMobile ? "slide" : "fade";
 
-  console.log({ modal });
-
   return (
     <ModalContext.Provider value={{ setModal, modalArgs }}>
       <Modal

@@ -1,4 +1,4 @@
-import { Theme } from "constants/Colors";
+import Colors, { Theme } from "constants/Colors";
 import { StyleSheet } from "react-native";
 import { Sizes } from "styles/sizes";
 
@@ -26,17 +26,23 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       padding: Sizes.Spacings.SMALL,
       paddingTop: 0,
     },
-    summary: {
-      paddingTop: Sizes.Spacings.SMALL,
+    element: {
+      marginBottom: Sizes.Spacings.LARGE,
+    },
+    description: {
+      padding: Sizes.Spacings.STANDARD,
       borderColor: colors.Borders.default,
       borderWidth: 1,
-      backgroundColor: colors.Backgrounds.empty,
       borderRadius: Sizes.CURVED_BORDER,
-      marginBottom: Sizes.Spacings.STANDARD,
+      backgroundColor: colors.Backgrounds.empty,
+      marginBottom: Sizes.Spacings.LARGE,
+      paddingTop: Sizes.Spacings.STANDARD,
     },
     body: {
       padding: Sizes.Spacings.LARGE,
-      paddingTop: Sizes.Spacings.STANDARD,
+    },
+    selfRoleButton: {
+      color: colors.Text.complete,
     },
   });
 };

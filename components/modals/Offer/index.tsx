@@ -1,25 +1,30 @@
-import { useColors } from "hooks/useColorScheme";
-import React from "react";
-import { Text, View } from "react-native";
-import { modalStyles } from "../styles";
-import { observer } from "mobx-react";
-import AppText from "components/Controls/Text";
-import { useModal } from "contexts/ModalContext";
-import { generateStyles } from "./styles";
 import BigButton from "components/Buttons/BigButton";
-import { OfferStore, useOffers } from "stores/OffersStore";
+import TextButton from "components/Buttons/TextButton";
+import AppText from "components/Controls/Text";
 import Loading from "components/Demo/Loading";
-import { useAuth } from "stores/AuthStore";
+import { NavPage } from "constants/Navigation";
+import { ModalKey, useModal } from "contexts/ModalContext";
+import useAppNav from "contexts/NavigationContext";
 import useOffer, { OfferProvider } from "contexts/OfferContext";
-import { useRoles } from "stores/RolesStore";
 import { RoleProvider } from "contexts/RoleContext";
+import { useColors } from "hooks/useColorScheme";
+import { observer } from "mobx-react";
+import React from "react";
+import { View } from "react-native";
+import { useAuth } from "stores/AuthStore";
+import { useOffers } from "stores/OffersStore";
+import { useRoles } from "stores/RolesStore";
+import Description from "./Description";
 import RoleSummary from "./RoleSummary";
+import { generateStyles } from "./styles";
 
 const WrappedModal = observer(() => {
   const colors = useColors();
   const { element: offer } = useOffer();
   const roleStore = useRoles();
   const authStore = useAuth();
+  const { go } = useAppNav();
+  const { setModal } = useModal();
 
   const self = authStore.user?.uid;
   const role = offer ? roleStore.things[offer.role] : undefined;
@@ -28,12 +33,22 @@ const WrappedModal = observer(() => {
   }
 
   const headerText = role.name;
-  console.log({ headerText, role });
+
   const isOwner = offer.owner === self;
-  const stringContent = isOwner
-    ? "you own this rolex"
-    : "You might own this role";
-  const { page, headerBar, body } = generateStyles(colors);
+  const assignToSelf = () => {
+    const update = {
+      id: role.id,
+      talent: self,
+    };
+    const success = () => {
+      go(NavPage.ROLES, { id: role.id });
+      setModal(ModalKey.NONE);
+    };
+    roleStore.update(update, { success });
+  };
+
+  const { page, headerBar, body, element, selfRoleButton } =
+    generateStyles(colors);
 
   if (!self) {
     <View style={page}>
@@ -51,7 +66,15 @@ const WrappedModal = observer(() => {
         </View>
         <View style={body}>
           <RoleSummary />
-          <BigButton icon="mail" label="Share" />
+          <BigButton icon="mail" label="Offer Role" style={element} />
+          <Description />
+          {isOwner && (
+            <TextButton
+              style={selfRoleButton}
+              onPress={assignToSelf}
+              label="Assign Role to Self"
+            />
+          )}
         </View>
       </View>
     </RoleProvider>

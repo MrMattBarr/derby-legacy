@@ -10,10 +10,17 @@ interface ITextButton {
   fontSize?: number;
   danger?: boolean;
   onPress: () => void;
+  style?: any;
   label: string;
 }
 
-const TextButton = ({ fontSize, onPress, label, danger }: ITextButton) => {
+const TextButton = ({
+  fontSize,
+  onPress,
+  label,
+  danger,
+  style,
+}: ITextButton) => {
   const colors = useColors();
   const styles = generateStyles(colors, { fontSize, danger });
   const { h3 } = textStyles(colors);
@@ -23,7 +30,7 @@ const TextButton = ({ fontSize, onPress, label, danger }: ITextButton) => {
       style={styles.textButton}
       onPress={onPress}
     >
-      <Text style={[h3, styles.textButtonText]}>{label}</Text>
+      <Text style={[h3, styles.textButtonText, style]}>{label}</Text>
     </TouchableOpacity>
   );
 };
