@@ -2,12 +2,14 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 
 import { useLocalObservable } from "mobx-react";
 import React, { useContext } from "react";
-import { fetchUser } from "../api";
+import { fetchUser, updateThing } from "../api";
 import User from "../types/User";
+import { DB } from "types/apiHelpers";
 
 type IUsersStore = {
   userIds: string[];
   users: Record<string, User>;
+  updateUser: (update: Partial<User>) => void;
   addUser: (user: User) => void;
   processUserIds: (userIds: string[]) => void;
   loadUser: (userId: string) => void;
@@ -25,7 +27,9 @@ export function UsersStore() {
           });
         userIds.forEach((id) => fetchUser(id, onFetch));
       },
-
+      updateUser(update: Partial<User>) {
+        updateThing({ thing: update, db: DB.USER });
+      },
       addUser(user: User) {
         this.users[user.id] = user;
 

@@ -4,7 +4,7 @@ import ExpanderColumn from "components/Role/Lines/ExpanderColumn";
 import useProject, { ProjectProvider } from "contexts/ProjectContext";
 import { useColors } from "hooks/useColorScheme";
 import React, { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import { useProjects } from "stores/ProjectsStore";
 import { generateStyles } from "../Role/Lines/styles";
 import AppText from "components/Controls/Text";
@@ -35,11 +35,7 @@ const InnerLine = () => {
   const roleWord = element.roles.length === 1 ? "role" : "roles";
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      style={listItem}
-      onPress={toggleExpand}
-    >
+    <Pressable style={listItem} onPress={toggleExpand}>
       <View style={content}>
         <View style={header}>
           <ExpanderColumn expanded={expanded} />
@@ -59,7 +55,7 @@ const InnerLine = () => {
           </View>
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

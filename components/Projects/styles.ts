@@ -20,6 +20,15 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
         ? colors.Backgrounds.secondary
         : colors.Backgrounds.primary,
     },
+    subHeader: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      borderBottomWidth: 1,
+      padding: Sizes.Spacings.STANDARD,
+      backgroundColor: colors.Backgrounds.secondary,
+    },
     projectLine: {
       backgroundColor: colors.Backgrounds.primary,
       borderBottomWidth: 1,

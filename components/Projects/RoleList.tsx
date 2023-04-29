@@ -5,12 +5,16 @@ import { View } from "react-native";
 import { TEST_ROLES } from "testData/role";
 import RoleLine from "./RoleLine";
 import { RoleProvider } from "contexts/RoleContext";
+import SubHeader from "./Subheader";
 
 const RoleList = observer(() => {
   const user = useUser();
   const roleIds = Object.keys(user?.user?.roles ?? {}) ?? [];
+  const projectIds = Object.keys(user?.user?.projects ?? {}) ?? [];
+  const needsSubHeader = roleIds.length > 0 && projectIds.length > 0;
   return (
     <View>
+      {needsSubHeader && <SubHeader label="My Roles" />}
       {roleIds.map((id) => {
         return (
           <RoleProvider key={id} id={id}>

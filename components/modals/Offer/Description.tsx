@@ -1,32 +1,25 @@
-import AppText from "components/Controls/Text";
 import useRole from "contexts/RoleContext";
 import { useColors } from "hooks/useColorScheme";
 import React from "react";
-import { View } from "react-native";
 import { generateStyles } from "./styles";
-import { Sizes } from "styles/sizes";
-import { DateTime } from "luxon";
 
-import Loading from "components/Demo/Loading";
+import Nothing from "components/Nothing";
 import useOffer from "contexts/OfferContext";
+import TextButton from "components/Buttons/TextButton";
 
 const Description = () => {
-  const { role } = useRole();
-  const { element: offer } = useOffer();
+  const { element: offer, isOwner, acceptOffer } = useOffer();
   const colors = useColors();
-  const { description } = generateStyles(colors);
-  if (!role || !offer) {
-    return <Loading />;
+  const { selfRoleButton } = generateStyles(colors);
+  if (!isOwner) {
+    return <Nothing />;
   }
-  const lineIds = role.lines;
-  const roleDt = DateTime.fromMillis(role.dueDate);
-  const offerCreatedDt = DateTime.fromMillis(offer?.created);
   return (
-    <View style={description}>
-      <AppText style={{ color: colors.Text.subtle }}>
-        {role.description}
-      </AppText>
-    </View>
+    <TextButton
+      style={selfRoleButton}
+      onPress={acceptOffer}
+      label="Assign Role to Self"
+    />
   );
 };
 

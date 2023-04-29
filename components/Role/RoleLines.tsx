@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
 import LineLine from "./Lines/LineLine";
+import SubHeader from "../Projects/Subheader";
 
 const RoleLines = observer(() => {
   const { role } = useRole();

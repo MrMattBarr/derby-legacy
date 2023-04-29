@@ -7,11 +7,11 @@ import { ParameterPage } from "types/ParameterPage";
 import Header from "./Header";
 import RoleList from "./RoleList";
 import ProejctList from "./ProjectList";
+import SubHeader from "./Subheader";
 
 const Projects = observer((args?: ParameterPage) => {
   const authStore = useAuth();
   const id = args?.route?.params?.id ?? authStore.user?.uid;
-  const user = useUser();
   if (!id) {
     return <></>;
   }

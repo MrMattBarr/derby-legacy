@@ -77,12 +77,6 @@ const registerDemoToUser = (userId: string, demoId: string) => {
   set(dbRef(db, reference), true);
 };
 
-const registerSpotToUser = (userId: string, spotId: string) => {
-  const db = getDatabase();
-  const reference = `users/${userId}/spots/${spotId}`;
-  set(dbRef(db, reference), true);
-};
-
 interface IUploadRecording {
   id: string;
   recording: Recording;
@@ -195,7 +189,7 @@ const updateThing = <Type extends ThingWithId>({
   ...onComplete
 }: UpdateArgs<Type>) => {
   const database = getDatabase();
-  const { dbKey, unsaveableFields } = DBSpecs[db];
+  const { dbKey, unsaveableFields, crossReferences } = DBSpecs[db];
   const location = `${dbKey}/${thing.id}`;
   const copy = { ...thing } as any;
   unsaveableFields.map((field) => {
@@ -204,6 +198,21 @@ const updateThing = <Type extends ThingWithId>({
     }
   });
   update(dbRef(database, location), copy).then(() => {
+    (crossReferences ?? []).forEach((crossReference) => {
+      if (copy[crossReference.localKey]) {
+        const crUpdate = {
+          id: copy[crossReference.localKey],
+          [crossReference.foreignKey]: {
+            [thing.id as string]: true,
+          },
+        };
+        console.log({ crUpdate });
+        updateThing({
+          db: crossReference.db,
+          thing: crUpdate,
+        });
+      }
+    });
     if (onComplete.success) {
       onComplete.success();
     }

@@ -9,11 +9,18 @@ export enum DB {
   OFFER = "offer",
 }
 
+type CrossRefrence = {
+  db: DB;
+  localKey: string;
+  foreignKey: string;
+};
+
 type DBSpec = {
   requiredFields: string[];
   unsaveableFields: string[];
   firebaseNullables?: string[];
   recordingField?: string;
+  crossReferences?: CrossRefrence[];
   dbKey: string;
 };
 
@@ -39,6 +46,13 @@ export const DBSpecs: Record<DB, DBSpec> = {
   [DB.ROLE]: {
     requiredFields: ["talent", "project", "lines", "dueDate"],
     unsaveableFields: ["id"],
+    crossReferences: [
+      {
+        db: DB.USER,
+        localKey: "talent",
+        foreignKey: "roles",
+      },
+    ],
     dbKey: "roles",
   },
   [DB.DEMO]: {

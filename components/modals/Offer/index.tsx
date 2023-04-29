@@ -23,8 +23,6 @@ const WrappedModal = observer(() => {
   const { element: offer } = useOffer();
   const roleStore = useRoles();
   const authStore = useAuth();
-  const { go } = useAppNav();
-  const { setModal } = useModal();
 
   const self = authStore.user?.uid;
   const role = offer ? roleStore.things[offer.role] : undefined;
@@ -33,19 +31,6 @@ const WrappedModal = observer(() => {
   }
 
   const headerText = role.name;
-
-  const isOwner = offer.owner === self;
-  const assignToSelf = () => {
-    const update = {
-      id: role.id,
-      talent: self,
-    };
-    const success = () => {
-      go(NavPage.ROLES, { id: role.id });
-      setModal(ModalKey.NONE);
-    };
-    roleStore.update(update, { success });
-  };
 
   const { page, headerBar, body, element, selfRoleButton } =
     generateStyles(colors);
@@ -68,13 +53,6 @@ const WrappedModal = observer(() => {
           <RoleSummary />
           <BigButton icon="mail" label="Offer Role" style={element} />
           <Description />
-          {isOwner && (
-            <TextButton
-              style={selfRoleButton}
-              onPress={assignToSelf}
-              label="Assign Role to Self"
-            />
-          )}
         </View>
       </View>
     </RoleProvider>
