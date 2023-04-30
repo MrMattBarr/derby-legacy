@@ -16,6 +16,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       DemoGenerationPage: "demos/new",
       DemoBuilder: "demos/:id/edit",
       DemoDetail: "demos/:id",
+      ProjectBuilder: "projects/new",
       Projects: "projects",
       Demos: "demos",
       Profile: "profile/:id",

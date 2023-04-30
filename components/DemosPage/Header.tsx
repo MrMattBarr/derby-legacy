@@ -43,7 +43,7 @@ const Header = observer(() => {
         </View>
       </Pressable>
       <View>
-        <BigButton link="/demos/new" icon="plus" label="Create New" />
+        <BigButton link="/demos/new" icon="plus" label="New Demo" />
       </View>
     </View>
   );

@@ -3,6 +3,7 @@ export enum NavPage {
   PROFILE = "profile",
   DEMOS = "demos",
   PROJECTS = "projects",
+  SCRIPTS = "scripts",
   ROLES = "roles",
 }
 
@@ -31,6 +32,10 @@ export const NavConfigs: Record<NavPage, NavConfig> = {
     label: "Projects",
     name: "Projects",
     icon: "documents",
+  },
+  [NavPage.SCRIPTS]: {
+    label: "Scripts",
+    name: "Scripts",
   },
   [NavPage.ROLES]: {
     label: "Role",

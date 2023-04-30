@@ -128,6 +128,10 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       borderColor: complete ? colors.Borders.default : colors.Borders.subtle,
       marginLeft: Sizes.Fonts.ICONS,
     },
+    scriptButton: {
+      marginBottom: Sizes.Spacings.STANDARD,
+      marginLeft: Sizes.Fonts.ICONS,
+    },
     smallText: {
       flexWrap: "wrap",
       color: colors.Text.subtle,

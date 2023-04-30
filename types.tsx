@@ -23,11 +23,13 @@ export type RootStackParamList = {
   Profile: undefined;
   DemoGenerationPage: undefined;
   Spots: undefined;
+  ProjectBuilder: undefined;
   DemoDetail: undefined;
   NotFound: undefined;
   Welcome: undefined;
   Projects: undefined;
   Role: undefined;
+  Scripts: undefined;
   Demos: undefined;
 };
 
@@ -41,7 +43,9 @@ export type RootTabParamList = {
   DemoDetail: undefined;
   DemoBuilder: undefined;
   Profile: undefined;
+  ProjectBuilder: undefined;
   DemoGenerationPage: undefined;
+  Scripts: undefined;
   Account: undefined;
 };
 

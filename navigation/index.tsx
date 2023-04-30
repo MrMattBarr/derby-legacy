@@ -24,6 +24,8 @@ import DemoGenerationPage from "../screens/DemoGenerationPage";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+import Scripts from "components/Scripts";
+import ProjectBuilder from "components/Projects/ProjectBuilder";
 
 export default function Navigation({
   colorScheme,
@@ -68,9 +70,19 @@ export const RootNavigator = observer(() => {
         options={{ title: "Derby Demos" }}
       />
       <Stack.Screen
+        name="ProjectBuilder"
+        component={ProjectBuilder}
+        options={{ title: "Derby Demos" }}
+      />
+      <Stack.Screen
         name="DemoBuilder"
         component={DemoBuilder}
         options={{ title: "Derby Demos" }}
+      />
+      <Stack.Screen
+        name="Scripts"
+        component={Scripts}
+        options={{ title: "Script" }}
       />
       <Stack.Screen name="NotFound" component={NotFoundScreen} />
       <Stack.Screen name="DemoDetail" component={DemoPage} />

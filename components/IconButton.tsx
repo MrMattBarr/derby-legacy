@@ -19,7 +19,7 @@ export interface IIconButton {
   label?: string;
 }
 
-const PlayerButton = ({
+const IconButton = ({
   size,
   onPress,
   icon,
@@ -66,4 +66,4 @@ const PlayerButton = ({
   );
 };
 
-export default PlayerButton;
+export default IconButton;

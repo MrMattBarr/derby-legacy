@@ -8,6 +8,8 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import textStyles from "styles/text";
 import { generateStyles } from "./styles";
+import BigButton from "components/Buttons/BigButton";
+import IconButton from "components/IconButton";
 
 const Header = observer(() => {
   const colors = useColors();
@@ -19,6 +21,10 @@ const Header = observer(() => {
   const navigate = () => {
     const destination = `/profile/${user?.id}`;
     linkTo(destination);
+  };
+
+  const newProject = () => {
+    linkTo("/projects/new");
   };
 
   const headerText = isSelf ? "Projects" : user?.profile?.displayName;
@@ -37,6 +43,14 @@ const Header = observer(() => {
           {!isSelf && <Text style={text.text}>Projects</Text>}
         </View>
       </Pressable>
+
+      <View>
+        <IconButton
+          background={colors.Backgrounds.primary}
+          onPress={newProject}
+          icon="plus"
+        />
+      </View>
     </View>
   );
 });

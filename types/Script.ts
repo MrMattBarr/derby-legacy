@@ -1,5 +1,3 @@
-import Line from "./Line";
-
 export type Script = {
   name: string;
   id: string;

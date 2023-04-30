@@ -1,10 +1,9 @@
+import { RoleProvider } from "contexts/RoleContext";
 import useUser from "contexts/UserContext";
 import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
-import { TEST_ROLES } from "testData/role";
 import RoleLine from "./RoleLine";
-import { RoleProvider } from "contexts/RoleContext";
 import SubHeader from "./Subheader";
 
 const RoleList = observer(() => {

@@ -1,17 +1,21 @@
 import Loading from "components/Demo/Loading";
 
+import AppText from "components/Controls/Text";
 import ExpanderColumn from "components/Role/Lines/ExpanderColumn";
 import useProject, { ProjectProvider } from "contexts/ProjectContext";
 import { useColors } from "hooks/useColorScheme";
 import React, { useState } from "react";
-import { Pressable, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useProjects } from "stores/ProjectsStore";
 import { generateStyles } from "../Role/Lines/styles";
-import AppText from "components/Controls/Text";
 import ProjectRoles from "./ProjectRoles";
+import BigButton from "components/Buttons/BigButton";
+import useAppNav from "contexts/NavigationContext";
+import { NavPage } from "constants/Navigation";
 
 const InnerLine = () => {
   const { element } = useProject();
+  const { go } = useAppNav();
   if (!element) {
     return <Loading />;
   }
@@ -22,6 +26,7 @@ const InnerLine = () => {
     titleText,
     smallText,
     content,
+    scriptButton,
     textHolder,
     listItem,
     header,
@@ -30,6 +35,10 @@ const InnerLine = () => {
 
   const toggleExpand = () => {
     setExpanded(!expanded);
+  };
+
+  const viewScript = () => {
+    go(NavPage.SCRIPTS, { id: element.id });
   };
 
   const roleWord = element.roles.length === 1 ? "role" : "roles";
@@ -48,6 +57,12 @@ const InnerLine = () => {
         </View>
         {expanded && (
           <View style={expandedContent}>
+            <BigButton
+              style={scriptButton}
+              onPress={viewScript}
+              label="Script"
+              icon="text-document"
+            />
             <View style={textHolder}>
               <AppText>This is where the project summary might go.</AppText>
             </View>
