@@ -36,6 +36,7 @@ const TextBar = () => {
           ref={inputRef}
           style={input}
           onChangeText={setDraft}
+          placeholder={args.placeholder ?? "Aa..."}
           defaultValue={args.text}
         />
         <Pressable onPress={submit} style={sendButton}>

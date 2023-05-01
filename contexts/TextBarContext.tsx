@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 type SubmitHandler = (value: string) => void;
 interface TextBarArgs {
   text?: string;
+  placeholder?: string;
   onSubmit: SubmitHandler;
 }
 type TextBarContract = {
@@ -16,6 +17,7 @@ export const TextBarProvider = ({ children }: any) => {
 
   const submitTextBar = (value: string) => {
     if (textBarArgs?.onSubmit) {
+      console.log({ value });
       textBarArgs.onSubmit(value);
       setTextBarArgs(undefined);
     }

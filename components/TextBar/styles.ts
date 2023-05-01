@@ -24,7 +24,7 @@ export const generateStyles = (colors: Theme) => {
     },
     sendButton: {
       backgroundColor: colors.Backgrounds.submit,
-      borderColor: colors.Borders.default,
+      borderColor: colors.Borders.dramatic,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
