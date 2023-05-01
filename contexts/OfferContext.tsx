@@ -56,7 +56,6 @@ export const OfferProvider = observer(
 
     useEffect(() => {
       const isTheTalent = role?.talent === self?.id;
-      console.log({ roles: self?.roles ?? [] });
       const selfRoles = self?.roles ?? [];
       const hasTheRole = Array.isArray(selfRoles)
         ? selfRoles.includes(roleId)

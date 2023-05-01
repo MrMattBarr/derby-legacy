@@ -10,6 +10,7 @@ import Header from "./Header";
 import useTextBar from "contexts/TextBarContext";
 import SketchLine from "components/Svg/SketchLine";
 import useProjectBuilder, { ProjectBuilderProvider } from "./Context";
+import Steps from "./Steps";
 
 const WrappedProjectBuilder = observer(() => {
   const authStore = useAuth();
@@ -32,16 +33,7 @@ const WrappedProjectBuilder = observer(() => {
         <Header />
         <SketchLine />
         <View style={body}>
-          <AppText
-            strikeThrough={hasName}
-            style={{
-              color: hasName ? colors.Text.complete : colors.Text.default,
-            }}
-            kalam
-          >
-            1. Name the project
-          </AppText>
-          {hasName && <AppText kalam>2. Do the next thing</AppText>}
+          <Steps />
         </View>
       </View>
     </UserProvider>
