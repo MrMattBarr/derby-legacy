@@ -1,8 +1,9 @@
+import { useModal } from "contexts/ModalContext";
 import { observer } from "mobx-react";
 
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-enum CharacterState {
+export enum CharacterState {
   CONFIRMED = "confirmed",
   UNKNOWN = "unknown",
   REJECTED = "rejected",
@@ -38,14 +39,59 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
   );
   const [characters, setCharacters] = useState<Record<string, Character>>({});
 
-  const confirmCharacter = (character: string) => {};
-  const rejectCharacter = (character: string) => {};
+  const {
+    modalArgs: { scriptParserArgs },
+  } = useModal();
+  const { lines } = scriptParserArgs!;
+
+  const bestGuess = () => {
+    let roles = new Set<string>();
+    const lineIndicator = ": ";
+    const chars: Record<string, Character> = {};
+    lines.forEach((line) => {
+      const [baseCharacter, ...rest] = line.split(lineIndicator);
+      if (rest.length === 0) {
+        return;
+      }
+      const [name] = baseCharacter.split("\n");
+      const text = rest.join(lineIndicator);
+      if (!roles.has(name)) {
+        roles.add(name);
+        chars[name] = {
+          status: CharacterState.UNKNOWN,
+          lines: [],
+          name,
+        };
+      }
+
+      chars[name].lines.push(text);
+    });
+    setCharacterNames(roles);
+    setCharacters(chars);
+  };
+  useEffect(bestGuess, [lines]);
+
+  const confirmCharacter = (character: string) => {
+    const newChars = { ...characters };
+    if (newChars[character]) {
+      newChars[character].status === CharacterState.CONFIRMED;
+      setCharacters(newChars);
+    }
+  };
+  const rejectCharacter = (character: string) => {
+    const newChars = { ...characters };
+    if (newChars[character]) {
+      newChars[character].status === CharacterState.REJECTED;
+      setCharacters(newChars);
+    }
+  };
   const dedupeCharacter = (args: IDedupe) => {};
 
   const characterNameList = Array.from(characterNames);
+  const characterList = characterNameList.map((name) => characters[name]);
 
   const value = {
-    characters: characterNameList.map((name) => characters[name]),
+    characters: characterList,
     rejectCharacter,
     confirmCharacter,
     dedupeCharacter,

@@ -1,14 +1,7 @@
-import AppText from "components/Controls/Text";
-import IconButton from "components/IconButton";
-import { useModal } from "contexts/ModalContext";
-import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
-import React, { useEffect, useState } from "react";
-import { View } from "react-native";
-import { Sizes } from "styles/sizes";
-import { generateStyles } from "./styles";
-import ScriptParserBody from "./ScriptParserBody";
+import React from "react";
 import { ScriptParserProvider } from "./Context";
+import ScriptParserBody from "./ScriptParserBody";
 
 const ScriptParser = observer(() => {
   return (
