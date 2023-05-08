@@ -1,15 +1,16 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, TextProps } from "react-native";
 import { useColors } from "../../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
 
-interface IAppText {
+interface IAppText extends TextProps {
   header?: boolean;
   children?: string;
   bold?: boolean;
   kalam?: boolean;
   strikeThrough?: boolean;
   style?: any;
+  wrap?: boolean;
 }
 
 const AppText = ({
@@ -18,16 +19,24 @@ const AppText = ({
   style,
   bold,
   kalam,
+  wrap,
   strikeThrough,
+  ...rest
 }: IAppText) => {
   const colors = useColors();
   const styles = generateStyles(colors, {
     isHeader: !!header,
     bold: !!bold,
     kalam,
+    wrap,
     strikeThrough,
   });
-  return <Text style={[styles.text, style || {}]}>{children}</Text>;
+
+  return (
+    <Text style={[styles.text, style || {}]} {...rest}>
+      {children}
+    </Text>
+  );
 };
 
 export default AppText;

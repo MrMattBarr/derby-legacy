@@ -1,17 +1,17 @@
 import { StyleSheet } from "react-native";
 import { Theme } from "../../../constants/Colors";
 import { Sizes } from "../../../styles/sizes";
-import { Kalam_400Regular } from "@expo-google-fonts/kalam";
 
 interface options {
   isHeader: boolean;
   bold: boolean;
   kalam?: boolean;
+  wrap?: boolean;
   strikeThrough?: boolean;
 }
 export const generateStyles = (
   colors: Theme,
-  { isHeader, bold, kalam, strikeThrough }: options
+  { isHeader, bold, kalam, wrap, strikeThrough }: options
 ) => {
   return StyleSheet.create({
     text: {

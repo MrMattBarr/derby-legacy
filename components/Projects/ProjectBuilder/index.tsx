@@ -17,15 +17,19 @@ const WrappedProjectBuilder = observer(() => {
   const colors = useColors();
   const { page, body } = generateStyles(colors);
   const { name, setName } = useProjectBuilder();
-  const { setTextBarArgs } = useTextBar();
+  const { setTextBarArgs, clearTextBar } = useTextBar();
   const id = authStore.user?.uid;
 
   if (!id) {
     return <></>;
   }
   useEffect(() => {
-    setTextBarArgs({ onSubmit: setName });
-  }, []);
+    if (!name) {
+      setTextBarArgs({ onSubmit: setName });
+    } else {
+      clearTextBar();
+    }
+  }, [name]);
   const hasName = name.trim().length > 0;
   return (
     <UserProvider id={id}>

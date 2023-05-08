@@ -6,11 +6,12 @@ interface StyleParams {
   fontSize?: number;
   danger?: boolean;
   compact?: boolean;
+  disabled?: boolean;
   hasIcon?: boolean;
 }
 export const generateStyles = (
   colors: Theme,
-  { fontSize, danger, compact, hasIcon }: StyleParams
+  { fontSize, danger, compact, hasIcon, disabled }: StyleParams
 ) => {
   return StyleSheet.create({
     textButton: {

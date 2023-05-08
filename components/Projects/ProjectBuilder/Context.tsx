@@ -1,10 +1,12 @@
 import { observer } from "mobx-react";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { ReactNode, createContext, useContext, useState } from "react";
+import ScriptReceiver from "./ScriptReceiver";
 
 type Step = {
   label: string;
   complete: boolean;
+  component?: () => JSX.Element;
 };
 
 type ProjectBuilderContract = {
@@ -19,9 +21,9 @@ interface IContext {
 
 const ProjectBuilderContext = createContext({} as ProjectBuilderContract);
 export const ProjectBuilderProvider = observer(({ children }: IContext) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Test Project");
 
-  const steps = [
+  const steps: Step[] = [
     {
       label: "Name the project",
       complete: name.trim().length > 0,
@@ -29,6 +31,7 @@ export const ProjectBuilderProvider = observer(({ children }: IContext) => {
     {
       label: "Upload the script",
       complete: false,
+      component: ScriptReceiver,
     },
   ];
 

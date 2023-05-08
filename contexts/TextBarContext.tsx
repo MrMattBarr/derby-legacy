@@ -9,6 +9,7 @@ interface TextBarArgs {
 type TextBarContract = {
   submitTextBar?: SubmitHandler;
   setTextBarArgs: (value: TextBarArgs) => void;
+  clearTextBar: () => void;
   args?: TextBarArgs;
 };
 const TextBarContext = React.createContext({} as TextBarContract);
@@ -17,16 +18,20 @@ export const TextBarProvider = ({ children }: any) => {
 
   const submitTextBar = (value: string) => {
     if (textBarArgs?.onSubmit) {
-      console.log({ value });
       textBarArgs.onSubmit(value);
       setTextBarArgs(undefined);
     }
+  };
+
+  const clearTextBar = () => {
+    setTextBarArgs(undefined);
   };
 
   const value = {
     args: textBarArgs,
     setTextBarArgs,
     submitTextBar,
+    clearTextBar,
   };
 
   return (

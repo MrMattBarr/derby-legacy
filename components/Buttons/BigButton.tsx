@@ -43,6 +43,7 @@ const BigButton = ({
     fontSize,
     danger,
     compact,
+    disabled,
     hasIcon: !!icon,
   });
   const linkTo = useLinkTo();

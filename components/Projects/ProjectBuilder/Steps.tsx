@@ -4,12 +4,15 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
 import useProjectBuilder from "./Context";
+import Nothing from "components/Nothing";
 
 const Steps = observer(() => {
   const colors = useColors();
   const { steps } = useProjectBuilder();
   const currentStep = steps.findIndex((x) => !x.complete);
   const completeSteps = steps.slice(0, currentStep);
+
+  const CurrentCompoent = steps[currentStep].component ?? Nothing;
 
   return (
     <View>
@@ -30,6 +33,7 @@ const Steps = observer(() => {
       <AppText kalam>{`${currentStep + 1}. ${
         steps[currentStep].label
       }`}</AppText>
+      <CurrentCompoent />
     </View>
   );
 });

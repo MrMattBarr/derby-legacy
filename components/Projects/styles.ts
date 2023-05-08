@@ -61,13 +61,13 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       fontWeight: "bold",
       fontSize: Sizes.Fonts.HEADER,
     },
+    smallText: {
+      color: colors.Text.subtle,
+    },
     content: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-    },
-    smallText: {
-      color: colors.Text.subtle,
     },
     calendar: {
       position: "relative",

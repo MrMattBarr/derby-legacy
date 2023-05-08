@@ -10,12 +10,14 @@ import { useColors } from "hooks/useColorScheme";
 import useClient from "./ClientContext";
 import OfferModal from "components/modals/Offer";
 import { observer } from "mobx-react";
+import ScriptParser from "components/modals/ScriptParser";
 
 export enum ModalKey {
   RECORDING = "recording",
   SPOT_EDITOR = "spotEditor",
   AVATAR_UPLOAD = "avatarUpload",
   OFFER = "offer",
+  SCRIPT_PARSER = "scriptParser",
   NONE = "none",
 }
 
@@ -24,12 +26,16 @@ const ModalByKey: Record<ModalKey, () => JSX.Element> = {
   [ModalKey.SPOT_EDITOR]: SpotEditorModal,
   [ModalKey.AVATAR_UPLOAD]: AvatarUpload,
   [ModalKey.OFFER]: OfferModal,
+  [ModalKey.SCRIPT_PARSER]: ScriptParser,
   [ModalKey.NONE]: Nothing,
 };
 
 interface ModalArgs {
   spotId: string;
   offerId: string;
+  scriptParserArgs: {
+    lines: string[];
+  };
 }
 
 type ModalContract = {
