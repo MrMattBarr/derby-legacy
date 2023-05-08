@@ -32,8 +32,8 @@ const ScriptParserBody = observer(() => {
           {remainingCharacters.map((character) => (
             <CharacterLine key={character.name} name={character.name} />
           ))}
+          <Rejected />
         </View>
-        <Rejected />
       </View>
     </View>
   );

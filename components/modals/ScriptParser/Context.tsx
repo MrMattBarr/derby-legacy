@@ -74,14 +74,14 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
   const confirmCharacter = (character: string) => {
     const newChars = { ...characters };
     if (newChars[character]) {
-      newChars[character].status === CharacterState.CONFIRMED;
+      newChars[character].status = CharacterState.CONFIRMED;
       setCharacters(newChars);
     }
   };
   const rejectCharacter = (character: string) => {
     const newChars = { ...characters };
     if (newChars[character]) {
-      newChars[character].status === CharacterState.REJECTED;
+      newChars[character].status = CharacterState.REJECTED;
       setCharacters(newChars);
     }
   };

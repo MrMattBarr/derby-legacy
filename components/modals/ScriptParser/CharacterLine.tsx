@@ -5,7 +5,7 @@ import React from "react";
 import { View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
-import useScriptParser from "./Context";
+import useScriptParser, { CharacterState } from "./Context";
 import Loading from "components/Demo/Loading";
 
 const CharacterLine = ({ name }: { name: string }) => {
@@ -25,20 +25,22 @@ const CharacterLine = ({ name }: { name: string }) => {
         <AppText style={titleText}>{name}</AppText>
         <AppText style={smallText}>{`${lineCount} ${lineWord}`}</AppText>
       </View>
-      <View style={buttons}>
-        <IconButton
-          onPress={() => rejectCharacter(name)}
-          color={colors.Text.subtle}
-          style={{ marginRight: Sizes.Spacings.STANDARD }}
-          icon="remove-user"
-        />
-        <IconButton
-          color={colors.Text.complete}
-          background={colors.Backgrounds.complete}
-          onPress={() => confirmCharacter(name)}
-          icon="check"
-        />
-      </View>
+      {character.status === CharacterState.UNKNOWN && (
+        <View style={buttons}>
+          <IconButton
+            onPress={() => rejectCharacter(name)}
+            color={colors.Text.subtle}
+            style={{ marginRight: Sizes.Spacings.STANDARD }}
+            icon="remove-user"
+          />
+          <IconButton
+            color={colors.Text.complete}
+            background={colors.Backgrounds.complete}
+            onPress={() => confirmCharacter(name)}
+            icon="check"
+          />
+        </View>
+      )}
     </View>
   );
 };
