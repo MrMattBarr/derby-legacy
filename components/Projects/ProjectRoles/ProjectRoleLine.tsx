@@ -40,7 +40,6 @@ const ProjectRoleSummary = observer(() => {
   }
 
   const createOffer = async () => {
-    console.log("invite");
     const offer: Partial<Offer> = {
       created: new Date().getTime(),
       role: role.id,

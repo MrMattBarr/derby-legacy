@@ -10,8 +10,6 @@ const Rejected = observer(() => {
   const colors = useColors();
   const { characters } = useScriptParser();
   const { nonCharacterSection } = generateStyles(colors);
-  const statuses = characters.map((x) => x.status);
-  console.log({ statuses });
   const nonCharacters = characters.filter((x) => {
     return x.status === CharacterState.REJECTED;
   });

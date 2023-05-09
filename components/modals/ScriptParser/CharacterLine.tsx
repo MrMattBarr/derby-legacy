@@ -12,13 +12,18 @@ const CharacterLine = ({ name }: { name: string }) => {
   const colors = useColors();
   const { characters, rejectCharacter, confirmCharacter } = useScriptParser();
   const character = characters.find((x) => x.name === name);
-  const { characterLine, titleText, smallText, buttons } =
-    generateStyles(colors);
   if (!character) {
     return <Loading />;
   }
   const lineCount = character.lines.length;
   const lineWord = lineCount === 1 ? "line" : "lines";
+  const confirmed = character.status === CharacterState.CONFIRMED;
+  const characterColor = character.color;
+  const { characterLine, titleText, smallText, buttons } = generateStyles(
+    colors,
+    { confirmed, characterColor }
+  );
+
   return (
     <View key={name} style={characterLine}>
       <View>
