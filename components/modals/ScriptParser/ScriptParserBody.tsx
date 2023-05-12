@@ -9,6 +9,7 @@ import { generateStyles } from "./styles";
 import useScriptParser, { CharacterState } from "./Context";
 import Rejected from "./Rejected";
 import ScriptPreview from "./ScriptPreview";
+import { LinearGradient } from "expo-linear-gradient";
 
 const ScriptParserBody = observer(() => {
   const colors = useColors();
@@ -25,8 +26,18 @@ const ScriptParserBody = observer(() => {
       <View style={headerBar}>
         <AppText header>Script Parser</AppText>
       </View>
-      <ScrollView style={body}>
-        <View style={characterSet}>
+      <ScrollView style={body} contentContainerStyle={{ flex: 1 }}>
+        <LinearGradient
+          // Background Linear Gradient
+          colors={[
+            "rgba(255,0,0,0.8)",
+            "rgba(255,250,0,0.8)",
+            "rgba(255,0,0,0.8)",
+            "rgba(255,250,0,0.8)",
+          ]}
+          style={{ height: 2000 }}
+        />
+        {/* <View style={characterSet}>
           <View style={charactersHeader}>
             <AppText header style={{ marginBottom: Sizes.Spacings.SMALL }}>
               {headersText}
@@ -37,7 +48,7 @@ const ScriptParserBody = observer(() => {
           ))}
           <Rejected />
         </View>
-        <ScriptPreview />
+        <ScriptPreview /> */}
       </ScrollView>
     </View>
   );

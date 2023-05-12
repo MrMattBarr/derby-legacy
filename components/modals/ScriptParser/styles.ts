@@ -28,9 +28,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     },
     body: {
       padding: Sizes.Spacings.STANDARD,
-      borderBottom: colors.Borders.dramatic,
+      borderBottomColor: colors.Borders.dramatic,
       borderBottomWidth: 1,
-      flexGrow: 1,
+      display: "flex",
     },
     characterSet: {
       backgroundColor: colors.Backgrounds.default,
