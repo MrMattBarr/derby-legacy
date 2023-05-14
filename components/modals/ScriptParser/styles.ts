@@ -27,10 +27,11 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       justifyContent: "center",
     },
     body: {
-      padding: Sizes.Spacings.STANDARD,
-      borderBottomColor: colors.Borders.dramatic,
-      borderBottomWidth: 1,
+      flexGrow: 1,
+      overflow: "hidden",
+      flexShrink: 1,
       display: "flex",
+      flexDirection: "column",
     },
     characterSet: {
       backgroundColor: colors.Backgrounds.default,
@@ -59,7 +60,6 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       flexDirection: "row",
     },
     charactersHeader: {
-      backgroundColor: colors.Backgrounds.empty,
       marginBottom: 2,
       padding: Sizes.Spacings.SMALL,
       display: "flex",
@@ -73,6 +73,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+    },
+    scrollable: {
+      padding: Sizes.Spacings.STANDARD,
     },
     scriptPreview: {
       backgroundColor: colors.Backgrounds.default,

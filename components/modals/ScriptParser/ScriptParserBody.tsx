@@ -10,11 +10,12 @@ import useScriptParser, { CharacterState } from "./Context";
 import Rejected from "./Rejected";
 import ScriptPreview from "./ScriptPreview";
 import { LinearGradient } from "expo-linear-gradient";
+import ScrollTest from "components/ScrollTest";
 
 const ScriptParserBody = observer(() => {
   const colors = useColors();
   const { characters } = useScriptParser();
-  const { page, headerBar, characterSet, body, charactersHeader } =
+  const { page, headerBar, body, characterSet, charactersHeader, scrollable } =
     generateStyles(colors);
   const remainingCharacters = characters.filter(
     (x) => x.status !== CharacterState.REJECTED
@@ -26,30 +27,25 @@ const ScriptParserBody = observer(() => {
       <View style={headerBar}>
         <AppText header>Script Parser</AppText>
       </View>
-      <ScrollView style={body} contentContainerStyle={{ flex: 1 }}>
-        <LinearGradient
-          // Background Linear Gradient
-          colors={[
-            "rgba(255,0,0,0.8)",
-            "rgba(255,250,0,0.8)",
-            "rgba(255,0,0,0.8)",
-            "rgba(255,250,0,0.8)",
-          ]}
-          style={{ height: 2000 }}
-        />
-        {/* <View style={characterSet}>
-          <View style={charactersHeader}>
-            <AppText header style={{ marginBottom: Sizes.Spacings.SMALL }}>
-              {headersText}
-            </AppText>
+      <View style={body}>
+        <ScrollView>
+          <View style={scrollable}>
+            <View style={charactersHeader}>
+              <AppText header>{headersText}</AppText>
+            </View>
+            <View style={characterSet}>
+              {remainingCharacters.map((character) => (
+                <CharacterLine key={character.name} name={character.name} />
+              ))}
+              <Rejected />
+            </View>
+            <View style={charactersHeader}>
+              <AppText header>Script</AppText>
+            </View>
+            <ScriptPreview />
           </View>
-          {remainingCharacters.map((character) => (
-            <CharacterLine key={character.name} name={character.name} />
-          ))}
-          <Rejected />
-        </View>
-        <ScriptPreview /> */}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 });

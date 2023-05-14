@@ -71,14 +71,15 @@ export const ModalProvider = observer(({ children }: any) => {
         animationType={animationType}
         transparent
       >
-        <Pressable style={styles.background} onPress={unsetModal}>
-          <ClickEater style={styles.modal}>
+        <View style={styles.background}>
+          <Pressable style={styles.dismissBar} onPress={unsetModal} />
+          <View style={styles.modal}>
             <View style={styles.header}></View>
             <View style={styles.body}>
               <Component />
             </View>
-          </ClickEater>
-        </Pressable>
+          </View>
+        </View>
       </Modal>
       {children}
     </ModalContext.Provider>

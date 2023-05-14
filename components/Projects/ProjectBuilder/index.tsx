@@ -1,21 +1,21 @@
-import AppText from "components/Controls/Text";
+import ScrollTest from "components/ScrollTest";
+import SketchLine from "components/Svg/SketchLine";
+import useTextBar from "contexts/TextBarContext";
 import { UserProvider } from "contexts/UserContext";
 import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { useAuth } from "stores/AuthStore";
-import { generateStyles } from "./styles";
-import Header from "./Header";
-import useTextBar from "contexts/TextBarContext";
-import SketchLine from "components/Svg/SketchLine";
 import useProjectBuilder, { ProjectBuilderProvider } from "./Context";
+import Header from "./Header";
 import Steps from "./Steps";
+import { generateStyles } from "./styles";
 
 const WrappedProjectBuilder = observer(() => {
   const authStore = useAuth();
   const colors = useColors();
-  const { page, body } = generateStyles(colors);
+  const { page, body, content } = generateStyles(colors);
   const { name, setName } = useProjectBuilder();
   const { setTextBarArgs, clearTextBar } = useTextBar();
   const id = authStore.user?.uid;
@@ -30,14 +30,16 @@ const WrappedProjectBuilder = observer(() => {
       clearTextBar();
     }
   }, [name]);
-  const hasName = name.trim().length > 0;
   return (
     <UserProvider id={id}>
       <View style={page}>
-        <Header />
-        <SketchLine />
-        <View style={body}>
-          <Steps />
+        <View style={content}>
+          <Header />
+          <SketchLine />
+          <View style={body}>
+            <Steps />
+            <ScrollTest />
+          </View>
         </View>
       </View>
     </UserProvider>

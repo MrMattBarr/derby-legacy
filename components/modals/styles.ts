@@ -12,9 +12,9 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
   const { isMobile } = props ?? {};
   const mobileStyles = {
     flexGrow: 1,
-    marginTop: 100,
     borderBottomLeftRadius: 0,
     borderTopWidth: 1,
+    flexShrink: 1,
     borderColor: colors.Borders.subtle,
     borderBottomRightRadius: 0,
     marginHorizontal: -1,
@@ -46,12 +46,17 @@ export const modalStyles = (colors: Theme, props?: IModalStyle) => {
     background: {
       backgroundColor: AppColor.TRANSPARENT_BLACK,
       display: "flex",
+      flexDirection: "column",
       justifyContent: isMobile ? undefined : "center",
       alignItems: isMobile ? undefined : "center",
       flexGrow: 1,
     },
+    dismissBar: {
+      height: 100,
+    },
     header: {},
     body: {
+      marginBottom: 20,
       overflow: "hidden",
       flexGrow: 1,
     },

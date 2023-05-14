@@ -9,12 +9,16 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
   const { hasClipboardText } = props ?? {};
   return StyleSheet.create({
     page: {
-      flexGrow: 1,
       borderTopWidth: 2,
       borderTopColor: colors.Borders.default,
       backgroundColor: colors.Backgrounds.primary,
-      display: "flex",
-      flexDirection: "column",
+      flexShrink: 1,
+      flexGrow: 1,
+      overflow: "hidden",
+    },
+    content: {
+      height: "100%",
+      overflow: "hidden",
     },
     header: {
       display: "flex",
