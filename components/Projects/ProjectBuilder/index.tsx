@@ -38,7 +38,6 @@ const WrappedProjectBuilder = observer(() => {
           <SketchLine />
           <View style={body}>
             <Steps />
-            <ScrollTest />
           </View>
         </View>
       </View>

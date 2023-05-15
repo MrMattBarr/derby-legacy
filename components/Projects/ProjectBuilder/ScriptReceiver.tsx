@@ -9,6 +9,7 @@ import { Text, View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 import { ModalKey, useModal } from "contexts/ModalContext";
+import useProjectBuilder from "./Context";
 
 const ScriptReceiver = () => {
   const colors = useColors();
@@ -19,8 +20,11 @@ const ScriptReceiver = () => {
     NodeJS.Timer | undefined
   >();
 
+  const { name } = useProjectBuilder();
   const startParsing = (lines: string[]) => {
-    setModal(ModalKey.SCRIPT_PARSER, { scriptParserArgs: { lines } });
+    setModal(ModalKey.SCRIPT_PARSER, {
+      scriptParserArgs: { lines, title: name },
+    });
   };
 
   const hasClipboardText = copiedText.trim().length > 0;

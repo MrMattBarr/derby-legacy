@@ -35,6 +35,7 @@ interface ModalArgs {
   offerId: string;
   scriptParserArgs: {
     lines: string[];
+    title: string;
   };
 }
 

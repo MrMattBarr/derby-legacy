@@ -95,5 +95,8 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       padding: Sizes.Spacings.SMALL,
       borderBottomWidth: 1,
     },
+    button: {
+      margin: Sizes.Spacings.STANDARD,
+    },
   });
 };

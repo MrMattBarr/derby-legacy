@@ -2,6 +2,6 @@ export type Project = {
   title: string;
   owner: string;
   roles: string[];
-  description: string;
+  description?: string;
   id: string;
 };

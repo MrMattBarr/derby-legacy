@@ -3,7 +3,13 @@ import { useModal } from "contexts/ModalContext";
 import { observer } from "mobx-react";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-
+import { useAuth } from "stores/AuthStore";
+import { useLines } from "stores/LinesStore";
+import { useProjects } from "stores/ProjectsStore";
+import { useRoles } from "stores/RolesStore";
+import { Project } from "types/Project";
+import { Role } from "types/Role";
+import { ApprovalStatus } from "types/Take";
 export enum CharacterState {
   CONFIRMED = "confirmed",
   UNKNOWN = "unknown",
@@ -26,12 +32,15 @@ interface IDedupe {
 interface ParsedLine {
   character?: string;
   text: string;
+  dbId?: string;
 }
 
 type ScriptParserContract = {
   characters: Character[];
   rejectCharacter: (character: string) => void;
   confirmCharacter: (character: string) => void;
+  finalize: () => Promise<void>;
+  title: string;
   dedupeCharacter: ({ original, duplicate }: IDedupe) => void;
   lineIds: string[];
   lines: Record<string, ParsedLine>;
@@ -56,6 +65,10 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
     new Set<string>()
   );
   const [characters, setCharacters] = useState<Record<string, Character>>({});
+  const rolesStore = useRoles();
+  const projectStore = useProjects();
+  const linesStore = useLines();
+  const authStore = useAuth();
   const [parsedLines, setParsedLines] = useState<Record<string, ParsedLine>>(
     {}
   );
@@ -64,7 +77,7 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
   const {
     modalArgs: { scriptParserArgs },
   } = useModal();
-  const { lines } = scriptParserArgs!;
+  const { lines, title } = scriptParserArgs!;
 
   const characterNameList = Array.from(characterNames);
   const characterList = characterNameList.map((name) => characters[name]);
@@ -130,12 +143,64 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
   };
   const dedupeCharacter = (args: IDedupe) => {};
 
+  const finalize = async () => {
+    const partialProject: Partial<Project> = {
+      title,
+      owner: authStore.user?.uid!,
+      roles: [],
+    };
+
+    const project = await projectStore.create(partialProject);
+
+    const allLineIds = [];
+    const roleIdByName: Record<string, string> = {};
+
+    const promises = [...characterNames].map((name) => {
+      return new Promise((resolve, reject) => {
+        const character = characters[name];
+        if (character.status !== CharacterState.CONFIRMED) {
+          resolve(undefined);
+        }
+        const partialRole: Partial<Role> = {
+          name,
+          color: character.color,
+          project: project.id,
+          lines: [],
+        };
+        rolesStore
+          .create(partialRole)
+          .then((role) => resolve({ name, role: role.id }));
+      });
+    });
+
+    const results = await Promise.all(promises);
+
+    console.log({ results });
+
+    console.log("\n\nCHARACTERS MADE\n\n");
+    console.log({ roleIdByName });
+
+    console.log({ lineIds });
+    lineIds.forEach((lineId) => {
+      const lineDraft = parsedLines[lineId];
+      console.log({ lineId, role: roleIdByName[lineId] });
+      const line = linesStore.create({
+        role: roleIdByName[lineId],
+        text: lineDraft.text,
+        status: ApprovalStatus.UNHEARD,
+        takes: [],
+      });
+    });
+  };
+
   const value = {
     characters: characterList,
     rejectCharacter,
     confirmCharacter,
     dedupeCharacter,
     lineIds,
+    title,
+    finalize,
     lines: parsedLines,
   };
 

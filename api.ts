@@ -206,7 +206,6 @@ const updateThing = <Type extends ThingWithId>({
             [thing.id as string]: true,
           },
         };
-        console.log({ crUpdate });
         updateThing({
           db: crossReference.db,
           thing: crUpdate,

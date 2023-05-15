@@ -1,11 +1,14 @@
+import { AppColor } from "constants/Colors";
+
 export type SaveableRole = {
   project: string;
-  talent: string;
+  talent?: string;
   name: string;
   offer?: string;
   description: string;
   lines: string[];
-  dueDate: number;
+  color?: AppColor;
+  dueDate?: number;
 };
 
 export interface Role extends SaveableRole {

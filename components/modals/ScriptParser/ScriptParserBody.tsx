@@ -1,22 +1,27 @@
+import BigButton from "components/Buttons/BigButton";
 import AppText from "components/Controls/Text";
 import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, View } from "react-native";
-import { Sizes } from "styles/sizes";
 import CharacterLine from "./CharacterLine";
-import { generateStyles } from "./styles";
 import useScriptParser, { CharacterState } from "./Context";
 import Rejected from "./Rejected";
 import ScriptPreview from "./ScriptPreview";
-import { LinearGradient } from "expo-linear-gradient";
-import ScrollTest from "components/ScrollTest";
+import { generateStyles } from "./styles";
 
 const ScriptParserBody = observer(() => {
   const colors = useColors();
-  const { characters } = useScriptParser();
-  const { page, headerBar, body, characterSet, charactersHeader, scrollable } =
-    generateStyles(colors);
+  const { characters, finalize, title } = useScriptParser();
+  const {
+    page,
+    headerBar,
+    body,
+    button,
+    characterSet,
+    charactersHeader,
+    scrollable,
+  } = generateStyles(colors);
   const remainingCharacters = characters.filter(
     (x) => x.status !== CharacterState.REJECTED
   );
@@ -25,7 +30,7 @@ const ScriptParserBody = observer(() => {
   return (
     <View style={page}>
       <View style={headerBar}>
-        <AppText header>Script Parser</AppText>
+        <AppText header>{`${title} (draft)`}</AppText>
       </View>
       <View style={body}>
         <ScrollView>
@@ -45,6 +50,7 @@ const ScriptParserBody = observer(() => {
             <ScriptPreview />
           </View>
         </ScrollView>
+        <BigButton style={button} label="Finalize" onPress={finalize} />
       </View>
     </View>
   );
