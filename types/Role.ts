@@ -7,7 +7,7 @@ export type SaveableRole = {
   offer?: string;
   description: string;
   lines: string[];
-  color?: AppColor;
+  color?: string;
   dueDate?: number;
 };
 

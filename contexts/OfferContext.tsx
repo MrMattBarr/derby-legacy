@@ -6,10 +6,11 @@ import Loading from "../components/Demo/Loading";
 import { ContextContract, IContext } from "./types";
 import { useAuth } from "stores/AuthStore";
 import { useRoles } from "stores/RolesStore";
-import { ModalKey, useModal } from "./ModalContext";
+import { useModal } from "./ModalContext";
 import useAppNav from "./NavigationContext";
 import { NavPage } from "constants/Navigation";
 import { useUsers } from "stores/UsersStore";
+import { ModalKey } from "config/ModalKeys";
 
 interface OfferContract extends ContextContract<Offer> {
   isOwner: boolean;

@@ -1,25 +1,23 @@
 import AppText from "components/Controls/Text";
 import Loading from "components/Demo/Loading";
 
+import BigButton from "components/Buttons/BigButton";
 import { View } from "components/Themed";
+import { useModal } from "contexts/ModalContext";
+import useProject from "contexts/ProjectContext";
 import useRole, { RoleProvider } from "contexts/RoleContext";
 import { useColors } from "hooks/useColorScheme";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { generateStyles } from "./styles";
-import { UserProvider } from "contexts/UserContext";
-import Avatar from "components/Avatar";
-import { ro } from "date-fns/locale";
-import { Sizes } from "styles/sizes";
-import CastRoleSummary from "./CastRoleSummary";
 import { Pressable } from "react-native";
-import BigButton from "components/Buttons/BigButton";
-import useProject from "contexts/ProjectContext";
-import { Offer, OfferStatus } from "types/Offer";
 import { useOffers } from "stores/OffersStore";
 import { useRoles } from "stores/RolesStore";
-import { observer } from "mobx-react-lite";
+import { Sizes } from "styles/sizes";
+import { Offer } from "types/Offer";
 import { Role } from "types/Role";
-import { ModalKey, useModal } from "contexts/ModalContext";
+import CastRoleSummary from "./CastRoleSummary";
+import { generateStyles } from "./styles";
+import { ModalKey } from "config/ModalKeys";
 
 const ProjectRoleSummary = observer(() => {
   const { role } = useRole();

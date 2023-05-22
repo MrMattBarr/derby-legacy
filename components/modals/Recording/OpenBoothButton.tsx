@@ -1,10 +1,10 @@
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { ModalKey, useModal } from "../../../contexts/ModalContext";
-import usePlayback from "../../../contexts/PlaybackContext";
-import { useColors } from "../../../hooks/useColorScheme";
 import { generateStyles } from "./styles";
+import { ModalKey } from "config/ModalKeys";
+import { useModal } from "contexts/ModalContext";
+import { useColors } from "hooks/useColorScheme";
 
 const OpenBoothButton = () => {
   const { setModal } = useModal();

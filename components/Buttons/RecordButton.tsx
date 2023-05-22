@@ -1,9 +1,8 @@
-import { useLinkTo } from "@react-navigation/native";
 import React from "react";
 import { AppColor } from "../../constants/Colors";
-import useDemo from "../../contexts/DemoContext";
-import { ModalKey, useModal } from "../../contexts/ModalContext";
+import { useModal } from "../../contexts/ModalContext";
 import IconButton, { IIconButton } from "../IconButton";
+import { ModalKey } from "config/ModalKeys";
 
 const RecordButton = (options: Partial<IIconButton>) => {
   const modalStore = useModal();

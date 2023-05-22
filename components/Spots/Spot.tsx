@@ -1,15 +1,15 @@
+import AppText from "components/Controls/Text";
+import IconButton from "components/IconButton";
+import Nothing from "components/Nothing";
+import { ModalKey } from "config/ModalKeys";
+import { useModal } from "contexts/ModalContext";
+import usePlayback from "contexts/PlaybackContext";
+import useSpot from "contexts/SpotContext";
+import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { ModalKey, useModal } from "../../contexts/ModalContext";
-import usePlayback from "../../contexts/PlaybackContext";
-import useSpot from "../../contexts/SpotContext";
-import { useColors } from "../../hooks/useColorScheme";
-import { Sizes } from "../../styles/sizes";
-import { readableDuration } from "../../utils/utils";
-import IconButton from "../IconButton";
-import Nothing from "../Nothing";
-import { Text, View } from "../Themed";
+import { TouchableOpacity, View } from "react-native";
+import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 
 const Spot = observer(() => {
@@ -33,8 +33,7 @@ const Spot = observer(() => {
   return (
     <TouchableOpacity activeOpacity={0.7} style={styles.spot} onPress={load}>
       <View>
-        <Text style={styles.spotTitle}>{spot?.title}</Text>
-        <Text style={styles.duration}>{readableDuration(spot?.length)}</Text>
+        <AppText style={styles.spotTitle}>{spot?.title}</AppText>
       </View>
       {isOwner && (
         <View>

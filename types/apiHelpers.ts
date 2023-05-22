@@ -41,6 +41,13 @@ export const DBSpecs: Record<DB, DBSpec> = {
   [DB.PROJECT]: {
     requiredFields: ["owner", "roles"],
     unsaveableFields: ["id"],
+    crossReferences: [
+      {
+        db: DB.USER,
+        localKey: "owner",
+        foreignKey: "projects",
+      },
+    ],
     dbKey: "projects",
   },
   [DB.ROLE]: {
@@ -62,7 +69,7 @@ export const DBSpecs: Record<DB, DBSpec> = {
     dbKey: "demos",
   },
   [DB.LINE]: {
-    requiredFields: ["role", "takes", "text"],
+    requiredFields: ["takes", "text"],
     unsaveableFields: [],
     crossReferences: [
       {

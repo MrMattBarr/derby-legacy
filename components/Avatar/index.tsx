@@ -3,12 +3,13 @@ import { observer } from "mobx-react-lite";
 import React from "react";
 import { Image, Pressable } from "react-native";
 import useClient from "../../contexts/ClientContext";
-import { ModalKey, useModal } from "../../contexts/ModalContext";
+import { useModal } from "../../contexts/ModalContext";
 import useUser from "../../contexts/UserContext";
 import { useColors } from "../../hooks/useColorScheme";
 import { Sizes } from "../../styles/sizes";
 import { Text, View } from "../Themed";
 import { generateStyles } from "./styles";
+import { ModalKey } from "config/ModalKeys";
 
 interface IAvatar {
   size?: number;

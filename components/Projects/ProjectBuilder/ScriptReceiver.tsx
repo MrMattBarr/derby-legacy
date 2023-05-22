@@ -8,8 +8,9 @@ import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
-import { ModalKey, useModal } from "contexts/ModalContext";
+import { useModal } from "contexts/ModalContext";
 import useProjectBuilder from "./Context";
+import { ModalKey } from "config/ModalKeys";
 
 const ScriptReceiver = () => {
   const colors = useColors();
@@ -38,8 +39,12 @@ const ScriptReceiver = () => {
   const INTERVAL_LENGTH = 500;
 
   const checkClipboard = async () => {
-    const text = await Clipboard.getStringAsync();
-    setCopiedText(text);
+    try {
+      const text = await Clipboard.getStringAsync();
+      setCopiedText(text);
+    } catch (e) {
+      console.log({ e });
+    }
   };
 
   useEffect(() => {

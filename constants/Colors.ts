@@ -25,7 +25,7 @@ export enum AppColor {
   TREE_BROWN = "#534b40",
   SANDY_WHITE = "#fff8e9",
   IVY_GREEN = "#08640f",
-  DIRTY_GOLD = "#5c5000",
+  DIRTY_GOLD = "#474221",
   JALAPENO_GREEN = "#67f266",
   TINTED_GRAY = "#445",
   AQUA = "#035563",

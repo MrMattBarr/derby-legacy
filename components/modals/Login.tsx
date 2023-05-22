@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Platform, TextInput } from "react-native";
-import { useColors } from "../../hooks/useColorScheme";
-import { useAuth } from "../../stores/AuthStore";
-import { ModalKey, useModal } from "../../contexts/ModalContext";
 import { View } from "../Themed";
 import { modalStyles } from "./styles";
+import { ModalKey } from "config/ModalKeys";
+import { useModal } from "contexts/ModalContext";
+import { useColors } from "hooks/useColorScheme";
+import { useAuth } from "stores/AuthStore";
 
 const Login = () => {
   const authStore = useAuth();
