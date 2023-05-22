@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Platform, TextInput } from "react-native";
 import { View } from "../Themed";
 import { modalStyles } from "./styles";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 import { useModal } from "contexts/ModalContext";
 import { useColors } from "hooks/useColorScheme";
 import { useAuth } from "stores/AuthStore";

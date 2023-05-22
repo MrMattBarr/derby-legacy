@@ -1,7 +1,7 @@
 import AppText from "components/Controls/Text";
 import IconButton from "components/IconButton";
 import Nothing from "components/Nothing";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 import { useModal } from "contexts/ModalContext";
 import usePlayback from "contexts/PlaybackContext";
 import useSpot from "contexts/SpotContext";

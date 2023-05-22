@@ -9,7 +9,7 @@ import { useColors } from "../../hooks/useColorScheme";
 import { Sizes } from "../../styles/sizes";
 import { Text, View } from "../Themed";
 import { generateStyles } from "./styles";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 
 interface IAvatar {
   size?: number;

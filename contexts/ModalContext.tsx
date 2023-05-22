@@ -1,11 +1,13 @@
-import { modalStyles } from "components/modals/styles";
-import { ModalByKey, ModalKey } from "config/ModalKeys";
-import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
-import React, { useContext, useState } from "react";
-import { Modal, Pressable, View } from "react-native";
-import useClient from "./ClientContext";
-
+import React, { useContext, useEffect, useState } from "react";
+export enum ModalKey {
+  RECORDING = "recording",
+  SPOT_EDITOR = "spotEditor",
+  AVATAR_UPLOAD = "avatarUpload",
+  OFFER = "offer",
+  SCRIPT_PARSER = "scriptParser",
+  NONE = "none",
+}
 interface ModalArgs {
   spotId: string;
   offerId: string;
@@ -16,6 +18,7 @@ interface ModalArgs {
 }
 
 type ModalContract = {
+  modal: ModalKey;
   setModal: (key: ModalKey, args?: Partial<ModalArgs>) => void;
   modalArgs: Partial<ModalArgs>;
 };
@@ -25,39 +28,16 @@ export const ModalContext = React.createContext<ModalContract | undefined>(
 );
 
 export const ModalProvider = observer(({ children }: any) => {
-  const colors = useColors();
-  const { isMobile } = useClient();
-  const styles = modalStyles(colors, { isMobile });
   const [modal, setModalKey] = useState(ModalKey.NONE);
   const [modalArgs, setModalArgs] = useState<Partial<ModalArgs>>({});
-  const Component = ModalByKey[modal];
 
   const setModal = (key: ModalKey, args?: Partial<ModalArgs>) => {
     setModalKey(key);
     setModalArgs(args ?? {});
   };
-  const unsetModal = () => {
-    setModal(ModalKey.NONE);
-  };
-  const animationType = isMobile ? "slide" : "fade";
 
   return (
-    <ModalContext.Provider value={{ setModal, modalArgs }}>
-      <Modal
-        visible={modal !== ModalKey.NONE}
-        animationType={animationType}
-        transparent
-      >
-        <View style={styles.background}>
-          <Pressable style={styles.dismissBar} onPress={unsetModal} />
-          <View style={styles.modal}>
-            <View style={styles.header}></View>
-            <View style={styles.body}>
-              <Component />
-            </View>
-          </View>
-        </View>
-      </Modal>
+    <ModalContext.Provider value={{ setModal, modalArgs, modal }}>
       {children}
     </ModalContext.Provider>
   );

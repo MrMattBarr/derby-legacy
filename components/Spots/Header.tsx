@@ -1,18 +1,15 @@
 import { useLinkTo } from "@react-navigation/native";
-import { observer } from "mobx-react";
-import React from "react";
-import { Pressable, View, useColorScheme } from "react-native";
-import { generateStyles } from "./styles";
 import Avatar from "components/Avatar";
 import BigButton from "components/Buttons/BigButton";
-import { ModalKey } from "config/ModalKeys";
-import useClient from "contexts/ClientContext";
-import { useModal } from "contexts/ModalContext";
-import useUser from "contexts/UserContext";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import textStyles from "styles/text";
 import AppText from "components/Controls/Text";
+import useClient from "contexts/ClientContext";
+import { ModalKey, useModal } from "contexts/ModalContext";
+import useUser from "contexts/UserContext";
 import { useColors } from "hooks/useColorScheme";
+import { observer } from "mobx-react";
+import React from "react";
+import { Pressable, View } from "react-native";
+import { generateStyles } from "./styles";
 
 const Header = observer(() => {
   const { setModal } = useModal();

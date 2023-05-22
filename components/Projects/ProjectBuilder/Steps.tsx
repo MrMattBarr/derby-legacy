@@ -3,7 +3,8 @@ import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
-import useProjectBuilder from "./Context";
+import useProjectBuilder, { StepNames } from "./Context";
+import ScriptReceiver from "./ScriptReceiver";
 import Nothing from "components/Nothing";
 
 const Steps = observer(() => {
@@ -12,7 +13,12 @@ const Steps = observer(() => {
   const currentStep = steps.findIndex((x) => !x.complete);
   const completeSteps = steps.slice(0, currentStep);
 
-  const CurrentCompoent = steps[currentStep].component ?? Nothing;
+  const StepComponents = {
+    [StepNames.UPLOAD_SCRIPT]: ScriptReceiver,
+    [StepNames.NAME]: Nothing,
+  };
+
+  const CurrentCompoent = StepComponents[steps[currentStep].name];
 
   return (
     <View>

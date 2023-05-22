@@ -10,7 +10,7 @@ import { useModal } from "./ModalContext";
 import useAppNav from "./NavigationContext";
 import { NavPage } from "constants/Navigation";
 import { useUsers } from "stores/UsersStore";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 
 interface OfferContract extends ContextContract<Offer> {
   isOwner: boolean;

@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { Pressable } from "react-native";
 import { generateStyles } from "./styles";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 import { useModal } from "contexts/ModalContext";
 import useSpot from "contexts/SpotContext";
 import { useColors } from "hooks/useColorScheme";

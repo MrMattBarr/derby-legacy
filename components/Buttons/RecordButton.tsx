@@ -2,7 +2,7 @@ import React from "react";
 import { AppColor } from "../../constants/Colors";
 import { useModal } from "../../contexts/ModalContext";
 import IconButton, { IIconButton } from "../IconButton";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 
 const RecordButton = (options: Partial<IIconButton>) => {
   const modalStore = useModal();

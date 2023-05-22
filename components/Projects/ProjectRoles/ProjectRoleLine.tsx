@@ -17,7 +17,7 @@ import { Offer } from "types/Offer";
 import { Role } from "types/Role";
 import CastRoleSummary from "./CastRoleSummary";
 import { generateStyles } from "./styles";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 
 const ProjectRoleSummary = observer(() => {
   const { role } = useRole();

@@ -10,7 +10,7 @@ import { Sizes } from "styles/sizes";
 import { generateStyles } from "./styles";
 import { useModal } from "contexts/ModalContext";
 import useProjectBuilder from "./Context";
-import { ModalKey } from "config/ModalKeys";
+import { ModalKey } from "contexts/ModalContext";
 
 const ScriptReceiver = () => {
   const colors = useColors();

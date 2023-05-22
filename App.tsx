@@ -28,6 +28,7 @@ import { SpotsStoreProvider } from "stores/SpotsStore";
 import { TakesStoreProvider } from "stores/TakesStore";
 import { UsersStoreProvider } from "stores/UsersStore";
 import { OfferStore, OffersStoreProvider } from "stores/OffersStore";
+import ActiveModal from "components/ActiveModal";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -54,6 +55,7 @@ export default function App() {
                                       <ModalProvider>
                                         <TextBarProvider>
                                           <ReactiveProvider>
+                                            <ActiveModal />
                                             <PhoneTopSpacer />
                                             <WebHeader />
                                             <RootNavigator />

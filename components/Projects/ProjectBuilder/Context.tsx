@@ -1,12 +1,15 @@
 import { observer } from "mobx-react";
 
-import React, { ReactNode, createContext, useContext, useState } from "react";
-import ScriptReceiver from "./ScriptReceiver";
+import React, { createContext, useContext, useState } from "react";
+export enum StepNames {
+  NAME = "name",
+  UPLOAD_SCRIPT = "uploadScript",
+}
 
-type Step = {
+export type Step = {
+  name: StepNames;
   label: string;
   complete: boolean;
-  component?: () => JSX.Element;
 };
 
 type ProjectBuilderContract = {
@@ -25,13 +28,14 @@ export const ProjectBuilderProvider = observer(({ children }: IContext) => {
 
   const steps: Step[] = [
     {
+      name: StepNames.NAME,
       label: "Name the project",
       complete: name.trim().length > 0,
     },
     {
+      name: StepNames.UPLOAD_SCRIPT,
       label: "Upload the script",
       complete: false,
-      component: ScriptReceiver,
     },
   ];
 
