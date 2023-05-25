@@ -23,12 +23,14 @@ const RoleSummary = () => {
   const offerCreatedDt = DateTime.fromMillis(offer?.created);
   return (
     <View style={element}>
-      <View style={line}>
-        <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
-          Due:
-        </AppText>
-        {roleDt && <AppText>{roleDt.toFormat("DDDD")}</AppText>}
-      </View>
+      {roleDt && (
+        <View style={line}>
+          <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
+            Due:
+          </AppText>
+          <AppText>{roleDt.toFormat("DDDD")}</AppText>
+        </View>
+      )}
       <View style={line}>
         <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
           Line Count:

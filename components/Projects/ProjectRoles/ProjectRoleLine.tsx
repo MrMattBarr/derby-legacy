@@ -38,8 +38,6 @@ const ProjectRoleSummary = observer(() => {
     return <CastRoleSummary talent={role.talent} />;
   }
 
-  console.log({ role });
-
   const createOffer = async () => {
     const offer: Partial<Offer> = {
       created: new Date().getTime(),
