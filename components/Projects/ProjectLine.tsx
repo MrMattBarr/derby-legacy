@@ -41,7 +41,9 @@ const InnerLine = () => {
     go(NavPage.SCRIPTS, { id: element.id });
   };
 
-  const roleWord = element.roles.length === 1 ? "role" : "roles";
+  const roles = Object.keys(element?.roles ?? {});
+
+  const roleWord = roles.length === 1 ? "role" : "roles";
 
   return (
     <Pressable style={listItem} onPress={toggleExpand}>
@@ -50,9 +52,7 @@ const InnerLine = () => {
           <ExpanderColumn expanded={expanded} />
           <View>
             <Text style={titleText}>{element.title}</Text>
-            <Text
-              style={smallText}
-            >{`${element.roles.length} ${roleWord}`}</Text>
+            <Text style={smallText}>{`${roles.length} ${roleWord}`}</Text>
           </View>
         </View>
         {expanded && (

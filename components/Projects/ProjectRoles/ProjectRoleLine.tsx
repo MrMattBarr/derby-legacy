@@ -29,13 +29,16 @@ const ProjectRoleSummary = observer(() => {
 
   const colors = useColors();
   const { roleLine, uncastAvatar } = generateStyles(colors);
-  const lineWord = role?.lines.length === 1 ? "line" : "lines";
+  const lines = role?.lines ?? [];
+  const lineWord = lines.length === 1 ? "line" : "lines";
   if (!role) {
     return <Loading />;
   }
   if (role.talent) {
     return <CastRoleSummary talent={role.talent} />;
   }
+
+  console.log({ role });
 
   const createOffer = async () => {
     const offer: Partial<Offer> = {
@@ -61,7 +64,7 @@ const ProjectRoleSummary = observer(() => {
       <View>
         <AppText header>{role.name}</AppText>
         <AppText style={{ color: colors.Text.subtle }}>{`${
-          role.lines.length ?? 0
+          lines.length ?? 0
         } ${lineWord}`}</AppText>
         {!role.offer && (
           <BigButton

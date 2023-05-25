@@ -5,6 +5,7 @@ import React, { createContext, useContext } from "react";
 import { DB } from "types/apiHelpers";
 import {
   Completable,
+  LookupOptions,
   ThingWithId,
   createThing,
   deleteThing,
@@ -16,7 +17,11 @@ export type StoreContract<Thing extends ThingWithId> = {
   ids: Set<string>;
   things: Record<string, Thing>;
   add: (thing: Thing) => void;
-  create: (thing: Partial<Thing>, recording?: Recording) => Promise<Thing>;
+  create: (
+    thing: Partial<Thing>,
+    recording?: Recording,
+    options?: LookupOptions
+  ) => Promise<Thing>;
   processIds: (ids: string[], onError?: (id: string) => void) => void;
   update: (thing: Partial<Thing>, callbacks?: Completable) => void;
   load: (id: string) => void;
@@ -40,11 +45,16 @@ export function Store<Thing extends ThingWithId>(db: DB) {
         this.things[thing.id] = thing;
         this.ids.add(thing.id);
       },
-      async create(thing: Partial<Thing>, recording?: Recording) {
+      async create(
+        thing: Partial<Thing>,
+        recording?: Recording,
+        options?: LookupOptions
+      ) {
         const uploadedThing = (await createThing({
           thing,
           db,
           recording,
+          options,
         })) as any;
 
         runInAction(() => {

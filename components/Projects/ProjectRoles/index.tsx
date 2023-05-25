@@ -9,7 +9,8 @@ import { generateStyles } from "./styles";
 
 const ProjectRoles = observer(() => {
   const { element } = useProject();
-  const roles = element?.roles ?? [];
+
+  const roles = Object.keys(element?.roles ?? {});
   const colors = useColors();
   const { rolesContainer, rolesContainerHolder, expanderColumn } =
     generateStyles(colors);

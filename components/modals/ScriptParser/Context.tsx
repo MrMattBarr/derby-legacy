@@ -1,3 +1,4 @@
+import { LookupOptions } from "api";
 import { AppColor } from "constants/Colors";
 import { useModal } from "contexts/ModalContext";
 import { observer } from "mobx-react";
@@ -7,6 +8,7 @@ import { useAuth } from "stores/AuthStore";
 import { useLines } from "stores/LinesStore";
 import { useProjects } from "stores/ProjectsStore";
 import { useRoles } from "stores/RolesStore";
+import { Line } from "types/Line";
 import { Project } from "types/Project";
 import { Role } from "types/Role";
 import { ApprovalStatus } from "types/Take";
@@ -58,6 +60,11 @@ const RoleColors = [
   AppColor.AQUA,
   AppColor.PLUM,
 ];
+
+type RoleMapping = {
+  name: string;
+  role: string;
+};
 
 const ScriptParserContext = createContext({} as ScriptParserContract);
 export const ScriptParserProvider = observer(({ children }: IContext) => {
@@ -155,12 +162,11 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
     };
 
     const project = await projectStore.create(partialProject);
-    return;
 
     const roleIdByName: Record<string, string> = {};
 
     const promises = [...characterNames].map((name) => {
-      return new Promise((resolve, reject) => {
+      return new Promise<RoleMapping | undefined>((resolve, reject) => {
         const character = characters[name];
         if (character.status !== CharacterState.CONFIRMED) {
           resolve(undefined);
@@ -179,36 +185,54 @@ export const ScriptParserProvider = observer(({ children }: IContext) => {
       });
     });
 
-    const results = (await Promise.all(promises)).filter((x) => !!x);
-    results.forEach((mapping: any) => {
+    const roleMappings = (await Promise.all(promises)).filter((x) => !!x);
+    roleMappings.forEach((mapping: any) => {
       if (mapping?.role) {
         roleIdByName[mapping.name] = mapping.role;
       }
     });
 
     const linePromises = [...lineIds].map((lineId) => {
-      return new Promise((resolve, reject) => {
-        lineIds.forEach((lineId) => {
-          const lineDraft = parsedLines[lineId];
-          const role = lineDraft.character
-            ? roleIdByName[lineDraft.character]
-            : undefined;
+      return new Promise<Line>((resolve, reject) => {
+        const lineDraft = parsedLines[lineId];
+        const role = lineDraft.character
+          ? roleIdByName[lineDraft.character]
+          : undefined;
 
-          resolve(true);
-          linesStore
-            .create({
-              role,
-              text: lineDraft.text,
-              status: ApprovalStatus.UNHEARD,
-              takes: [],
-            })
-            .then((line) => resolve(line));
-        });
+        const partLine: Partial<Line> = {
+          text: lineDraft.text,
+          status: ApprovalStatus.UNHEARD,
+          takes: [],
+        };
+
+        if (!!role) {
+          partLine.role = role;
+        }
+
+        linesStore.create(partLine).then((line) => resolve(line));
+        return;
       });
     });
 
+    const roleIds: string[] = [];
     const lines = await Promise.all(linePromises);
-    console.log({ lineCount: lineIds.length, lines: lines.length });
+    const linesByRole: Record<string, string[]> = {};
+    const finalLineIds = lines.map(({ id, role }) => {
+      if (role) {
+        if (!linesByRole[role]) {
+          linesByRole[role] = [];
+          roleIds.push(role);
+        }
+        linesByRole[role].push(id);
+      }
+      return id;
+    });
+
+    roleIds.forEach((id) => {
+      rolesStore.update({ id, lines: linesByRole[id] });
+    });
+
+    projectStore.update({ id: project.id, lines: finalLineIds });
   };
 
   const value = {

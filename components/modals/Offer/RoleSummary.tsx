@@ -19,7 +19,7 @@ const RoleSummary = () => {
     return <Loading />;
   }
   const lineIds = role.lines;
-  const roleDt = DateTime.fromMillis(role.dueDate);
+  const roleDt = role.dueDate ? DateTime.fromMillis(role.dueDate) : undefined;
   const offerCreatedDt = DateTime.fromMillis(offer?.created);
   return (
     <View style={element}>
@@ -27,7 +27,7 @@ const RoleSummary = () => {
         <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>
           Due:
         </AppText>
-        <AppText>{roleDt.toFormat("DDDD")}</AppText>
+        {roleDt && <AppText>{roleDt.toFormat("DDDD")}</AppText>}
       </View>
       <View style={line}>
         <AppText bold style={{ marginRight: Sizes.Spacings.SMALL }}>

@@ -289,10 +289,15 @@ const createDemo = async (demo: Partial<Demo>) => {
 export interface ThingWithId {
   id: string;
 }
+
+export interface LookupOptions {
+  crossReferences: boolean; // Default: true
+}
 interface ElementLookup<Thing extends ThingWithId> {
   thing: Partial<Thing>;
   db: DB;
   recording?: Recording;
+  options?: LookupOptions;
 }
 
 interface IdLookup {
@@ -300,10 +305,29 @@ interface IdLookup {
   db: DB;
 }
 
+const addCrossReferences = (anything: any, db: DB) => {
+  const { crossReferences } = DBSpecs[db];
+  (crossReferences ?? []).forEach((crossReference) => {
+    if (anything[crossReference.localKey]) {
+      const foreignId = anything[crossReference.localKey];
+      const deepKey = `${foreignId}/${crossReference.foreignKey}`;
+      const crUpdate = {
+        id: deepKey,
+        [anything.id]: true,
+      };
+      updateThing({
+        db: crossReference.db,
+        thing: crUpdate,
+      });
+    }
+  });
+};
+
 const createThing = async <Thing extends ThingWithId>({
   thing,
   db,
   recording,
+  options,
 }: ElementLookup<Thing>) => {
   const spec = DBSpecs[db];
   const anything = { ...thing } as any;
@@ -327,6 +351,11 @@ const createThing = async <Thing extends ThingWithId>({
         }
         const uploadedThing: Partial<Thing> = { ...anything };
         uploadedThing.id = key;
+        const crossReferencesEnabled = options?.crossReferences !== false;
+        const anyCrossReferences = (spec.crossReferences || []).length > 0;
+        if (crossReferencesEnabled && anyCrossReferences) {
+          addCrossReferences(uploadedThing, db);
+        }
         const onComplete = () => {
           resolve(uploadedThing as Thing);
         };

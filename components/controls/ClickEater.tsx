@@ -2,7 +2,6 @@ import React from "react";
 import { GestureResponderEvent, Pressable } from "react-native";
 
 const eatClick = (event: GestureResponderEvent) => {
-  console.log("yum");
   event.preventDefault();
   event.stopPropagation();
 };
