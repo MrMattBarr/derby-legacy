@@ -1,8 +1,8 @@
-import { useLinkTo } from "@react-navigation/native";
+import { useLinkTo, useRoute } from "@react-navigation/native";
+import Loading from "components/Demo/Loading";
 import { observer } from "mobx-react";
 import React from "react";
 import useDemo, { DemoProvider } from "../../contexts/DemoContext";
-import { IDemoPage } from "../Demo";
 import Page from "../Page";
 import Overview from "./Overview";
 import SpotSearcher from "./SpotSearcher/SpotSearcher";
@@ -26,8 +26,12 @@ const Content = () => {
   );
 };
 
-const DemoBuilder = observer(({ route }: IDemoPage) => {
-  const { id } = route?.params;
+const DemoBuilder = observer(() => {
+  const route = useRoute();
+  const id = (route?.params as any)?.id ?? undefined;
+  if (!id) {
+    return <Loading />;
+  }
   return (
     <DemoProvider id={id}>
       <Content />

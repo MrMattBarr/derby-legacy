@@ -7,6 +7,7 @@ import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
+  useRoute,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Projects from "components/Projects";

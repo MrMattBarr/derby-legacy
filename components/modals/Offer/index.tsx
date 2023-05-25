@@ -1,8 +1,9 @@
 import BigButton from "components/Buttons/BigButton";
 import AppText from "components/Controls/Text";
 import Loading from "components/Demo/Loading";
+import { NavPage } from "constants/Navigation";
 import { useModal } from "contexts/ModalContext";
-import useAppNav, { NavKey } from "contexts/NavigationContext";
+import useAppNav, { NavArgKey } from "contexts/NavigationContext";
 import useOffer, { OfferProvider } from "contexts/OfferContext";
 import { RoleProvider } from "contexts/RoleContext";
 import { useColors } from "hooks/useColorScheme";
@@ -33,7 +34,12 @@ const WrappedModal = observer(() => {
   }
 
   const onShare = async () => {
-    const deepLink = getDeepLink({ navKey: NavKey.OFFER, id: offer.id });
+    const deepLink = getDeepLink({
+      page: NavPage.PROJECTS,
+      argKey: NavArgKey.OFFER,
+      id: offer.id,
+    });
+
     const message = `Congratulations! You've been offered the role of "${role.name}" in the project "${project?.title}".\n\n ${deepLink}`;
     shareMessage({ message });
   };

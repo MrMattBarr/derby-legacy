@@ -2,7 +2,6 @@ import { useLinkTo } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
-import { IDemoPage } from "../components/Demo";
 import { useColors } from "../hooks/useColorScheme";
 import { useAuth } from "../stores/AuthStore";
 import { useDemos } from "../stores/DemosStore";
@@ -10,8 +9,7 @@ import { generatePageStyles } from "../styles/page";
 import textStyles from "../styles/text";
 import Demo, { Visibility } from "../types/Demo";
 
-const DemoGenerationPage = observer(({ route }: IDemoPage) => {
-  const id = route?.params?.id;
+const DemoGenerationPage = observer(() => {
   const [demoId, setDemoId] = useState("");
   const linkTo = useLinkTo();
   const colors = useColors();

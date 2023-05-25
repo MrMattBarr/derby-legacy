@@ -1,10 +1,11 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { NavConfigs, NavPage } from "constants/Navigation";
-import React, { ReactNode, useContext, useState } from "react";
-import { Share } from "react-native";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
+import { Linking, Share } from "react-native";
 
-export enum NavKey {
-  OFFER = "offers",
+export enum NavArgKey {
+  ID = "id",
+  OFFER = "offer",
 }
 
 interface IShareMessage {
@@ -13,8 +14,9 @@ interface IShareMessage {
 }
 
 interface IGetDeepLink {
-  navKey: NavKey;
+  page?: NavPage;
   id?: string;
+  argKey?: NavArgKey;
 }
 
 type NavContract = {
@@ -24,17 +26,29 @@ type NavContract = {
   shareMessage: (args: IShareMessage) => void;
   currentPage: NavPage;
 };
+
 const NavigationContext = React.createContext({} as NavContract);
 export const NavigationProvider = ({ children }: { children: ReactNode }) => {
   const [currentPage, setCurrentPage] = useState(NavPage.PROFILE);
-  const APP_PREFIX = "exp://exp.host/@mrmattbarr/derby/--";
-  const navigation = useNavigation();
+  const [APP_PREFIX, setAppPrefix] = useState("");
 
-  const getDeepLink = async ({ navKey, id }: IGetDeepLink) => {
-    const idSuffix = id ? `?id=${id}` : "";
-    return `${APP_PREFIX}/${navKey}${idSuffix}`;
+  const initializeAppPrefix = () => {
+    Linking.getInitialURL().then((url) => {
+      if (url) {
+        setAppPrefix(`${url}/--`);
+      }
+    });
   };
 
+  useEffect(initializeAppPrefix, []);
+  const navigation = useNavigation();
+
+  const getDeepLink = ({ page, argKey, id }: IGetDeepLink) => {
+    const pageSection = page ?? "";
+    const suffix = argKey ? `?${argKey}=${id}` : "";
+
+    return `${APP_PREFIX}/${pageSection}${suffix}`;
+  };
   const shareMessage = async ({ title, message }: IShareMessage) => {
     try {
       const result = await Share.share({
