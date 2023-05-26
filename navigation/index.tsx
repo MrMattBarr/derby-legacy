@@ -14,7 +14,7 @@ import Projects from "components/Projects";
 import Role from "components/Role";
 import { observer } from "mobx-react";
 import * as React from "react";
-import { ColorSchemeName } from "react-native";
+import { ColorSchemeName, View } from "react-native";
 import DemoPage from "../components/Demo";
 import DemoBuilder from "../components/DemoBuilder";
 import Demos from "../components/DemosPage/Demos";
@@ -27,6 +27,7 @@ import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
 import Scripts from "components/Scripts";
 import ProjectBuilder from "components/Projects/ProjectBuilder";
+import AppText from "components/Controls/Text";
 
 export default function Navigation({
   colorScheme,

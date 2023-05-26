@@ -1,17 +1,18 @@
+import AppText from "components/Controls/Text";
 import Spinner from "components/Spinner";
 import { AppColor } from "constants/Colors";
 import React from "react";
+import { View } from "react-native";
 import { Sizes } from "styles/sizes";
-import { Text, View } from "../Themed";
 
-const Loading = ({ text, size }: { text?: string; size?: number }) => {
+const Loading = ({ text }: { text?: string }) => {
   return (
     <View
       style={{ display: "flex", flexDirection: "row", alignItems: "center" }}
     >
-      <Spinner size={size ?? 60} spinning />
+      <Spinner size={60} spinning />
       {text && (
-        <Text
+        <AppText
           style={{
             marginLeft: Sizes.Spacings.STANDARD,
             color: AppColor.WARM_WHITE,
@@ -19,7 +20,7 @@ const Loading = ({ text, size }: { text?: string; size?: number }) => {
           }}
         >
           {`Loading${text ? ` ${text}` : ""}...`}
-        </Text>
+        </AppText>
       )}
     </View>
   );

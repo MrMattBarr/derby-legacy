@@ -35,7 +35,6 @@ export const ModalProvider = observer(({ children }: any) => {
     setModalKey(key);
     setModalArgs(args ?? {});
     if (!args) {
-      console.log("NO MODALS!");
     }
   };
 

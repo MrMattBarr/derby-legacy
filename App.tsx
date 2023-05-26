@@ -29,6 +29,7 @@ import { TakesStoreProvider } from "stores/TakesStore";
 import { UsersStoreProvider } from "stores/UsersStore";
 import { OfferStore, OffersStoreProvider } from "stores/OffersStore";
 import ActiveModal from "components/ActiveModal";
+import AppText from "components/Controls/Text";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

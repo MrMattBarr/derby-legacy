@@ -1,4 +1,8 @@
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import {
+  CommonActions,
+  createNavigationContainerRef,
+  useNavigation,
+} from "@react-navigation/native";
 import { NavConfigs, NavPage } from "constants/Navigation";
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { Linking, Share } from "react-native";
@@ -69,7 +73,7 @@ export const NavigationProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const go = (destination: NavPage, params: any) => {
+  const go = async (destination: NavPage, params: any) => {
     const { name } = NavConfigs[destination];
     navigation.dispatch(
       CommonActions.navigate({

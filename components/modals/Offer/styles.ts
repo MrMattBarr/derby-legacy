@@ -2,9 +2,11 @@ import Colors, { Theme } from "constants/Colors";
 import { StyleSheet } from "react-native";
 import { Sizes } from "styles/sizes";
 
-interface IStyles {}
+interface IStyles {
+  isOwner?: boolean;
+}
 export const generateStyles = (colors: Theme, props?: IStyles) => {
-  const {} = props ?? {};
+  const { isOwner } = props ?? {};
   return StyleSheet.create({
     page: {
       display: "flex",
@@ -17,7 +19,9 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       borderTopLeftRadius: Sizes.VERY_CURVED_BORDER,
       borderTopRightRadius: Sizes.VERY_CURVED_BORDER,
       flexDirection: "row",
-      backgroundColor: colors.Backgrounds.secondary,
+      backgroundColor: isOwner
+        ? colors.Backgrounds.secondary
+        : colors.Backgrounds.complete,
       justifyContent: "center",
     },
     line: {
