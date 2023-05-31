@@ -48,7 +48,7 @@ export const ModalProvider = observer(({ children }: any) => {
 export const useModal = () => {
   const context = useContext(ModalContext);
   if (context === undefined) {
-    throw new Error("useDemo must be used within a DemoProvider");
+    throw new Error("useModal must be used within a ModalProvider");
   }
   return context;
 };

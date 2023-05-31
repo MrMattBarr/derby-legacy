@@ -12,7 +12,7 @@ import useOffer from "contexts/OfferContext";
 
 const RoleSummary = () => {
   const { role } = useRole();
-  const { element: offer } = useOffer();
+  const { offer: offer } = useOffer();
   const colors = useColors();
   const { element, line } = generateStyles(colors);
   if (!role || !offer) {

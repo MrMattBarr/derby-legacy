@@ -32,11 +32,7 @@ const PhoneNav = observer(() => {
       <View style={styles.clear}>
         <NavButton destination={NavPage.PROFILE} args={{ id: uid }} />
         <NavButton destination={NavPage.DEMOS} args={{ id: uid }} />
-        <NavButton
-          destination={NavPage.PROJECTS}
-          args={{ id: uid }}
-          notifications={2}
-        />
+        <NavButton destination={NavPage.PROJECTS} args={{ id: uid }} />
       </View>
     </View>
   );

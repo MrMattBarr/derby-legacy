@@ -48,5 +48,13 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
     selfRoleButton: {
       color: colors.Text.complete,
     },
+    cancelButton: {
+      color: colors.Text.error,
+    },
+    centered: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+    },
   });
 };

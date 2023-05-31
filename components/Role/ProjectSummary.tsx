@@ -11,7 +11,7 @@ import useRole from "contexts/RoleContext";
 const Summary = () => {
   const colors = useColors();
   const { projectCard } = generateStyles(colors);
-  const { element } = useProject();
+  const { offer: element } = useProject();
   return (
     <View style={projectCard}>
       <View>

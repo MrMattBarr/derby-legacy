@@ -17,12 +17,13 @@ import { useRoles } from "stores/RolesStore";
 import Description from "./Description";
 import RoleSummary from "./RoleSummary";
 import { generateStyles } from "./styles";
-import RoleButton from "./RoleButton";
+import AcceptButton from "./AcceptButton";
 import { ProjectProvider } from "contexts/ProjectContext";
+import DeclineButton from "./DeclineButton";
 
 const WrappedModal = observer(() => {
   const colors = useColors();
-  const { element: offer, isOwner } = useOffer();
+  const { offer: offer, isOwner } = useOffer();
   const roleStore = useRoles();
   const projectStore = useProjects();
   const authStore = useAuth();
@@ -61,7 +62,8 @@ const WrappedModal = observer(() => {
           </View>
           <View style={body}>
             <RoleSummary />
-            <RoleButton />
+            <AcceptButton />
+            <DeclineButton />
             <Description />
           </View>
         </View>

@@ -25,7 +25,7 @@ const ProjectRoleSummary = observer(() => {
   const roleStore = useRoles();
   const { setModal } = useModal();
 
-  const { element: project } = useProject();
+  const { offer: project } = useProject();
 
   const colors = useColors();
   const { roleLine, uncastAvatar } = generateStyles(colors);

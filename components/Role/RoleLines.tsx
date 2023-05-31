@@ -4,14 +4,13 @@ import { observer } from "mobx-react";
 import React from "react";
 import { View } from "react-native";
 import LineLine from "./Lines/LineLine";
-import SubHeader from "../Projects/Subheader";
 
 const RoleLines = observer(() => {
   const { role } = useRole();
   return (
     <View>
-      {role?.lines.map((id) => (
-        <LineProvider id={id} key={id}>
+      {role?.lines.map((id, index) => (
+        <LineProvider id={id} key={id} index={index}>
           <LineLine />
         </LineProvider>
       ))}

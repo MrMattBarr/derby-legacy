@@ -16,7 +16,7 @@ import useRole from "contexts/RoleContext";
 
 const Header = observer(({ expanded }: { expanded: boolean }) => {
   const colors = useColors();
-  const { line } = useLine();
+  const { line, backupName } = useLine();
   const takeStore = useTakes();
   const { isTalent } = useRole();
   if (!line) {
@@ -46,12 +46,11 @@ const Header = observer(({ expanded }: { expanded: boolean }) => {
       );
     }
   }
-
   return (
     <View style={header}>
       <ExpanderColumn expanded={expanded} />
       <View style={headerText}>
-        <Text style={titleText}>{line?.name}</Text>
+        <Text style={titleText}>{line?.name ?? backupName}</Text>
         {!expanded && (
           <Text style={smallText} ellipsizeMode="tail" numberOfLines={1}>
             {line.text}

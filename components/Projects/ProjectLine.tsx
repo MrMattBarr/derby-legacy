@@ -14,7 +14,7 @@ import useAppNav from "contexts/NavigationContext";
 import { NavPage } from "constants/Navigation";
 
 const InnerLine = () => {
-  const { element } = useProject();
+  const { offer: element } = useProject();
   const { go } = useAppNav();
   if (!element) {
     return <Loading />;

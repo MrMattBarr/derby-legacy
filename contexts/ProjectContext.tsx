@@ -22,7 +22,7 @@ export const ProjectProvider = observer(
     return (
       <ProjectContext.Provider
         value={{
-          element: thing,
+          offer: thing,
           isOwner,
         }}
       >

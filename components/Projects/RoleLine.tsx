@@ -23,10 +23,14 @@ const RoleLine = observer(() => {
     go(NavPage.ROLES, { id: role.id });
   };
   const now = new Date();
+  let daysTilDue = undefined;
   const MS_IN_DAY = 86400000;
-  const msTilDue = role.dueDate - now.getTime();
 
-  const daysTilDue = Math.floor(msTilDue / MS_IN_DAY);
+  if (role.dueDate) {
+    const msTilDue = role.dueDate - now.getTime();
+
+    daysTilDue = Math.floor(msTilDue / MS_IN_DAY);
+  }
 
   const lineWord = role.lines.length === 1 ? "line" : "lines";
 
@@ -37,10 +41,16 @@ const RoleLine = observer(() => {
           <Text style={titleText}>{role.name}</Text>
           <Text style={smallText}>{`${role.lines.length} ${lineWord}`}</Text>
         </View>
-        <View style={calendar}>
-          <FontAwesome name="calendar-o" color={colors.Text.subtle} size={35} />
-          <Text style={daysLeft}>{daysTilDue}</Text>
-        </View>
+        {!!daysTilDue && (
+          <View style={calendar}>
+            <FontAwesome
+              name="calendar-o"
+              color={colors.Text.subtle}
+              size={35}
+            />
+            <Text style={daysLeft}>{daysTilDue}</Text>
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

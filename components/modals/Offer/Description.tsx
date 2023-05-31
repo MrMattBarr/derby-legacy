@@ -8,7 +8,7 @@ import useOffer from "contexts/OfferContext";
 import TextButton from "components/Buttons/TextButton";
 
 const Description = () => {
-  const { element: offer, isOwner, acceptOffer } = useOffer();
+  const { offer: offer, isOwner, acceptOffer } = useOffer();
   const colors = useColors();
   const { selfRoleButton } = generateStyles(colors);
   if (!isOwner) {

@@ -7,5 +7,5 @@ export interface IContext<Type extends ThingWithId> {
   store: StoreContract<Type>;
 }
 export type ContextContract<Type> = {
-  element?: Type;
+  offer?: Type;
 };

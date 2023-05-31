@@ -1,16 +1,15 @@
 import AppText from "components/Controls/Text";
 import useLine from "contexts/LineContext";
+import useRole from "contexts/RoleContext";
 import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
 import React, { useState } from "react";
 import { Pressable, View } from "react-native";
+import { ApprovalStatus } from "types/Take";
 import ExistingTakes from "./ExistingTakes";
-import ExpanderColumn from "./ExpanderColumn";
 import Header from "./Header";
 import RecordButton from "./RecordButton";
 import { generateStyles } from "./styles";
-import useRole from "contexts/RoleContext";
-import { ApprovalStatus } from "types/Take";
 
 const LineLine = observer(() => {
   const colors = useColors();

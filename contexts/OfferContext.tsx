@@ -1,7 +1,7 @@
 import { View } from "components/Themed";
 import { observer } from "mobx-react";
 import React, { useContext, useEffect } from "react";
-import { Offer } from "types/Offer";
+import { Offer, OfferStatus } from "types/Offer";
 import Loading from "../components/Demo/Loading";
 import { ContextContract, IContext } from "./types";
 import { useAuth } from "stores/AuthStore";
@@ -11,10 +11,12 @@ import useAppNav from "./NavigationContext";
 import { NavPage } from "constants/Navigation";
 import { useUsers } from "stores/UsersStore";
 import { ModalKey } from "contexts/ModalContext";
+import { OfferStore } from "stores/OffersStore";
 
 interface OfferContract extends ContextContract<Offer> {
   isOwner: boolean;
   acceptOffer: () => void;
+  isActive: boolean;
 }
 
 const OfferContext = React.createContext({} as OfferContract);
@@ -29,13 +31,28 @@ export const OfferProvider = observer(
     const { go } = useAppNav();
     const { setModal } = useModal();
 
-    const thing = store.things[id];
-    const isOwner = authStore.user?.uid === thing?.owner;
+    const offer = store.things[id];
+    const isOwner = authStore.user?.uid === offer?.owner;
+
+    const isActive = offer?.status === OfferStatus.PENDING;
     useEffect(() => {
       store.load(id);
     }, [store]);
 
-    const roleId = thing?.role;
+    useEffect(() => {
+      const isPending = offer?.status === OfferStatus.PENDING;
+      const isOpen = !offer?.talent;
+      const selfLoaded = !!self;
+      if (isPending && isOpen && !isOwner && selfLoaded) {
+        const offerUpdate = {
+          id: offer.id,
+          talent: self?.id,
+        };
+        store.update(offerUpdate);
+      }
+    }, [isOwner, offer, self]);
+
+    const roleId = offer?.role;
     useEffect(() => {
       if (roleId) {
         roleStore.load(roleId);
@@ -70,22 +87,31 @@ export const OfferProvider = observer(
       if (!self) {
         return;
       }
-      const roleUpdate = {
-        id: roleId,
-        talent: self.id,
+      const offerUpdate = {
+        id: offer.id,
+        status: OfferStatus.ACCEPTED,
       };
-      RoleStore.update(roleUpdate);
+      store.update(offerUpdate, {
+        success: () => {
+          const roleUpdate = {
+            id: roleId,
+            talent: self.id,
+          };
+          RoleStore.update(roleUpdate);
+        },
+      });
     };
     return (
       <OfferContext.Provider
         value={{
-          element: thing,
+          offer,
           isOwner,
+          isActive,
           acceptOffer,
         }}
       >
-        {thing && children}
-        {!thing && (
+        {offer && children}
+        {!offer && (
           <View style={{ backgroundColor: "black", padding: 10 }}>
             <Loading />
           </View>
