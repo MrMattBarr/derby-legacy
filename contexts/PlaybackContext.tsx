@@ -171,7 +171,6 @@ export const PlaybackProvider = ({ children }: any) => {
     },
     async load(source: Loadable, options?: LoadOptions) {
       let sounds: LoadableSound[] = [];
-
       if ((source as Demo).spots) {
         const demo = source as Demo;
         if (!demo.spots) {
@@ -239,7 +238,9 @@ export const PlaybackProvider = ({ children }: any) => {
           }
         );
         await this.audio?.setProgressUpdateIntervalAsync(25);
-        this.state = PlayState.PLAYING;
+        runInAction(() => {
+          this.state = PlayState.PLAYING;
+        });
         await this.audio?.playFromPositionAsync(adjustedPosition);
       });
     },

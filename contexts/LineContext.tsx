@@ -74,7 +74,6 @@ export const LineProvider = observer(
         line: id,
         metadata,
         status: ApprovalStatus.UNHEARD,
-        number: (line.takes?.length ?? 0) + 1,
       };
 
       const take = await takeStore.create(partialTake, recording);

@@ -17,6 +17,7 @@ export const TextBarProvider = ({ children }: any) => {
   const [textBarArgs, setTextBarArgs] = useState<undefined | TextBarArgs>();
 
   const submitTextBar = (value: string) => {
+    console.log({ value });
     if (textBarArgs?.onSubmit) {
       textBarArgs.onSubmit(value);
       setTextBarArgs(undefined);

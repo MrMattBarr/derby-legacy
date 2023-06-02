@@ -12,6 +12,7 @@ import FreshTake from "./FreshTake";
 import { generateStyles, statusColor } from "./styles";
 import useRole from "contexts/RoleContext";
 import { ApprovalStatus } from "types/Take";
+import AppText from "components/Controls/Text";
 
 const TakeSummary = observer(
   ({ title, compact }: { title?: string; compact?: boolean }) => {
@@ -25,7 +26,7 @@ const TakeSummary = observer(
 
     const { isTalent } = useRole();
 
-    const finalTitle = title ?? `Take ${take.number ?? "?"} `;
+    const finalTitle = title ?? `Take`;
 
     const sound: LoadableSound = {
       sound: take.audio,
@@ -43,6 +44,7 @@ const TakeSummary = observer(
       <View style={takeLine}>
         {!compact && <FreshTake />}
         <View style={playbackHolder}>
+          <AppText>Nah buddy</AppText>
           <PlaybackView
             onPlay={markHeard}
             metadata={take.metadata}
