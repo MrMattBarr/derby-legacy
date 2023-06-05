@@ -14,7 +14,7 @@ import { useOffers } from "stores/OffersStore";
 import { OfferStatus } from "types/Offer";
 
 const DeclineButton = observer(() => {
-  const { offer: offer, isOwner, isActive } = useOffer();
+  const { project: offer, isOwner, isActive } = useOffer();
   const { role } = useRole();
   const colors = useColors();
   const { setModal } = useModal();

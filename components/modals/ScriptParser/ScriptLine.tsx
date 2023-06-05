@@ -1,12 +1,10 @@
 import AppText from "components/Controls/Text";
-import IconButton from "components/IconButton";
+import Loading from "components/Demo/Loading";
 import { useColors } from "hooks/useColorScheme";
 import React from "react";
 import { View } from "react-native";
-import { Sizes } from "styles/sizes";
+import useScriptParser from "./Context";
 import { generateStyles } from "./styles";
-import useScriptParser, { CharacterState } from "./Context";
-import Loading from "components/Demo/Loading";
 
 const ScriptLine = ({ id }: { id: string }) => {
   const { lines, characters } = useScriptParser();
@@ -18,10 +16,11 @@ const ScriptLine = ({ id }: { id: string }) => {
   }
 
   const characterColor = character?.color;
-  const { scriptLine, lineText, lineCharacter, lineTextHolder } =
-    generateStyles(colors, {
-      characterColor,
-    });
+  const { scriptLine, lineCharacter, lineTextHolder } = generateStyles(colors, {
+    characterColor,
+  });
+
+  console.log({ line });
 
   return (
     <View style={scriptLine}>
@@ -31,7 +30,7 @@ const ScriptLine = ({ id }: { id: string }) => {
         </View>
       )}
       <View style={lineTextHolder}>
-        <AppText style={lineText}>{line.text}</AppText>
+        <AppText>{line.text}</AppText>
       </View>
     </View>
   );

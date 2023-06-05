@@ -23,7 +23,7 @@ import DeclineButton from "./DeclineButton";
 
 const WrappedModal = observer(() => {
   const colors = useColors();
-  const { offer: offer, isOwner } = useOffer();
+  const { project: offer, isOwner } = useOffer();
   const roleStore = useRoles();
   const projectStore = useProjects();
   const authStore = useAuth();

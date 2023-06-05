@@ -39,7 +39,7 @@ export const LineProvider = observer(
     }, [lineStore]);
     const { role } = useRole();
     const line = lineStore.things[id];
-    const takeIds = line.takes ?? [];
+    const takeIds = line?.takes ?? [];
     const takes = takeIds.map((x) => takeStore.things[x]);
 
     useEffect(() => {
@@ -47,6 +47,9 @@ export const LineProvider = observer(
     }, [takeIds]);
 
     const hearMeOut = () => {
+      if (!line) {
+        return;
+      }
       const allHere = takes.every((x) => !!x);
       const allHeard =
         allHere &&

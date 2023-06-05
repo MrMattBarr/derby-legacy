@@ -16,8 +16,8 @@ import { useOffers } from "stores/OffersStore";
 import { View } from "react-native";
 
 const AcceptButton = observer(() => {
-  const { offer: offer, isOwner, acceptOffer } = useOffer();
-  const { offer: project } = useProject();
+  const { project: offer, isOwner, acceptOffer } = useOffer();
+  const { project } = useProject();
   const { getDeepLink, shareMessage } = useAppNav();
   const { role } = useRole();
   const colors = useColors();

@@ -25,7 +25,7 @@ import DemoGenerationPage from "../screens/DemoGenerationPage";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import Scripts from "components/Scripts";
+import ProjectScript from "components/Scripts";
 import ProjectBuilder from "components/Projects/ProjectBuilder";
 import AppText from "components/Controls/Text";
 
@@ -83,7 +83,7 @@ export const RootNavigator = observer(() => {
       />
       <Stack.Screen
         name="Scripts"
-        component={Scripts}
+        component={ProjectScript}
         options={{ title: "Script" }}
       />
       <Stack.Screen name="NotFound" component={NotFoundScreen} />

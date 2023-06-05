@@ -14,9 +14,9 @@ import useAppNav from "contexts/NavigationContext";
 import { NavPage } from "constants/Navigation";
 
 const InnerLine = () => {
-  const { offer: element } = useProject();
+  const { project } = useProject();
   const { go } = useAppNav();
-  if (!element) {
+  if (!project) {
     return <Loading />;
   }
 
@@ -38,10 +38,10 @@ const InnerLine = () => {
   };
 
   const viewScript = () => {
-    go(NavPage.SCRIPTS, { id: element.id });
+    go(NavPage.SCRIPTS, { id: project.id });
   };
 
-  const roles = Object.keys(element?.roles ?? {});
+  const roles = Object.keys(project?.roles ?? {});
 
   const roleWord = roles.length === 1 ? "role" : "roles";
 
@@ -51,7 +51,7 @@ const InnerLine = () => {
         <View style={header}>
           <ExpanderColumn expanded={expanded} />
           <View>
-            <Text style={titleText}>{element.title}</Text>
+            <Text style={titleText}>{project.title}</Text>
             <Text style={smallText}>{`${roles.length} ${roleWord}`}</Text>
           </View>
         </View>

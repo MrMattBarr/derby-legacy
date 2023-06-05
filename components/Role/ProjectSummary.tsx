@@ -11,11 +11,11 @@ import useRole from "contexts/RoleContext";
 const Summary = () => {
   const colors = useColors();
   const { projectCard } = generateStyles(colors);
-  const { offer: element } = useProject();
+  const { project } = useProject();
   return (
     <View style={projectCard}>
       <View>
-        <AppText header>{element?.title}</AppText>
+        <AppText header>{project?.title}</AppText>
       </View>
     </View>
   );

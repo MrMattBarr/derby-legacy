@@ -12,7 +12,7 @@ import useOffer from "contexts/OfferContext";
 
 const AssignToSelfButton = () => {
   const { role } = useRole();
-  const { offer: offer } = useOffer();
+  const { project: offer } = useOffer();
   const colors = useColors();
   const { description } = generateStyles(colors);
   if (!role || !offer) {

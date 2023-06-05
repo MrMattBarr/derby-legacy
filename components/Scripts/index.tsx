@@ -1,24 +1,52 @@
 import AppText from "components/Controls/Text";
+import Loading from "components/Loading";
 import Page from "components/Page";
-import { UserProvider } from "contexts/UserContext";
+import useProject, { ProjectProvider } from "contexts/ProjectContext";
 import { observer } from "mobx-react";
 import React from "react";
-import { useAuth } from "stores/AuthStore";
+import { useProjects } from "stores/ProjectsStore";
 import { ParameterPage } from "types/ParameterPage";
+import ScriptLine from "./ScriptLine";
+import { useColors } from "hooks/useColorScheme";
+import { generateStyles } from "./styles";
+import { View } from "components/Themed";
+import { ScrollView } from "react-native";
+import Header from "./Header";
 
-const Scripts = observer((args?: ParameterPage) => {
-  const authStore = useAuth();
-  const id = args?.route?.params?.id ?? authStore.user?.uid;
+const WrappedScript = () => {
+  const { project } = useProject();
+  const colors = useColors();
+  const { scriptPreview, body, page } = generateStyles(colors);
+  if (!project) {
+    return <Loading />;
+  }
+  return (
+    <View style={page}>
+      <Header />
+      <View style={body}>
+        <ScrollView>
+          <View style={scriptPreview}>
+            {(project?.lines ?? []).map((id) => (
+              <ScriptLine key={id} id={id} />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    </View>
+  );
+};
+
+const ProjectScript = observer((args?: ParameterPage) => {
+  const projectStore = useProjects();
+  const id = args?.route?.params?.id;
   if (!id) {
     return <></>;
   }
   return (
-    <UserProvider id={id}>
-      <Page>
-        <AppText>Script</AppText>
-      </Page>
-    </UserProvider>
+    <ProjectProvider store={projectStore} id={id}>
+      <WrappedScript />
+    </ProjectProvider>
   );
 });
 
-export default Scripts;
+export default ProjectScript;

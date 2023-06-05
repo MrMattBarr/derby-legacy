@@ -8,9 +8,9 @@ import { useColors } from "hooks/useColorScheme";
 import { generateStyles } from "./styles";
 
 const ProjectRoles = observer(() => {
-  const { offer: element } = useProject();
+  const { project } = useProject();
 
-  const roles = Object.keys(element?.roles ?? {});
+  const roles = Object.keys(project?.roles ?? {});
   const colors = useColors();
   const { rolesContainer, rolesContainerHolder, expanderColumn } =
     generateStyles(colors);

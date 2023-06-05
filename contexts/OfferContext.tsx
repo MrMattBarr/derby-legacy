@@ -104,7 +104,7 @@ export const OfferProvider = observer(
     return (
       <OfferContext.Provider
         value={{
-          offer,
+          project: offer,
           isOwner,
           isActive,
           acceptOffer,
