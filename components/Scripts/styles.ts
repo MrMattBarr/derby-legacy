@@ -102,7 +102,7 @@ export const generateStyles = (colors: Theme, props?: IStyles) => {
       marginBottom: 2,
     },
     lineTextHolder: {
-      padding: Sizes.Spacings.SMALL,
+      padding: Sizes.Spacings.STANDARD,
     },
     lineCharacter: {
       backgroundColor: "#fff2",

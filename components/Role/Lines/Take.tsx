@@ -2,6 +2,8 @@ import Loading from "components/Demo/Loading";
 import PlaybackView from "components/modals/Recording/PlaybackView";
 import { LoadableSound } from "types/AudioMetadata";
 
+import AppText from "components/Controls/Text";
+import useRole from "contexts/RoleContext";
 import useTake, { TakeProvider } from "contexts/TakeContext";
 import { useColors } from "hooks/useColorScheme";
 import { observer } from "mobx-react";
@@ -10,9 +12,6 @@ import { View } from "react-native";
 import TakeButtons from "../TakeButtons";
 import FreshTake from "./FreshTake";
 import { generateStyles, statusColor } from "./styles";
-import useRole from "contexts/RoleContext";
-import { ApprovalStatus } from "types/Take";
-import AppText from "components/Controls/Text";
 
 const TakeSummary = observer(
   ({ title, compact }: { title?: string; compact?: boolean }) => {
@@ -44,7 +43,6 @@ const TakeSummary = observer(
       <View style={takeLine}>
         {!compact && <FreshTake />}
         <View style={playbackHolder}>
-          <AppText>Nah buddy</AppText>
           <PlaybackView
             onPlay={markHeard}
             metadata={take.metadata}

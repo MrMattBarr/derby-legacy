@@ -7,6 +7,7 @@ import { View } from "react-native";
 import Loading from "components/Loading";
 import { useRoles } from "stores/RolesStore";
 import { AppColor } from "constants/Colors";
+import Takes from "./Takes";
 
 const WrappedScriptLine = () => {
   const { line } = useLine();
@@ -28,6 +29,9 @@ const WrappedScriptLine = () => {
   const { scriptLine, lineCharacter, lineTextHolder } = generateStyles(colors, {
     characterColor: role?.color as AppColor,
   });
+  if (line.takes) {
+    console.log(line.takes);
+  }
 
   return (
     <View style={scriptLine}>
@@ -36,6 +40,7 @@ const WrappedScriptLine = () => {
           <AppText header>{role?.name}</AppText>
         </View>
       )}
+      <Takes />
       <View style={lineTextHolder}>
         <AppText>{line.text}</AppText>
       </View>

@@ -109,7 +109,6 @@ export const generateStyles = (
     playbackHolder: {
       display: "flex",
       flexDirection: "row",
-      marginBottom: compact ? 0 : Sizes.Spacings.STANDARD,
     },
     playbackTitle: {
       fontSize: Sizes.Fonts.HEADER,

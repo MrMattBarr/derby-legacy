@@ -20,8 +20,6 @@ const ScriptLine = ({ id }: { id: string }) => {
     characterColor,
   });
 
-  console.log({ line });
-
   return (
     <View style={scriptLine}>
       {line.character && (
