@@ -1,3 +1,4 @@
+import AppText from "components/Controls/Text";
 import React, { useContext } from "react";
 import { Platform, useWindowDimensions } from "react-native";
 
